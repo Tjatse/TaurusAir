@@ -60,7 +60,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
 	UIButton* backButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	[backButton setBackgroundImage:[UIImage imageNamed:@"nav_back_btn_bg.png"] forState:UIControlStateNormal];

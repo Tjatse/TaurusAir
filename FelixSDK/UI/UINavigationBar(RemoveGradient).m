@@ -13,33 +13,32 @@
 
 - (UIImage*) barBackground
 {
-	return [UIImage imageNamed:@"mainbk.jpg"];
+	return [UIImage imageNamed:@"t_bg.png"];
 }
 
 - (void) didMoveToSuperview 
 {
-//    if ([self respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-//		[self setBarStyle:<#(UIBarStyle)#>];
-//        [self setBackgroundImage:[self barBackground] forBarMetrics:0];
+    if ([self respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+        [self setBackgroundImage:[self barBackground] forBarMetrics:0];
 	
-	NSArray* subviews = self.subviews;
-	for (UIView* subview in subviews) {
-		//NSLog(@"view name: %s", object_getClassName(subview));
-		
-		if (strcmp(object_getClassName(subview), "UINavigationBarBackground") == 0 /*ios5*/
-			|| strcmp(object_getClassName(subview), "_UINavigationBarBackground") == 0) /*ios6*/ {
-			
-			subview.layer.opacity = 0.0f;
-		}
-	}
+//	NSArray* subviews = self.subviews;
+//	for (UIView* subview in subviews) {
+//		//NSLog(@"view name: %s", object_getClassName(subview));
+//		
+//		if (strcmp(object_getClassName(subview), "UINavigationBarBackground") == 0 /*ios5*/
+//			|| strcmp(object_getClassName(subview), "_UINavigationBarBackground") == 0) /*ios6*/ {
+//			
+//			subview.layer.opacity = 0.0f;
+//		}
+//	}
 }
 
-- (void) drawRect:(CGRect)rect 
+- (void)drawRect:(CGRect)rect 
 {
 //	self.backgroundColor = [UIColor clearColor];
 //	[super drawRect:rect];
 	
-//    [[self barBackground] drawInRect:rect];
+    [[self barBackground] drawInRect:rect];
     
 //    CGContextRef context = UIGraphicsGetCurrentContext();
 //	CGContextSaveGState(context);

@@ -7,8 +7,11 @@
 //
 
 #import "MainViewController.h"
+#import "NavViewController.h"
 
 @interface MainViewController ()
+
+@property (nonatomic, retain) NavViewController*	navVC;
 
 @end
 
@@ -18,6 +21,7 @@
 
 - (void)dealloc
 {
+	self.navVC = nil;
 	
 	[super dealloc];
 }
@@ -31,25 +35,58 @@
     return self;
 }
 
-#pragma mark - view
+#pragma mark - impl props
+
+- (NavViewController *)navVC
+{
+	if (_navVC == nil)
+		_navVC = [[NavViewController alloc] init];
+	
+	return _navVC;
+}
+
+#pragma mark - ui actions
+
+- (IBAction)onFlightSearchButtonTap:(id)sender
+{
+	[self.navVC switchToFlightSearchTab];
+	[self.navigationController pushViewController:self.navVC animated:YES];
+}
+
+- (IBAction)onMyOrderButtonTap:(id)sender
+{
+	[self.navVC switchToMyOrderTab];
+	[self.navigationController pushViewController:self.navVC animated:YES];
+}
+
+- (IBAction)onContacterButtonTap:(id)sender
+{
+	[self.navVC switchToContacterTab];
+	[self.navigationController pushViewController:self.navVC animated:YES];
+}
+
+- (IBAction)onMyInfoButtonTap:(id)sender
+{
+	[self.navVC switchToMyInfoTab];
+	[self.navigationController pushViewController:self.navVC animated:YES];
+}
+
+#pragma mark - view methods
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	[self.navigationController setNavigationBarHidden:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	[self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-	
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
