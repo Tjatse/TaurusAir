@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "UIBGNavigationController.h"
 #import "MainViewController.h"
+#import "FSConfig.h"
 
 @implementation AppDelegate
 
@@ -23,8 +24,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	[[[FSConfig alloc] init] autorelease];
+	
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-
     self.window.backgroundColor = [UIColor clearColor];
 	self.mainViewController = [[[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil] autorelease];
 	
