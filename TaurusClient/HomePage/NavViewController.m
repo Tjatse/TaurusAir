@@ -65,13 +65,16 @@
 	NSArray* tabTitles = @[@"机票搜索", @"我的订单", @"常旅客", @"我的信息"];
 	
 	for (int count = [self.viewControllers count], n = 0; n < count; ++n) {
-		UINavigationController* vc = [self.viewControllers objectAtIndex:n];
+		__block UINavigationController* vc = [self.viewControllers objectAtIndex:n];
+		
+		NSString* title = [tabTitles objectAtIndex:n];
 		vc.tabBarItem = [[[UITabBarItem alloc] initWithTitle:[tabTitles objectAtIndex:n]
 													   image:[UIImage imageNamed:[NSString stringWithFormat:@"b_btn%d.png", n + 1]]
 														 tag:0] autorelease];
 		
+		vc.topViewController.title = title;
+
 		// back button
-		
 		vc.topViewController.navigationItem.leftBarButtonItem
 		= [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
 											 andTapCallback:^(id control, UIEvent *event) {
