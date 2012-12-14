@@ -13,6 +13,7 @@
 #import "UIBGNavigationController.h"
 #import "UIBarButtonItem+Blocks.h"
 #import "UIBarButtonItem+ButtonMaker.h"
+#import "ALToastView.h"
 
 @interface MyOrderViewController ()
 
@@ -44,6 +45,10 @@
         
         [self showLoginViewController];
     }
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [ALToastView toastInView:self.view withText:@"您必须先登录才能进行更多操作。"];
 }
 
 - (void)showLoginViewController

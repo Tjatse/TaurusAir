@@ -75,7 +75,7 @@
     
     // login button
     UIButton *buttonLogin = [UIButton buttonWithType:UIButtonTypeCustom];
-    [buttonLogin setBackgroundImage:[UIImage imageNamed:@"btn.png"] forState:UIControlStateNormal];
+    [buttonLogin setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
     [buttonLogin setTitle:@"登 录" forState:UIControlStateNormal];
     CGFloat x = (SCREEN_RECT.size.width - 278)/2;
     [buttonLogin setFrame:CGRectMake(x, NAVBAR_HEIGHT + 130, 278, 45)];
@@ -213,9 +213,9 @@
 }
 
 #pragma Switch event
-- (void)onSwitchChanged: (id)sender
+- (void)onSwitchChanged: (UISwitch *)sender
 {
-    
+    _rememberMe = sender.on;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
