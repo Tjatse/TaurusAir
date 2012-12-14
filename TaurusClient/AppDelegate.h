@@ -11,7 +11,7 @@
 @class UIBGNavigationController;
 @class MainViewController;
 
-#define __APP_NAVVC__	(((AppDelegate*)([UIApplication sharedApplication].delegate)).navController)
+#define __APP_NAVVC__       (((AppDelegate*)([UIApplication sharedApplication].delegate)).navController)
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -10,6 +10,7 @@
 #import "UIBGNavigationController.h"
 #import "MainViewController.h"
 #import "FSConfig.h"
+#import "AppEngine.h"
 
 @implementation AppDelegate
 
@@ -25,6 +26,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[[[FSConfig alloc] init] autorelease];
+    
+    [[AppEngine get] startApp:application];
 	
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.window.backgroundColor = [UIColor clearColor];
@@ -43,10 +46,12 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [[AppEngine get] pauseApp:application];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    [[AppEngine get] resumeApp:application];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -55,6 +60,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [[AppEngine get] stopApp:application];
 }
 
 @end
