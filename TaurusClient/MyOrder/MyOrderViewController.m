@@ -36,19 +36,21 @@
     
     [self setTitle:@"订单管理"];
     
+    
     if(![[AppConfig get] isLogon]){
-        
-        self.navigationItem.rightBarButtonItem = [UIBarButtonItem generateNormalStyleButtonWithTitle:@"登录"
-                                                                           andTapCallback:^(id control, UIEvent *event) {
-                                                                               [self showLoginViewController];
-                                                                           }];
-        
         [self showLoginViewController];
+        self.navigationItem.rightBarButtonItem =
+        [UIBarButtonItem generateNormalStyleButtonWithTitle:@"登录"
+                                             andTapCallback:^(id control, UIEvent *event) {
+                                                 [self showLoginViewController];
+                                             }];
     }
+    [ALToastView toastPinInView:self.view withText:@"登录后才能查看订单信息。" andBottomOffset: 120];
+
 }
 - (void)viewDidAppear:(BOOL)animated
 {
-    [ALToastView toastInView:self.view withText:@"您必须先登录才能进行更多操作。"];
+    
 }
 
 - (void)showLoginViewController
