@@ -191,8 +191,13 @@
 		3E7B2BA016774685008789BE /* b_btn4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B3F16774685008789BE /* b_btn4@2x.png */; };
 		3E7B2BA116774685008789BE /* b_btn_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4016774685008789BE /* b_btn_cover.png */; };
 		3E7B2BA216774685008789BE /* b_btn_cover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4116774685008789BE /* b_btn_cover@2x.png */; };
+<<<<<<< HEAD
 		3E7B2BA516774685008789BE /* btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4416774685008789BE /* btn.png */; };
 		3E7B2BA616774685008789BE /* btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4516774685008789BE /* btn@2x.png */; };
+=======
+		3E7B2BA516774685008789BE /* fs_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4416774685008789BE /* fs_btn.png */; };
+		3E7B2BA616774685008789BE /* fs_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4516774685008789BE /* fs_btn@2x.png */; };
+>>>>>>> 491fd437f065cb99f7797d9c2dae44e01a77dd91
 		3E7B2BA716774685008789BE /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4616774685008789BE /* calendar.png */; };
 		3E7B2BA816774685008789BE /* calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4716774685008789BE /* calendar@2x.png */; };
 		3E7B2BA916774685008789BE /* launch_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B4816774685008789BE /* launch_icon.png */; };
@@ -229,11 +234,15 @@
 		3E7B2BC816774685008789BE /* nav_18@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B6916774685008789BE /* nav_18@2x.png */; };
 		3E7B2BC916774685008789BE /* nav_19.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B6A16774685008789BE /* nav_19.png */; };
 		3E7B2BCA16774685008789BE /* nav_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B6B16774685008789BE /* nav_19@2x.png */; };
+<<<<<<< HEAD
 		92098F20167A17AD00EF1F47 /* AppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F1F167A17AD00EF1F47 /* AppContext.m */; };
 		92098F24167A191D00EF1F47 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F23167A191D00EF1F47 /* User.m */; };
 		92098F27167A1B7F00EF1F47 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F26167A1B7F00EF1F47 /* AppConfig.m */; };
 		92098F2A167A1DF700EF1F47 /* AppEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F29167A1DF700EF1F47 /* AppEngine.m */; };
 		921A02AC167ACA64005726AB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921A02AB167ACA64005726AB /* LoginViewController.m */; };
+=======
+		3E7BFA77167AD19A00DAB1AC /* FlightSearchCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */; };
+>>>>>>> 491fd437f065cb99f7797d9c2dae44e01a77dd91
 		927B7A611679EC940003FC13 /* StateBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 927B7A601679EC940003FC13 /* StateBase.m */; };
 /* End PBXBuildFile section */
 
@@ -533,8 +542,13 @@
 		3E7B2B3F16774685008789BE /* b_btn4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "b_btn4@2x.png"; sourceTree = "<group>"; };
 		3E7B2B4016774685008789BE /* b_btn_cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b_btn_cover.png; sourceTree = "<group>"; };
 		3E7B2B4116774685008789BE /* b_btn_cover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "b_btn_cover@2x.png"; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		3E7B2B4416774685008789BE /* btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn.png; sourceTree = "<group>"; };
 		3E7B2B4516774685008789BE /* btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn@2x.png"; sourceTree = "<group>"; };
+=======
+		3E7B2B4416774685008789BE /* fs_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fs_btn.png; sourceTree = "<group>"; };
+		3E7B2B4516774685008789BE /* fs_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fs_btn@2x.png"; sourceTree = "<group>"; };
+>>>>>>> 491fd437f065cb99f7797d9c2dae44e01a77dd91
 		3E7B2B4616774685008789BE /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
 		3E7B2B4716774685008789BE /* calendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar@2x.png"; sourceTree = "<group>"; };
 		3E7B2B4816774685008789BE /* launch_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_icon.png; sourceTree = "<group>"; };
@@ -571,6 +585,7 @@
 		3E7B2B6916774685008789BE /* nav_18@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_18@2x.png"; sourceTree = "<group>"; };
 		3E7B2B6A16774685008789BE /* nav_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_19.png; sourceTree = "<group>"; };
 		3E7B2B6B16774685008789BE /* nav_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_19@2x.png"; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		92098F1E167A17AD00EF1F47 /* AppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppContext.h; sourceTree = "<group>"; };
 		92098F1F167A17AD00EF1F47 /* AppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppContext.m; sourceTree = "<group>"; };
 		92098F22167A191D00EF1F47 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -581,6 +596,9 @@
 		92098F29167A1DF700EF1F47 /* AppEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppEngine.m; sourceTree = "<group>"; };
 		921A02AA167ACA64005726AB /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		921A02AB167ACA64005726AB /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+=======
+		3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSearchCells.xib; path = FlightSearch/FlightSearchCells.xib; sourceTree = "<group>"; };
+>>>>>>> 491fd437f065cb99f7797d9c2dae44e01a77dd91
 		927B7A5F1679EC940003FC13 /* StateBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateBase.h; sourceTree = "<group>"; };
 		927B7A601679EC940003FC13 /* StateBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateBase.m; sourceTree = "<group>"; };
 		927B7A6C1679EF670003FC13 /* AppDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDefines.h; sourceTree = "<group>"; };
@@ -620,6 +638,7 @@
 				3E1F85FE1679C3BA00F49691 /* FlightSearchViewController.h */,
 				3E1F85FF1679C3BA00F49691 /* FlightSearchViewController.m */,
 				3E1F86001679C3BA00F49691 /* FlightSearchViewController.xib */,
+				3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */,
 			);
 			name = FlightSearch;
 			sourceTree = "<group>";
@@ -1187,8 +1206,13 @@
 				3E7B2B3F16774685008789BE /* b_btn4@2x.png */,
 				3E7B2B4016774685008789BE /* b_btn_cover.png */,
 				3E7B2B4116774685008789BE /* b_btn_cover@2x.png */,
+<<<<<<< HEAD
 				3E7B2B4416774685008789BE /* btn.png */,
 				3E7B2B4516774685008789BE /* btn@2x.png */,
+=======
+				3E7B2B4416774685008789BE /* fs_btn.png */,
+				3E7B2B4516774685008789BE /* fs_btn@2x.png */,
+>>>>>>> 491fd437f065cb99f7797d9c2dae44e01a77dd91
 				3E7B2B4616774685008789BE /* calendar.png */,
 				3E7B2B4716774685008789BE /* calendar@2x.png */,
 				3E7B2B4816774685008789BE /* launch_icon.png */,
@@ -1409,8 +1433,13 @@
 				3E7B2BA016774685008789BE /* b_btn4@2x.png in Resources */,
 				3E7B2BA116774685008789BE /* b_btn_cover.png in Resources */,
 				3E7B2BA216774685008789BE /* b_btn_cover@2x.png in Resources */,
+<<<<<<< HEAD
 				3E7B2BA516774685008789BE /* btn.png in Resources */,
 				3E7B2BA616774685008789BE /* btn@2x.png in Resources */,
+=======
+				3E7B2BA516774685008789BE /* fs_btn.png in Resources */,
+				3E7B2BA616774685008789BE /* fs_btn@2x.png in Resources */,
+>>>>>>> 491fd437f065cb99f7797d9c2dae44e01a77dd91
 				3E7B2BA716774685008789BE /* calendar.png in Resources */,
 				3E7B2BA816774685008789BE /* calendar@2x.png in Resources */,
 				3E7B2BA916774685008789BE /* launch_icon.png in Resources */,
@@ -1451,6 +1480,7 @@
 				3E1F86091679C5C900F49691 /* MyOrderViewController.xib in Resources */,
 				3E1F860E1679C5EA00F49691 /* MyInfoViewController.xib in Resources */,
 				3E1F86141679C65B00F49691 /* ContacterViewController.xib in Resources */,
+				3E7BFA77167AD19A00DAB1AC /* FlightSearchCells.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
