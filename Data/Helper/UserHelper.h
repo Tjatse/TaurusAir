@@ -10,4 +10,8 @@
 
 @interface UserHelper : NSObject
 
++ (void)findPwd: (NSString *) loginName
+          phone: (NSString *)phone
+        success: (void (^)())success
+        failure: (void (^)(NSString *errorMsg))failure;
 @end

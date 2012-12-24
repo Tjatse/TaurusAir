@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForgotPwdViewController : UIViewController
+@interface ForgotPwdViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>{
+    UITableView     *_tableView;
+}
 
 @end
