@@ -239,6 +239,8 @@
 		92B7806D1687116C00A9DE32 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7806C1687116C00A9DE32 /* ForgotPwdViewController.m */; };
 		92B7807D1687254000A9DE32 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7807C1687254000A9DE32 /* RegisterViewController.m */; };
 		92B7808E168736E800A9DE32 /* UserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7808D168736E800A9DE32 /* UserHelper.m */; };
+		92B780911687F56F00A9DE32 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B7808F1687F56F00A9DE32 /* icon.png */; };
+		92B780921687F56F00A9DE32 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B780901687F56F00A9DE32 /* icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -595,6 +597,8 @@
 		92B7807C1687254000A9DE32 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		92B7808C168736E800A9DE32 /* UserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHelper.h; sourceTree = "<group>"; };
 		92B7808D168736E800A9DE32 /* UserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHelper.m; sourceTree = "<group>"; };
+		92B7808F1687F56F00A9DE32 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		92B780901687F56F00A9DE32 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1094,6 +1098,8 @@
 		3E7B2B0416774685008789BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				92B7808F1687F56F00A9DE32 /* icon.png */,
+				92B780901687F56F00A9DE32 /* icon@2x.png */,
 				3E7B2B0516774685008789BE /* background.png */,
 				3E7B2B0616774685008789BE /* background@2x.png */,
 				3E7B2B0716774685008789BE /* baseInfo */,
@@ -1478,6 +1484,8 @@
 				3E1F860E1679C5EA00F49691 /* MyInfoViewController.xib in Resources */,
 				3E1F86141679C65B00F49691 /* ContacterViewController.xib in Resources */,
 				3E7BFA77167AD19A00DAB1AC /* FlightSearchCells.xib in Resources */,
+				92B780911687F56F00A9DE32 /* icon.png in Resources */,
+				92B780921687F56F00A9DE32 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
