@@ -7,6 +7,12 @@
 //
 
 #import "MyOrderViewController.h"
+#import "AppConfig.h"
+#import "LoginViewController.h"
+#import "AppDelegate.h"
+#import "UIBGNavigationController.h"
+#import "UIBarButtonItem+Blocks.h"
+#import "UIBarButtonItem+ButtonMaker.h"
 
 @interface MyOrderViewController ()
 
@@ -26,8 +32,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setTitle:@"订单管理"];
+    
+    if(![[AppConfig get] isLogon]){
+        
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem generateNormalStyleButtonWithTitle:@"登录"
+                                                                           andTapCallback:^(id control, UIEvent *event) {
+                                                                               [self showLoginViewController];
+                                                                           }];
+        
+        [self showLoginViewController];
+    }
 }
 
+- (void)showLoginViewController
+{
+    LoginViewController *vc = [[LoginViewController alloc] init];
+    UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
+    [self.navigationController presentModalViewController:nav animated:YES];
+    [vc release];
+    [nav release];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

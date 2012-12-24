@@ -10,7 +10,10 @@
 #ifndef __TC_CONFIG_H
 #define __TC_CONFIG_H
 
-#define REACHABLE_HOST      @"http://211.144.155.155:5001"
+#define SCREEN_RECT             [[UIScreen mainScreen] bounds]
+#define STATUSBAR_FRAME         [[UIApplication sharedApplication] statusBarFrame]
+#define NAVBAR_HEIGHT           44
+#define REACHABLE_HOST          @"http://211.144.155.155:5001"
 
 
 #endif // __TC_CONFIG_H
