@@ -95,17 +95,21 @@ static NSMutableArray *toasts;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
++ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset {
+	// Add new instance to queue
+	ALToastView *view = [[ALToastView alloc] initWithText:text];
+	
+	// Change toastview frame
+	view.frame = [self getBound:view inParent:parentView withBottomOffset: bottomOffset];
+	[parentView addSubview:view];
+    [view release];
+}
 + (void)toastInView:(UIView *)parentView withText:(NSString *)text {
 	// Add new instance to queue
 	ALToastView *view = [[ALToastView alloc] initWithText:text];
-  
-	CGFloat lWidth = view.textLabel.frame.size.width;
-	CGFloat lHeight = view.textLabel.frame.size.height;
-	CGFloat pWidth = parentView.frame.size.width;
-	CGFloat pHeight = parentView.frame.size.height;
-	
+    
 	// Change toastview frame
-	view.frame = CGRectMake((pWidth - lWidth - 20) / 2., pHeight - lHeight - 60, lWidth + 20, lHeight + 10);
+	view.frame = [self getBound:view inParent:parentView withBottomOffset:60];
 	view.alpha = 0.0f;
 	
 	if (toasts == nil) {
@@ -123,7 +127,15 @@ static NSMutableArray *toasts;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private
-
++ (CGRect)getBound: (ALToastView *)view inParent: (UIView *)parentView withBottomOffset: (CGFloat) bottomOffset{
+    CGFloat lWidth = view.textLabel.frame.size.width;
+	CGFloat lHeight = view.textLabel.frame.size.height;
+	CGFloat pWidth = parentView.frame.size.width;
+	CGFloat pHeight = parentView.frame.size.height;
+	
+	// Change toastview frame
+	return CGRectMake((pWidth - lWidth - 20) / 2., pHeight - lHeight - bottomOffset, lWidth + 20, lHeight + 10);
+}
 - (void)fadeToastOut {
 	// Fade in parent view
   [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction

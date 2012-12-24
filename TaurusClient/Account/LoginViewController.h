@@ -10,6 +10,7 @@
 
 @interface LoginViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>{
     UITableView     *_tableView;
+    BOOL            _rememberMe;
 }
 
 @end

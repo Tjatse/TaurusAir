@@ -30,7 +30,7 @@
 @private
 	UILabel *_textLabel;
 }
-
++ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset;
 + (void)toastInView:(UIView *)parentView withText:(NSString *)text;
 
 @end

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyOrderViewController : UIViewController
+@interface MyOrderViewController: UIViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>{
+    UITableView     *_tableView;
+    NSMutableArray  *_data;
+}
 
 @end

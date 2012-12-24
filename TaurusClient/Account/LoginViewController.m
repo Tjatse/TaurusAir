@@ -10,6 +10,13 @@
 #import "UIBarButtonItem+ButtonMaker.h"
 #import "UIBarButtonItem+Blocks.h"
 #import "AppDefines.h"
+#import "ALToastView.h"
+#import "BBlock.h"
+#import "User.h"
+#import "MBProgressHUD.h"
+#import "AppConfig.h"
+#import "ForgotPwdViewController.h"
+#import "RegisterViewController.h"     
 
 #define TAG_NAME    100
 #define TAG_PWD     101
@@ -38,6 +45,12 @@
     [super dealloc];
 }
 
+-(void) showSMSSentToast: (NSNotification *)notification{
+    [BBlock dispatchAfter:0.5 onMainThread:^{
+        [ALToastView toastInView:self.view withText: [[notification userInfo] objectForKey:@"MSG"]];
+    }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -52,7 +65,13 @@
                                        }];
     
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSMSSentToast:) name:@"ACCOUNT_OPERATION" object:nil];
     [self initComponent];
+}
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ACCOUNT_OPERATION" object:nil];
+    [super viewDidUnload];
 }
 
 - (void)initComponent
@@ -75,7 +94,7 @@
     
     // login button
     UIButton *buttonLogin = [UIButton buttonWithType:UIButtonTypeCustom];
-    [buttonLogin setBackgroundImage:[UIImage imageNamed:@"btn.png"] forState:UIControlStateNormal];
+    [buttonLogin setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
     [buttonLogin setTitle:@"登 录" forState:UIControlStateNormal];
     CGFloat x = (SCREEN_RECT.size.width - 278)/2;
     [buttonLogin setFrame:CGRectMake(x, NAVBAR_HEIGHT + 130, 278, 45)];
@@ -120,9 +139,27 @@
     [labelForgotPwd release];
     
 }
+// TODO: login to production environment.
 - (void)login
 {
-    
+    [self singleTap:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"正在登录...";
+    [BBlock dispatchOnSynchronousQueue:^{
+        sleep(3);
+        [BBlock dispatchOnMainThread:^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            User *cu = [[User alloc] initWithClientIP:@"127.0.01"
+                                                 guid:@"001"
+                                                  tId:@"001"
+                                             userName:@"15810591307"];
+            [[AppConfig get] setCurrentUser:cu];
+            [cu release];
+            [[AppConfig get] saveState];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_SUC" object:nil];
+            [self dismissModalViewControllerAnimated:YES];
+        }];
+    }];
 }
 - (void)singleTap:(UITapGestureRecognizer *)recognizer
 {
@@ -132,11 +169,17 @@
             [[_tableView viewWithTag:TAG_PWD] resignFirstResponder];
         }
             break;
-        case TAG_REG:
-            NSLog(@"register.");
+        case TAG_REG:{
+            RegisterViewController *vc =  [[RegisterViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            [vc release];
+        }
             break;
-        case TAG_FPWD:
-            NSLog(@"forgot password.");
+        case TAG_FPWD:{
+            ForgotPwdViewController *vc =  [[ForgotPwdViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            [vc release];
+        }
             break;
         default:
             break;
@@ -171,13 +214,13 @@
     [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
     switch (indexPath.row) {
         case 0: {
-            cell.textLabel.text = @"用户名";
+            cell.textLabel.text = @"登录名";
             UITextField *textFieldName = [[UITextField alloc] initWithFrame:CGRectMake(80, 14, 200, 30)];
             [textFieldName setFont:[UIFont systemFontOfSize:14]];
-            [textFieldName setPlaceholder:@"请输入用户名"];
+            [textFieldName setPlaceholder:@"请输入登录用户名"];
             [textFieldName setReturnKeyType:UIReturnKeyNext];
             [textFieldName setTag:TAG_NAME];
-            [textFieldName becomeFirstResponder];
+            //[textFieldName becomeFirstResponder];
             [textFieldName setDelegate:self];
             [cell addSubview:textFieldName];
             [textFieldName release];
@@ -213,9 +256,9 @@
 }
 
 #pragma Switch event
-- (void)onSwitchChanged: (id)sender
+- (void)onSwitchChanged: (UISwitch *)sender
 {
-    
+    _rememberMe = sender.on;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
