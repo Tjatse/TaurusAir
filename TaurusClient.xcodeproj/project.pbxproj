@@ -134,6 +134,12 @@
 		3E5162F11675D5E500D2DC78 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162E51675D5E400D2DC78 /* SystemConfiguration.framework */; };
 		3E5162F71675D6CE00D2DC78 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162F61675D6CE00D2DC78 /* libxml2.dylib */; };
 		3E5162F91675D6D400D2DC78 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162F81675D6D400D2DC78 /* libz.dylib */; };
+		3E751E281689621E006FCA04 /* double_char_code.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3E751E261689621E006FCA04 /* double_char_code.csv */; };
+		3E751E291689621E006FCA04 /* three_char_code.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3E751E271689621E006FCA04 /* three_char_code.csv */; };
+		3E751E2E168962E8006FCA04 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E751E2D168962E8006FCA04 /* CHCSVParser.m */; };
+		3E751E31168963E9006FCA04 /* TwoCharCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E751E30168963E8006FCA04 /* TwoCharCode.m */; };
+		3E751E34168963FE006FCA04 /* CharCodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E751E33168963FE006FCA04 /* CharCodeHelper.m */; };
+		3E751E3716896429006FCA04 /* ThreeCharCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E751E3616896428006FCA04 /* ThreeCharCode.m */; };
 		3E7B2AF616772A0B008789BE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF416772A0B008789BE /* MainViewController.m */; };
 		3E7B2AF716772A0B008789BE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF516772A0B008789BE /* MainViewController.xib */; };
 		3E7B2B6C16774685008789BE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B0516774685008789BE /* background.png */; };
@@ -489,6 +495,16 @@
 		3E5162E51675D5E400D2DC78 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3E5162F61675D6CE00D2DC78 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3E5162F81675D6D400D2DC78 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		3E751E261689621E006FCA04 /* double_char_code.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = double_char_code.csv; sourceTree = "<group>"; };
+		3E751E271689621E006FCA04 /* three_char_code.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = three_char_code.csv; sourceTree = "<group>"; };
+		3E751E2C168962E8006FCA04 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
+		3E751E2D168962E8006FCA04 /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
+		3E751E2F168963E8006FCA04 /* TwoCharCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoCharCode.h; sourceTree = "<group>"; };
+		3E751E30168963E8006FCA04 /* TwoCharCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoCharCode.m; sourceTree = "<group>"; };
+		3E751E32168963FE006FCA04 /* CharCodeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharCodeHelper.h; sourceTree = "<group>"; };
+		3E751E33168963FE006FCA04 /* CharCodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharCodeHelper.m; sourceTree = "<group>"; };
+		3E751E3516896428006FCA04 /* ThreeCharCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeCharCode.h; sourceTree = "<group>"; };
+		3E751E3616896428006FCA04 /* ThreeCharCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeCharCode.m; sourceTree = "<group>"; };
 		3E7B2AF316772A0B008789BE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = HomePage/MainViewController.h; sourceTree = "<group>"; };
 		3E7B2AF416772A0B008789BE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = HomePage/MainViewController.m; sourceTree = "<group>"; };
 		3E7B2AF516772A0B008789BE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewController.xib; path = HomePage/MainViewController.xib; sourceTree = "<group>"; };
@@ -689,6 +705,7 @@
 		3E51616D1675D0F700D2DC78 = {
 			isa = PBXGroup;
 			children = (
+				3E751E2B168962E8006FCA04 /* CHCSVParser */,
 				927B7A5C1679EC220003FC13 /* Data */,
 				3E5161BF1675D1F000D2DC78 /* FelixSDK */,
 				3E5161991675D1F000D2DC78 /* BBlock */,
@@ -736,7 +753,6 @@
 			isa = PBXGroup;
 			children = (
 				921A02A8167ACA03005726AB /* Account */,
-				3E7B2B0416774685008789BE /* Resources */,
 				3E7B2AF1167729E5008789BE /* HomePage */,
 				3E1F85FD1679C32B00F49691 /* FlightSearch */,
 				3E1F86031679C57700F49691 /* MyOrder */,
@@ -744,6 +760,7 @@
 				3E1F86041679C58E00F49691 /* MyInformation */,
 				3E51618B1675D0F700D2DC78 /* AppDelegate.h */,
 				3E51618C1675D0F700D2DC78 /* AppDelegate.m */,
+				3E7B2B0416774685008789BE /* Resources */,
 				3E5161831675D0F700D2DC78 /* Supporting Files */,
 			);
 			path = TaurusClient;
@@ -1099,6 +1116,24 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		3E751E251689621E006FCA04 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				3E751E261689621E006FCA04 /* double_char_code.csv */,
+				3E751E271689621E006FCA04 /* three_char_code.csv */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		3E751E2B168962E8006FCA04 /* CHCSVParser */ = {
+			isa = PBXGroup;
+			children = (
+				3E751E2C168962E8006FCA04 /* CHCSVParser.h */,
+				3E751E2D168962E8006FCA04 /* CHCSVParser.m */,
+			);
+			path = CHCSVParser;
+			sourceTree = "<group>";
+		};
 		3E7B2AF1167729E5008789BE /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1115,6 +1150,7 @@
 			isa = PBXGroup;
 			children = (
 				92B780971687FD3100A9DE32 /* order */,
+				3E751E251689621E006FCA04 /* data */,
 				3E7B2B0716774685008789BE /* baseInfo */,
 				3E7B2B1016774685008789BE /* booking */,
 				3E7B2B1516774685008789BE /* citySearch */,
@@ -1296,6 +1332,10 @@
 			children = (
 				92098F22167A191D00EF1F47 /* User.h */,
 				92098F23167A191D00EF1F47 /* User.m */,
+				3E751E2F168963E8006FCA04 /* TwoCharCode.h */,
+				3E751E30168963E8006FCA04 /* TwoCharCode.m */,
+				3E751E3516896428006FCA04 /* ThreeCharCode.h */,
+				3E751E3616896428006FCA04 /* ThreeCharCode.m */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1339,6 +1379,8 @@
 			children = (
 				92B7808C168736E800A9DE32 /* UserHelper.h */,
 				92B7808D168736E800A9DE32 /* UserHelper.m */,
+				3E751E32168963FE006FCA04 /* CharCodeHelper.h */,
+				3E751E33168963FE006FCA04 /* CharCodeHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1526,6 +1568,8 @@
 				92B780A51687FD4500A9DE32 /* sort-asc@2x.png in Resources */,
 				92B780A61687FD4500A9DE32 /* sort-dsc.png in Resources */,
 				92B780A71687FD4500A9DE32 /* sort-dsc@2x.png in Resources */,
+				3E751E281689621E006FCA04 /* double_char_code.csv in Resources */,
+				3E751E291689621E006FCA04 /* three_char_code.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1644,6 +1688,10 @@
 				92B7806D1687116C00A9DE32 /* ForgotPwdViewController.m in Sources */,
 				92B7807D1687254000A9DE32 /* RegisterViewController.m in Sources */,
 				92B7808E168736E800A9DE32 /* UserHelper.m in Sources */,
+				3E751E2E168962E8006FCA04 /* CHCSVParser.m in Sources */,
+				3E751E31168963E9006FCA04 /* TwoCharCode.m in Sources */,
+				3E751E34168963FE006FCA04 /* CharCodeHelper.m in Sources */,
+				3E751E3716896429006FCA04 /* ThreeCharCode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

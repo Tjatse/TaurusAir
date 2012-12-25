@@ -9,6 +9,7 @@
 #import "FlightSearchViewController.h"
 #import "UIViewAdditions.h"
 #import <QuartzCore/QuartzCore.h>
+#import "CharCodeHelper.h"
 
 @interface FlightSearchViewController ()
 
@@ -43,6 +44,11 @@
 	[self.view addSubview:self.doubleFlightParentView];
 	
 	self.doubleFlightParentView.left = self.singleFlightParentView.width;
+	
+	NSArray* twoCharCodes = [CharCodeHelper allTwoCharCodes];
+	for (TwoCharCode* twoCharCode in twoCharCodes) {
+		NSLog(@"fdf");
+	}
 }
 
 - (void)didReceiveMemoryWarning
