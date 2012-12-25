@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class ThreeCharCode;
+
 @interface City : NSObject
+
+@property (nonatomic, retain) NSString *cityName;
+@property (nonatomic, retain) NSArray *threeCharCodes;
+- (id)initWithCityName:(NSString*)aCityName threeCharCodes:(NSArray*)aThreeCharCodes;
+
+- (void)appendThreeCharCode:(ThreeCharCode*)item;
 
 @end

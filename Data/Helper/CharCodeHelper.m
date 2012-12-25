@@ -10,6 +10,7 @@
 #import "CHCSVParser.h"
 #import "TwoCharCode.h"
 #import "ThreeCharCode.h"
+#import "City.h"
 
 @interface CharCodeHelper () <CHCSVParserDelegate>
 
@@ -23,6 +24,57 @@
 @implementation CharCodeHelper
 
 #pragma mark - class methods
+
++ (NSArray*)popularCities
+{
+	static NSMutableArray* result = nil;
+	
+	@synchronized (self) {
+		if (result == nil) {
+			result = [NSMutableArray array];
+			NSArray* cityNames = @[@"北京", @"上海", @"杭州", @"深圳"];
+			
+			for (NSString* cityName in cityNames)
+				[result addObject:[self queryCityWithCityName:cityName]];
+		}
+	}
+	
+	return result;
+}
+
++ (NSDictionary*)allCities
+{
+	static NSMutableDictionary* result = nil;
+	
+	@synchronized (self) {
+		if (result == nil) {
+			result = [NSMutableDictionary dictionary];
+			NSArray* items = [self allThreeCharCodes];
+			
+			for (ThreeCharCode* item in items) {
+				City* city = [result objectForKey:item.cityName];
+				
+				if (city == nil) {
+					city = [[City alloc] init];
+					city.cityName = item.cityName;
+					
+					[result setValue:city forKey:item.cityName];
+					[city release];
+				}
+				
+				[city appendThreeCharCode:item];
+			}
+		}
+	}
+	
+	return result;
+}
+
++ (City *)queryCityWithCityName:(NSString *)cityName
+{
+	NSDictionary* cities = [self allCities];
+	return [cities objectForKey:cityName];
+}
 
 + (NSArray*)parseContentOfCSVFile:(NSString*)filePath
 {
