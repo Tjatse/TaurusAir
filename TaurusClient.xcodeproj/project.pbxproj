@@ -239,6 +239,7 @@
 		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
 		3EDF04A316898E2B00DE9546 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A216898E2B00DE9546 /* City.m */; };
+		3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A516899B5400DE9546 /* CityGroup.m */; };
 		92098F20167A17AD00EF1F47 /* AppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F1F167A17AD00EF1F47 /* AppContext.m */; };
 		92098F24167A191D00EF1F47 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F23167A191D00EF1F47 /* User.m */; };
 		92098F27167A1B7F00EF1F47 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F26167A1B7F00EF1F47 /* AppConfig.m */; };
@@ -612,6 +613,8 @@
 		3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CitySelectViewController.xib; path = FlightSearch/CitySelectViewController.xib; sourceTree = "<group>"; };
 		3EDF04A116898E2B00DE9546 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
 		3EDF04A216898E2B00DE9546 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		3EDF04A416899B5400DE9546 /* CityGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityGroup.h; sourceTree = "<group>"; };
+		3EDF04A516899B5400DE9546 /* CityGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityGroup.m; sourceTree = "<group>"; };
 		92098F1E167A17AD00EF1F47 /* AppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppContext.h; sourceTree = "<group>"; };
 		92098F1F167A17AD00EF1F47 /* AppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppContext.m; sourceTree = "<group>"; };
 		92098F22167A191D00EF1F47 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -1353,6 +1356,8 @@
 				3E751E3616896428006FCA04 /* ThreeCharCode.m */,
 				3EDF04A116898E2B00DE9546 /* City.h */,
 				3EDF04A216898E2B00DE9546 /* City.m */,
+				3EDF04A416899B5400DE9546 /* CityGroup.h */,
+				3EDF04A516899B5400DE9546 /* CityGroup.m */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1712,6 +1717,7 @@
 				3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */,
 				3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */,
 				3EDF04A316898E2B00DE9546 /* City.m in Sources */,
+				3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
