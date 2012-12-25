@@ -147,7 +147,6 @@
     [_tableView setScrollEnabled:YES];
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_tableView];
-    
 }
 - (void)sortEvent: (UIButton *)button
 {
