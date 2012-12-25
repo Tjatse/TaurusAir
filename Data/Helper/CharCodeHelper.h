@@ -16,6 +16,8 @@
 + (NSArray*)allThreeCharCodes;
 + (NSDictionary*)allTwoCharCodesDictionary;
 + (NSDictionary*)allThreeCharCodesDictionary;
++ (NSArray*)popularCities;
+
 
 @end
 

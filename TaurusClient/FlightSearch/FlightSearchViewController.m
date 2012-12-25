@@ -10,6 +10,7 @@
 #import "UIViewAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import "CharCodeHelper.h"
+#import "NSString+pinyin.h"
 
 @interface FlightSearchViewController ()
 
@@ -45,10 +46,8 @@
 	
 	self.doubleFlightParentView.left = self.singleFlightParentView.width;
 	
-	NSArray* twoCharCodes = [CharCodeHelper allTwoCharCodes];
-	for (TwoCharCode* twoCharCode in twoCharCodes) {
-		NSLog(@"fdf");
-	}
+	NSString* pinyinStr = [NSString pinyinFromChiniseString:@"哈哈你妈"];
+	NSLog(@"pinyinStr");
 }
 
 - (void)didReceiveMemoryWarning
