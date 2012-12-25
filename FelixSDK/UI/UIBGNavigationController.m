@@ -63,11 +63,11 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
 	UIButton* backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	[backButton setBackgroundImage:[UIImage imageNamed:@"nav_back_btn_bg.png"] forState:UIControlStateNormal];
+	[backButton setBackgroundImage:[UIImage imageNamed:@"t_btn_left.png"] forState:UIControlStateNormal];
 	[backButton addTarget:self
 				   action:@selector(buttonClick:)
 		 forControlEvents:UIControlEventTouchUpInside];
-	[backButton setImage:[UIImage imageNamed:@"cancel_icon.png"]
+	[backButton setTitle:@"返回"
 				forState:UIControlStateNormal];
 	backButton.titleLabel.font = [UIFont systemFontOfSize:13.0f];
 	backButton.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
