@@ -41,12 +41,14 @@
 {
 	static NSDictionary* result = nil;
 	
-	if (result == nil) {
-		result = [NSMutableDictionary dictionary];
-		NSArray* items = [self allTwoCharCodes];
-		
-		for (TwoCharCode* item in items)
-			[result setValue:item forKey:item.charCode];
+	@synchronized (self) {
+		if (result == nil) {
+			result = [NSMutableDictionary dictionary];
+			NSArray* items = [self allTwoCharCodes];
+			
+			for (TwoCharCode* item in items)
+				[result setValue:item forKey:item.charCode];
+		}
 	}
 	
 	return result;
@@ -56,12 +58,14 @@
 {
 	static NSDictionary* result = nil;
 	
-	if (result == nil) {
-		result = [NSMutableDictionary dictionary];
-		NSArray* items = [self allThreeCharCodes];
-		
-		for (ThreeCharCode* item in items)
-			[result setValue:item forKey:item.charCode];
+	@synchronized (self) {
+		if (result == nil) {
+			result = [NSMutableDictionary dictionary];
+			NSArray* items = [self allThreeCharCodes];
+			
+			for (ThreeCharCode* item in items)
+				[result setValue:item forKey:item.charCode];
+		}
 	}
 	
 	return result;
