@@ -14,6 +14,8 @@
 
 + (NSArray*)allTwoCharCodes;
 + (NSArray*)allThreeCharCodes;
++ (NSDictionary*)allTwoCharCodesDictionary;
++ (NSDictionary*)allThreeCharCodesDictionary;
 
 @end
 
