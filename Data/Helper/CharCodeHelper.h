@@ -21,6 +21,7 @@
 + (NSArray*)popularCities;
 + (NSDictionary*)allCities;
 + (City*)queryCityWithCityName:(NSString*)cityName;
++ (NSArray*)allCityGroups;
 
 @end
 

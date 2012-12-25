@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CitySelectViewController : UIViewController
+@class City;
+
+typedef void (^OnCitySelectedBlock)(City* city);
+
+@interface CitySelectViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, retain) IBOutlet UISearchBar*		filterKeyBar;
+@property (nonatomic, retain) IBOutlet UITableView*		cityListView;
+@property (nonatomic, copy) OnCitySelectedBlock			citySelectedBlock;
 
 @end
