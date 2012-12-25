@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef enum{
+    PRICE = 0,
+    TIME = 1
+} ORDER_SORT;
 
 @interface MyOrderViewController: UIViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>{
     UITableView     *_tableView;
-    NSMutableArray  *_data;
+    BOOL            _asc;
+    ORDER_SORT      _sort;
 }
+
+@property   (nonatomic, retain) IBOutlet    UIButton    *buttonSortTime;
+@property   (nonatomic, retain) IBOutlet    UIButton    *buttonSortPrice;
+@property   (nonatomic, retain) IBOutlet    UIButton    *buttonFilter;
+
+@property   (nonatomic, retain) NSMutableArray      *datas;
 
 @end
