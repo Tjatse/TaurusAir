@@ -240,6 +240,7 @@
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
 		3EDF04A316898E2B00DE9546 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A216898E2B00DE9546 /* City.m */; };
 		3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A516899B5400DE9546 /* CityGroup.m */; };
+		3EDF04C7168AA72F00DE9546 /* GeocodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04C6168AA72F00DE9546 /* GeocodeHelper.m */; };
 		92098F20167A17AD00EF1F47 /* AppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F1F167A17AD00EF1F47 /* AppContext.m */; };
 		92098F24167A191D00EF1F47 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F23167A191D00EF1F47 /* User.m */; };
 		92098F27167A1B7F00EF1F47 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F26167A1B7F00EF1F47 /* AppConfig.m */; };
@@ -620,6 +621,8 @@
 		3EDF04A216898E2B00DE9546 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		3EDF04A416899B5400DE9546 /* CityGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityGroup.h; sourceTree = "<group>"; };
 		3EDF04A516899B5400DE9546 /* CityGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityGroup.m; sourceTree = "<group>"; };
+		3EDF04C5168AA72F00DE9546 /* GeocodeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodeHelper.h; sourceTree = "<group>"; };
+		3EDF04C6168AA72F00DE9546 /* GeocodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodeHelper.m; sourceTree = "<group>"; };
 		92098F1E167A17AD00EF1F47 /* AppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppContext.h; sourceTree = "<group>"; };
 		92098F1F167A17AD00EF1F47 /* AppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppContext.m; sourceTree = "<group>"; };
 		92098F22167A191D00EF1F47 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -1410,6 +1413,8 @@
 			children = (
 				927B7A5F1679EC940003FC13 /* StateBase.h */,
 				927B7A601679EC940003FC13 /* StateBase.m */,
+				3EDF04C5168AA72F00DE9546 /* GeocodeHelper.h */,
+				3EDF04C6168AA72F00DE9546 /* GeocodeHelper.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1614,7 +1619,10 @@
 				92B780B71689797600A9DE32 /* gray-point.png in Resources */,
 				92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */,
 				3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */,
+<<<<<<< HEAD
 				92B780C8168A9B9A00A9DE32 /* order_state.csv in Resources */,
+=======
+>>>>>>> d19788ea223a3f033a7526aa131c0286bcb77dbb
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1741,7 +1749,11 @@
 				3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */,
 				3EDF04A316898E2B00DE9546 /* City.m in Sources */,
 				3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */,
+<<<<<<< HEAD
 				92B780CC168A9CF400A9DE32 /* OrderState.m in Sources */,
+=======
+				3EDF04C7168AA72F00DE9546 /* GeocodeHelper.m in Sources */,
+>>>>>>> d19788ea223a3f033a7526aa131c0286bcb77dbb
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
