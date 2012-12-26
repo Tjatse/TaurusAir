@@ -1603,12 +1603,9 @@
 				92B780A71687FD4500A9DE32 /* sort-dsc@2x.png in Resources */,
 				3E751E281689621E006FCA04 /* double_char_code.csv in Resources */,
 				3E751E291689621E006FCA04 /* three_char_code.csv in Resources */,
-<<<<<<< HEAD
 				92B780B71689797600A9DE32 /* gray-point.png in Resources */,
 				92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */,
-=======
-				3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */,
->>>>>>> 4be73e321fed7036b8f5ff7738e529aaf7c70872
+				3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1730,14 +1727,11 @@
 				3E751E31168963E9006FCA04 /* TwoCharCode.m in Sources */,
 				3E751E34168963FE006FCA04 /* CharCodeHelper.m in Sources */,
 				3E751E3716896429006FCA04 /* ThreeCharCode.m in Sources */,
-<<<<<<< HEAD
 				92B780C116898DEC00A9DE32 /* OrderFilterViewController.m in Sources */,
-=======
 				3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */,
 				3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */,
 				3EDF04A316898E2B00DE9546 /* City.m in Sources */,
 				3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */,
->>>>>>> 4be73e321fed7036b8f5ff7738e529aaf7c70872
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
