@@ -1619,10 +1619,7 @@
 				92B780B71689797600A9DE32 /* gray-point.png in Resources */,
 				92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */,
 				3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */,
-<<<<<<< HEAD
 				92B780C8168A9B9A00A9DE32 /* order_state.csv in Resources */,
-=======
->>>>>>> d19788ea223a3f033a7526aa131c0286bcb77dbb
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1749,11 +1746,8 @@
 				3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */,
 				3EDF04A316898E2B00DE9546 /* City.m in Sources */,
 				3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */,
-<<<<<<< HEAD
 				92B780CC168A9CF400A9DE32 /* OrderState.m in Sources */,
-=======
 				3EDF04C7168AA72F00DE9546 /* GeocodeHelper.m in Sources */,
->>>>>>> d19788ea223a3f033a7526aa131c0286bcb77dbb
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
