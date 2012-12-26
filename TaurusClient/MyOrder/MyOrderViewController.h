@@ -16,6 +16,7 @@ typedef enum{
     UITableView     *_tableView;
     BOOL            _asc;
     ORDER_SORT      _sort;
+    NSDictionary    *_threeCodes;
 }
 
 @property   (nonatomic, retain) IBOutlet    UIButton    *buttonSortTime;

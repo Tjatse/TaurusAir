@@ -255,6 +255,9 @@
 		92B780A51687FD4500A9DE32 /* sort-asc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B7809D1687FD4500A9DE32 /* sort-asc@2x.png */; };
 		92B780A61687FD4500A9DE32 /* sort-dsc.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B7809E1687FD4500A9DE32 /* sort-dsc.png */; };
 		92B780A71687FD4500A9DE32 /* sort-dsc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B7809F1687FD4500A9DE32 /* sort-dsc@2x.png */; };
+		92B780B71689797600A9DE32 /* gray-point.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B780B61689797600A9DE32 /* gray-point.png */; };
+		92B780C116898DEC00A9DE32 /* OrderFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780BF16898DEC00A9DE32 /* OrderFilterViewController.m */; };
+		92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780C016898DEC00A9DE32 /* OrderFilterViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -631,6 +634,10 @@
 		92B7809D1687FD4500A9DE32 /* sort-asc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort-asc@2x.png"; sourceTree = "<group>"; };
 		92B7809E1687FD4500A9DE32 /* sort-dsc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort-dsc.png"; sourceTree = "<group>"; };
 		92B7809F1687FD4500A9DE32 /* sort-dsc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sort-dsc@2x.png"; sourceTree = "<group>"; };
+		92B780B61689797600A9DE32 /* gray-point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gray-point.png"; sourceTree = "<group>"; };
+		92B780BE16898DEB00A9DE32 /* OrderFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderFilterViewController.h; path = MyOrder/OrderFilterViewController.h; sourceTree = "<group>"; };
+		92B780BF16898DEC00A9DE32 /* OrderFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderFilterViewController.m; path = MyOrder/OrderFilterViewController.m; sourceTree = "<group>"; };
+		92B780C016898DEC00A9DE32 /* OrderFilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderFilterViewController.xib; path = MyOrder/OrderFilterViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -678,6 +685,9 @@
 				3E1F86051679C5C900F49691 /* MyOrderViewController.h */,
 				3E1F86061679C5C900F49691 /* MyOrderViewController.m */,
 				3E1F86071679C5C900F49691 /* MyOrderViewController.xib */,
+				92B780BE16898DEB00A9DE32 /* OrderFilterViewController.h */,
+				92B780BF16898DEC00A9DE32 /* OrderFilterViewController.m */,
+				92B780C016898DEC00A9DE32 /* OrderFilterViewController.xib */,
 			);
 			name = MyOrder;
 			sourceTree = "<group>";
@@ -1388,6 +1398,7 @@
 		92B780971687FD3100A9DE32 /* order */ = {
 			isa = PBXGroup;
 			children = (
+				92B780B61689797600A9DE32 /* gray-point.png */,
 				92B780981687FD4500A9DE32 /* btn-sort-highlight.png */,
 				92B780991687FD4500A9DE32 /* btn-sort-highlight@2x.png */,
 				92B7809A1687FD4500A9DE32 /* btn-sort.png */,
@@ -1570,6 +1581,8 @@
 				92B780A71687FD4500A9DE32 /* sort-dsc@2x.png in Resources */,
 				3E751E281689621E006FCA04 /* double_char_code.csv in Resources */,
 				3E751E291689621E006FCA04 /* three_char_code.csv in Resources */,
+				92B780B71689797600A9DE32 /* gray-point.png in Resources */,
+				92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1692,6 +1705,7 @@
 				3E751E31168963E9006FCA04 /* TwoCharCode.m in Sources */,
 				3E751E34168963FE006FCA04 /* CharCodeHelper.m in Sources */,
 				3E751E3716896429006FCA04 /* ThreeCharCode.m in Sources */,
+				92B780C116898DEC00A9DE32 /* OrderFilterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
