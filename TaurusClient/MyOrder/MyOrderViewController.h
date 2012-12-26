@@ -17,6 +17,7 @@ typedef enum{
     BOOL            _asc;
     ORDER_SORT      _sort;
     NSDictionary    *_threeCodes;
+    NSDictionary    *_orderStates;
 }
 
 @property   (nonatomic, retain) IBOutlet    UIButton    *buttonSortTime;

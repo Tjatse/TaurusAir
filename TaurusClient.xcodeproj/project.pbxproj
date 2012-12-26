@@ -262,6 +262,8 @@
 		92B780B71689797600A9DE32 /* gray-point.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B780B61689797600A9DE32 /* gray-point.png */; };
 		92B780C116898DEC00A9DE32 /* OrderFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780BF16898DEC00A9DE32 /* OrderFilterViewController.m */; };
 		92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780C016898DEC00A9DE32 /* OrderFilterViewController.xib */; };
+		92B780C8168A9B9A00A9DE32 /* order_state.csv in Resources */ = {isa = PBXBuildFile; fileRef = 92B780C7168A9B9A00A9DE32 /* order_state.csv */; };
+		92B780CC168A9CF400A9DE32 /* OrderState.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780CB168A9CF400A9DE32 /* OrderState.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -651,6 +653,9 @@
 		92B780BE16898DEB00A9DE32 /* OrderFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderFilterViewController.h; path = MyOrder/OrderFilterViewController.h; sourceTree = "<group>"; };
 		92B780BF16898DEC00A9DE32 /* OrderFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderFilterViewController.m; path = MyOrder/OrderFilterViewController.m; sourceTree = "<group>"; };
 		92B780C016898DEC00A9DE32 /* OrderFilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderFilterViewController.xib; path = MyOrder/OrderFilterViewController.xib; sourceTree = "<group>"; };
+		92B780C7168A9B9A00A9DE32 /* order_state.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = order_state.csv; sourceTree = "<group>"; };
+		92B780CA168A9CF400A9DE32 /* OrderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderState.h; sourceTree = "<group>"; };
+		92B780CB168A9CF400A9DE32 /* OrderState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderState.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1149,6 +1154,7 @@
 			children = (
 				3E751E261689621E006FCA04 /* double_char_code.csv */,
 				3E751E271689621E006FCA04 /* three_char_code.csv */,
+				92B780C7168A9B9A00A9DE32 /* order_state.csv */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -1368,6 +1374,8 @@
 				3EDF04A216898E2B00DE9546 /* City.m */,
 				3EDF04A416899B5400DE9546 /* CityGroup.h */,
 				3EDF04A516899B5400DE9546 /* CityGroup.m */,
+				92B780CA168A9CF400A9DE32 /* OrderState.h */,
+				92B780CB168A9CF400A9DE32 /* OrderState.m */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1603,12 +1611,10 @@
 				92B780A71687FD4500A9DE32 /* sort-dsc@2x.png in Resources */,
 				3E751E281689621E006FCA04 /* double_char_code.csv in Resources */,
 				3E751E291689621E006FCA04 /* three_char_code.csv in Resources */,
-<<<<<<< HEAD
 				92B780B71689797600A9DE32 /* gray-point.png in Resources */,
 				92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */,
-=======
 				3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */,
->>>>>>> 4be73e321fed7036b8f5ff7738e529aaf7c70872
+				92B780C8168A9B9A00A9DE32 /* order_state.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1730,14 +1736,12 @@
 				3E751E31168963E9006FCA04 /* TwoCharCode.m in Sources */,
 				3E751E34168963FE006FCA04 /* CharCodeHelper.m in Sources */,
 				3E751E3716896429006FCA04 /* ThreeCharCode.m in Sources */,
-<<<<<<< HEAD
 				92B780C116898DEC00A9DE32 /* OrderFilterViewController.m in Sources */,
-=======
 				3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */,
 				3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */,
 				3EDF04A316898E2B00DE9546 /* City.m in Sources */,
 				3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */,
->>>>>>> 4be73e321fed7036b8f5ff7738e529aaf7c70872
+				92B780CC168A9CF400A9DE32 /* OrderState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

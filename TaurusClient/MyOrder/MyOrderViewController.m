@@ -18,6 +18,7 @@
 #import "AppDefines.h"
 #import "CharCodeHelper.h"
 #import "OrderFilterViewController.h"
+#import "OrderState.h"
 
 
 #define TAG_SORT_TIME   100
@@ -49,6 +50,7 @@
     [buttonSortTime release];
     [_datas release];
     [_threeCodes release];
+    [_orderStates release];
     [super dealloc];
 }
 
@@ -70,7 +72,6 @@
         [ALToastView toastPinInView:self.view withText:@"登录后才能查看订单信息。" andBottomOffset: 120];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"LOGIN_SUC" object:nil];
     }else{
-        _threeCodes = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allThreeCharCodesDictionary]];
         [self initComponent];
     }
 
@@ -93,6 +94,9 @@
 #pragma mark -Login Already
 - (void) initComponent
 {
+    _orderStates = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allOrderStates]];
+    _threeCodes = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allThreeCharCodesDictionary]];
+    
     self.navigationItem.rightBarButtonItem = nil;
     NSArray *subViews = [self.view subviews];
     if(subViews && [subViews count] > 0){
@@ -101,42 +105,25 @@
         }
     }
     
-    UIButton *_buttonSortTime = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_buttonSortTime setBackgroundImage:[UIImage imageNamed:@"btn-sort-highlight.png"] forState:UIControlStateNormal];
-    [_buttonSortTime setFrame:CGRectMake(10, 5, 86, 29)];
-    [_buttonSortTime setTitle:@"时间" forState:UIControlStateNormal];
-    [_buttonSortTime setImage:[UIImage imageNamed:@"sort-asc.png"] forState:UIControlStateNormal];
-    [_buttonSortTime setImageEdgeInsets:UIEdgeInsetsMake(8, 70, 10, 8)];
-    [_buttonSortTime setTag:TAG_SORT_TIME];
-    [_buttonSortTime addTarget:self action:@selector(sortEvent:) forControlEvents:UIControlEventTouchUpInside];
-    [_buttonSortTime setUserInteractionEnabled:YES];
-    [_buttonSortTime setShowsTouchWhenHighlighted:YES];
-    buttonSortTime = [_buttonSortTime retain];
+    buttonSortTime = [[self generateSortButton:CGRectMake(10, 5, 86, 29)
+                                         title:@"时间"
+                                     highlight:NO
+                                      needSort:YES
+                                           tag:TAG_SORT_TIME] retain];
     [self.view addSubview:buttonSortTime];
     
-    UIButton *_buttonSortPrice = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_buttonSortPrice setBackgroundImage:[UIImage imageNamed:@"btn-sort"] forState:UIControlStateNormal];
-    [_buttonSortPrice setFrame:CGRectMake((SCREEN_RECT.size.width - 86)/2, 5, 86, 29)];
-    [_buttonSortPrice setTitle:@"航班" forState:UIControlStateNormal];
-    [_buttonSortPrice setImage:[UIImage imageNamed:@"sort-asc.png"] forState:UIControlStateNormal];
-    [_buttonSortPrice setImageEdgeInsets:UIEdgeInsetsMake(8, 70, 10, 8)];
-    [_buttonSortPrice setTag:TAG_SORT_PRICE];
-    [_buttonSortPrice addTarget:self action:@selector(sortEvent:) forControlEvents:UIControlEventTouchUpInside];
-    [_buttonSortPrice setUserInteractionEnabled:YES];
-    [_buttonSortPrice setShowsTouchWhenHighlighted:YES];
-    buttonSortPrice = [_buttonSortPrice retain];
+    buttonSortPrice = [[self generateSortButton:CGRectMake((SCREEN_RECT.size.width - 86)/2, 5, 86, 29)
+                                          title:@"航班"
+                                      highlight:NO
+                                       needSort:YES
+                                            tag:TAG_SORT_PRICE] retain];
     [self.view addSubview:buttonSortPrice];
     
-    UIButton *_buttonFilter = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_buttonFilter setBackgroundImage:[UIImage imageNamed:@"btn-sort"] forState:UIControlStateNormal];
-    [_buttonFilter setFrame:CGRectMake(SCREEN_RECT.size.width - 96, 5, 86, 29)];
-    [_buttonFilter setTitle:@"筛选" forState:UIControlStateNormal];
-    [_buttonFilter setImageEdgeInsets:UIEdgeInsetsMake(8, 70, 10, 8)];
-    [_buttonFilter setTag:TAG_FILTER];
-    [_buttonFilter addTarget:self action:@selector(sortEvent:) forControlEvents:UIControlEventTouchUpInside];
-    [_buttonFilter setUserInteractionEnabled:YES];
-    [_buttonFilter setShowsTouchWhenHighlighted:YES];
-    buttonFilter = [_buttonFilter retain];
+    buttonFilter = [[self generateSortButton:CGRectMake(SCREEN_RECT.size.width - 96, 5, 86, 29)
+                                       title:@"筛选"
+                                   highlight:NO
+                                    needSort:NO
+                                         tag:TAG_FILTER] retain];
     [self.view addSubview:buttonFilter];
         
     _datas = [[@"[{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2012-12-28,07:55,09:15\",\"FromTo\":\"PEKDLC\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181},{\"Cabin\":\"N\",\"Flight\":\"MU1302\",\"FlightLeaveTime\":\"2012-12-30,15:25,17:55\",\"FromTo\":\"FUOHIA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181},{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2013-01-08,07:55,09:15\",\"FromTo\":\"HJJDQA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181}]" objectFromJSONString] retain];
@@ -151,6 +138,26 @@
     [_tableView setScrollEnabled:YES];
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_tableView];
+}
+- (UIButton *)generateSortButton: (CGRect)frame
+                           title: (NSString *)title
+                       highlight: (BOOL)highlight
+                        needSort: (BOOL)needSort
+                             tag: (int)tag
+{
+    UIButton *_button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_button setBackgroundImage:[UIImage imageNamed:(highlight ? @"btn-sort-highlight.png":@"btn-sort")] forState:UIControlStateNormal];
+    [_button setFrame:frame];
+    [_button setTitle:title forState:UIControlStateNormal];
+    if(needSort){
+        [_button setImage:[UIImage imageNamed:@"sort-asc.png"] forState:UIControlStateNormal];
+        [_button setImageEdgeInsets:UIEdgeInsetsMake(8, 70, 10, 8)];
+    }
+    [_button setTag:tag];
+    [_button addTarget:self action:@selector(sortEvent:) forControlEvents:UIControlEventTouchUpInside];
+    [_button setUserInteractionEnabled:YES];
+    [_button setShowsTouchWhenHighlighted:YES];
+    return _button;
 }
 - (void)sortEvent: (UIButton *)button
 {
@@ -268,15 +275,15 @@
     [cell addSubview:imageViewSplit];
     [imageViewSplit release];
 
-    UIButton *buttonCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [buttonCancel setTitle:@"取消 >>" forState:UIControlStateNormal];
-    [buttonCancel.titleLabel setFont:[UIFont systemFontOfSize:12]];
-    [buttonCancel setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [buttonCancel setShowsTouchWhenHighlighted:YES];
-    [buttonCancel setTag:indexPath.row];
-    [buttonCancel setFrame:CGRectMake(SCREEN_RECT.size.width - 60, 0, 60, 44)];
-    [buttonCancel addTarget:self action:@selector(cancelOrder:) forControlEvents:UIControlEventTouchUpInside];
-    [cell addSubview:buttonCancel];
+    
+    OrderState *state = [_orderStates objectForKey:[NSString stringWithFormat:@"%@", [data objectForKey:@"State"]]];
+    UILabel *labelState = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 60, 0, 60, 44)];
+    [labelState setText:(state ? state.title: @"未知")];
+    [labelState setBackgroundColor:[UIColor clearColor]];
+    [labelState setFont:[UIFont systemFontOfSize:12]];
+    [labelState setTextColor:[UIColor blueColor]];
+    [cell addSubview:labelState];
+    [labelState release];
     
     return cell;
 }
@@ -285,11 +292,6 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell setSelected:NO];
 }
-- (void)cancelOrder: (UIButton *)button
-{
-    NSLog(@"cancel order.");
-}
-
 #pragma mark - Sort
 - (void)sortByKey: (NSString *)key andASC:(BOOL)asc
 {

@@ -22,6 +22,7 @@
 + (NSDictionary*)allCities;
 + (City*)queryCityWithCityName:(NSString*)cityName;
 + (NSArray*)allCityGroups;
++ (NSDictionary*)allOrderStates;
 
 @end
 

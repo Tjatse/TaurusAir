@@ -97,11 +97,20 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{    
-    [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0]].accessoryType = UITableViewCellAccessoryNone;
+{
+    if(_selectedRow == indexPath.row){
+        return;
+    }
+    UITableViewCell *oldCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0]];
+    oldCell.accessoryType = UITableViewCellAccessoryNone;
+    oldCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     _selectedRow = indexPath.row;
+    [BBlock dispatchAfter:0.2 onMainThread:^{
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }];
 }
 
 @end

@@ -13,6 +13,7 @@
 #import "City.h"
 #import "CityGroup.h"
 #import "NSString+pinyin.h"
+#import "OrderState.h"
 
 @interface CharCodeHelper () <CHCSVParserDelegate>
 
@@ -205,7 +206,31 @@
 	
 	return result;
 }
-
++ (NSDictionary *)allOrderStates
+{
+	static NSMutableDictionary* result = nil;
+	
+	@synchronized (self) {
+		if (result == nil) {
+			NSString* filePath = [[NSBundle mainBundle] pathForResource:@"order_state" ofType:@"csv"];
+			NSArray* csvPureLines = [self parseContentOfCSVFile:filePath];
+			
+			result = [[NSMutableDictionary dictionary] retain];
+			for (NSArray* line in csvPureLines) {
+				NSString* code = [line objectAtIndex:0];
+				NSString* title = [line objectAtIndex:1];
+				
+                OrderState *item = [[OrderState alloc] initWithCode:code title:title];
+                
+				[result setObject:item forKey:code];
+                
+				SAFE_RELEASE(item);
+			}
+		}
+	}
+	
+	return result;
+}
 + (NSArray *)allThreeCharCodes
 {
 	static NSMutableArray* result = nil;
