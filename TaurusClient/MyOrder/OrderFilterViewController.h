@@ -10,8 +10,8 @@
 
 @interface OrderFilterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>{
     NSArray     *_datas;
-    NSInteger   _selectedRow;
 }
 
 @property   (nonatomic, retain) IBOutlet UITableView    *tableView;
+@property   (nonatomic, readwrite) NSInteger            selectedRow;
 @end

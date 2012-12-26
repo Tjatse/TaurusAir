@@ -18,8 +18,8 @@
 #import "AppDefines.h"
 #import "CharCodeHelper.h"
 #import "OrderFilterViewController.h"
+#import "OrderDetailViewController.h"
 #import "OrderState.h"
-
 
 #define TAG_SORT_TIME   100
 #define TAG_SORT_PRICE  101
@@ -32,6 +32,7 @@
 @implementation MyOrderViewController
 @synthesize buttonFilter, buttonSortPrice, buttonSortTime;
 @synthesize datas = _datas;
+@synthesize clonedDatas = _clonedDatas;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,6 +52,7 @@
     [_datas release];
     [_threeCodes release];
     [_orderStates release];
+    [_clonedDatas release];
     [super dealloc];
 }
 
@@ -94,6 +96,7 @@
 #pragma mark -Login Already
 - (void) initComponent
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterOrder:) name:@"ORDER_FILTER" object:nil];
     _orderStates = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allOrderStates]];
     _threeCodes = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allThreeCharCodesDictionary]];
     
@@ -126,8 +129,8 @@
                                          tag:TAG_FILTER] retain];
     [self.view addSubview:buttonFilter];
         
-    _datas = [[@"[{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2012-12-28,07:55,09:15\",\"FromTo\":\"PEKDLC\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181},{\"Cabin\":\"N\",\"Flight\":\"MU1302\",\"FlightLeaveTime\":\"2012-12-30,15:25,17:55\",\"FromTo\":\"FUOHIA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181},{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2013-01-08,07:55,09:15\",\"FromTo\":\"HJJDQA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181}]" objectFromJSONString] retain];
-    NSLog(@"%d", [_datas count]);
+    _datas = [[@"[{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2012-12-28,07:55,09:15\",\"FromTo\":\"PEKDLC\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181},{\"Cabin\":\"N\",\"Flight\":\"MU1302\",\"FlightLeaveTime\":\"2012-12-30,15:25,17:55\",\"FromTo\":\"FUOHIA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1170,\"Tid\":6595181},{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2013-01-08,07:55,09:15\",\"FromTo\":\"HJJDQA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1200,\"Tid\":6595181}]" objectFromJSONString] retain];
+    _clonedDatas = [_datas mutableCopy];
     
     // init tableview.
     _tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 40, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height) style:UITableViewStylePlain];
@@ -139,6 +142,49 @@
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_tableView];
 }
+#pragma mark Filter
+- (void)filterOrder: (NSNotification *)notification
+{
+    _selectedRow = [[[notification userInfo] objectForKey:@"selectedRow"] intValue];
+    if(_sort == PRICE){
+        [buttonSortPrice setBackgroundImage:[UIImage imageNamed:@"btn-sort.png"] forState:UIControlStateNormal];
+    }
+    else if(_sort == TIME){
+        [buttonSortTime setBackgroundImage:[UIImage imageNamed:@"btn-sort.png"] forState:UIControlStateNormal];
+    }
+    
+    [buttonFilter setBackgroundImage:[UIImage imageNamed:@"btn-sort-highlight.png"] forState:UIControlStateNormal];
+    NSPredicate *predicate = nil;
+    switch (_selectedRow) {
+        case 0: // 全部
+            [buttonFilter setBackgroundImage:[UIImage imageNamed:@"btn-sort"] forState:UIControlStateNormal];
+            break;
+        case 1: // 新订单 1010
+            predicate = [NSPredicate predicateWithFormat:@"State==1010"];
+            break;
+        case 2: // 处理中 1200，1210
+            predicate = [NSPredicate predicateWithFormat:@"State==1200 || State==1210"];
+            break;
+        case 3: // 出票完成 1260
+            predicate = [NSPredicate predicateWithFormat:@"State==1260"];
+            break;
+        case 4: // 退票处理中 1510,1530
+            predicate = [NSPredicate predicateWithFormat:@"State==1510 || State==1530"];
+            break;
+        case 5: // 退票完成 1560
+            predicate = [NSPredicate predicateWithFormat:@"State==1560"];
+            break;
+    }
+    
+    [_datas release];
+    if(predicate){
+        _datas = [[_clonedDatas filteredArrayUsingPredicate:predicate] mutableCopy];
+    }else{
+        _datas = [_clonedDatas mutableCopy];
+    }
+    [_tableView reloadData];
+}
+#pragma mark Generate Buttons
 - (UIButton *)generateSortButton: (CGRect)frame
                            title: (NSString *)title
                        highlight: (BOOL)highlight
@@ -159,6 +205,7 @@
     [_button setShowsTouchWhenHighlighted:YES];
     return _button;
 }
+#pragma mark Sort
 - (void)sortEvent: (UIButton *)button
 {
     switch (button.tag) {
@@ -196,6 +243,7 @@
             break;
         case TAG_FILTER:{
             OrderFilterViewController *vc = [[OrderFilterViewController alloc] init];
+            vc.selectedRow = _selectedRow;
             UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
             [self.navigationController presentModalViewController:nav animated:YES];
             [vc release];
@@ -279,8 +327,11 @@
     OrderState *state = [_orderStates objectForKey:[NSString stringWithFormat:@"%@", [data objectForKey:@"State"]]];
     UILabel *labelState = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 60, 0, 60, 44)];
     [labelState setText:(state ? state.title: @"未知")];
+    [labelState setNumberOfLines:0];
+    [labelState setAdjustsFontSizeToFitWidth:YES];
+    [labelState setLineBreakMode:UILineBreakModeWordWrap];
     [labelState setBackgroundColor:[UIColor clearColor]];
-    [labelState setFont:[UIFont systemFontOfSize:12]];
+    [labelState setFont:[UIFont systemFontOfSize:10]];
     [labelState setTextColor:[UIColor blueColor]];
     [cell addSubview:labelState];
     [labelState release];
@@ -291,6 +342,12 @@
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell setSelected:NO];
+    
+    OrderDetailViewController *vc = [[OrderDetailViewController alloc] init];
+    UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
+    [self.navigationController presentModalViewController:nav animated:YES];
+    [vc release];
+    [nav release];
 }
 #pragma mark - Sort
 - (void)sortByKey: (NSString *)key andASC:(BOOL)asc

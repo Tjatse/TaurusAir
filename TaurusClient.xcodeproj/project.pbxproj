@@ -265,6 +265,10 @@
 		92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780C016898DEC00A9DE32 /* OrderFilterViewController.xib */; };
 		92B780C8168A9B9A00A9DE32 /* order_state.csv in Resources */ = {isa = PBXBuildFile; fileRef = 92B780C7168A9B9A00A9DE32 /* order_state.csv */; };
 		92B780CC168A9CF400A9DE32 /* OrderState.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780CB168A9CF400A9DE32 /* OrderState.m */; };
+		92B780E6168B057700A9DE32 /* OrderFlightDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780E4168B057600A9DE32 /* OrderFlightDetailViewController.m */; };
+		92B780E7168B057700A9DE32 /* OrderFlightDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780E5168B057600A9DE32 /* OrderFlightDetailViewController.xib */; };
+		92B780EB168B059D00A9DE32 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780E9168B059C00A9DE32 /* OrderDetailViewController.m */; };
+		92B780EC168B059D00A9DE32 /* OrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780EA168B059D00A9DE32 /* OrderDetailViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -659,6 +663,12 @@
 		92B780C7168A9B9A00A9DE32 /* order_state.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = order_state.csv; sourceTree = "<group>"; };
 		92B780CA168A9CF400A9DE32 /* OrderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderState.h; sourceTree = "<group>"; };
 		92B780CB168A9CF400A9DE32 /* OrderState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderState.m; sourceTree = "<group>"; };
+		92B780E3168B057500A9DE32 /* OrderFlightDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderFlightDetailViewController.h; path = MyOrder/OrderFlightDetailViewController.h; sourceTree = "<group>"; };
+		92B780E4168B057600A9DE32 /* OrderFlightDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderFlightDetailViewController.m; path = MyOrder/OrderFlightDetailViewController.m; sourceTree = "<group>"; };
+		92B780E5168B057600A9DE32 /* OrderFlightDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderFlightDetailViewController.xib; path = MyOrder/OrderFlightDetailViewController.xib; sourceTree = "<group>"; };
+		92B780E8168B059C00A9DE32 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderDetailViewController.h; path = MyOrder/OrderDetailViewController.h; sourceTree = "<group>"; };
+		92B780E9168B059C00A9DE32 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderDetailViewController.m; path = MyOrder/OrderDetailViewController.m; sourceTree = "<group>"; };
+		92B780EA168B059D00A9DE32 /* OrderDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderDetailViewController.xib; path = MyOrder/OrderDetailViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -712,6 +722,12 @@
 				92B780BE16898DEB00A9DE32 /* OrderFilterViewController.h */,
 				92B780BF16898DEC00A9DE32 /* OrderFilterViewController.m */,
 				92B780C016898DEC00A9DE32 /* OrderFilterViewController.xib */,
+				92B780E8168B059C00A9DE32 /* OrderDetailViewController.h */,
+				92B780E9168B059C00A9DE32 /* OrderDetailViewController.m */,
+				92B780EA168B059D00A9DE32 /* OrderDetailViewController.xib */,
+				92B780E3168B057500A9DE32 /* OrderFlightDetailViewController.h */,
+				92B780E4168B057600A9DE32 /* OrderFlightDetailViewController.m */,
+				92B780E5168B057600A9DE32 /* OrderFlightDetailViewController.xib */,
 			);
 			name = MyOrder;
 			sourceTree = "<group>";
@@ -1620,6 +1636,8 @@
 				92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */,
 				3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */,
 				92B780C8168A9B9A00A9DE32 /* order_state.csv in Resources */,
+				92B780E7168B057700A9DE32 /* OrderFlightDetailViewController.xib in Resources */,
+				92B780EC168B059D00A9DE32 /* OrderDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1748,6 +1766,8 @@
 				3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */,
 				92B780CC168A9CF400A9DE32 /* OrderState.m in Sources */,
 				3EDF04C7168AA72F00DE9546 /* GeocodeHelper.m in Sources */,
+				92B780E6168B057700A9DE32 /* OrderFlightDetailViewController.m in Sources */,
+				92B780EB168B059D00A9DE32 /* OrderDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

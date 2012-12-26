@@ -18,6 +18,7 @@
 
 @implementation OrderFilterViewController
 @synthesize tableView = _tableView;
+@synthesize selectedRow = _selectedRow;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,7 +45,6 @@
     [self.view setBackgroundColor:[UIColor clearColor]];
     
     _datas = [[NSArray alloc] initWithArray: @[@"全部", @"新订单", @"处理中", @"出票完成", @"退票处理中", @"退票完成"]];
-    _selectedRow = 0;
     
     self.navigationItem.leftBarButtonItem =
     [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
@@ -55,6 +55,7 @@
     self.navigationItem.rightBarButtonItem =
     [UIBarButtonItem generateNormalStyleButtonWithTitle:@"确定"
                                        andTapCallback:^(id control, UIEvent *event) {
+                                           [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_FILTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", _selectedRow] forKey:@"selectedRow"]];
                                            [self.navigationController dismissModalViewControllerAnimated:YES];
                                        }];
     [_tableView setBackgroundView:nil];
@@ -103,13 +104,12 @@
     }
     UITableViewCell *oldCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0]];
     oldCell.accessoryType = UITableViewCellAccessoryNone;
-    oldCell.selectionStyle = UITableViewCellSelectionStyleBlue;
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     _selectedRow = indexPath.row;
     [BBlock dispatchAfter:0.2 onMainThread:^{
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell setSelected:NO];
     }];
 }
 

@@ -18,6 +18,7 @@ typedef enum{
     ORDER_SORT      _sort;
     NSDictionary    *_threeCodes;
     NSDictionary    *_orderStates;
+    NSInteger       _selectedRow;
 }
 
 @property   (nonatomic, retain) IBOutlet    UIButton    *buttonSortTime;
@@ -25,5 +26,6 @@ typedef enum{
 @property   (nonatomic, retain) IBOutlet    UIButton    *buttonFilter;
 
 @property   (nonatomic, retain) NSMutableArray      *datas;
+@property   (nonatomic, retain) NSMutableArray      *clonedDatas;
 
 @end
