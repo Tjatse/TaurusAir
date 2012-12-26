@@ -10,6 +10,9 @@
 #import "CHCSVParser.h"
 #import "TwoCharCode.h"
 #import "ThreeCharCode.h"
+#import "City.h"
+#import "CityGroup.h"
+#import "NSString+pinyin.h"
 
 @interface CharCodeHelper () <CHCSVParserDelegate>
 
@@ -23,6 +26,108 @@
 @implementation CharCodeHelper
 
 #pragma mark - class methods
+
++ (NSArray*)popularCities
+{
+	static NSMutableArray* result = nil;
+	
+	@synchronized (self) {
+		if (result == nil) {
+			result = [[NSMutableArray array] retain];
+			NSArray* cityNames = @[@"北京", @"上海", @"杭州", @"深圳"];
+			
+			for (NSString* cityName in cityNames)
+				[result addObject:[self queryCityWithCityName:cityName]];
+		}
+	}
+	
+	return result;
+}
+
++ (NSDictionary*)allCities
+{
+	static NSMutableDictionary* result = nil;
+	
+	@synchronized (self) {
+		if (result == nil) {
+			result = [[NSMutableDictionary dictionary] retain];
+			NSArray* items = [self allThreeCharCodes];
+			
+			for (ThreeCharCode* item in items) {
+				City* city = [result objectForKey:item.cityName];
+				
+				if (city == nil) {
+					city = [[City alloc] init];
+					city.cityName = item.cityName;
+					
+					[result setValue:city forKey:item.cityName];
+					[city release];
+				}
+				
+				[city appendThreeCharCode:item];
+			}
+		}
+	}
+	
+	return result;
+}
+
++ (NSArray *)allCityGroups
+{
+	static NSMutableArray* result = nil;
+	
+	@synchronized (self) {
+		if (result == nil) {
+			result = [[NSMutableArray array] retain];
+			
+			CityGroup* popularCityGroup = [[CityGroup alloc] initWithGroupName:@"热门"
+																		cities:[self popularCities]];
+			[result addObject:popularCityGroup];
+			SAFE_RELEASE(popularCityGroup);
+			
+//			for (char firstCharSeq = 'A'; firstCharSeq <= 'Z'; ++firstCharSeq) {
+//				NSString* firstCharStr = [NSString stringWithFormat:@"%c", firstCharSeq];
+//				
+//			}
+			
+			NSMutableDictionary* firstCharSeqDic = [NSMutableDictionary dictionary];
+			NSArray* allCities = [[self allCities] allValues];
+			for (City* city in allCities) {
+				// pinyin
+				NSString* pinyin = [NSString pinyinFromChiniseString:city.cityName];
+				NSString* firstLetter = [[pinyin substringToIndex:1] uppercaseString];
+				CityGroup* group = [firstCharSeqDic objectForKey:firstLetter];
+				
+				if (group == nil) {
+					group = [[CityGroup alloc] init];
+					group.groupName = firstLetter;
+					[firstCharSeqDic setValue:group forKey:firstLetter];
+					[group release];
+				}
+				
+				[group appendCity:city];
+			}
+			
+			NSMutableArray* firstCharSeqArray = [NSMutableArray arrayWithArray:[firstCharSeqDic allValues]];
+			[firstCharSeqArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+				CityGroup* city1 = (CityGroup*)obj1;
+				CityGroup* city2 = (CityGroup*)obj2;
+				
+				return [city1.groupName compare:city2.groupName];
+			}];
+			
+			[result addObjectsFromArray:firstCharSeqArray];
+		}
+	}
+	
+	return result;
+}
+
++ (City *)queryCityWithCityName:(NSString *)cityName
+{
+	NSDictionary* cities = [self allCities];
+	return [cities objectForKey:cityName];
+}
 
 + (NSArray*)parseContentOfCSVFile:(NSString*)filePath
 {
@@ -41,12 +146,14 @@
 {
 	static NSDictionary* result = nil;
 	
-	if (result == nil) {
-		result = [NSMutableDictionary dictionary];
-		NSArray* items = [self allTwoCharCodes];
-		
-		for (TwoCharCode* item in items)
-			[result setValue:item forKey:item.charCode];
+	@synchronized (self) {
+		if (result == nil) {
+			result = [[NSMutableDictionary dictionary] retain];
+			NSArray* items = [self allTwoCharCodes];
+			
+			for (TwoCharCode* item in items)
+				[result setValue:item forKey:item.charCode];
+		}
 	}
 	
 	return result;
@@ -56,12 +163,14 @@
 {
 	static NSDictionary* result = nil;
 	
-	if (result == nil) {
-		result = [NSMutableDictionary dictionary];
-		NSArray* items = [self allThreeCharCodes];
-		
-		for (ThreeCharCode* item in items)
-			[result setValue:item forKey:item.charCode];
+	@synchronized (self) {
+		if (result == nil) {
+			result = [[NSMutableDictionary dictionary] retain];
+			NSArray* items = [self allThreeCharCodes];
+			
+			for (ThreeCharCode* item in items)
+				[result setValue:item forKey:item.charCode];
+		}
 	}
 	
 	return result;
@@ -76,7 +185,7 @@
 			NSString* filePath = [[NSBundle mainBundle] pathForResource:@"double_char_code" ofType:@"csv"];
 			NSArray* csvPureLines = [self parseContentOfCSVFile:filePath];
 			
-			result = [NSMutableArray array];
+			result = [[NSMutableArray array] retain];
 			for (NSArray* line in csvPureLines) {
 				NSString* charCode = [line objectAtIndex:0];
 				NSString* corpFullName = [line objectAtIndex:1];
@@ -106,7 +215,7 @@
 			NSString* filePath = [[NSBundle mainBundle] pathForResource:@"three_char_code" ofType:@"csv"];
 			NSArray* csvPureLines = [self parseContentOfCSVFile:filePath];
 			
-			result = [NSMutableArray array];
+			result = [[NSMutableArray array] retain];
 			for (NSArray* line in csvPureLines) {
 				NSString* charCode = [line objectAtIndex:0];
 				NSString* cityName = [line objectAtIndex:1];

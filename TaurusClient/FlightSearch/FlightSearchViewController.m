@@ -10,8 +10,15 @@
 #import "UIViewAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import "CharCodeHelper.h"
+#import "NSString+pinyin.h"
+#import "City.h"
+#import "CitySelectViewController.h"
 
 @interface FlightSearchViewController ()
+
+@property (nonatomic, retain) City*		singleFlightDepartureCity;
+@property (nonatomic, retain) City*		doubleFlightDepartureCity;
+@property (nonatomic, retain) City*		doubleFlightArrivalCity;
 
 @end
 
@@ -23,6 +30,9 @@
 	self.singleFlightTableView = nil;
 	self.doubleFlightParentView = nil;
 	self.doubleFlightTableView = nil;
+	self.singleFlightDepartureCity = nil;
+	self.doubleFlightDepartureCity = nil;
+	self.doubleFlightArrivalCity = nil;
 	
 	[super dealloc];
 }
@@ -45,10 +55,8 @@
 	
 	self.doubleFlightParentView.left = self.singleFlightParentView.width;
 	
-	NSArray* twoCharCodes = [CharCodeHelper allTwoCharCodes];
-	for (TwoCharCode* twoCharCode in twoCharCodes) {
-		NSLog(@"fdf");
-	}
+//	NSString* pinyinStr = [NSString pinyinFromChiniseString:@"哈哈你妈"];
+//	NSLog(@"pinyinStr");
 }
 
 - (void)didReceiveMemoryWarning
@@ -119,7 +127,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
+	if (tableView == self.singleFlightTableView) {
+		if (indexPath.row == 0) {
+			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+			vc.citySelectedBlock = ^(City* city) {
+				
+			};
+			
+			[self.navigationController pushViewController:vc animated:YES];
+			
+			SAFE_RELEASE(vc);
+		}
+	} else {
+		if (indexPath.row == 0) {
+			
+		}
+		
+	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

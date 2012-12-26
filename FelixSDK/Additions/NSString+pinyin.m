@@ -5873,4 +5873,19 @@ char pinyinFirstLetter(unsigned short hanzi)
 	
 	return cLetter;
 }
+
++ (NSString*)pinyinFirstCharFromChineseString:(NSString*)string
+{
+	NSMutableString* result = [NSMutableString string];
+	
+	for (int count = [string length], n = 0; n < count; ++n) {
+		@autoreleasepool {
+			NSString* subStr = [string substringWithRange:NSMakeRange(n, 1)];
+			[result appendString:[NSString pinyinFromChiniseString:subStr]];
+		}
+	}
+	
+	return result;
+}
+
 @end

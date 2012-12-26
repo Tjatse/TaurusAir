@@ -10,12 +10,18 @@
 #import "TwoCharCode.h"
 #import "ThreeCharCode.h"
 
+@class City;
+
 @interface CharCodeHelper : NSObject
 
 + (NSArray*)allTwoCharCodes;
 + (NSArray*)allThreeCharCodes;
 + (NSDictionary*)allTwoCharCodesDictionary;
 + (NSDictionary*)allThreeCharCodesDictionary;
++ (NSArray*)popularCities;
++ (NSDictionary*)allCities;
++ (City*)queryCityWithCityName:(NSString*)cityName;
++ (NSArray*)allCityGroups;
 
 @end
 

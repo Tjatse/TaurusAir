@@ -104,7 +104,6 @@
 		3E5162C71675D1F000D2DC78 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E51624F1675D1F000D2DC78 /* EGORefreshTableHeaderView.m */; };
 		3E5162C81675D1F000D2DC78 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162511675D1F000D2DC78 /* PickerViewController.m */; };
 		3E5162C91675D1F000D2DC78 /* PickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E5162521675D1F000D2DC78 /* PickerViewController.xib */; };
-		3E5162CA1675D1F000D2DC78 /* SearchWebView.js in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162531675D1F000D2DC78 /* SearchWebView.js */; };
 		3E5162CB1675D1F000D2DC78 /* TabBarWithBGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162551675D1F000D2DC78 /* TabBarWithBGViewController.m */; };
 		3E5162CC1675D1F000D2DC78 /* UIBGNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162571675D1F000D2DC78 /* UIBGNavigationController.m */; };
 		3E5162CD1675D1F000D2DC78 /* UIColumnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162591675D1F000D2DC78 /* UIColumnView.m */; };
@@ -236,6 +235,11 @@
 		3E7B2BC916774685008789BE /* nav_19.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B6A16774685008789BE /* nav_19.png */; };
 		3E7B2BCA16774685008789BE /* nav_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B6B16774685008789BE /* nav_19@2x.png */; };
 		3E7BFA77167AD19A00DAB1AC /* FlightSearchCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */; };
+		3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04991689827200DE9546 /* UIColor+Additions.m */; };
+		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
+		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
+		3EDF04A316898E2B00DE9546 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A216898E2B00DE9546 /* City.m */; };
+		3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A516899B5400DE9546 /* CityGroup.m */; };
 		92098F20167A17AD00EF1F47 /* AppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F1F167A17AD00EF1F47 /* AppContext.m */; };
 		92098F24167A191D00EF1F47 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F23167A191D00EF1F47 /* User.m */; };
 		92098F27167A1B7F00EF1F47 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F26167A1B7F00EF1F47 /* AppConfig.m */; };
@@ -605,6 +609,15 @@
 		3E7B2B6A16774685008789BE /* nav_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_19.png; sourceTree = "<group>"; };
 		3E7B2B6B16774685008789BE /* nav_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_19@2x.png"; sourceTree = "<group>"; };
 		3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSearchCells.xib; path = FlightSearch/FlightSearchCells.xib; sourceTree = "<group>"; };
+		3EDF04981689827200DE9546 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
+		3EDF04991689827200DE9546 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
+		3EDF049C16898A8100DE9546 /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CitySelectViewController.h; path = FlightSearch/CitySelectViewController.h; sourceTree = "<group>"; };
+		3EDF049D16898A8100DE9546 /* CitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CitySelectViewController.m; path = FlightSearch/CitySelectViewController.m; sourceTree = "<group>"; };
+		3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CitySelectViewController.xib; path = FlightSearch/CitySelectViewController.xib; sourceTree = "<group>"; };
+		3EDF04A116898E2B00DE9546 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		3EDF04A216898E2B00DE9546 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		3EDF04A416899B5400DE9546 /* CityGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityGroup.h; sourceTree = "<group>"; };
+		3EDF04A516899B5400DE9546 /* CityGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityGroup.m; sourceTree = "<group>"; };
 		92098F1E167A17AD00EF1F47 /* AppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppContext.h; sourceTree = "<group>"; };
 		92098F1F167A17AD00EF1F47 /* AppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppContext.m; sourceTree = "<group>"; };
 		92098F22167A191D00EF1F47 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -675,6 +688,9 @@
 				3E1F85FF1679C3BA00F49691 /* FlightSearchViewController.m */,
 				3E1F86001679C3BA00F49691 /* FlightSearchViewController.xib */,
 				3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */,
+				3EDF049C16898A8100DE9546 /* CitySelectViewController.h */,
+				3EDF049D16898A8100DE9546 /* CitySelectViewController.m */,
+				3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */,
 			);
 			name = FlightSearch;
 			sourceTree = "<group>";
@@ -931,6 +947,8 @@
 				3E5162021675D1F000D2DC78 /* UIViewAdditions.m */,
 				3E5162031675D1F000D2DC78 /* UIWebViewAdditions.h */,
 				3E5162041675D1F000D2DC78 /* UIWebViewAdditions.m */,
+				3EDF04981689827200DE9546 /* UIColor+Additions.h */,
+				3EDF04991689827200DE9546 /* UIColor+Additions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1346,6 +1364,10 @@
 				3E751E30168963E8006FCA04 /* TwoCharCode.m */,
 				3E751E3516896428006FCA04 /* ThreeCharCode.h */,
 				3E751E3616896428006FCA04 /* ThreeCharCode.m */,
+				3EDF04A116898E2B00DE9546 /* City.h */,
+				3EDF04A216898E2B00DE9546 /* City.m */,
+				3EDF04A416899B5400DE9546 /* CityGroup.h */,
+				3EDF04A516899B5400DE9546 /* CityGroup.m */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1581,8 +1603,12 @@
 				92B780A71687FD4500A9DE32 /* sort-dsc@2x.png in Resources */,
 				3E751E281689621E006FCA04 /* double_char_code.csv in Resources */,
 				3E751E291689621E006FCA04 /* three_char_code.csv in Resources */,
+<<<<<<< HEAD
 				92B780B71689797600A9DE32 /* gray-point.png in Resources */,
 				92B780C216898DEC00A9DE32 /* OrderFilterViewController.xib in Resources */,
+=======
+				3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */,
+>>>>>>> 4be73e321fed7036b8f5ff7738e529aaf7c70872
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1669,7 +1695,6 @@
 				3E5162C61675D1F000D2DC78 /* EasyTableView.m in Sources */,
 				3E5162C71675D1F000D2DC78 /* EGORefreshTableHeaderView.m in Sources */,
 				3E5162C81675D1F000D2DC78 /* PickerViewController.m in Sources */,
-				3E5162CA1675D1F000D2DC78 /* SearchWebView.js in Sources */,
 				3E5162CB1675D1F000D2DC78 /* TabBarWithBGViewController.m in Sources */,
 				3E5162CC1675D1F000D2DC78 /* UIBGNavigationController.m in Sources */,
 				3E5162CD1675D1F000D2DC78 /* UIColumnView.m in Sources */,
@@ -1705,7 +1730,14 @@
 				3E751E31168963E9006FCA04 /* TwoCharCode.m in Sources */,
 				3E751E34168963FE006FCA04 /* CharCodeHelper.m in Sources */,
 				3E751E3716896429006FCA04 /* ThreeCharCode.m in Sources */,
+<<<<<<< HEAD
 				92B780C116898DEC00A9DE32 /* OrderFilterViewController.m in Sources */,
+=======
+				3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */,
+				3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */,
+				3EDF04A316898E2B00DE9546 /* City.m in Sources */,
+				3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */,
+>>>>>>> 4be73e321fed7036b8f5ff7738e529aaf7c70872
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
