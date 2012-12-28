@@ -60,11 +60,10 @@
                                          }];
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
-    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToTop:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
     [super viewWillAppear:animated];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -72,7 +71,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [super viewWillDisappear:animated];
 }
-- (void)scrollToTop:(NSNotification *)notifictaion{
+- (void)keyboardHide:(NSNotification *)notifictaion{
     [_tableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
@@ -86,11 +85,14 @@
 #pragma mark -TableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(indexPath.row == 7){
+        return 56;
+    }
     return 44;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_datas count];
+    return [_datas count] + 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -115,11 +117,13 @@
     }
     [cell setNeedsDisplay];
     [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
-    [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-    [cell.textLabel setText:_datas[indexPath.row]];
     
+    if(indexPath.row != 7){
+        [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
+        [cell.textLabel setText:_datas[indexPath.row]];
+        [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
+    }
     
-    [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
     switch (indexPath.row) {
         case 0:{
             [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
@@ -188,10 +192,25 @@
             [pickerCell setValue:type];
         }
             break;
+        case 7:{
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
+            [button setTitle:@"删  除" forState:UIControlStateNormal];
+            CGFloat x = (cell.frame.size.width - 278)/2;
+            [button setFrame:CGRectMake(x, 5, 278, 45)];
+            [button addTarget:self action:@selector(delTraveler) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:button];
+        }
+            break;
         default:
             break;
     }
     return cell;
+}
+- (void)delTraveler
+{
+    NSLog(@"del");
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

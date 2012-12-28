@@ -12,8 +12,8 @@
 
 @synthesize delegate;
 @synthesize value;
+@synthesize values;
 
-static NSArray *values = nil;
 - (void)dealloc
 {
     [delegate release];
@@ -21,7 +21,7 @@ static NSArray *values = nil;
     [values release];
     [super dealloc];
 }
-+ (void)initialize {
+- (void)initialize {
 	values = [[NSArray arrayWithObjects:@"男", @"女", nil] retain];
 }
 
@@ -30,6 +30,7 @@ static NSArray *values = nil;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        [self initialize];
 		self.picker.delegate = self;
 		self.picker.dataSource = self;
     }
@@ -40,6 +41,7 @@ static NSArray *values = nil;
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
+        [self initialize];
 		self.picker.delegate = self;
 		self.picker.dataSource = self;
     }
@@ -47,7 +49,7 @@ static NSArray *values = nil;
 }
 
 - (void)setValue:(NSString *)v {
-	value = v;
+	value = [v retain];
 	self.detailTextLabel.text = value;
 	[self.picker selectRow:[values indexOfObject:value] inComponent:0 animated:YES];
 }

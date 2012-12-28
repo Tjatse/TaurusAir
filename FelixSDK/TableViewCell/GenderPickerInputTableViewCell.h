@@ -10,10 +10,9 @@
 
 @class GenderPickerInputTableViewCell;
 
-@interface GenderPickerInputTableViewCell : PickerInputTableViewCell <UIPickerViewDataSource, UIPickerViewDelegate> {
-	NSString *value;
-}
+@interface GenderPickerInputTableViewCell : PickerInputTableViewCell <UIPickerViewDataSource, UIPickerViewDelegate>
 
-@property (nonatomic, strong) NSString *value;
+@property (nonatomic, retain) NSString  *value;
+@property (nonatomic, retain) NSArray   *values;
 
 @end

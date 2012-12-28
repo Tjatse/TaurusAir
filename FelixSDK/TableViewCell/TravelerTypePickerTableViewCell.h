@@ -9,10 +9,9 @@
 #import "PickerInputTableViewCell.h"
 
 
-@interface TravelerTypePickerTableViewCell : PickerInputTableViewCell <UIPickerViewDataSource, UIPickerViewDelegate> {
-	NSString *value;
-}
+@interface TravelerTypePickerTableViewCell : PickerInputTableViewCell <UIPickerViewDataSource, UIPickerViewDelegate>
 
-@property (nonatomic, strong) NSString *value;
+@property (nonatomic, retain) NSString  *value;
+@property (nonatomic, retain) NSArray   *values;
 
 @end

@@ -37,6 +37,9 @@
 	self.window.rootViewController = self.navController;
 	
     [self.window makeKeyAndVisible];
+    
+    // handle uncaught exception
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     return YES;
 }
 
@@ -61,6 +64,12 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [[AppEngine get] stopApp:application];
+}
+
+static void uncaughtExceptionHandler(NSException *exception) {
+    NSLog(@"CRASH: %@", exception);
+    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
+    // Internal error reporting
 }
 
 @end
