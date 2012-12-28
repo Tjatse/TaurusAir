@@ -17,6 +17,7 @@
 		3E1F86131679C65B00F49691 /* ContacterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1F86111679C65B00F49691 /* ContacterViewController.m */; };
 		3E1F86141679C65B00F49691 /* ContacterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1F86121679C65B00F49691 /* ContacterViewController.xib */; };
 		3E1F86171679D1FE00F49691 /* UIBarButtonItem+ButtonMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1F86161679D1FE00F49691 /* UIBarButtonItem+ButtonMaker.m */; };
+		3E30F207168DEE3A002C236B /* CAAnimation+AnimationBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F206168DEE3A002C236B /* CAAnimation+AnimationBlock.m */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -298,6 +299,8 @@
 		3E1F86121679C65B00F49691 /* ContacterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContacterViewController.xib; path = Contacter/ContacterViewController.xib; sourceTree = "<group>"; };
 		3E1F86151679D1FE00F49691 /* UIBarButtonItem+ButtonMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+ButtonMaker.h"; sourceTree = "<group>"; };
 		3E1F86161679D1FE00F49691 /* UIBarButtonItem+ButtonMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+ButtonMaker.m"; sourceTree = "<group>"; };
+		3E30F205168DEE3A002C236B /* CAAnimation+AnimationBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+AnimationBlock.h"; sourceTree = "<group>"; };
+		3E30F206168DEE3A002C236B /* CAAnimation+AnimationBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+AnimationBlock.m"; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -951,6 +954,8 @@
 		3E5161CD1675D1F000D2DC78 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				3E30F205168DEE3A002C236B /* CAAnimation+AnimationBlock.h */,
+				3E30F206168DEE3A002C236B /* CAAnimation+AnimationBlock.m */,
 				3E5161CE1675D1F000D2DC78 /* GTMDefines.h */,
 				3E5161CF1675D1F000D2DC78 /* GTMNSString+HTML.h */,
 				3E5161D01675D1F000D2DC78 /* GTMNSString+HTML.m */,
@@ -1832,6 +1837,7 @@
 				9209432A168D4DE300929BFF /* GenderPickerInputTableViewCell.m in Sources */,
 				9209432B168D4DE300929BFF /* StringInputTableViewCell.m in Sources */,
 				92094336168D77AE00929BFF /* TravelerTypePickerTableViewCell.m in Sources */,
+				3E30F207168DEE3A002C236B /* CAAnimation+AnimationBlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

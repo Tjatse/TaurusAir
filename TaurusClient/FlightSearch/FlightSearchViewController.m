@@ -13,6 +13,7 @@
 #import "NSString+pinyin.h"
 #import "City.h"
 #import "CitySelectViewController.h"
+#import "CAAnimation+AnimationBlock.h"
 
 @interface FlightSearchViewController ()
 
@@ -53,10 +54,7 @@
 	[self.view addSubview:self.singleFlightParentView];
 	[self.view addSubview:self.doubleFlightParentView];
 	
-	self.doubleFlightParentView.left = self.singleFlightParentView.width;
-	
-//	NSString* pinyinStr = [NSString pinyinFromChiniseString:@"哈哈你妈"];
-//	NSLog(@"pinyinStr");
+	self.doubleFlightParentView.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,24 +66,52 @@
 
 - (void)onSwitchToDoubleFlightButtonTap:(id)sender
 {
-	[UIView animateWithDuration:0.3f
-					 animations:^{
-						 self.doubleFlightParentView.left = 0;
-						 self.singleFlightParentView.left = -self.singleFlightParentView.width;
-					 }
-					 completion:^(BOOL finished) {
-					 }];
+	self.doubleFlightParentView.hidden = NO;
+	self.doubleFlightParentView.layer.opacity = 1.0f;
+	
+	CABasicAnimation* disappearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+	disappearAni.removedOnCompletion = YES;
+	disappearAni.fromValue = [NSNumber numberWithFloat:0.0f];
+	disappearAni.toValue = [NSNumber numberWithFloat:1.0f];
+	
+	[self.doubleFlightParentView.layer addAnimation:disappearAni forKey:nil];
+
+	self.singleFlightParentView.layer.opacity = 0.0f;
+	CABasicAnimation* appearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+	appearAni.removedOnCompletion = YES;
+	appearAni.fromValue = [NSNumber numberWithFloat:1.0f];
+	appearAni.toValue = [NSNumber numberWithFloat:0.0f];
+	[appearAni setAnimationDidStartBlock:nil
+				andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
+					self.singleFlightParentView.hidden = YES;
+				}];
+	
+	[self.singleFlightParentView.layer addAnimation:appearAni forKey:nil];
 }
 
 - (void)onSwitchToSingleFlightButtonTap:(id)sender
 {
-	[UIView animateWithDuration:0.3f
-					 animations:^{
-						 self.doubleFlightParentView.left = self.singleFlightParentView.width;
-						 self.singleFlightParentView.left = 0;
-					 }
-					 completion:^(BOOL finished) {
-					 }];
+	self.singleFlightParentView.hidden = NO;
+	self.singleFlightParentView.layer.opacity = 1.0f;
+	
+	CABasicAnimation* disappearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+	disappearAni.removedOnCompletion = YES;
+	disappearAni.fromValue = [NSNumber numberWithFloat:0.0f];
+	disappearAni.toValue = [NSNumber numberWithFloat:1.0f];
+	
+	[self.singleFlightParentView.layer addAnimation:disappearAni forKey:nil];
+	
+	self.doubleFlightParentView.layer.opacity = 0.0f;
+	CABasicAnimation* appearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+	appearAni.removedOnCompletion = YES;
+	appearAni.fromValue = [NSNumber numberWithFloat:1.0f];
+	appearAni.toValue = [NSNumber numberWithFloat:0.0f];
+	[appearAni setAnimationDidStartBlock:nil
+				andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
+					self.doubleFlightParentView.hidden = YES;
+				}];
+	
+	[self.doubleFlightParentView.layer addAnimation:appearAni forKey:nil];
 }
 
 #pragma mark - tableview methods
