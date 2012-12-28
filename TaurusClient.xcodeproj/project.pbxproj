@@ -241,6 +241,16 @@
 		3EDF04A316898E2B00DE9546 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A216898E2B00DE9546 /* City.m */; };
 		3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A516899B5400DE9546 /* CityGroup.m */; };
 		3EDF04C7168AA72F00DE9546 /* GeocodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04C6168AA72F00DE9546 /* GeocodeHelper.m */; };
+		9209430D168C896100929BFF /* EditTravelerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9209430B168C896100929BFF /* EditTravelerViewController.m */; };
+		9209430E168C896100929BFF /* EditTravelerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9209430C168C896100929BFF /* EditTravelerViewController.xib */; };
+		92094313168C961700929BFF /* TravelerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094311168C961700929BFF /* TravelerDetailViewController.m */; };
+		92094314168C961700929BFF /* TravelerDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92094312168C961700929BFF /* TravelerDetailViewController.xib */; };
+		92094327168D4DE300929BFF /* DateInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9209431E168D4DE300929BFF /* DateInputTableViewCell.m */; };
+		92094328168D4DE300929BFF /* IntegerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094320168D4DE300929BFF /* IntegerInputTableViewCell.m */; };
+		92094329168D4DE300929BFF /* PickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094322168D4DE300929BFF /* PickerInputTableViewCell.m */; };
+		9209432A168D4DE300929BFF /* GenderPickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094324168D4DE300929BFF /* GenderPickerInputTableViewCell.m */; };
+		9209432B168D4DE300929BFF /* StringInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094326168D4DE300929BFF /* StringInputTableViewCell.m */; };
+		92094336168D77AE00929BFF /* TravelerTypePickerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094335168D77AE00929BFF /* TravelerTypePickerTableViewCell.m */; };
 		92098F20167A17AD00EF1F47 /* AppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F1F167A17AD00EF1F47 /* AppContext.m */; };
 		92098F24167A191D00EF1F47 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F23167A191D00EF1F47 /* User.m */; };
 		92098F27167A1B7F00EF1F47 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92098F26167A1B7F00EF1F47 /* AppConfig.m */; };
@@ -627,6 +637,24 @@
 		3EDF04A516899B5400DE9546 /* CityGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityGroup.m; sourceTree = "<group>"; };
 		3EDF04C5168AA72F00DE9546 /* GeocodeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodeHelper.h; sourceTree = "<group>"; };
 		3EDF04C6168AA72F00DE9546 /* GeocodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodeHelper.m; sourceTree = "<group>"; };
+		9209430A168C896100929BFF /* EditTravelerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditTravelerViewController.h; path = Contacter/EditTravelerViewController.h; sourceTree = "<group>"; };
+		9209430B168C896100929BFF /* EditTravelerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditTravelerViewController.m; path = Contacter/EditTravelerViewController.m; sourceTree = "<group>"; };
+		9209430C168C896100929BFF /* EditTravelerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditTravelerViewController.xib; path = Contacter/EditTravelerViewController.xib; sourceTree = "<group>"; };
+		92094310168C961700929BFF /* TravelerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TravelerDetailViewController.h; path = Contacter/TravelerDetailViewController.h; sourceTree = "<group>"; };
+		92094311168C961700929BFF /* TravelerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TravelerDetailViewController.m; path = Contacter/TravelerDetailViewController.m; sourceTree = "<group>"; };
+		92094312168C961700929BFF /* TravelerDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TravelerDetailViewController.xib; path = Contacter/TravelerDetailViewController.xib; sourceTree = "<group>"; };
+		9209431D168D4DE300929BFF /* DateInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateInputTableViewCell.h; sourceTree = "<group>"; };
+		9209431E168D4DE300929BFF /* DateInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateInputTableViewCell.m; sourceTree = "<group>"; };
+		9209431F168D4DE300929BFF /* IntegerInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegerInputTableViewCell.h; sourceTree = "<group>"; };
+		92094320168D4DE300929BFF /* IntegerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegerInputTableViewCell.m; sourceTree = "<group>"; };
+		92094321168D4DE300929BFF /* PickerInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerInputTableViewCell.h; sourceTree = "<group>"; };
+		92094322168D4DE300929BFF /* PickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerInputTableViewCell.m; sourceTree = "<group>"; };
+		92094323168D4DE300929BFF /* GenderPickerInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenderPickerInputTableViewCell.h; sourceTree = "<group>"; };
+		92094324168D4DE300929BFF /* GenderPickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenderPickerInputTableViewCell.m; sourceTree = "<group>"; };
+		92094325168D4DE300929BFF /* StringInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringInputTableViewCell.h; sourceTree = "<group>"; };
+		92094326168D4DE300929BFF /* StringInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringInputTableViewCell.m; sourceTree = "<group>"; };
+		92094334168D77AD00929BFF /* TravelerTypePickerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelerTypePickerTableViewCell.h; sourceTree = "<group>"; };
+		92094335168D77AE00929BFF /* TravelerTypePickerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelerTypePickerTableViewCell.m; sourceTree = "<group>"; };
 		92098F1E167A17AD00EF1F47 /* AppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppContext.h; sourceTree = "<group>"; };
 		92098F1F167A17AD00EF1F47 /* AppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppContext.m; sourceTree = "<group>"; };
 		92098F22167A191D00EF1F47 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -748,6 +776,12 @@
 				3E1F86101679C65B00F49691 /* ContacterViewController.h */,
 				3E1F86111679C65B00F49691 /* ContacterViewController.m */,
 				3E1F86121679C65B00F49691 /* ContacterViewController.xib */,
+				92094310168C961700929BFF /* TravelerDetailViewController.h */,
+				92094311168C961700929BFF /* TravelerDetailViewController.m */,
+				92094312168C961700929BFF /* TravelerDetailViewController.xib */,
+				9209430A168C896100929BFF /* EditTravelerViewController.h */,
+				9209430B168C896100929BFF /* EditTravelerViewController.m */,
+				9209430C168C896100929BFF /* EditTravelerViewController.xib */,
 			);
 			name = Contacter;
 			sourceTree = "<group>";
@@ -873,6 +907,7 @@
 		3E5161BF1675D1F000D2DC78 /* FelixSDK */ = {
 			isa = PBXGroup;
 			children = (
+				92094319168D48DD00929BFF /* TableViewCell */,
 				3E5161C01675D1F000D2DC78 /* ActionRequest */,
 				3E5161CD1675D1F000D2DC78 /* Additions */,
 				3E5162051675D1F000D2DC78 /* ALToast */,
@@ -1367,6 +1402,25 @@
 			path = nav;
 			sourceTree = "<group>";
 		};
+		92094319168D48DD00929BFF /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				9209431D168D4DE300929BFF /* DateInputTableViewCell.h */,
+				9209431E168D4DE300929BFF /* DateInputTableViewCell.m */,
+				9209431F168D4DE300929BFF /* IntegerInputTableViewCell.h */,
+				92094320168D4DE300929BFF /* IntegerInputTableViewCell.m */,
+				92094321168D4DE300929BFF /* PickerInputTableViewCell.h */,
+				92094322168D4DE300929BFF /* PickerInputTableViewCell.m */,
+				92094323168D4DE300929BFF /* GenderPickerInputTableViewCell.h */,
+				92094324168D4DE300929BFF /* GenderPickerInputTableViewCell.m */,
+				92094325168D4DE300929BFF /* StringInputTableViewCell.h */,
+				92094326168D4DE300929BFF /* StringInputTableViewCell.m */,
+				92094334168D77AD00929BFF /* TravelerTypePickerTableViewCell.h */,
+				92094335168D77AE00929BFF /* TravelerTypePickerTableViewCell.m */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
 		92098F1C167A169600EF1F47 /* System */ = {
 			isa = PBXGroup;
 			children = (
@@ -1638,6 +1692,8 @@
 				92B780C8168A9B9A00A9DE32 /* order_state.csv in Resources */,
 				92B780E7168B057700A9DE32 /* OrderFlightDetailViewController.xib in Resources */,
 				92B780EC168B059D00A9DE32 /* OrderDetailViewController.xib in Resources */,
+				9209430E168C896100929BFF /* EditTravelerViewController.xib in Resources */,
+				92094314168C961700929BFF /* TravelerDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1768,6 +1824,14 @@
 				3EDF04C7168AA72F00DE9546 /* GeocodeHelper.m in Sources */,
 				92B780E6168B057700A9DE32 /* OrderFlightDetailViewController.m in Sources */,
 				92B780EB168B059D00A9DE32 /* OrderDetailViewController.m in Sources */,
+				9209430D168C896100929BFF /* EditTravelerViewController.m in Sources */,
+				92094313168C961700929BFF /* TravelerDetailViewController.m in Sources */,
+				92094327168D4DE300929BFF /* DateInputTableViewCell.m in Sources */,
+				92094328168D4DE300929BFF /* IntegerInputTableViewCell.m in Sources */,
+				92094329168D4DE300929BFF /* PickerInputTableViewCell.m in Sources */,
+				9209432A168D4DE300929BFF /* GenderPickerInputTableViewCell.m in Sources */,
+				9209432B168D4DE300929BFF /* StringInputTableViewCell.m in Sources */,
+				92094336168D77AE00929BFF /* TravelerTypePickerTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

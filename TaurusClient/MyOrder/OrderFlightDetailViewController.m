@@ -52,7 +52,7 @@
     [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
                                        andTapCallback:^(id control, UIEvent *event) {
                                            [self.navigationController popViewControllerAnimated:YES];
-                                       }];    [_tableView setBackgroundView:nil];
+                                       }]; 
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
 }

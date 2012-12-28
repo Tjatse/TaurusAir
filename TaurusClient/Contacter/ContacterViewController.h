@@ -7,7 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef enum {
+    TRAVELERS = 100,
+    CONTACTORS = 101
+} TABLEVIEW_VISIBLE;
 
-@interface ContacterViewController : UIViewController
+@interface ContacterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+{
+    TABLEVIEW_VISIBLE   currentTableView;
+    NSMutableArray      *_travelers;
+    NSMutableArray      *_contactors;
+}
 
+@property (nonatomic, retain)   IBOutlet    UIButton        *buttonTravelers;
+@property (nonatomic, retain)   IBOutlet    UIButton        *buttonContactors;
+@property (nonatomic, retain)   IBOutlet    UITableView     *tableViewTravelers;
+@property (nonatomic, retain)   IBOutlet    UITableView     *tableViewContactors;
+
+- (IBAction)swithTableView:(id)sender;
 @end

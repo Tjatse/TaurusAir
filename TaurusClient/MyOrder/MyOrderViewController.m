@@ -298,7 +298,7 @@
         
     UILabel *labelFlight = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 150, 0, 80, 44)];
     [labelFlight setFont:[UIFont boldSystemFontOfSize:14]];
-    [labelFlight setTextColor:UIColorFromRGB(0x000050)];
+    [labelFlight setTextColor:[UIColor blackColor]];
     [labelFlight setText:[data objectForKey:@"Flight"]];
     [labelFlight setBackgroundColor:[UIColor clearColor]];
     [cell addSubview:labelFlight];
@@ -332,7 +332,7 @@
     [labelState setLineBreakMode:UILineBreakModeWordWrap];
     [labelState setBackgroundColor:[UIColor clearColor]];
     [labelState setFont:[UIFont systemFontOfSize:10]];
-    [labelState setTextColor:[UIColor blueColor]];
+    [labelState setTextColor:[UIColor blackColor]];
     [cell addSubview:labelState];
     [labelState release];
     
