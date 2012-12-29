@@ -30,6 +30,7 @@ static AppEngine* singleton = nil;
     
     //[AppContext get].application = uiApplication;
     [[AppConfig get] loadState];
+	[AppConfig get];
     
     NSLog(@"[[ Start App ]]");
 }

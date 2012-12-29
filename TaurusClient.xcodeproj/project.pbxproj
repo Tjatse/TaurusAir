@@ -247,7 +247,7 @@
 		92094313168C961700929BFF /* TravelerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094311168C961700929BFF /* TravelerDetailViewController.m */; };
 		92094314168C961700929BFF /* TravelerDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92094312168C961700929BFF /* TravelerDetailViewController.xib */; };
 		92094327168D4DE300929BFF /* DateInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9209431E168D4DE300929BFF /* DateInputTableViewCell.m */; };
-		92094328168D4DE300929BFF /* IntegerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094320168D4DE300929BFF /* IntegerInputTableViewCell.m */; };
+		92094328168D4DE300929BFF /* IntegerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094320168D4DE300929BFF /* IntegerInputTableViewCell.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		92094329168D4DE300929BFF /* PickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094322168D4DE300929BFF /* PickerInputTableViewCell.m */; };
 		9209432A168D4DE300929BFF /* GenderPickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094324168D4DE300929BFF /* GenderPickerInputTableViewCell.m */; };
 		9209432B168D4DE300929BFF /* StringInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094326168D4DE300929BFF /* StringInputTableViewCell.m */; };
