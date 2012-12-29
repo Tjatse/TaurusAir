@@ -12,7 +12,11 @@
 
 typedef void (^OnCitySelectedBlock)(City* city);
 
-@interface CitySelectViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface CitySelectViewController : UIViewController
+<UITableViewDataSource
+, UITableViewDelegate
+, UISearchBarDelegate
+, UISearchDisplayDelegate>
 
 @property (nonatomic, retain) IBOutlet UISearchBar*		filterKeyBar;
 @property (nonatomic, retain) IBOutlet UITableView*		cityListView;

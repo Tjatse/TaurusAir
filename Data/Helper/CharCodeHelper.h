@@ -18,9 +18,7 @@
 + (NSArray*)allThreeCharCodes;
 + (NSDictionary*)allTwoCharCodesDictionary;
 + (NSDictionary*)allThreeCharCodesDictionary;
-+ (NSArray*)popularCities;
 + (NSDictionary*)allCities;
-+ (City*)queryCityWithCityName:(NSString*)cityName;
 + (NSArray*)allCityGroups;
 + (NSDictionary*)allOrderStates;
 

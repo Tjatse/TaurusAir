@@ -14,12 +14,18 @@
 #import "City.h"
 #import "CitySelectViewController.h"
 #import "CAAnimation+AnimationBlock.h"
+#import "AppContext.h"
+#import "AppEngine.h"
+#import "AppConfig.h"
+#import "NSDateAdditions.h"
+#import "CitySearchHelper.h"
 
 @interface FlightSearchViewController ()
 
-@property (nonatomic, retain) City*		singleFlightDepartureCity;
-@property (nonatomic, retain) City*		doubleFlightDepartureCity;
-@property (nonatomic, retain) City*		doubleFlightArrivalCity;
+@property (nonatomic, retain) City*		departureCity;
+@property (nonatomic, retain) City*		arrivalCity;
+@property (nonatomic, retain) NSDate*	departureDate;
+@property (nonatomic, retain) NSDate*	returnDate;
 
 @end
 
@@ -31,9 +37,11 @@
 	self.singleFlightTableView = nil;
 	self.doubleFlightParentView = nil;
 	self.doubleFlightTableView = nil;
-	self.singleFlightDepartureCity = nil;
-	self.doubleFlightDepartureCity = nil;
-	self.doubleFlightArrivalCity = nil;
+	
+	self.departureCity = nil;
+	self.arrivalCity = nil;
+	self.departureDate = nil;
+	self.returnDate = nil;
 	
 	[super dealloc];
 }
@@ -55,6 +63,14 @@
 	[self.view addSubview:self.doubleFlightParentView];
 	
 	self.doubleFlightParentView.hidden = YES;
+	
+	// 获取所在城市
+	NSString* city = [AppContext get].currentLocationCity;
+	city = city == nil ? @"北京" : city;
+	self.departureCity = [CitySearchHelper queryCityWithCityName:city];
+	
+	// 时间
+	
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,16 +139,28 @@
 	if (tableView == self.singleFlightTableView) {
 		if (indexPath.row == 0) {
 			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:0];
+			
+			UILabel* departureLabel = (UILabel*)[result viewWithTag:100];
+			departureLabel.text = self.departureCity.cityName;
 		} else if (indexPath.row == 1) {
 			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:1];
+
+			UILabel* departureLabel = (UILabel*)[result viewWithTag:100];
+			departureLabel.text = self.arrivalCity.cityName;
 		} else {
 			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:2];
 		}
 	} else {
 		if (indexPath.row == 0) {
 			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:0];
+			
+			UILabel* departureLabel = (UILabel*)[result viewWithTag:100];
+			departureLabel.text = self.departureCity.cityName;
 		} else if (indexPath.row == 1) {
 			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:1];
+			
+			UILabel* departureLabel = (UILabel*)[result viewWithTag:100];
+			departureLabel.text = self.arrivalCity.cityName;
 		} else if (indexPath.row == 2) {
 			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:2];
 		} else {
@@ -166,9 +194,24 @@
 		}
 	} else {
 		if (indexPath.row == 0) {
+			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+			vc.citySelectedBlock = ^(City* city) {
+				
+			};
 			
+			[self.navigationController pushViewController:vc animated:YES];
+			
+			SAFE_RELEASE(vc);
+		} else if (indexPath.row == 1) {
+			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+			vc.citySelectedBlock = ^(City* city) {
+				
+			};
+			
+			[self.navigationController pushViewController:vc animated:YES];
+			
+			SAFE_RELEASE(vc);
 		}
-		
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];

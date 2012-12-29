@@ -14,6 +14,7 @@
 #import "CityGroup.h"
 #import "NSString+pinyin.h"
 #import "OrderState.h"
+#import "CitySearchHelper.h"
 
 @interface CharCodeHelper () <CHCSVParserDelegate>
 
@@ -27,23 +28,6 @@
 @implementation CharCodeHelper
 
 #pragma mark - class methods
-
-+ (NSArray*)popularCities
-{
-	static NSMutableArray* result = nil;
-	
-	@synchronized (self) {
-		if (result == nil) {
-			result = [[NSMutableArray array] retain];
-			NSArray* cityNames = @[@"北京", @"上海", @"杭州", @"深圳"];
-			
-			for (NSString* cityName in cityNames)
-				[result addObject:[self queryCityWithCityName:cityName]];
-		}
-	}
-	
-	return result;
-}
 
 + (NSDictionary*)allCities
 {
@@ -82,7 +66,7 @@
 			result = [[NSMutableArray array] retain];
 			
 			CityGroup* popularCityGroup = [[CityGroup alloc] initWithGroupName:@"热门"
-																		cities:[self popularCities]];
+																		cities:[CitySearchHelper popularCities]];
 			[result addObject:popularCityGroup];
 			SAFE_RELEASE(popularCityGroup);
 			
@@ -122,12 +106,6 @@
 	}
 	
 	return result;
-}
-
-+ (City *)queryCityWithCityName:(NSString *)cityName
-{
-	NSDictionary* cities = [self allCities];
-	return [cities objectForKey:cityName];
 }
 
 + (NSArray*)parseContentOfCSVFile:(NSString*)filePath

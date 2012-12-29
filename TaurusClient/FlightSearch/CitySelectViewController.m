@@ -12,8 +12,12 @@
 #import "CityGroup.h"
 #import "City.h"
 #import "UIBarButtonItem+ButtonMaker.h"
+#import "CitySearchHelper.h"
+#import "SearchCityResult.h"
 
 @interface CitySelectViewController () <UIScrollViewDelegate>
+
+@property (nonatomic, retain) NSArray*		searchResults;
 
 @end
 
@@ -24,6 +28,7 @@
 	self.filterKeyBar = nil;
 	self.cityListView = nil;
 	self.citySelectedBlock = nil;
+	self.searchResults = nil;
 	
 	[super dealloc];
 }
@@ -54,8 +59,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	NSArray* allCityGroups = [CharCodeHelper allCityGroups];
-	return [allCityGroups count] + 1;
+	if (tableView == self.cityListView) {
+		NSArray* allCityGroups = [CharCodeHelper allCityGroups];
+		return [allCityGroups count];
+	} else {
+		return 1;
+	}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -67,59 +76,62 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
 	}
 	
-	if (indexPath.section == 0) {
-		[cell addSubview:self.filterKeyBar];
-		return cell;
+	if (tableView == self.cityListView) {
+		NSArray* allCityGroups = [CharCodeHelper allCityGroups];
+		CityGroup* cityGroup = [allCityGroups objectAtIndex:indexPath.section];
+		City* city = [cityGroup.cities objectAtIndex:indexPath.row];
+		
+		cell.textLabel.text = city.cityName;
+	} else {
+		SearchCityResult* city = [self.searchResults objectAtIndex:indexPath.row];
+		
+		if (city.reason.length == 0)
+			cell.textLabel.text = city.city.cityName;
+		else
+			cell.textLabel.text = [NSString stringWithFormat:@"%@(%@)", city.city.cityName, city.reason];
 	}
-	
-	if ([cell.subviews containsObject:self.filterKeyBar])
-		[self.filterKeyBar removeFromSuperview];
-	
-	NSArray* allCityGroups = [CharCodeHelper allCityGroups];
-	CityGroup* cityGroup = [allCityGroups objectAtIndex:indexPath.section - 1];
-	City* city = [cityGroup.cities objectAtIndex:indexPath.row];
-	
-	cell.textLabel.text = city.cityName;
 	
 	return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == 0)
-		return 1;
-	
-	--section;
-	NSArray* allCityGroups = [CharCodeHelper allCityGroups];
-	CityGroup* cityGroup = [allCityGroups objectAtIndex:section];
-	
-	return [cityGroup.cities count];
+	if (tableView == self.cityListView) {
+		NSArray* allCityGroups = [CharCodeHelper allCityGroups];
+		CityGroup* cityGroup = [allCityGroups objectAtIndex:section];
+		
+		return [cityGroup.cities count];
+	} else {
+		int result = self.searchResults.count;
+		return result;
+	}
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == 0)
+	if (tableView == self.cityListView) {
+		NSArray* allCityGroups = [CharCodeHelper allCityGroups];
+		CityGroup* cityGroup = [allCityGroups objectAtIndex:section];
+			
+		return cityGroup.groupName;
+	} else {
 		return nil;
-	
-	--section;
-	NSArray* allCityGroups = [CharCodeHelper allCityGroups];
-	CityGroup* cityGroup = [allCityGroups objectAtIndex:section];
-		
-	return cityGroup.groupName;
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 0)
-		return;
-	
 	if (self.citySelectedBlock != nil) {
-		NSArray* allCityGroups = [CharCodeHelper allCityGroups];
-		CityGroup* cityGroup = [allCityGroups objectAtIndex:indexPath.section - 1];
-		City* city = [cityGroup.cities objectAtIndex:indexPath.row];
+		if (tableView == self.cityListView) {
+			NSArray* allCityGroups = [CharCodeHelper allCityGroups];
+			CityGroup* cityGroup = [allCityGroups objectAtIndex:indexPath.section];
+			City* city = [cityGroup.cities objectAtIndex:indexPath.row];
 
-		if (self.citySelectedBlock != nil)
 			self.citySelectedBlock(city);
+		} else {
+			SearchCityResult* city = [self.searchResults objectAtIndex:indexPath.row];
+			self.citySelectedBlock(city.city);
+		}
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -128,23 +140,46 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-	NSMutableArray* result = [NSMutableArray array];
-	NSArray* allCityGroups = [CharCodeHelper allCityGroups];
-	
-	[result addObject:UITableViewIndexSearch];
-	
-	for (CityGroup* cityGroup in allCityGroups) {
-		[result addObject:cityGroup.groupName];
+	if (tableView == self.cityListView) {
+		NSMutableArray* result = [NSMutableArray array];
+		NSArray* allCityGroups = [CharCodeHelper allCityGroups];
+		
+	//	[result addObject:UITableViewIndexSearch];
+		
+		for (CityGroup* cityGroup in allCityGroups) {
+			[result addObject:cityGroup.groupName];
+		}
+		
+		return result;
+	} else {
+		return nil;
 	}
-	
-	return result;
 }
 
 #pragma mark - scrollview delegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
 	[self.filterKeyBar resignFirstResponder];
+	[self.filterKeyBar setShowsCancelButton:NO animated:YES];
+}
+
+#pragma mark - searchbar delegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	[self.filterKeyBar setShowsCancelButton:NO animated:YES];
+	[self.filterKeyBar resignFirstResponder];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+	[self.filterKeyBar setShowsCancelButton:YES animated:YES];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+	self.searchResults = [CitySearchHelper queryCityWithFilterKey:searchText];
 }
 
 @end

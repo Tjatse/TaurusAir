@@ -19,6 +19,8 @@
 		3E1F86171679D1FE00F49691 /* UIBarButtonItem+ButtonMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1F86161679D1FE00F49691 /* UIBarButtonItem+ButtonMaker.m */; };
 		3E30F207168DEE3A002C236B /* CAAnimation+AnimationBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F206168DEE3A002C236B /* CAAnimation+AnimationBlock.m */; };
 		3E30F212168E75DA002C236B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F211168E75DA002C236B /* Localizable.strings */; };
+		3E30F216168E84C0002C236B /* CitySearchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F215168E84C0002C236B /* CitySearchHelper.m */; };
+		3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F218168E85B9002C236B /* SearchCityResult.m */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -303,12 +305,16 @@
 		3E30F205168DEE3A002C236B /* CAAnimation+AnimationBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+AnimationBlock.h"; sourceTree = "<group>"; };
 		3E30F206168DEE3A002C236B /* CAAnimation+AnimationBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+AnimationBlock.m"; sourceTree = "<group>"; };
 		3E30F211168E75DA002C236B /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		3E30F213168E7C80002C236B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		3E30F214168E84C0002C236B /* CitySearchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitySearchHelper.h; sourceTree = "<group>"; };
+		3E30F215168E84C0002C236B /* CitySearchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitySearchHelper.m; sourceTree = "<group>"; };
+		3E30F217168E85B9002C236B /* SearchCityResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCityResult.h; sourceTree = "<group>"; };
+		3E30F218168E85B9002C236B /* SearchCityResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCityResult.m; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3E5161801675D0F700D2DC78 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3E5161841675D0F700D2DC78 /* TaurusClient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TaurusClient-Info.plist"; sourceTree = "<group>"; };
-		3E5161861675D0F700D2DC78 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3E5161881675D0F700D2DC78 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3E51618A1675D0F700D2DC78 /* TaurusClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TaurusClient-Prefix.pch"; sourceTree = "<group>"; };
 		3E51618B1675D0F700D2DC78 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1457,6 +1463,8 @@
 				3EDF04A516899B5400DE9546 /* CityGroup.m */,
 				92B780CA168A9CF400A9DE32 /* OrderState.h */,
 				92B780CB168A9CF400A9DE32 /* OrderState.m */,
+				3E30F217168E85B9002C236B /* SearchCityResult.h */,
+				3E30F218168E85B9002C236B /* SearchCityResult.m */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1504,6 +1512,8 @@
 				92B7808D168736E800A9DE32 /* UserHelper.m */,
 				3E751E32168963FE006FCA04 /* CharCodeHelper.h */,
 				3E751E33168963FE006FCA04 /* CharCodeHelper.m */,
+				3E30F214168E84C0002C236B /* CitySearchHelper.h */,
+				3E30F215168E84C0002C236B /* CitySearchHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1559,6 +1569,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = 3E51616D1675D0F700D2DC78;
 			productRefGroup = 3E5161791675D0F700D2DC78 /* Products */;
@@ -1842,6 +1853,8 @@
 				9209432B168D4DE300929BFF /* StringInputTableViewCell.m in Sources */,
 				92094336168D77AE00929BFF /* TravelerTypePickerTableViewCell.m in Sources */,
 				3E30F207168DEE3A002C236B /* CAAnimation+AnimationBlock.m in Sources */,
+				3E30F216168E84C0002C236B /* CitySearchHelper.m in Sources */,
+				3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1851,7 +1864,7 @@
 		3E5161851675D0F700D2DC78 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				3E5161861675D0F700D2DC78 /* en */,
+				3E30F213168E7C80002C236B /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

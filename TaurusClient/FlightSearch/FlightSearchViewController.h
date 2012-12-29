@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlightSearchViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface FlightSearchViewController : UIViewController
+<UITableViewDataSource
+, UITableViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView*			singleFlightParentView;
 @property (nonatomic, retain) IBOutlet UIView*			doubleFlightParentView;
