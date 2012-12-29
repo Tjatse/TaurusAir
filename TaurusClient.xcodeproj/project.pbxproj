@@ -1793,9 +1793,7 @@
 				92094314168C961700929BFF /* TravelerDetailViewController.xib in Resources */,
 				3E30F212168E75DA002C236B /* Localizable.strings in Resources */,
 				3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */,
-<<<<<<< HEAD
 				921EE0DA168F37A900676D7C /* CreateTravelerViewController.xib in Resources */,
-=======
 				3E30F224168EB087002C236B /* FlightSelectCells.xib in Resources */,
 				3E30F231168EC5CA002C236B /* flight_result_cell_bottomshadow.png in Resources */,
 				3E30F232168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png in Resources */,
@@ -1805,7 +1803,6 @@
 				3E30F24C168EDC55002C236B /* FlightSelectSortTimeViewController.xib in Resources */,
 				3E30F251168EDCA8002C236B /* FlightSelectSortCorpViewController.xib in Resources */,
 				3E30F256168EDCD7002C236B /* FlightSelectSortAirplaneViewController.xib in Resources */,
->>>>>>> 347b367a1b0b6fd535a13476823697d493cd4b9e
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1948,15 +1945,12 @@
 				3E30F216168E84C0002C236B /* CitySearchHelper.m in Sources */,
 				3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */,
 				3E30F221168E9D32002C236B /* FlightSelectViewController.m in Sources */,
-<<<<<<< HEAD
 				921EE0D9168F37A900676D7C /* CreateTravelerViewController.m in Sources */,
-=======
 				3E30F22C168EBEAC002C236B /* AirportSearchHelper.m in Sources */,
 				3E30F246168EDBFC002C236B /* FlightSelectSortMainViewController.m in Sources */,
 				3E30F24B168EDC55002C236B /* FlightSelectSortTimeViewController.m in Sources */,
 				3E30F250168EDCA8002C236B /* FlightSelectSortCorpViewController.m in Sources */,
 				3E30F255168EDCD7002C236B /* FlightSelectSortAirplaneViewController.m in Sources */,
->>>>>>> 347b367a1b0b6fd535a13476823697d493cd4b9e
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
