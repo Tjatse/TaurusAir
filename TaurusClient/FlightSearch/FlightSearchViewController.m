@@ -19,8 +19,9 @@
 #import "AppConfig.h"
 #import "NSDateAdditions.h"
 #import "CitySearchHelper.h"
+#import "DateInputTableViewCell.h"
 
-@interface FlightSearchViewController ()
+@interface FlightSearchViewController () <DateInputTableViewCellDelegate>
 
 @property (nonatomic, retain) City*		departureCity;
 @property (nonatomic, retain) City*		arrivalCity;
@@ -70,7 +71,10 @@
 	self.departureCity = [CitySearchHelper queryCityWithCityName:city];
 	
 	// 时间
-	
+	// 出发时间为当前时间第二天
+	// 返回时间为当前时间第四天
+	self.departureDate = [[NSDate date] dateAfterDay:1];
+	self.returnDate = [[NSDate date] dateAfterDay:3];
 }
 
 - (void)didReceiveMemoryWarning
@@ -103,6 +107,8 @@
 				}];
 	
 	[self.singleFlightParentView.layer addAnimation:appearAni forKey:nil];
+	
+	[self.doubleFlightTableView reloadData];
 }
 
 - (void)onSwitchToSingleFlightButtonTap:(id)sender
@@ -128,6 +134,20 @@
 				}];
 	
 	[self.doubleFlightParentView.layer addAnimation:appearAni forKey:nil];
+	
+	[self.singleFlightTableView reloadData];
+}
+
+- (IBAction)onPerformSingleFlightSearchButtonTap:(id)sender
+{
+	// TODO: 检查正确性
+	
+}
+
+- (IBAction)onPerformDoubleFlightSearchButtonTap:(id)sender
+{
+	// TODO: 检查正确性
+	
 }
 
 #pragma mark - tableview methods
@@ -148,7 +168,15 @@
 			UILabel* departureLabel = (UILabel*)[result viewWithTag:100];
 			departureLabel.text = self.arrivalCity.cityName;
 		} else {
-			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:2];
+			DateInputTableViewCell* cell = [[[DateInputTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+																		 reuseIdentifier:nil] autorelease];
+			
+			cell.dateValue = self.departureDate;
+			cell.delegate = self;
+			cell.tag = 9900;
+			[cell addSubview:[[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:2]];
+
+			return cell;
 		}
 	} else {
 		if (indexPath.row == 0) {
@@ -162,9 +190,25 @@
 			UILabel* departureLabel = (UILabel*)[result viewWithTag:100];
 			departureLabel.text = self.arrivalCity.cityName;
 		} else if (indexPath.row == 2) {
-			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:2];
+			DateInputTableViewCell* cell = [[[DateInputTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+																		  reuseIdentifier:nil] autorelease];
+			
+			cell.dateValue = self.departureDate;
+			cell.delegate = self;
+			cell.tag = 9900;
+			[cell addSubview:[[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:2]];
+
+			return cell;
 		} else {
-			result = [[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:3];
+			DateInputTableViewCell* cell = [[[DateInputTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+																		  reuseIdentifier:nil] autorelease];
+			
+			cell.dateValue = self.returnDate;
+			cell.delegate = self;
+			cell.tag = 9901;
+			[cell addSubview:[[[NSBundle mainBundle] loadNibNamed:@"FlightSearchCells" owner:nil options:nil] objectAtIndex:3]];
+
+			return cell;
 		}
 	}
 	
@@ -181,11 +225,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	__block FlightSearchViewController* blockSelf = self;
+	
 	if (tableView == self.singleFlightTableView) {
 		if (indexPath.row == 0) {
 			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
 			vc.citySelectedBlock = ^(City* city) {
-				
+				blockSelf.departureCity = city;
+				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+								 withRowAnimation:UITableViewRowAnimationFade];
+			};
+			
+			[self.navigationController pushViewController:vc animated:YES];
+			
+			SAFE_RELEASE(vc);
+		} else if (indexPath.row == 1) {
+			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+			vc.citySelectedBlock = ^(City* city) {
+				blockSelf.arrivalCity = city;
+				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+								 withRowAnimation:UITableViewRowAnimationFade];
 			};
 			
 			[self.navigationController pushViewController:vc animated:YES];
@@ -196,7 +255,9 @@
 		if (indexPath.row == 0) {
 			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
 			vc.citySelectedBlock = ^(City* city) {
-				
+				blockSelf.departureCity = city;
+				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+								 withRowAnimation:UITableViewRowAnimationFade];
 			};
 			
 			[self.navigationController pushViewController:vc animated:YES];
@@ -205,7 +266,9 @@
 		} else if (indexPath.row == 1) {
 			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
 			vc.citySelectedBlock = ^(City* city) {
-				
+				blockSelf.arrivalCity = city;
+				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+								 withRowAnimation:UITableViewRowAnimationFade];
 			};
 			
 			[self.navigationController pushViewController:vc animated:YES];
@@ -215,6 +278,19 @@
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - DateInputTableViewCellDelegate
+
+- (void)tableViewCell:(DateInputTableViewCell *)cell didEndEditingWithDate:(NSDate *)value
+{
+    [cell setDateValue:value];
+	
+	if (cell.tag == 9900) {
+		self.departureDate = value;
+		self.returnDate = [self.departureDate dateAfterDay:2];
+	} else
+		self.returnDate = value;
 }
 
 @end

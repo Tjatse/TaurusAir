@@ -21,6 +21,7 @@
 		3E30F212168E75DA002C236B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F211168E75DA002C236B /* Localizable.strings */; };
 		3E30F216168E84C0002C236B /* CitySearchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F215168E84C0002C236B /* CitySearchHelper.m */; };
 		3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F218168E85B9002C236B /* SearchCityResult.m */; };
+		3E30F21D168E9998002C236B /* RunAvCommand.js in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F21B168E9933002C236B /* RunAvCommand.js */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -310,6 +311,7 @@
 		3E30F215168E84C0002C236B /* CitySearchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitySearchHelper.m; sourceTree = "<group>"; };
 		3E30F217168E85B9002C236B /* SearchCityResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCityResult.h; sourceTree = "<group>"; };
 		3E30F218168E85B9002C236B /* SearchCityResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCityResult.m; sourceTree = "<group>"; };
+		3E30F21B168E9933002C236B /* RunAvCommand.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RunAvCommand.js; path = TestData/RunAvCommand.js; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -795,6 +797,14 @@
 				9209430C168C896100929BFF /* EditTravelerViewController.xib */,
 			);
 			name = Contacter;
+			sourceTree = "<group>";
+		};
+		3E30F21A168E9903002C236B /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				3E30F21B168E9933002C236B /* RunAvCommand.js */,
+			);
+			name = TestData;
 			sourceTree = "<group>";
 		};
 		3E51616D1675D0F700D2DC78 = {
@@ -1485,6 +1495,7 @@
 		927B7A5C1679EC220003FC13 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				3E30F21A168E9903002C236B /* TestData */,
 				92B780881687337300A9DE32 /* Helper */,
 				92098F21167A18F700EF1F47 /* Entity */,
 				92098F1C167A169600EF1F47 /* System */,
@@ -1586,6 +1597,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E30F21D168E9998002C236B /* RunAvCommand.js in Resources */,
 				3E5161871675D0F700D2DC78 /* InfoPlist.strings in Resources */,
 				3E51618F1675D0F700D2DC78 /* Default.png in Resources */,
 				3E5161911675D0F700D2DC78 /* Default@2x.png in Resources */,

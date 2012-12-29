@@ -20,4 +20,7 @@
 - (IBAction)onSwitchToSingleFlightButtonTap:(id)sender;
 - (IBAction)onSwitchToDoubleFlightButtonTap:(id)sender;
 
+- (IBAction)onPerformSingleFlightSearchButtonTap:(id)sender;
+- (IBAction)onPerformDoubleFlightSearchButtonTap:(id)sender;
+
 @end
