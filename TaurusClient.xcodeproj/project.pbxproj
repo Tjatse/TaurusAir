@@ -30,6 +30,14 @@
 		3E30F232168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F22E168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png */; };
 		3E30F233168EC5CA002C236B /* flight_result_cell_topshadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F22F168EC5CA002C236B /* flight_result_cell_topshadow.png */; };
 		3E30F234168EC5CA002C236B /* flight_result_cell_topshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F230168EC5CA002C236B /* flight_result_cell_topshadow@2x.png */; };
+		3E30F246168EDBFC002C236B /* FlightSelectSortMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F244168EDBF9002C236B /* FlightSelectSortMainViewController.m */; };
+		3E30F247168EDBFC002C236B /* FlightSelectSortMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F245168EDBFC002C236B /* FlightSelectSortMainViewController.xib */; };
+		3E30F24B168EDC55002C236B /* FlightSelectSortTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F249168EDC52002C236B /* FlightSelectSortTimeViewController.m */; };
+		3E30F24C168EDC55002C236B /* FlightSelectSortTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F24A168EDC53002C236B /* FlightSelectSortTimeViewController.xib */; };
+		3E30F250168EDCA8002C236B /* FlightSelectSortCorpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F24E168EDCA6002C236B /* FlightSelectSortCorpViewController.m */; };
+		3E30F251168EDCA8002C236B /* FlightSelectSortCorpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F24F168EDCA7002C236B /* FlightSelectSortCorpViewController.xib */; };
+		3E30F255168EDCD7002C236B /* FlightSelectSortAirplaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F253168EDCD5002C236B /* FlightSelectSortAirplaneViewController.m */; };
+		3E30F256168EDCD7002C236B /* FlightSelectSortAirplaneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F254168EDCD6002C236B /* FlightSelectSortAirplaneViewController.xib */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -329,6 +337,18 @@
 		3E30F22E168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flight_result_cell_bottomshadow@2x.png"; sourceTree = "<group>"; };
 		3E30F22F168EC5CA002C236B /* flight_result_cell_topshadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flight_result_cell_topshadow.png; sourceTree = "<group>"; };
 		3E30F230168EC5CA002C236B /* flight_result_cell_topshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flight_result_cell_topshadow@2x.png"; sourceTree = "<group>"; };
+		3E30F243168EDBF8002C236B /* FlightSelectSortMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightSelectSortMainViewController.h; path = FlightSearch/FlightSelectSortMainViewController.h; sourceTree = "<group>"; };
+		3E30F244168EDBF9002C236B /* FlightSelectSortMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightSelectSortMainViewController.m; path = FlightSearch/FlightSelectSortMainViewController.m; sourceTree = "<group>"; };
+		3E30F245168EDBFC002C236B /* FlightSelectSortMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectSortMainViewController.xib; path = FlightSearch/FlightSelectSortMainViewController.xib; sourceTree = "<group>"; };
+		3E30F248168EDC51002C236B /* FlightSelectSortTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightSelectSortTimeViewController.h; path = FlightSearch/FlightSelectSortTimeViewController.h; sourceTree = "<group>"; };
+		3E30F249168EDC52002C236B /* FlightSelectSortTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightSelectSortTimeViewController.m; path = FlightSearch/FlightSelectSortTimeViewController.m; sourceTree = "<group>"; };
+		3E30F24A168EDC53002C236B /* FlightSelectSortTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectSortTimeViewController.xib; path = FlightSearch/FlightSelectSortTimeViewController.xib; sourceTree = "<group>"; };
+		3E30F24D168EDCA5002C236B /* FlightSelectSortCorpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightSelectSortCorpViewController.h; path = FlightSearch/FlightSelectSortCorpViewController.h; sourceTree = "<group>"; };
+		3E30F24E168EDCA6002C236B /* FlightSelectSortCorpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightSelectSortCorpViewController.m; path = FlightSearch/FlightSelectSortCorpViewController.m; sourceTree = "<group>"; };
+		3E30F24F168EDCA7002C236B /* FlightSelectSortCorpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectSortCorpViewController.xib; path = FlightSearch/FlightSelectSortCorpViewController.xib; sourceTree = "<group>"; };
+		3E30F252168EDCD4002C236B /* FlightSelectSortAirplaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightSelectSortAirplaneViewController.h; path = FlightSearch/FlightSelectSortAirplaneViewController.h; sourceTree = "<group>"; };
+		3E30F253168EDCD5002C236B /* FlightSelectSortAirplaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightSelectSortAirplaneViewController.m; path = FlightSearch/FlightSelectSortAirplaneViewController.m; sourceTree = "<group>"; };
+		3E30F254168EDCD6002C236B /* FlightSelectSortAirplaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectSortAirplaneViewController.xib; path = FlightSearch/FlightSelectSortAirplaneViewController.xib; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -770,6 +790,18 @@
 				3E30F21F168E9D31002C236B /* FlightSelectViewController.m */,
 				3E30F220168E9D32002C236B /* FlightSelectViewController.xib */,
 				3E30F223168EB086002C236B /* FlightSelectCells.xib */,
+				3E30F243168EDBF8002C236B /* FlightSelectSortMainViewController.h */,
+				3E30F244168EDBF9002C236B /* FlightSelectSortMainViewController.m */,
+				3E30F245168EDBFC002C236B /* FlightSelectSortMainViewController.xib */,
+				3E30F248168EDC51002C236B /* FlightSelectSortTimeViewController.h */,
+				3E30F249168EDC52002C236B /* FlightSelectSortTimeViewController.m */,
+				3E30F24A168EDC53002C236B /* FlightSelectSortTimeViewController.xib */,
+				3E30F24D168EDCA5002C236B /* FlightSelectSortCorpViewController.h */,
+				3E30F24E168EDCA6002C236B /* FlightSelectSortCorpViewController.m */,
+				3E30F24F168EDCA7002C236B /* FlightSelectSortCorpViewController.xib */,
+				3E30F252168EDCD4002C236B /* FlightSelectSortAirplaneViewController.h */,
+				3E30F253168EDCD5002C236B /* FlightSelectSortAirplaneViewController.m */,
+				3E30F254168EDCD6002C236B /* FlightSelectSortAirplaneViewController.xib */,
 			);
 			name = FlightSearch;
 			sourceTree = "<group>";
@@ -1758,6 +1790,10 @@
 				3E30F232168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png in Resources */,
 				3E30F233168EC5CA002C236B /* flight_result_cell_topshadow.png in Resources */,
 				3E30F234168EC5CA002C236B /* flight_result_cell_topshadow@2x.png in Resources */,
+				3E30F247168EDBFC002C236B /* FlightSelectSortMainViewController.xib in Resources */,
+				3E30F24C168EDC55002C236B /* FlightSelectSortTimeViewController.xib in Resources */,
+				3E30F251168EDCA8002C236B /* FlightSelectSortCorpViewController.xib in Resources */,
+				3E30F256168EDCD7002C236B /* FlightSelectSortAirplaneViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1901,6 +1937,10 @@
 				3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */,
 				3E30F221168E9D32002C236B /* FlightSelectViewController.m in Sources */,
 				3E30F22C168EBEAC002C236B /* AirportSearchHelper.m in Sources */,
+				3E30F246168EDBFC002C236B /* FlightSelectSortMainViewController.m in Sources */,
+				3E30F24B168EDC55002C236B /* FlightSelectSortTimeViewController.m in Sources */,
+				3E30F250168EDCA8002C236B /* FlightSelectSortCorpViewController.m in Sources */,
+				3E30F255168EDCD7002C236B /* FlightSelectSortAirplaneViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,7 +45,7 @@ typedef enum tagFlightSelectViewType
 		andArrivalCity:(ThreeCharCode*)aArrivalCity
 	  andDepartureDate:(NSDate*)aDepartureDate
 		 andReturnDate:(NSDate*)aReturnDate
-		andJsonContent:(NSDictionary*)aJsonContent;
+		andJsonContent:(NSMutableDictionary*)aJsonContent;
 
 - (IBAction)onTimeSortButtonTap:(id)sender;
 - (IBAction)onSortButtonTap:(id)sender;

@@ -6,6 +6,7 @@
 //  Copyright (c) 2012年 Taurus. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "FlightSelectViewController.h"
 #import "JSONKit.h"
 #import "NSDateAdditions.h"
@@ -21,12 +22,16 @@
 
 @interface FlightSelectViewController ()
 
-@property (nonatomic, retain) NSDictionary*		jsonContent;
-@property (nonatomic, retain) NSMutableArray*	cellExpandedArray;
+@property (nonatomic, retain) NSMutableDictionary*		jsonContent;
+@property (nonatomic, assign) BOOL						isTimeDesc;
+@property (nonatomic, assign) BOOL						isPriceDesc;
+@property (nonatomic, assign) BOOL						isSortByPrice;
 
 - (void)onFlightGroupTap:(UIGestureRecognizer*)sender;
 - (void)onSectionPayButtonTap:(UIButton*)sender;
 - (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo;
+- (UIView*)generateCabinView:(NSDictionary*)cabin;
+- (void)performFlightInfosSort;
 
 @end
 
@@ -48,7 +53,6 @@
 	self.departureDate = nil;
 	self.returnDate = nil;
 	
-	self.cellExpandedArray = nil;
 	self.jsonContent = nil;
 	
 	[super dealloc];
@@ -67,7 +71,7 @@
 												  encoding:NSUTF8StringEncoding
 													 error:nil];
 	
-	NSDictionary* jsonContent = [[content objectFromJSONString] objectForKey:@"Response"];
+	NSMutableDictionary* jsonContent = [[content mutableObjectFromJSONString] objectForKey:@"Response"];
 	
 	float delayInSeconds = 0.3f;
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
@@ -93,7 +97,7 @@
 		andArrivalCity:(ThreeCharCode*)aArrivalCity
 	  andDepartureDate:(NSDate*)aDepartureDate
 		 andReturnDate:(NSDate*)aReturnDate
-		andJsonContent:(NSDictionary*)aJsonContent
+		andJsonContent:(NSMutableDictionary*)aJsonContent
 {
 	if (self = [super init]) {
 		self.viewType = aViewType;
@@ -102,6 +106,7 @@
 		self.departureDate = aDepartureDate;
 		self.returnDate = aReturnDate;
 		self.jsonContent = aJsonContent;
+		self.isSortByPrice = YES;
 		
 		// backbutton
 		self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
@@ -149,12 +154,6 @@
 			self.title = @"往返回程";
 			break;
 	}
-	
-	// cellExpandedArray
-	self.cellExpandedArray = [NSMutableArray array];
-	for (int n = 0; n < resultCount; ++n) {
-		[self.cellExpandedArray addObject:@NO];
-	}
 }
 
 - (void)didReceiveMemoryWarning
@@ -177,7 +176,29 @@
 
 - (void)onPriceSortButtonTap:(id)sender
 {
+	if (self.isSortByPrice) {
+		self.isPriceDesc = !self.isPriceDesc;
+		
+		CATransform3D trans1 = CATransform3DMakeRotation(0, 0, 0, 1);
+		CATransform3D trans2 = CATransform3DMakeRotation(180 * M_PI / 180.0f, 0, 0, 1);
+		
+		CABasicAnimation* rotateAni = [CABasicAnimation animationWithKeyPath:@"transform"];
+		rotateAni.removedOnCompletion = YES;
+		rotateAni.fromValue = [NSValue valueWithCATransform3D:self.isPriceDesc ? trans1 : trans2];
+		rotateAni.toValue = [NSValue valueWithCATransform3D:self.isPriceDesc ? trans2 : trans1];
+		
+		self.priceSortImgVw.layer.transform = self.isPriceDesc ? trans2 : trans1;
+		[self.priceSortImgVw.layer addAnimation:rotateAni forKey:nil];
+	} else {
+		self.isSortByPrice = YES;
+		self.isPriceDesc = NO;
+		self.isTimeDesc = NO;
+		
+		self.timeSortImgVw.hidden = YES;
+		self.priceSortImgVw.hidden = NO;
+	}
 	
+	[self performFlightInfosSort];
 }
 
 - (void)onSelectDateButtonTap:(id)sender
@@ -192,7 +213,29 @@
 
 - (void)onTimeSortButtonTap:(id)sender
 {
+	if (!self.isSortByPrice) {
+		self.isTimeDesc = !self.isTimeDesc;
+		
+		CATransform3D trans1 = CATransform3DMakeRotation(0, 0, 0, 1);
+		CATransform3D trans2 = CATransform3DMakeRotation(180 * M_PI / 180.0f, 0, 0, 1);
+		
+		CABasicAnimation* rotateAni = [CABasicAnimation animationWithKeyPath:@"transform"];
+		rotateAni.removedOnCompletion = YES;
+		rotateAni.fromValue = [NSValue valueWithCATransform3D:self.isTimeDesc ? trans1 : trans2];
+		rotateAni.toValue = [NSValue valueWithCATransform3D:self.isTimeDesc ? trans2 : trans1];
+		
+		self.timeSortImgVw.layer.transform = self.isTimeDesc ? trans2 : trans1;
+		[self.timeSortImgVw.layer addAnimation:rotateAni forKey:nil];
+	} else {
+		self.isSortByPrice = NO;
+		self.isPriceDesc = NO;
+		self.isTimeDesc = NO;
+		
+		self.timeSortImgVw.hidden = NO;
+		self.priceSortImgVw.hidden = YES;
+	}
 	
+	[self performFlightInfosSort];
 }
 
 - (void)onSectionPayButtonTap:(UIButton*)sender
@@ -207,12 +250,12 @@
 	UIView* senderVw = sender.view;
 	int section = senderVw.tag - 9900;
 
-	BOOL isSelected = [self.cellExpandedArray[section] boolValue];
+	NSMutableDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
+	
+	BOOL isSelected = [flightInfo getBoolValueForKey:@"isExpand" defaultValue:NO];
 	isSelected = !isSelected;
-	[self.cellExpandedArray replaceObjectAtIndex:section
-									  withObject:@(isSelected)];
+	[flightInfo setValue:@(isSelected) forKey:@"isExpand"];
 
-	NSDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
 	NSArray* cabinInfos = [flightInfo objectForKey:@"CabinInfo"];
 	int rowsCount = (int)(ceil(cabinInfos.count / 2.0f));
 	
@@ -231,6 +274,11 @@
 
 #pragma mark - core methods
 
+- (void)performFlightInfosSort
+{
+	
+}
+
 - (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo
 {
 	NSDictionary* optimalCabin = nil;
@@ -248,6 +296,23 @@
 	}
 
 	return optimalCabin;
+}
+
+- (UIView*)generateCabinView:(NSDictionary*)cabin
+{
+	UIView* result = [[NSBundle mainBundle] loadNibNamed:@"FlightSelectCells" owner:nil options:nil][2];
+	
+	UILabel* priceLabel = (UILabel*)[result viewWithTag:100];
+	UILabel* discountLabel = (UILabel*)[result viewWithTag:101];
+	UILabel* ticketCountLabel = (UILabel*)[result viewWithTag:102];
+	
+	priceLabel.text = [NSString stringWithFormat:@"￥%d", [cabin getIntValueForKey:@"PayPrice" defaultValue:0]];
+	discountLabel.text = [NSString stringWithFormat:@"%.1f折"
+						  , [cabin getFloatValueForKey:@"Discount" defaultValue:0] / 10.0f];
+	ticketCountLabel.text = [NSString stringWithFormat:@"%@张"
+						  , [cabin getStringValueForKey:@"LeftCount" defaultValue:@""]];
+	
+	return result;
 }
 
 #pragma mark - tableview methods
@@ -328,16 +393,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	BOOL isSelected = [self.cellExpandedArray[section] boolValue];
+	NSDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
+	BOOL isSelected = [flightInfo getBoolValueForKey:@"isExpand" defaultValue:NO];
 	
 	if (!isSelected)
 		return 0;
 	else {
-		NSDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
 		NSArray* cabinInfos = [flightInfo objectForKey:@"CabinInfo"];
-		float resultFloat = ceil(cabinInfos.count / 2.0f);
+		int rowsCount = (int)(ceil(cabinInfos.count / 2.0f));
 		
-		return (int)resultFloat;
+		return rowsCount;
 	}
 }
 
@@ -345,7 +410,51 @@
 {
 	static NSString* cellId = @"cellId";
 	
+	UITableViewCell* result = [tableView dequeueReusableCellWithIdentifier:cellId];
 	
+	if (result != nil) {
+		UIView* infoVw1 = (UIView*)[result viewWithTag:9900];
+		[infoVw1 removeFromSuperview];
+
+		UIView* infoVw2 = (UIView*)[result viewWithTag:9901];
+		[infoVw2 removeFromSuperview];
+	} else {
+		result = [[NSBundle mainBundle] loadNibNamed:@"FlightSelectCells" owner:nil options:nil][1];
+	}
+	
+	int section = indexPath.section;
+	int row = indexPath.row;
+	
+	NSDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
+	NSArray* cabinInfos = [flightInfo objectForKey:@"CabinInfo"];
+
+	// 判断是否第一行/最后一行，显示阴影
+	UIImageView* topShadowVw = (UIImageView*)[result viewWithTag:100];
+	UIImageView* bottomShadowVw = (UIImageView*)[result viewWithTag:101];
+	int rowsCount = (int)(ceil(cabinInfos.count / 2.0f));
+
+	topShadowVw.hidden = row != 0;
+	bottomShadowVw.hidden = row != (rowsCount - 1);
+	
+	// 绑定cabin
+	int cabin1Index = row * 2;
+	NSDictionary* cabin1 = [cabinInfos objectAtIndex:cabin1Index];
+	UIView* cabin1Vw = [self generateCabinView:cabin1];
+	cabin1Vw.tag = 9900;
+	
+	[result addSubview:cabin1Vw];
+	
+	int cabin2Index = row * 2 + 1;
+	if (cabin2Index < cabinInfos.count) {
+		NSDictionary* cabin2 = [cabinInfos objectAtIndex:cabin2Index];
+		UIView* cabin2Vw = [self generateCabinView:cabin2];
+		cabin2Vw.tag = 9901;
+		
+		cabin2Vw.left = cabin1Vw.width;
+		[result addSubview:cabin2Vw];
+	}
+	
+	return result;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
