@@ -20,6 +20,7 @@
 #import "NSDateAdditions.h"
 #import "CitySearchHelper.h"
 #import "DateInputTableViewCell.h"
+#import "FlightSelectViewController.h"
 
 @interface FlightSearchViewController () <DateInputTableViewCellDelegate>
 
@@ -141,13 +142,23 @@
 - (IBAction)onPerformSingleFlightSearchButtonTap:(id)sender
 {
 	// TODO: 检查正确性
-	
+	[FlightSelectViewController performQueryWithNavVC:self.navigationController
+										  andViewType:kFlightSelectViewTypeSingle
+									 andDepartureCity:self.departureCity
+									   andArrivalCity:self.arrivalCity
+									 andDepartureDate:self.departureDate
+										andReturnDate:self.returnDate];
 }
 
 - (IBAction)onPerformDoubleFlightSearchButtonTap:(id)sender
 {
 	// TODO: 检查正确性
-	
+	[FlightSelectViewController performQueryWithNavVC:self.navigationController
+										  andViewType:kFlightSelectViewTypeDeparture
+									 andDepartureCity:self.departureCity
+									   andArrivalCity:self.arrivalCity
+									 andDepartureDate:self.departureDate
+										andReturnDate:self.returnDate];
 }
 
 #pragma mark - tableview methods

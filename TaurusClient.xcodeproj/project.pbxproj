@@ -24,6 +24,7 @@
 		3E30F21D168E9998002C236B /* RunAvCommand.js in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F21B168E9933002C236B /* RunAvCommand.js */; };
 		3E30F221168E9D32002C236B /* FlightSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F21F168E9D31002C236B /* FlightSelectViewController.m */; };
 		3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F220168E9D32002C236B /* FlightSelectViewController.xib */; };
+		3E30F224168EB087002C236B /* FlightSelectCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F223168EB086002C236B /* FlightSelectCells.xib */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -317,6 +318,7 @@
 		3E30F21E168E9D31002C236B /* FlightSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightSelectViewController.h; path = FlightSearch/FlightSelectViewController.h; sourceTree = "<group>"; };
 		3E30F21F168E9D31002C236B /* FlightSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightSelectViewController.m; path = FlightSearch/FlightSelectViewController.m; sourceTree = "<group>"; };
 		3E30F220168E9D32002C236B /* FlightSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectViewController.xib; path = FlightSearch/FlightSelectViewController.xib; sourceTree = "<group>"; };
+		3E30F223168EB086002C236B /* FlightSelectCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectCells.xib; path = FlightSearch/FlightSelectCells.xib; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -758,6 +760,7 @@
 				3E30F21E168E9D31002C236B /* FlightSelectViewController.h */,
 				3E30F21F168E9D31002C236B /* FlightSelectViewController.m */,
 				3E30F220168E9D32002C236B /* FlightSelectViewController.xib */,
+				3E30F223168EB086002C236B /* FlightSelectCells.xib */,
 			);
 			name = FlightSearch;
 			sourceTree = "<group>";
@@ -1735,6 +1738,7 @@
 				92094314168C961700929BFF /* TravelerDetailViewController.xib in Resources */,
 				3E30F212168E75DA002C236B /* Localizable.strings in Resources */,
 				3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */,
+				3E30F224168EB087002C236B /* FlightSelectCells.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
