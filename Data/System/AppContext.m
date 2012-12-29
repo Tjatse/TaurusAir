@@ -26,6 +26,8 @@
 - (void)dealloc
 {
 	self.locMgr = nil;
+	self.currentLocationCity = nil;
+	self.currentLocationGeocode = nil;
 	
 	[super dealloc];
 }
@@ -42,7 +44,7 @@
 - (id)init
 {
 	if (self = [super init]) {
-		int64_t delayInSeconds = 2.0;
+		int64_t delayInSeconds = 1.0;
 		dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 		dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 			[self requestMyLocation];
@@ -89,8 +91,9 @@
 	__block AppContext* blockSelf = self;
 	[GeocodeHelper requestGeocodeWithLat:_currentLatitude
 								  andLon:_currentLongitude
-							 andComplete:^(NSString *address) {
+							 andComplete:^(NSString *address, NSString* city) {
 								 blockSelf.currentLocationGeocode = address;
+								 blockSelf.currentLocationCity = city;
 							 }];
 }
 

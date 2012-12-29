@@ -19,7 +19,7 @@
 @property (nonatomic, readonly) float 			currentLatitude;
 @property (nonatomic, readonly) float 			currentLongitude;
 @property (nonatomic, retain) NSString*			currentLocationGeocode;
-@property (nonatomic, retain) NSString*			currentCity;
+@property (nonatomic, retain) NSString*			currentLocationCity;
 @property (nonatomic, assign) BOOL				isLocationAvailable;
 
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^OnGeocodeResponse)(NSString* address);
+typedef void (^OnGeocodeResponse)(NSString* address, NSString* city);
 
 @interface GeocodeHelper : NSObject
 

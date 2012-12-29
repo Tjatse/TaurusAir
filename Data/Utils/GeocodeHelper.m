@@ -13,6 +13,7 @@
 @interface GeocodeHelper ()
 
 + (NSString*)buildAddressFromComponents:(NSArray*)components;
++ (NSString*)queryCityFromComponents:(NSArray*)components;
 
 @end
 
@@ -43,6 +44,21 @@
 	return result;
 }
 
++ (NSString*)queryCityFromComponents:(NSArray*)components
+{
+	for (NSDictionary* component in components) {
+		NSArray* types = [component objectForKey:@"types"];
+		if ([types containsObject:@"locality"]
+			/*|| [types containsObject:@"political"]*/) {
+			
+			NSString* city = [component objectForKey:@"short_name"];
+			return city;
+		}
+	}
+	
+	return nil;
+}
+
 + (void)requestGeocodeWithLat:(float)lat
 					   andLon:(float)lon
 				  andComplete:(OnGeocodeResponse)complete
@@ -61,9 +77,10 @@
 		
 		if ([results count] == 0) {
 			NSString* address = [NSString stringWithFormat:NSLocalizedString(@"GEOUnkownPlace", nil), lon, lat];
+			NSString* city = [NSString stringWithFormat:NSLocalizedString(@"GEOUnkownCity", nil), lon, lat];
 			
 			if (safeComplete != nil)
-				safeComplete(address);
+				safeComplete(address, city);
 		} else {
 			NSDictionary* result = [results objectAtIndex:0];
 			
@@ -73,9 +90,10 @@
 				 if ([locationType isEqualToString:@"ROOFTOP"])*/ {
 					 NSArray* addressComponents = [result objectForKey:@"address_components"];
 					 NSString* address = [self buildAddressFromComponents:addressComponents];
+					 NSString* city = [self queryCityFromComponents:addressComponents];
 					 
 					 if (safeComplete != nil)
-						 safeComplete(address);
+						 safeComplete(address, city);
 					 
 					 /*break;*/
 				 }

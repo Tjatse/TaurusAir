@@ -8,7 +8,7 @@
 
 #import "AppEngine.h"
 #import "AppConfig.h"
-
+#import "AppContext.h"
 
 static AppEngine* singleton = nil;
 
@@ -30,7 +30,7 @@ static AppEngine* singleton = nil;
     
     //[AppContext get].application = uiApplication;
     [[AppConfig get] loadState];
-	[AppConfig get];
+	[AppContext get];
     
     NSLog(@"[[ Start App ]]");
 }
