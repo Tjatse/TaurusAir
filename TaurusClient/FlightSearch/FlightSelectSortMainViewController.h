@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlightSelectSortMainViewController : UIViewController
+@class FlightSelectViewController;
+
+@interface FlightSelectSortMainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, retain) IBOutlet UITableView*		dataVw;
+
+- (id)initWithParentVC:(FlightSelectViewController*)parentVC;
 
 @end

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class City;
+@class ThreeCharCode;
+@class TwoCharCode;
+
 typedef enum tagFlightSelectViewType
 {
 	kFlightSelectViewTypeSingle
@@ -15,23 +19,47 @@ typedef enum tagFlightSelectViewType
 	, kFlightSelectViewTypeReturn
 } FlightSelectViewType;
 
-@class City;
-@class ThreeCharCode;
+typedef enum tagFlightSelectTimeFilterType
+{
+	kFlightSelectTimeFilterTypeNone
+	, kFlightSelectTimeFilterTypeMatin
+	, kFlightSelectTimeFilterTypeApresMidi
+	, kFlightSelectTimeFilterTypeLaNuit
+} FlightSelectTimeFilterType;
+
+typedef enum tagFlightSelectAirplaneFilterType
+{
+	kFlightSelectAirplaneFilterTypeNone
+	, kFlightSelectAirplaneFilterTypeMedium
+	, kFlightSelectAirplaneFilterTypeLarge
+} FlightSelectPlaneFilterType;
+
+// translate filter types
+extern NSArray* timeFilters();
+extern NSArray* planeFilter();
+extern NSString* flightSelectTimeFilterTypeName(FlightSelectTimeFilterType filterType);
+extern NSString* flightSelectPlaneFilterTypeName(FlightSelectPlaneFilterType filterType);
+extern NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType);
 
 @interface FlightSelectViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, retain) IBOutlet UILabel*			dateLabel;
-@property (nonatomic, retain) IBOutlet UILabel*			cityFromToLabel;
-@property (nonatomic, retain) IBOutlet UILabel*			ticketCountLabel;
-@property (nonatomic, retain) IBOutlet UITableView*		ticketResultsVw;
-@property (nonatomic, retain) IBOutlet UIImageView*		timeSortImgVw;
-@property (nonatomic, retain) IBOutlet UIImageView*		priceSortImgVw;
+@property (nonatomic, retain) IBOutlet UILabel*				dateLabel;
+@property (nonatomic, retain) IBOutlet UILabel*				cityFromToLabel;
+@property (nonatomic, retain) IBOutlet UILabel*				ticketCountLabel;
+@property (nonatomic, retain) IBOutlet UITableView*			ticketResultsVw;
+@property (nonatomic, retain) IBOutlet UIImageView*			timeSortImgVw;
+@property (nonatomic, retain) IBOutlet UIImageView*			priceSortImgVw;
 
-@property (nonatomic, assign) FlightSelectViewType		viewType;
-@property (nonatomic, retain) ThreeCharCode*			departureCity;
-@property (nonatomic, retain) ThreeCharCode*			arrivalCity;
-@property (nonatomic, retain) NSDate*					departureDate;
-@property (nonatomic, retain) NSDate*					returnDate;
+@property (nonatomic, assign) FlightSelectViewType			viewType;
+@property (nonatomic, retain) ThreeCharCode*				departureCity;
+@property (nonatomic, retain) ThreeCharCode*				arrivalCity;
+@property (nonatomic, retain) NSDate*						departureDate;
+@property (nonatomic, retain) NSDate*						returnDate;
+
+// filters
+@property (nonatomic, assign) FlightSelectTimeFilterType	timeFilter;
+@property (nonatomic, assign) FlightSelectPlaneFilterType	planeFilter;
+@property (nonatomic, assign) TwoCharCode*					corpFilter;
 
 + (void)performQueryWithNavVC:(UINavigationController*)navVC
 				  andViewType:(FlightSelectViewType)aViewType

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlightSelectSortTimeViewController : UIViewController
+@class FlightSelectViewController;
+
+@interface FlightSelectSortTimeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+- (id)initWithParentVC:(FlightSelectViewController*)parentVC;
 
 @end

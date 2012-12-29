@@ -19,6 +19,47 @@
 #import "AirportSearchHelper.h"
 #import "TwoCharCode.h"
 #import "ThreeCharCode.h"
+#import "FlightSelectSortMainViewController.h"
+
+NSArray* timeFilters()
+{
+	static NSArray* arr = nil;
+	
+	if (arr == nil) {
+		arr = [@[@"不限", @"上午", @"下午", @"晚上"] retain];
+	}
+		
+	return arr;
+}
+
+NSArray* planeFilter()
+{
+	static NSArray* arr = nil;
+	
+	if (arr == nil) {
+		arr = [@[@"不限", @"中型机", @"大型机"] retain];
+	}
+	
+	return arr;
+}
+
+NSString* flightSelectTimeFilterTypeName(FlightSelectTimeFilterType filterType)
+{
+	return timeFilters()[(int)filterType];
+}
+
+NSString* flightSelectPlaneFilterTypeName(FlightSelectPlaneFilterType filterType)
+{
+	return planeFilter()[(int)filterType];
+}
+
+NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
+{
+	if (filterType == nil)
+		return @"不限";
+	else
+		return filterType.corpFullName;
+}
 
 @interface FlightSelectViewController ()
 
@@ -54,6 +95,8 @@
 	self.returnDate = nil;
 	
 	self.jsonContent = nil;
+	
+	self.corpFilter = nil;
 	
 	[super dealloc];
 }
@@ -208,7 +251,9 @@
 
 - (void)onSortButtonTap:(id)sender
 {
-	
+	FlightSelectSortMainViewController* vc = [[FlightSelectSortMainViewController alloc] initWithParentVC:self];
+	[self.navigationController pushViewController:vc animated:YES];
+	SAFE_RELEASE(vc);
 }
 
 - (void)onTimeSortButtonTap:(id)sender
@@ -266,17 +311,46 @@
 	
 	if (isSelected)
 		[self.ticketResultsVw insertRowsAtIndexPaths:rows
-									withRowAnimation:UITableViewRowAnimationTop];
+									withRowAnimation:UITableViewRowAnimationLeft];
 	else
 		[self.ticketResultsVw deleteRowsAtIndexPaths:rows
-									withRowAnimation:UITableViewScrollPositionBottom];
+									withRowAnimation:UITableViewRowAnimationRight];
 }
 
 #pragma mark - core methods
 
 - (void)performFlightInfosSort
 {
-	
+	NSMutableArray* flightInfos = [self.jsonContent objectForKey:@"FlightsInfo"];
+	[flightInfos sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		NSMutableDictionary* info1 = (NSMutableDictionary*)obj1;
+		NSMutableDictionary* info2 = (NSMutableDictionary*)obj2;
+		
+		if (self.isSortByPrice) {
+			NSDictionary* cabin1 = [self queryOptimalCabinInfo:info1];
+			NSDictionary* cabin2 = [self queryOptimalCabinInfo:info2];
+			
+			int payPrice1 = [cabin1 getIntValueForKey:@"PayPrice" defaultValue:0];
+			int payPrice2 = [cabin2 getIntValueForKey:@"PayPrice" defaultValue:0];
+			
+			if (self.isPriceDesc)
+				return payPrice2 - payPrice1;
+			else
+				return payPrice1 - payPrice2;
+		} else {
+			// TODO: 时间
+			NSString* leaveTime1 = [info1 getStringValueForKey:@"LeaveTime" defaultValue:nil];
+			NSString* leaveTime2 = [info2 getStringValueForKey:@"LeaveTime" defaultValue:nil];
+			
+			if (self.isTimeDesc)
+				return [leaveTime2 compare:leaveTime1];
+			else
+				return [leaveTime1 compare:leaveTime2];
+		}
+	}];
+
+	NSMutableIndexSet* sections = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, flightInfos.count)];
+	[self.ticketResultsVw reloadSections:sections withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 - (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo
