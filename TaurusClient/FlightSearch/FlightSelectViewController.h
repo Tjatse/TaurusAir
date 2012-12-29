@@ -8,14 +8,72 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlightSelectViewController : UIViewController
+@class City;
+@class ThreeCharCode;
+@class TwoCharCode;
 
-@property (nonatomic, retain) IBOutlet UILabel*			dateLabel;
-@property (nonatomic, retain) IBOutlet UILabel*			cityFromToLabel;
-@property (nonatomic, retain) IBOutlet UILabel*			ticketCountLabel;
-@property (nonatomic, retain) IBOutlet UITableView*		ticketResultsVw;
-@property (nonatomic, retain) IBOutlet UIImageView*		timeSortImgVw;
-@property (nonatomic, retain) IBOutlet UIImageView*		priceSortImgVw;
+typedef enum tagFlightSelectViewType
+{
+	kFlightSelectViewTypeSingle
+	, kFlightSelectViewTypeDeparture
+	, kFlightSelectViewTypeReturn
+} FlightSelectViewType;
+
+typedef enum tagFlightSelectTimeFilterType
+{
+	kFlightSelectTimeFilterTypeNone
+	, kFlightSelectTimeFilterTypeMatin
+	, kFlightSelectTimeFilterTypeApresMidi
+	, kFlightSelectTimeFilterTypeLaNuit
+} FlightSelectTimeFilterType;
+
+typedef enum tagFlightSelectAirplaneFilterType
+{
+	kFlightSelectAirplaneFilterTypeNone
+	, kFlightSelectAirplaneFilterTypeMedium
+	, kFlightSelectAirplaneFilterTypeLarge
+} FlightSelectPlaneFilterType;
+
+// translate filter types
+extern NSArray* timeFilters();
+extern NSArray* planeFilter();
+extern NSString* flightSelectTimeFilterTypeName(FlightSelectTimeFilterType filterType);
+extern NSString* flightSelectPlaneFilterTypeName(FlightSelectPlaneFilterType filterType);
+extern NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType);
+
+@interface FlightSelectViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, retain) IBOutlet UILabel*				dateLabel;
+@property (nonatomic, retain) IBOutlet UILabel*				cityFromToLabel;
+@property (nonatomic, retain) IBOutlet UILabel*				ticketCountLabel;
+@property (nonatomic, retain) IBOutlet UITableView*			ticketResultsVw;
+@property (nonatomic, retain) IBOutlet UIImageView*			timeSortImgVw;
+@property (nonatomic, retain) IBOutlet UIImageView*			priceSortImgVw;
+
+@property (nonatomic, assign) FlightSelectViewType			viewType;
+@property (nonatomic, retain) ThreeCharCode*				departureCity;
+@property (nonatomic, retain) ThreeCharCode*				arrivalCity;
+@property (nonatomic, retain) NSDate*						departureDate;
+@property (nonatomic, retain) NSDate*						returnDate;
+
+// filters
+@property (nonatomic, assign) FlightSelectTimeFilterType	timeFilter;
+@property (nonatomic, assign) FlightSelectPlaneFilterType	planeFilter;
+@property (nonatomic, assign) TwoCharCode*					corpFilter;
+
++ (void)performQueryWithNavVC:(UINavigationController*)navVC
+				  andViewType:(FlightSelectViewType)aViewType
+				andDepartureCity:(ThreeCharCode*)aDepartureCity
+				  andArrivalCity:(ThreeCharCode*)aArrivalCity
+				andDepartureDate:(NSDate*)aDepartureDate
+				   andReturnDate:(NSDate*)aReturnDate;
+
+- (id)initWithViewType:(FlightSelectViewType)aViewType
+	  andDepartureCity:(ThreeCharCode*)aDepartureCity
+		andArrivalCity:(ThreeCharCode*)aArrivalCity
+	  andDepartureDate:(NSDate*)aDepartureDate
+		 andReturnDate:(NSDate*)aReturnDate
+		andJsonContent:(NSMutableDictionary*)aJsonContent;
 
 - (IBAction)onTimeSortButtonTap:(id)sender;
 - (IBAction)onSortButtonTap:(id)sender;

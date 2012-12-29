@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
+		<string key="IBDocument.SystemVersion">11G63b</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -37,6 +37,7 @@
 				<int key="NSvFlags">274</int>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<object class="NSColor" key="IBUIBackgroundColor" id="501777509">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MCAwAA</bytes>
@@ -53,6 +54,7 @@
 						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{9, 22}, {152, 30}}</string>
 						<reference key="NSSuperview" ref="179800412"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="551293761"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -93,6 +95,7 @@
 						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{160, 22}, {152, 30}}</string>
 						<reference key="NSSuperview" ref="179800412"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="587209475"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -119,6 +122,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{9, 75}, {303, 147}}</string>
 						<reference key="NSSuperview" ref="179800412"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="149874165"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="501777509"/>
@@ -139,6 +143,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{21, 253}, {278, 45}}</string>
 						<reference key="NSSuperview" ref="179800412"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -165,6 +170,7 @@
 				</array>
 				<string key="NSFrameSize">{320, 460}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="887424002"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="501777509"/>
@@ -179,6 +185,7 @@
 						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{9, 22}, {152, 30}}</string>
 						<reference key="NSSuperview" ref="544309921"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="736463170"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -199,6 +206,7 @@
 						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{160, 22}, {152, 30}}</string>
 						<reference key="NSSuperview" ref="544309921"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="657248813"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -220,6 +228,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{9, 75}, {303, 194}}</string>
 						<reference key="NSSuperview" ref="544309921"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1068146529"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="501777509"/>
@@ -240,6 +249,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{21, 297}, {278, 45}}</string>
 						<reference key="NSSuperview" ref="544309921"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -256,6 +266,7 @@
 				</array>
 				<string key="NSFrameSize">{320, 460}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="895216284"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="501777509"/>
@@ -328,6 +339,24 @@
 						<reference key="destination" ref="372490531"/>
 					</object>
 					<int key="connectionID">21</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">onPerformSingleFlightSearchButtonTap:</string>
+						<reference key="source" ref="149874165"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">24</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">onPerformDoubleFlightSearchButtonTap:</string>
+						<reference key="source" ref="1068146529"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">25</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -468,19 +497,78 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">25</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">FlightSearchViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="onPerformDoubleFlightSearchButtonTap:">id</string>
+						<string key="onPerformSingleFlightSearchButtonTap:">id</string>
+						<string key="onSwitchToDoubleFlightButtonTap:">id</string>
+						<string key="onSwitchToSingleFlightButtonTap:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="onPerformDoubleFlightSearchButtonTap:">
+							<string key="name">onPerformDoubleFlightSearchButtonTap:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="onPerformSingleFlightSearchButtonTap:">
+							<string key="name">onPerformSingleFlightSearchButtonTap:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="onSwitchToDoubleFlightButtonTap:">
+							<string key="name">onSwitchToDoubleFlightButtonTap:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="onSwitchToSingleFlightButtonTap:">
+							<string key="name">onSwitchToSingleFlightButtonTap:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="doubleFlightParentView">UIView</string>
+						<string key="doubleFlightTableView">UITableView</string>
+						<string key="singleFlightParentView">UIView</string>
+						<string key="singleFlightTableView">UITableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="doubleFlightParentView">
+							<string key="name">doubleFlightParentView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="doubleFlightTableView">
+							<string key="name">doubleFlightTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="singleFlightParentView">
+							<string key="name">singleFlightParentView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="singleFlightTableView">
+							<string key="name">singleFlightTableView</string>
+							<string key="candidateClassName">UITableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FlightSearchViewController.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="fs_btn.png">{16, 16}</string>
-			<string key="tab_btn_left_off.png">{16, 16}</string>
-			<string key="tab_btn_left_on.png">{16, 16}</string>
-			<string key="tab_btn_right_off.png">{16, 16}</string>
-			<string key="tab_btn_right_on.png">{16, 16}</string>
+			<string key="fs_btn.png">{278, 45}</string>
+			<string key="tab_btn_left_off.png">{152, 30}</string>
+			<string key="tab_btn_left_on.png">{152, 30}</string>
+			<string key="tab_btn_right_off.png">{152, 30}</string>
+			<string key="tab_btn_right_on.png">{152, 30}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
