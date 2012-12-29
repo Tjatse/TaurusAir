@@ -17,7 +17,7 @@ typedef enum tagFlightSelectViewType
 
 @class City;
 
-@interface FlightSelectViewController : UIViewController
+@interface FlightSelectViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) IBOutlet UILabel*			dateLabel;
 @property (nonatomic, retain) IBOutlet UILabel*			cityFromToLabel;

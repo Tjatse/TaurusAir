@@ -25,6 +25,7 @@
 		3E30F221168E9D32002C236B /* FlightSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F21F168E9D31002C236B /* FlightSelectViewController.m */; };
 		3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F220168E9D32002C236B /* FlightSelectViewController.xib */; };
 		3E30F224168EB087002C236B /* FlightSelectCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F223168EB086002C236B /* FlightSelectCells.xib */; };
+		3E30F22C168EBEAC002C236B /* AirportSearchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F22B168EBEAC002C236B /* AirportSearchHelper.m */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -129,7 +130,6 @@
 		3E5162D91675D1F000D2DC78 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162761675D1F000D2DC78 /* UIImageView+WebCache.m */; };
 		3E5162E61675D5E500D2DC78 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162DA1675D5E400D2DC78 /* CFNetwork.framework */; };
 		3E5162E71675D5E500D2DC78 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162DB1675D5E400D2DC78 /* CoreData.framework */; };
-		3E5162E81675D5E500D2DC78 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162DC1675D5E400D2DC78 /* CoreImage.framework */; };
 		3E5162E91675D5E500D2DC78 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162DD1675D5E400D2DC78 /* CoreLocation.framework */; };
 		3E5162EA1675D5E500D2DC78 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162DE1675D5E400D2DC78 /* CoreText.framework */; };
 		3E5162EB1675D5E500D2DC78 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5162DF1675D5E400D2DC78 /* CoreVideo.framework */; };
@@ -319,6 +319,8 @@
 		3E30F21F168E9D31002C236B /* FlightSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightSelectViewController.m; path = FlightSearch/FlightSelectViewController.m; sourceTree = "<group>"; };
 		3E30F220168E9D32002C236B /* FlightSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectViewController.xib; path = FlightSearch/FlightSelectViewController.xib; sourceTree = "<group>"; };
 		3E30F223168EB086002C236B /* FlightSelectCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectCells.xib; path = FlightSearch/FlightSelectCells.xib; sourceTree = "<group>"; };
+		3E30F22A168EBEAC002C236B /* AirportSearchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirportSearchHelper.h; sourceTree = "<group>"; };
+		3E30F22B168EBEAC002C236B /* AirportSearchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirportSearchHelper.m; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -728,7 +730,6 @@
 				3E5162F71675D6CE00D2DC78 /* libxml2.dylib in Frameworks */,
 				3E5162E61675D5E500D2DC78 /* CFNetwork.framework in Frameworks */,
 				3E5162E71675D5E500D2DC78 /* CoreData.framework in Frameworks */,
-				3E5162E81675D5E500D2DC78 /* CoreImage.framework in Frameworks */,
 				3E5162E91675D5E500D2DC78 /* CoreLocation.framework in Frameworks */,
 				3E5162EA1675D5E500D2DC78 /* CoreText.framework in Frameworks */,
 				3E5162EB1675D5E500D2DC78 /* CoreVideo.framework in Frameworks */,
@@ -1536,6 +1537,8 @@
 				3E751E33168963FE006FCA04 /* CharCodeHelper.m */,
 				3E30F214168E84C0002C236B /* CitySearchHelper.h */,
 				3E30F215168E84C0002C236B /* CitySearchHelper.m */,
+				3E30F22A168EBEAC002C236B /* AirportSearchHelper.h */,
+				3E30F22B168EBEAC002C236B /* AirportSearchHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1881,6 +1884,7 @@
 				3E30F216168E84C0002C236B /* CitySearchHelper.m in Sources */,
 				3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */,
 				3E30F221168E9D32002C236B /* FlightSelectViewController.m in Sources */,
+				3E30F22C168EBEAC002C236B /* AirportSearchHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

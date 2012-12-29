@@ -12,10 +12,12 @@
 #import "UIViewAdditions.h"
 #import "UIView+Hierarchy.h"
 #import "City.h"
+#import "UIBGNavigationController.h"
 
 @interface FlightSelectViewController ()
 
 @property (nonatomic, retain) NSDictionary*		jsonContent;
+@property (nonatomic, retain) NSMutableArray*	cellExpandedArray;
 
 @end
 
@@ -37,6 +39,7 @@
 	self.departureDate = nil;
 	self.returnDate = nil;
 	
+	self.cellExpandedArray = nil;
 	self.jsonContent = nil;
 	
 	[super dealloc];
@@ -55,7 +58,7 @@
 												  encoding:NSUTF8StringEncoding
 													 error:nil];
 	
-	NSDictionary* jsonContent = [content objectFromJSONString];
+	NSDictionary* jsonContent = [[content objectFromJSONString] objectForKey:@"Response"];
 	
 	float delayInSeconds = 0.3f;
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
@@ -67,7 +70,11 @@
 																				andReturnDate:aReturnDate
 																			   andJsonContent:jsonContent];
 		
-		[navVC pushViewController:vc animated:YES];
+//		[navVC pushViewController:vc animated:YES];
+		
+		UIBGNavigationController* newNavVC = [[[UIBGNavigationController alloc] initWithRootViewController:vc] autorelease];
+		[navVC presentModalViewController:newNavVC animated:YES];
+		
 		SAFE_RELEASE(vc);
 	});
 }
@@ -110,6 +117,9 @@
 								 , self.departureCity.cityName
 								 , self.arrivalCity.cityName];
 	
+	int resultCount = [[self.jsonContent objectForKey:@"FlightsInfo"] count];
+	self.ticketCountLabel.text = [NSString stringWithFormat:@"共%d条", resultCount];
+	
 	// title
 	switch (self.viewType) {
 		case kFlightSelectViewTypeSingle:
@@ -123,6 +133,12 @@
 		default:
 			self.title = @"往返回程";
 			break;
+	}
+	
+	// cellExpandedArray
+	self.cellExpandedArray = [NSMutableArray array];
+	for (int n = 0; n < resultCount; ++n) {
+		[self.cellExpandedArray addObject:@NO];
 	}
 }
 
@@ -162,6 +178,54 @@
 - (void)onTimeSortButtonTap:(id)sender
 {
 	
+}
+
+#pragma mark - tableview methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	int result = [[self.jsonContent objectForKey:@"FlightsInfo"] count];
+	return result;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 80.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+	UIView* result = [[NSBundle mainBundle] loadNibNamed:@"FlightSelectCells" owner:nil options:nil][0];
+	return result;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	static NSString* cellId = @"cellId";
+	
+	
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 40;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//	BOOL isSelected = [self.cellExpandedArray[indexPath.row] boolValue];
+//	[self.cellExpandedArray replaceObjectAtIndex:indexPath.row
+//									  withObject:@(!isSelected)];
+//	
+//	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+//	
+//	[tableView reloadRowsAtIndexPaths:@[indexPath]
+//					 withRowAnimation:UITableViewRowAnimationBottom];
 }
 
 @end
