@@ -22,6 +22,8 @@
 		3E30F216168E84C0002C236B /* CitySearchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F215168E84C0002C236B /* CitySearchHelper.m */; };
 		3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F218168E85B9002C236B /* SearchCityResult.m */; };
 		3E30F21D168E9998002C236B /* RunAvCommand.js in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F21B168E9933002C236B /* RunAvCommand.js */; };
+		3E30F221168E9D32002C236B /* FlightSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F21F168E9D31002C236B /* FlightSelectViewController.m */; };
+		3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F220168E9D32002C236B /* FlightSelectViewController.xib */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -312,6 +314,9 @@
 		3E30F217168E85B9002C236B /* SearchCityResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCityResult.h; sourceTree = "<group>"; };
 		3E30F218168E85B9002C236B /* SearchCityResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCityResult.m; sourceTree = "<group>"; };
 		3E30F21B168E9933002C236B /* RunAvCommand.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RunAvCommand.js; path = TestData/RunAvCommand.js; sourceTree = "<group>"; };
+		3E30F21E168E9D31002C236B /* FlightSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightSelectViewController.h; path = FlightSearch/FlightSelectViewController.h; sourceTree = "<group>"; };
+		3E30F21F168E9D31002C236B /* FlightSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightSelectViewController.m; path = FlightSearch/FlightSelectViewController.m; sourceTree = "<group>"; };
+		3E30F220168E9D32002C236B /* FlightSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectViewController.xib; path = FlightSearch/FlightSelectViewController.xib; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -750,6 +755,9 @@
 				3EDF049C16898A8100DE9546 /* CitySelectViewController.h */,
 				3EDF049D16898A8100DE9546 /* CitySelectViewController.m */,
 				3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */,
+				3E30F21E168E9D31002C236B /* FlightSelectViewController.h */,
+				3E30F21F168E9D31002C236B /* FlightSelectViewController.m */,
+				3E30F220168E9D32002C236B /* FlightSelectViewController.xib */,
 			);
 			name = FlightSearch;
 			sourceTree = "<group>";
@@ -1726,6 +1734,7 @@
 				9209430E168C896100929BFF /* EditTravelerViewController.xib in Resources */,
 				92094314168C961700929BFF /* TravelerDetailViewController.xib in Resources */,
 				3E30F212168E75DA002C236B /* Localizable.strings in Resources */,
+				3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1867,6 +1876,7 @@
 				3E30F207168DEE3A002C236B /* CAAnimation+AnimationBlock.m in Sources */,
 				3E30F216168E84C0002C236B /* CitySearchHelper.m in Sources */,
 				3E30F219168E85B9002C236B /* SearchCityResult.m in Sources */,
+				3E30F221168E9D32002C236B /* FlightSelectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
