@@ -26,6 +26,10 @@
 		3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F220168E9D32002C236B /* FlightSelectViewController.xib */; };
 		3E30F224168EB087002C236B /* FlightSelectCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F223168EB086002C236B /* FlightSelectCells.xib */; };
 		3E30F22C168EBEAC002C236B /* AirportSearchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E30F22B168EBEAC002C236B /* AirportSearchHelper.m */; };
+		3E30F231168EC5CA002C236B /* flight_result_cell_bottomshadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F22D168EC5CA002C236B /* flight_result_cell_bottomshadow.png */; };
+		3E30F232168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F22E168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png */; };
+		3E30F233168EC5CA002C236B /* flight_result_cell_topshadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F22F168EC5CA002C236B /* flight_result_cell_topshadow.png */; };
+		3E30F234168EC5CA002C236B /* flight_result_cell_topshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E30F230168EC5CA002C236B /* flight_result_cell_topshadow@2x.png */; };
 		3E51617D1675D0F700D2DC78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617C1675D0F700D2DC78 /* UIKit.framework */; };
 		3E51617F1675D0F700D2DC78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E51617E1675D0F700D2DC78 /* Foundation.framework */; };
 		3E5161811675D0F700D2DC78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5161801675D0F700D2DC78 /* CoreGraphics.framework */; };
@@ -321,6 +325,10 @@
 		3E30F223168EB086002C236B /* FlightSelectCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSelectCells.xib; path = FlightSearch/FlightSelectCells.xib; sourceTree = "<group>"; };
 		3E30F22A168EBEAC002C236B /* AirportSearchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirportSearchHelper.h; sourceTree = "<group>"; };
 		3E30F22B168EBEAC002C236B /* AirportSearchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirportSearchHelper.m; sourceTree = "<group>"; };
+		3E30F22D168EC5CA002C236B /* flight_result_cell_bottomshadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flight_result_cell_bottomshadow.png; sourceTree = "<group>"; };
+		3E30F22E168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flight_result_cell_bottomshadow@2x.png"; sourceTree = "<group>"; };
+		3E30F22F168EC5CA002C236B /* flight_result_cell_topshadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flight_result_cell_topshadow.png; sourceTree = "<group>"; };
+		3E30F230168EC5CA002C236B /* flight_result_cell_topshadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flight_result_cell_topshadow@2x.png"; sourceTree = "<group>"; };
 		3E5161781675D0F700D2DC78 /* TaurusClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaurusClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51617C1675D0F700D2DC78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E51617E1675D0F700D2DC78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1338,6 +1346,10 @@
 		3E7B2B1B16774685008789BE /* flight */ = {
 			isa = PBXGroup;
 			children = (
+				3E30F22D168EC5CA002C236B /* flight_result_cell_bottomshadow.png */,
+				3E30F22E168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png */,
+				3E30F22F168EC5CA002C236B /* flight_result_cell_topshadow.png */,
+				3E30F230168EC5CA002C236B /* flight_result_cell_topshadow@2x.png */,
 				3E7B2B1C16774685008789BE /* bottom_btn_bg.png */,
 				3E7B2B1D16774685008789BE /* bottom_btn_bg@2x.png */,
 				3E7B2B1E16774685008789BE /* bottom_btn_focus_bg.png */,
@@ -1742,6 +1754,10 @@
 				3E30F212168E75DA002C236B /* Localizable.strings in Resources */,
 				3E30F222168E9D32002C236B /* FlightSelectViewController.xib in Resources */,
 				3E30F224168EB087002C236B /* FlightSelectCells.xib in Resources */,
+				3E30F231168EC5CA002C236B /* flight_result_cell_bottomshadow.png in Resources */,
+				3E30F232168EC5CA002C236B /* flight_result_cell_bottomshadow@2x.png in Resources */,
+				3E30F233168EC5CA002C236B /* flight_result_cell_topshadow.png in Resources */,
+				3E30F234168EC5CA002C236B /* flight_result_cell_topshadow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

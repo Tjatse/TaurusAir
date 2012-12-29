@@ -7,7 +7,15 @@
 //
 
 #import "AirportSearchHelper.h"
+#import "TwoCharCode.h"
+#import "CharCodeHelper.h"
 
 @implementation AirportSearchHelper
+
++ (TwoCharCode *)queryWithTwoCharCodeString:(NSString *)key
+{
+	NSDictionary* allTwoCharcodes = [CharCodeHelper allTwoCharCodesDictionary];
+	return [allTwoCharcodes objectForKey:key];
+}
 
 @end

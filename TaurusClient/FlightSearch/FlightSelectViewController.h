@@ -16,6 +16,7 @@ typedef enum tagFlightSelectViewType
 } FlightSelectViewType;
 
 @class City;
+@class ThreeCharCode;
 
 @interface FlightSelectViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
@@ -27,21 +28,21 @@ typedef enum tagFlightSelectViewType
 @property (nonatomic, retain) IBOutlet UIImageView*		priceSortImgVw;
 
 @property (nonatomic, assign) FlightSelectViewType		viewType;
-@property (nonatomic, retain) City*						departureCity;
-@property (nonatomic, retain) City*						arrivalCity;
+@property (nonatomic, retain) ThreeCharCode*			departureCity;
+@property (nonatomic, retain) ThreeCharCode*			arrivalCity;
 @property (nonatomic, retain) NSDate*					departureDate;
 @property (nonatomic, retain) NSDate*					returnDate;
 
 + (void)performQueryWithNavVC:(UINavigationController*)navVC
 				  andViewType:(FlightSelectViewType)aViewType
-				andDepartureCity:(City*)aDepartureCity
-				  andArrivalCity:(City*)aArrivalCity
+				andDepartureCity:(ThreeCharCode*)aDepartureCity
+				  andArrivalCity:(ThreeCharCode*)aArrivalCity
 				andDepartureDate:(NSDate*)aDepartureDate
 				   andReturnDate:(NSDate*)aReturnDate;
 
 - (id)initWithViewType:(FlightSelectViewType)aViewType
-	  andDepartureCity:(City*)aDepartureCity
-		andArrivalCity:(City*)aArrivalCity
+	  andDepartureCity:(ThreeCharCode*)aDepartureCity
+		andArrivalCity:(ThreeCharCode*)aArrivalCity
 	  andDepartureDate:(NSDate*)aDepartureDate
 		 andReturnDate:(NSDate*)aReturnDate
 		andJsonContent:(NSDictionary*)aJsonContent;

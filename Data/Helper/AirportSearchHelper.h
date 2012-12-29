@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class TwoCharCode;
+
 @interface AirportSearchHelper : NSObject
+
++ (TwoCharCode*)queryWithTwoCharCodeString:(NSString*)key;
 
 @end

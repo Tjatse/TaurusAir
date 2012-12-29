@@ -21,13 +21,14 @@
 #import "CitySearchHelper.h"
 #import "DateInputTableViewCell.h"
 #import "FlightSelectViewController.h"
+#import "ThreeCharCode.h"
 
 @interface FlightSearchViewController () <DateInputTableViewCellDelegate>
 
-@property (nonatomic, retain) City*		departureCity;
-@property (nonatomic, retain) City*		arrivalCity;
-@property (nonatomic, retain) NSDate*	departureDate;
-@property (nonatomic, retain) NSDate*	returnDate;
+@property (nonatomic, retain) ThreeCharCode*		departureCity;
+@property (nonatomic, retain) ThreeCharCode*		arrivalCity;
+@property (nonatomic, retain) NSDate*				departureDate;
+@property (nonatomic, retain) NSDate*				returnDate;
 
 @end
 
@@ -69,7 +70,7 @@
 	// 获取所在城市
 	NSString* city = [AppContext get].currentLocationCity;
 	city = city == nil ? @"北京" : city;
-	self.departureCity = [CitySearchHelper queryCityWithCityName:city];
+	self.departureCity = [CitySearchHelper queryCityWithCityName:city].threeCharCodes[0];
 	
 	// 时间
 	// 出发时间为当前时间第二天
@@ -242,7 +243,7 @@
 		if (indexPath.row == 0) {
 			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
 			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.departureCity = city;
+				blockSelf.departureCity = city.threeCharCodes[0];
 				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
@@ -253,7 +254,7 @@
 		} else if (indexPath.row == 1) {
 			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
 			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.arrivalCity = city;
+				blockSelf.arrivalCity = city.threeCharCodes[0];
 				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
@@ -266,7 +267,7 @@
 		if (indexPath.row == 0) {
 			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
 			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.departureCity = city;
+				blockSelf.departureCity = city.threeCharCodes[0];
 				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
@@ -277,7 +278,7 @@
 		} else if (indexPath.row == 1) {
 			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
 			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.arrivalCity = city;
+				blockSelf.arrivalCity = city.threeCharCodes[0];
 				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
