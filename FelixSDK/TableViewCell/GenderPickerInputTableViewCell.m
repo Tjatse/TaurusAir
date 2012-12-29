@@ -82,7 +82,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	self.value = [values objectAtIndex:row];
-
+    
 	if (delegate && [delegate respondsToSelector:@selector(tableViewCell:didEndEditingWithValue:)]) {
 		[delegate tableViewCell:self didEndEditingWithValue:self.value];
 	}

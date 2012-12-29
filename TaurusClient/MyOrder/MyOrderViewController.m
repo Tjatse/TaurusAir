@@ -60,6 +60,8 @@
 {
     [super viewDidLoad];
     
+    [self.view setBackgroundColor:[UIColor clearColor]];
+    
     [self setTitle:@"订单管理"];
     _sort = TIME;
     _asc = NO;
@@ -133,7 +135,7 @@
     _clonedDatas = [_datas mutableCopy];
     
     // init tableview.
-    _tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 40, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 40, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height) style:UITableViewStyleGrouped];
     [_tableView setDelegate:self];
     [_tableView setBackgroundColor:[UIColor clearColor]];
     [_tableView setBackgroundView:nil];
@@ -254,6 +256,14 @@
 }
 
 #pragma mark -TableView
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 1.0;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 1.0;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 44;
@@ -274,7 +284,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     NSDictionary *data = [_datas objectAtIndex:indexPath.row];
-    UILabel *labelTime = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 20)];
+    UILabel *labelTime = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 150, 20)];
     [labelTime setFont:[UIFont systemFontOfSize:12]];
     [labelTime setTextColor:[UIColor darkGrayColor]];
     [labelTime setBackgroundColor:[UIColor clearColor]];
@@ -287,7 +297,7 @@
     ThreeCharCode *from = [_threeCodes objectForKey:[fromTo substringToIndex:3]];
     ThreeCharCode *to = [_threeCodes objectForKey:[fromTo substringFromIndex:3]];
     
-    UILabel *labelFromTo = [[UILabel alloc] initWithFrame:CGRectMake(10, 18, 150, 24)];
+    UILabel *labelFromTo = [[UILabel alloc] initWithFrame:CGRectMake(20, 18, 150, 24)];
     [labelFromTo setFont:[UIFont boldSystemFontOfSize:14]];
     [labelFromTo setBackgroundColor:[UIColor clearColor]];
     [labelFromTo setText:[NSString stringWithFormat:@"%@-%@",
@@ -297,35 +307,16 @@
     [labelFromTo release];
         
     UILabel *labelFlight = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 150, 0, 80, 44)];
-    [labelFlight setFont:[UIFont boldSystemFontOfSize:14]];
+    [labelFlight setFont:[UIFont systemFontOfSize:14]];
     [labelFlight setTextColor:[UIColor blackColor]];
     [labelFlight setText:[data objectForKey:@"Flight"]];
     [labelFlight setBackgroundColor:[UIColor clearColor]];
     [cell addSubview:labelFlight];
     [labelFlight release];
     
-    UIImage *imagePoint = [UIImage imageNamed:@"gray-point.png"];
-    [imagePoint stretchableImageWithLeftCapWidth:0 topCapHeight:0];
-    if(indexPath.row == 0){
-        UIImageView *imageViewTop = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_RECT.size.width, 1)];
-        [imageViewTop setImage:imagePoint];
-        [cell addSubview:imageViewTop];
-        [imageViewTop release];
-    }
-    
-    UIImageView *imageViewBottom = [[UIImageView alloc] initWithFrame:CGRectMake(0, 43, SCREEN_RECT.size.width, 1)];
-    [imageViewBottom setImage:imagePoint];
-    [cell addSubview:imageViewBottom];
-    [imageViewBottom release];
-    
-    UIImageView *imageViewSplit = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 70, 0, 1, 43)];
-    [imageViewSplit setImage:imagePoint];
-    [cell addSubview:imageViewSplit];
-    [imageViewSplit release];
-
     
     OrderState *state = [_orderStates objectForKey:[NSString stringWithFormat:@"%@", [data objectForKey:@"State"]]];
-    UILabel *labelState = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 60, 0, 60, 44)];
+    UILabel *labelState = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 70, 0, 60, 44)];
     [labelState setText:(state ? state.title: @"未知")];
     [labelState setNumberOfLines:0];
     [labelState setAdjustsFontSizeToFitWidth:YES];

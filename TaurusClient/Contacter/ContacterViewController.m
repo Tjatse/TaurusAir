@@ -13,7 +13,9 @@
 #import "UIBarButtonItem+ButtonMaker.h"
 #import "AppDefines.h"
 #import "JSONKit.h"
+#import "BBlock.h"
 #import "TravelerDetailViewController.h"
+#import "CreateTravelerViewController.h"
 
 @interface ContacterViewController ()
 
@@ -46,9 +48,9 @@
     [super viewDidLoad];
     
     currentTableView = TRAVELERS;
-    _travelers = [[@"[{\"Birthday\":\"1967-12-1\",\"ChinaId\":\"4130261234987609871\",\"Gender\":true,\"Name\":\"李韦\",\"PassengerId\":36023,\"Phone\":null,\"TravelerType\":1},{\"Birthday\":\"1983-4-21\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔乐乐\",\"PassengerId\":36021,\"Phone\":\"13800102132\",\"TravelerType\":1},{\"Birthday\":\"2009-8-10\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔墨\",\"PassengerId\":36024,\"Phone\":null,\"TravelerType\":2}]" objectFromJSONString] retain];
+    _travelers = [[@"[{\"Birthday\":\"1967-12-1\",\"ChinaId\":\"4130261234987609871\",\"Gender\":true,\"Name\":\"李韦\",\"PassengerId\":36023,\"Phone\":null,\"TravelerType\":1},{\"Birthday\":\"1983-4-21\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔乐乐\",\"PassengerId\":36021,\"Phone\":\"13800102132\",\"TravelerType\":1},{\"Birthday\":\"2009-8-10\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔墨\",\"PassengerId\":36024,\"Phone\":null,\"TravelerType\":2}]" objectFromJSONString] mutableCopy];
     
-    _contactors = [[@"[{\"Address\":\"北京市朝阳区东三环北路辛2号迪阳大厦1609\",\"ContactorId\":36025,\"Email\":\"xiongjun@beyondlink.net\",\"Name\":\"熊俊\",\"Phone\":\"15810591307\"},{\"Address\":\"武汉市中山路1024号504#\",\"ContactorId\":36024,\"Email\":\"zhangc@qq.com\",\"Name\":\"张超\",\"Phone\":\"13712341234\"}]" objectFromJSONString] retain];
+    _contactors = [[@"[{\"Address\":\"北京市朝阳区东三环北路辛2号迪阳大厦1609\",\"ContactorId\":36025,\"Email\":\"xiongjun@beyondlink.net\",\"Name\":\"熊俊\",\"Phone\":\"15810591307\"},{\"Address\":\"武汉市中山路1024号504#\",\"ContactorId\":36024,\"Email\":\"zhangc@qq.com\",\"Name\":\"张超\",\"Phone\":\"13712341234\"}]" objectFromJSONString] mutableCopy];
     
     [self setTitle:@"常旅客"];
     [self.view setBackgroundColor:[UIColor clearColor]];
@@ -57,6 +59,95 @@
     [self.tableViewTravelers setBackgroundView:nil];
     [self.tableViewContactors setBackgroundColor:[UIColor clearColor]];
     [self.tableViewContactors setBackgroundView:nil];
+    
+    // notifications.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTraveler:) name:@"REFRESH_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteTraveler:) name:@"DELETE_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTraveler:) name:@"ADD_TRAVELER" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacter:) name:@"REFRESH_CONTACTER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteContacter:) name:@"DELETE_CONTACTER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addContacter:) name:@"ADD_CONTACTER" object:nil];
+}
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DELETE_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_CONTACTER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DELETE_CONTACTER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_CONTACTER" object:nil];
+    [super viewDidUnload];
+}
+#pragma mark - Notifications
+- (void)refreshTraveler:(NSNotification *)notification
+{
+    NSDictionary *_traveler = [[notification userInfo] objectForKey:@"TRAVELER"];
+    NSNumber *passengerId = [_traveler objectForKey:@"PassengerId"];
+    if([_travelers count] > 0){
+        for(int i = 0; i < [_travelers count]; i++){
+            if([[_travelers[i] objectForKey:@"PassengerId"] isEqualToNumber:passengerId]){
+                [_travelers replaceObjectAtIndex:i withObject:_traveler];
+            }
+        }
+    }else{
+        [_travelers addObject:_traveler];
+    }
+    [tableViewTravelers reloadData];
+}
+- (void)deleteTraveler:(NSNotification *)notification
+{
+    NSNumber *passengerId = [[notification userInfo] objectForKey:@"PassengerId"];
+    if([_travelers count] > 0){
+        for(int i = 0; i < [_travelers count]; i++){
+            if([[_travelers[i] objectForKey:@"PassengerId"] isEqualToNumber:passengerId]){
+                [_travelers removeObjectAtIndex:i];
+                break;
+            }
+        }
+        [tableViewTravelers reloadData];
+    }
+}
+- (void)addTraveler:(NSNotification *)notification
+{
+    NSDictionary *traveler = [[notification userInfo] objectForKey:@"TRAVELER"];
+    [_travelers addObject:traveler];
+    [tableViewTravelers reloadData];
+}
+
+- (void)refreshContacter:(NSNotification *)notification
+{
+    NSDictionary *_contacter = [[notification userInfo] objectForKey:@"CONTACTER"];
+    NSNumber *cId = [_contacter objectForKey:@"ContactorId"];
+    if([_contactors count] > 0){
+        for(int i = 0; i < [_contactors count]; i++){
+            if([[_contactors[i] objectForKey:@"ContactorId"] isEqualToNumber:cId]){
+                [_contactors replaceObjectAtIndex:i withObject:_contacter];
+            }
+        }
+    }else{
+        [_contactors addObject:_contacter];
+    }
+    [tableViewContactors reloadData];
+}
+- (void)deleteContacter:(NSNotification *)notification
+{
+    NSNumber *cId = [[notification userInfo] objectForKey:@"ContactorId"];
+    if([_contactors count] > 0){
+        for(int i = 0; i < [_contactors count]; i++){
+            if([[_contactors[i] objectForKey:@"ContactorId"] isEqualToNumber:cId]){
+                [_contactors removeObjectAtIndex:i];
+                break;
+            }
+        }
+        [tableViewContactors reloadData];
+    }
+}
+- (void)addContacter:(NSNotification *)notification
+{
+    NSDictionary *contacter = [[notification userInfo] objectForKey:@"CONTACTER"];
+    [_contactors addObject:contacter];
+    [tableViewContactors reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -160,13 +251,21 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell setSelected:NO];
     
-    if(indexPath.row != 0){
+    if(indexPath.row == 0){
+        CreateTravelerViewController *vc = [[CreateTravelerViewController alloc] init];
+        vc.contacterType = tableView.tag == TRAVELERS ? TRAVELER : CONTACTER;
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc release];
+    }else{
+        TravelerDetailViewController *vc = [[TravelerDetailViewController alloc] init];
         if(tableView.tag == TRAVELERS){
-            TravelerDetailViewController *vc = [[TravelerDetailViewController alloc] init];
             vc.detail = _travelers[indexPath.row - 1];
-            [self.navigationController pushViewController:vc animated:YES];
-            [vc release];
+        }else{
+            vc.detail = _contactors[indexPath.row - 1];
         }
+        vc.contacterType = tableView.tag == TRAVELERS ? TRAVELER : CONTACTER;
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc release];
     }
 }
 

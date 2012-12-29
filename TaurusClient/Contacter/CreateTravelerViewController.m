@@ -1,22 +1,22 @@
 //
-//  EditTravelerViewController.m
+//  CreateTravelerViewController.m
 //  TaurusClient
 //
-//  Created by Tjatse on 12-12-27.
+//  Created by Tjatse on 12-12-29.
 //  Copyright (c) 2012年 Taurus. All rights reserved.
 //
 
-#import "EditTravelerViewController.h"
+#import "CreateTravelerViewController.h"
 #import "UIBarButtonItem+ButtonMaker.h"
 #import "UIBarButtonItem+Blocks.h"
 #import "BBlock.h"
 #import "MBProgressHUD.h"
 
-@interface EditTravelerViewController ()
+@interface CreateTravelerViewController ()
 
 @end
 
-@implementation EditTravelerViewController
+@implementation CreateTravelerViewController
 @synthesize detail = _detail;
 @synthesize tableView = _tableView;
 @synthesize contacterType = _contacterType;
@@ -43,12 +43,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     if(_contacterType == CONTACTER){
-        _datas = [[NSArray alloc] initWithArray: @[@"编       号", @"姓       名", @"手机号码", @"邮件地址", @"通信地址"]];
+        _datas = [[NSArray alloc] initWithArray: @[@"姓       名", @"手机号码", @"邮件地址", @"通信地址"]];
     }else{
-        _datas = [[NSArray alloc] initWithArray: @[@"编       号", @"姓       名", @"性       别", @"身份证号", @"手机号码", @"生       日", @"类       型"]];
+        _datas = [[NSArray alloc] initWithArray: @[@"姓       名", @"性       别", @"身份证号", @"手机号码", @"生       日", @"类       型"]];
     }
+    
+    _detail = [[NSMutableDictionary alloc] initWithCapacity:0];
+    [_detail setObject:[NSNumber numberWithInt:1] forKey:@"Gender"];
+    if(_contacterType == TRAVELER){
+        [_detail setObject:[NSNumber numberWithInt:1] forKey:@"TravelerType"];
+        [_detail setObject:@"1900-1-1" forKey:@"Birthday"];
         
-    [self setTitle:@"编辑信息"];
+        [self setTitle:@"添加常旅客"];
+    }else{
+        [self setTitle:@"添加联系人"];
+    }
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     
@@ -59,21 +68,40 @@
                                        }];
     
     self.navigationItem.rightBarButtonItem =
-    [UIBarButtonItem generateNormalStyleButtonWithTitle:@"完成"
+    [UIBarButtonItem generateNormalStyleButtonWithTitle:@"创建"
                                          andTapCallback:^(id control, UIEvent *event) {
                                              // TODO: save traveler here.
                                              if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
                                                  [_focusedTextField resignFirstResponder];
                                              }
+                                             NSString *name = [_detail objectForKey:@"Name"];
+                                             
+                                             if(_contacterType == CONTACTER){
+                                                 if((NSNull *)name == [NSNull null] || [name length] == 0){
+                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”必须填写。" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+                                                     [alert show];
+                                                     [alert release];
+                                                     return;
+                                                 }
+                                             }else{
+                                                 NSString *chinaId = [_detail objectForKey:@"ChinaId"];
+                                                 if((NSNull *)name == [NSNull null] || [name length] == 0 ||
+                                                    (NSNull *)chinaId == [NSNull null] || [chinaId length] == 0){
+                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”和“身份证号”必须填写。" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+                                                     [alert show];
+                                                     [alert release];
+                                                     return;
+                                                 }
+                                             }
+                                             
                                              MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                                              hud.labelText = @"保存中...";
                                              [BBlock dispatchAfter:1 onMainThread:^{
                                                  [hud hide:YES];
-                                                 
                                                  if(_contacterType == CONTACTER){
-                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
+                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
                                                  }else{
-                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
+                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
                                                  }
                                                  [self.navigationController popViewControllerAnimated:YES];
                                              }];
@@ -105,20 +133,11 @@
 #pragma mark -TableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(_contacterType == CONTACTER){
-        if(indexPath.row == 5){
-            return 56;
-        }
-    }else{
-        if(indexPath.row == 7){
-            return 56;
-        }
-    }
     return 44;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_datas count] + 1;
+    return [_datas count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -126,25 +145,21 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if(cell == nil){
         if(_contacterType == CONTACTER){
-            if (indexPath.row != 0) {
-                StringInputTableViewCell *inputCell = [[[StringInputTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify] autorelease];
-                inputCell.delegate = self;
-                cell = inputCell;
-            } else{
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify] autorelease];
-            }
+            StringInputTableViewCell *inputCell = [[[StringInputTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify] autorelease];
+            inputCell.delegate = self;
+            cell = inputCell;
         }else{
-            if (indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 4) {
+            if (indexPath.row == 0 || indexPath.row == 2 || indexPath.row == 3) {
                 StringInputTableViewCell *inputCell = [[[StringInputTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify] autorelease];
                 inputCell.delegate = self;
                 cell = inputCell;
-            } else if(indexPath.row == 2){
+            } else if(indexPath.row == 1){
                 cell = [[[GenderPickerInputTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify] autorelease];
-            } else if(indexPath.row == 5){
+            } else if(indexPath.row == 4){
                 DateInputTableViewCell *dateCell = [[[DateInputTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify] autorelease];
                 dateCell.delegate = self;
                 cell = dateCell;
-            } else if(indexPath.row == 6){
+            } else if(indexPath.row == 5){
                 cell = [[[TravelerTypePickerTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify] autorelease];
             } else{
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify] autorelease];
@@ -154,50 +169,38 @@
     [cell setNeedsDisplay];
     [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
     
-    if((indexPath.row != 7 && _contacterType == TRAVELER) || (_contacterType == CONTACTER && indexPath.row != 5)){
-        [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-        [cell.textLabel setText:_datas[indexPath.row]];
-        [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
-    }
+    [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
+    [cell.textLabel setText:_datas[indexPath.row]];
+    [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
     
     if(_contacterType == CONTACTER){
         switch (indexPath.row) {
             case 0:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [cell.detailTextLabel setText:[[_detail objectForKey:@"ContactorId"] stringValue]];
+                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Name"]];
             }
                 break;
             case 1:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Name"]];
+                StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
+                [inputCell.textField setKeyboardType:UIKeyboardTypePhonePad];
+                NSString *phone = [_detail objectForKey:@"Phone"];
+                [inputCell setStringValue: (NSNull *)phone != [NSNull null]?phone:@""];
             }
                 break;
             case 2:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Phone"]];
+                StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
+                [inputCell.textField setKeyboardType:UIKeyboardTypeEmailAddress];
+                NSString *phone = [_detail objectForKey:@"Email"];
+                [inputCell setStringValue: (NSNull *)phone != [NSNull null]?phone:@""];
             }
                 break;
             case 3:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
-                [inputCell.textField setKeyboardType:UIKeyboardTypeEmailAddress];
-                [inputCell setStringValue:[_detail objectForKey:@"Email"]];
-            }
-                break;
-            case 4:{
-                [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Address"]];
-            }
-                break;
-            case 5:{
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                [button setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
-                [button setTitle:@"删  除" forState:UIControlStateNormal];
-                CGFloat x = (cell.frame.size.width - 278)/2;
-                [button setFrame:CGRectMake(x, 5, 278, 45)];
-                [button addTarget:self action:@selector(delTraveler) forControlEvents:UIControlEventTouchUpInside];
-                [cell addSubview:button];
+                NSString *address = [_detail objectForKey:@"Address"];
+                [inputCell setStringValue: (NSNull *)address != [NSNull null]?address:@""];
             }
                 break;
             default:
@@ -207,15 +210,10 @@
         switch (indexPath.row) {
             case 0:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [cell.detailTextLabel setText:[[_detail objectForKey:@"PassengerId"] stringValue]];
-            }
-                break;
-            case 1:{
-                [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
                 [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Name"]];
             }
                 break;
-            case 2:{
+            case 1:{
                 BOOL gender = [[_detail objectForKey:@"Gender"] boolValue];
                 NSString *str = gender ? @"男":@"女";
                 GenderPickerInputTableViewCell *pickerCell = (GenderPickerInputTableViewCell *)cell;
@@ -223,14 +221,14 @@
                 [pickerCell setValue:str];
             }
                 break;
-            case 3:{
+            case 2:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell setStringValue:[_detail objectForKey:@"ChinaId"]];
                 [inputCell.textField setKeyboardType:UIKeyboardTypeNumberPad];
             }
                 break;
-            case 4:{
+            case 3:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell.textField setKeyboardType:UIKeyboardTypePhonePad];
@@ -238,7 +236,7 @@
                 [inputCell setStringValue: (NSNull *)phone != [NSNull null]?phone:@""];
             }
                 break;
-            case 5:{
+            case 4:{
                 DateInputTableViewCell *dateCell = (DateInputTableViewCell *)cell;
                 
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
@@ -255,7 +253,7 @@
                 [dateCell setDateValue:date];
             }
                 break;
-            case 6:{
+            case 5:{
                 NSString *type = @"成人";
                 switch ([[_detail objectForKey:@"TravelerType"] intValue]) {
                     case 1:
@@ -272,45 +270,11 @@
                 [pickerCell setValue:type];
             }
                 break;
-            case 7:{
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                [button setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
-                [button setTitle:@"删  除" forState:UIControlStateNormal];
-                CGFloat x = (cell.frame.size.width - 278)/2;
-                [button setFrame:CGRectMake(x, 5, 278, 45)];
-                [button addTarget:self action:@selector(delTraveler) forControlEvents:UIControlEventTouchUpInside];
-                [cell addSubview:button];
-            }
-                break;
             default:
                 break;
         }
     }
     return cell;
-}
-// TODO: Delete traveler here.
-- (void)delTraveler
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"信息删除后将不可恢复，确定继续吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alert show];
-    [alert release];
-}
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 1){
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.labelText = @"删除中...";
-        [BBlock dispatchAfter:1 onMainThread:^{
-            [hud hide:YES];
-            if(_contacterType == CONTACTER){
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DELETE_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[_detail objectForKey:@"ContactorId"] forKey:@"ContactorId"]];
-            }else{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DELETE_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:[_detail objectForKey:@"PassengerId"] forKey:@"PassengerId"]];
-            }
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }];
-    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -352,21 +316,21 @@
 {
     int row = [_tableView indexPathForCell:cell].row;
     if(_contacterType == CONTACTER){
-        if(row == 1){
+        if(row == 0){
             [_detail setValue:value forKey:@"Name"];
+        }else if(row == 1){
+            [_detail setValue:value forKey:@"Phone"];
         }else if(row == 2){
-            [_detail setValue:value forKey:@"Phone"];
-        }else if(row == 3){
             [_detail setValue:value forKey:@"Email"];
-        }else if(row == 4){
-            [_detail setValue:value forKey:@"Phone"];
+        }else if(row == 3){
+            [_detail setValue:value forKey:@"Address"];
         }
     }else{
-        if(row == 1){
+        if(row == 0){
             [_detail setValue:value forKey:@"Name"];
-        }else if(row == 3){
+        }else if(row == 2){
             [_detail setValue:value forKey:@"ChinaId"];
-        }else if(row == 4){
+        }else if(row == 3){
             [_detail setValue:value forKey:@"Phone"];
         }
     }
@@ -374,14 +338,22 @@
 - (void)tableViewCell:(PickerInputTableViewCell *)cell didEndEditingWithValue:(NSString *)value
 {
     int row = [_tableView indexPathForCell:cell].row;
-    if(_contacterType == TRAVELER){
-        if(row == 2){
+    if(_contacterType == CONTACTER){
+        if(row == 1){
             NSString *gender = @"0"; // female
             if([value isEqualToString:@"男"]){
                 gender = @"1"; // male
             }
             [_detail setValue:gender forKey:@"Gender"];
-        }else if(row == 6){
+        }
+    }else{
+        if(row == 1){
+            NSString *gender = @"0"; // female
+            if([value isEqualToString:@"男"]){
+                gender = @"1"; // male
+            }
+            [_detail setValue:gender forKey:@"Gender"];
+        }else if(row == 5){
             NSString *type = @"0";
             if([value isEqualToString:@"成人"]){
                 type = @"1";

@@ -9,7 +9,6 @@
 #import "TravelerDetailViewController.h"
 #import "UIBarButtonItem+ButtonMaker.h"
 #import "UIBarButtonItem+Blocks.h"
-#import "AppDefines.h"
 #import "BBlock.h"
 #import "EditTravelerViewController.h"
 
@@ -20,6 +19,7 @@
 @implementation TravelerDetailViewController
 @synthesize detail = _detail;
 @synthesize tableView = _tableView;
+@synthesize contacterType = _contacterType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,7 +47,11 @@
     
     [self.view setBackgroundColor:[UIColor clearColor]];
     
-    _datas = [[NSArray alloc] initWithArray: @[@"编       号", @"姓       名", @"性       别", @"身份证号", @"手机号码", @"生       日", @"类       型"]];
+    if(_contacterType == CONTACTER){
+        _datas = [[NSArray alloc] initWithArray: @[@"编       号", @"姓       名", @"手机号码", @"邮件地址", @"通信地址"]];
+    }else{
+        _datas = [[NSArray alloc] initWithArray: @[@"编       号", @"姓       名", @"性       别", @"身份证号", @"手机号码", @"生       日", @"类       型"]];
+    }
     
     self.navigationItem.leftBarButtonItem =
     [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
@@ -59,13 +63,38 @@
     [UIBarButtonItem generateNormalStyleButtonWithTitle:@"编辑"
                                          andTapCallback:^(id control, UIEvent *event) {
                                              EditTravelerViewController *vc = [[EditTravelerViewController alloc] init];
-                                             vc.detail = _detail;
+                                             vc.contacterType = _contacterType;
+                                             vc.detail = [NSMutableDictionary dictionaryWithDictionary:_detail];
                                              [self.navigationController pushViewController:vc animated:YES];
                                              [vc release];
                                          }];
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTraveler:) name:@"REFRESH_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacter:) name:@"REFRESH_CONTACTER" object:nil];
 }
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_CONTACTER" object:nil];
+    [super viewDidUnload];
+}
+- (void)refreshTraveler:(NSNotification *)notification
+{
+    NSDictionary *_traveler = [[notification userInfo] objectForKey:@"TRAVELER"];
+    [_detail release];
+    _detail = [[NSDictionary alloc] initWithDictionary:_traveler];
+    [_tableView reloadData];
+}
+- (void)refreshContacter:(NSNotification *)notification
+{
+    NSDictionary *_contacter = [[notification userInfo] objectForKey:@"CONTACTER"];
+    [_detail release];
+    _detail = [[NSDictionary alloc] initWithDictionary:_contacter];
+    [_tableView reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -98,48 +127,76 @@
     
     
     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
-    switch (indexPath.row) {
-        case 0:
-            [cell.detailTextLabel setText:[[_detail objectForKey:@"PassengerId"] stringValue]];
-            break;
-        case 1:
-            [cell.detailTextLabel setText:[_detail objectForKey:@"Name"]];
-            break;
-        case 2:{
-            BOOL gender = [[_detail objectForKey:@"Gender"] boolValue];
-            [cell.detailTextLabel setText:gender ? @"男":@"女"];
-        }
-            break;
-        case 3:
-            [cell.detailTextLabel setText:[_detail objectForKey:@"ChinaId"]];
-            break;
-        case 4:{
-            NSString *phone = [_detail objectForKey:@"Phone"];
-            [cell.detailTextLabel setText: (NSNull *)phone != [NSNull null]?phone:@"-"];
-        }
-            break;
-        case 5:
-            [cell.detailTextLabel setText:[_detail objectForKey:@"Birthday"]];
-            break;
-        case 6:{
-            NSString *type = @"成人";
-            switch ([[_detail objectForKey:@"TravelerType"] intValue]) {
-                case 1:
-                    type = @"成人";
-                    break;
-                case 2:
-                    type = @"儿童";
-                    break;
-                default:
-                    break;
+    
+    if(_contacterType == CONTACTER){
+        switch (indexPath.row) {
+            case 0:{
+                [cell.detailTextLabel setText:[[_detail objectForKey:@"ContactorId"] stringValue]];
             }
-            [cell.detailTextLabel setText:type];
+                break;
+            case 1:{
+                [cell.detailTextLabel setText:[_detail objectForKey:@"Name"]];
+            }
+                break;
+            case 2:{
+                [cell.detailTextLabel setText:[_detail objectForKey:@"Phone"]];
+            }
+                break;
+            case 3:{
+                [cell.detailTextLabel setText:[_detail objectForKey:@"Email"]];
+            }
+                break;
+            case 4:{
+                [cell.detailTextLabel setNumberOfLines:0];
+                [cell.detailTextLabel setText:[_detail objectForKey:@"Address"]];
+            }
+                break;
+            default:
+                break;
         }
-            break;
-        default:
-            break;
+    }else{
+        switch (indexPath.row) {
+            case 0:
+                [cell.detailTextLabel setText:[[_detail objectForKey:@"PassengerId"] stringValue]];
+                break;
+            case 1:
+                [cell.detailTextLabel setText:[_detail objectForKey:@"Name"]];
+                break;
+            case 2:{
+                BOOL gender = [[_detail objectForKey:@"Gender"] boolValue];
+                [cell.detailTextLabel setText:gender ? @"男":@"女"];
+            }
+                break;
+            case 3:
+                [cell.detailTextLabel setText:[_detail objectForKey:@"ChinaId"]];
+                break;
+            case 4:{
+                NSString *phone = [_detail objectForKey:@"Phone"];
+                [cell.detailTextLabel setText: (NSNull *)phone != [NSNull null]?phone:@"-"];
+            }
+                break;
+            case 5:
+                [cell.detailTextLabel setText:[_detail objectForKey:@"Birthday"]];
+                break;
+            case 6:{
+                NSString *type = @"成人";
+                switch ([[_detail objectForKey:@"TravelerType"] intValue]) {
+                    case 1:
+                        type = @"成人";
+                        break;
+                    case 2:
+                        type = @"儿童";
+                        break;
+                    default:
+                        break;
+                }
+                [cell.detailTextLabel setText:type];
+            }
+                break;
+            default:
+                break;
+        }
     }
-    //[cell.detailTextLabel setText:_detail[indexPath.row]];
     return cell;
 }
 @end

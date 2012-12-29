@@ -157,7 +157,6 @@
 }
 
 - (void)setDateValue:(NSDate *)value {
-    NSLog(@"%@", value);
 	_dateValue = [value retain];
     if (_datePicker.datePickerMode == UIDatePickerModeCountDownTimer) {
         // self.detailTextLabel.text = [self timerStringValue];
