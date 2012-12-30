@@ -12,7 +12,7 @@ typedef enum {
     CONTACTORS = 101
 } TABLEVIEW_VISIBLE;
 
-@interface ContacterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@interface ContacterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     TABLEVIEW_VISIBLE   currentTableView;
     NSMutableArray      *_travelers;

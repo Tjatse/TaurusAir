@@ -7,9 +7,8 @@
 //
 
 #import "MainViewController.h"
+#import "AppContext.h"
 #import "NavViewController.h"
-#import "AppConfig.h"
-#import "LoginViewController.h"
 
 @interface MainViewController ()
 
@@ -41,8 +40,10 @@
 
 - (NavViewController *)navVC
 {
-	if (_navVC == nil)
+	if (_navVC == nil){
 		_navVC = [[NavViewController alloc] init];
+        [AppContext get].tabbar = [_navVC retain];
+    }
 	
 	return _navVC;
 }

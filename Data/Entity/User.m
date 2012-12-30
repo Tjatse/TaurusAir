@@ -9,34 +9,44 @@
 #import "User.h"
 
 @implementation User
-@synthesize clientIP = _clientIP;
-@synthesize guid = _guid;
-@synthesize tId = _tId;
-@synthesize userName = _userName;
+@synthesize userId = _userId;
+@synthesize loginName = _loginName;
+@synthesize name = _name;
+@synthesize phone = _phone;
+@synthesize email = _email;
+@synthesize remark = _remark;
+@synthesize gender = _gender;
+@synthesize birthday = _birthday;
 
 //===========================================================
 // - (id)initWith:
 //
 //===========================================================
-- (id)initWithClientIP:(NSString*)theClientIP guid:(NSString*)theGuid tId:(NSString*)theTId userName:(NSString*)theUserName
+- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday
 {
     self = [super init];
     if (self) {
-        _clientIP = [theClientIP retain];
-        _guid = [theGuid retain];
-        _tId = [theTId retain];
-        _userName = [theUserName retain];
+        _userId = [theUserId retain];
+        _loginName = [theLoginName retain];
+        _name = [theName retain];
+        _phone = [thePhone retain];
+        _email = [theEmail retain];
+        _remark = [theRemark retain];
+        _gender = flag;
+        _birthday = [theBirthday retain];
     }
     return self;
 }
 
-
 - (void)dealloc
 {
-    [_clientIP release], _clientIP = nil;
-    [_guid release], _guid = nil;
-    [_tId release], _tId = nil;
-    [_userName release], _userName = nil;
+    [_userId release], _userId = nil;
+    [_loginName release], _loginName = nil;
+    [_name release], _name = nil;
+    [_phone release], _phone = nil;
+    [_email release], _email = nil;
+    [_remark release], _remark = nil;
+    [_birthday release], _birthday = nil;
     [super dealloc];
 }
 
@@ -46,20 +56,28 @@
 //===========================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [encoder encodeObject:self.clientIP forKey:@"clientIP"];
-    [encoder encodeObject:self.guid forKey:@"guid"];
-    [encoder encodeObject:self.tId forKey:@"tId"];
-    [encoder encodeObject:self.userName forKey:@"userName"];
+    [encoder encodeObject:self.userId forKey:@"userId"];
+    [encoder encodeObject:self.loginName forKey:@"loginName"];
+    [encoder encodeObject:self.name forKey:@"name"];
+    [encoder encodeObject:self.phone forKey:@"phone"];
+    [encoder encodeObject:self.email forKey:@"email"];
+    [encoder encodeObject:self.remark forKey:@"remark"];
+    [encoder encodeBool:self.gender forKey:@"gender"];
+    [encoder encodeObject:self.birthday forKey:@"birthday"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
     if (self) {
-        self.clientIP = [decoder decodeObjectForKey:@"clientIP"];
-        self.guid = [decoder decodeObjectForKey:@"guid"];
-        self.tId = [decoder decodeObjectForKey:@"tId"];
-        self.userName = [decoder decodeObjectForKey:@"userName"];
+        self.userId = [decoder decodeObjectForKey:@"userId"];
+        self.loginName = [decoder decodeObjectForKey:@"loginName"];
+        self.name = [decoder decodeObjectForKey:@"name"];
+        self.phone = [decoder decodeObjectForKey:@"phone"];
+        self.email = [decoder decodeObjectForKey:@"email"];
+        self.remark = [decoder decodeObjectForKey:@"remark"];
+        self.gender = [decoder decodeBoolForKey:@"gender"];
+        self.birthday = [decoder decodeObjectForKey:@"birthday"];
     }
     return self;
 }
@@ -68,10 +86,14 @@
 {
     id theCopy = [[[self class] allocWithZone:zone] init];  // use designated initializer
     
-    [theCopy setClientIP:[[self.clientIP copy] autorelease]];
-    [theCopy setGuid:[[self.guid copy] autorelease]];
-    [theCopy setTId:[[self.tId copy] autorelease]];
-    [theCopy setUserName:[[self.userName copy] autorelease]];
+    [theCopy setUserId:[[self.userId copy] autorelease]];
+    [theCopy setLoginName:[[self.loginName copy] autorelease]];
+    [theCopy setName:[[self.name copy] autorelease]];
+    [theCopy setPhone:[[self.phone copy] autorelease]];
+    [theCopy setEmail:[[self.email copy] autorelease]];
+    [theCopy setRemark:[[self.remark copy] autorelease]];
+    [theCopy setGender:self.gender];
+    [theCopy setBirthday:[[self.birthday copy] autorelease]];
     
     return theCopy;
 }

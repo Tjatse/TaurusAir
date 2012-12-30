@@ -7,9 +7,9 @@
 //
 
 #import "StateBase.h"
+#import "User.h"
 
 #define STATE_NAMING_IMAGE_HANDLER_AC @"appConfig"
-@class User;
 
 @interface AppConfig : StateBase
 

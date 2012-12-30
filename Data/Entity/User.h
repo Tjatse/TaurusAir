@@ -10,11 +10,15 @@
 
 @interface User : NSObject<NSCoding>
 
-@property (nonatomic, retain) NSString      *clientIP;
-@property (nonatomic, retain) NSString      *guid;
-@property (nonatomic, retain) NSString      *tId;
-@property (nonatomic, retain) NSString      *userName;
+@property (nonatomic, retain) NSString      *userId;
+@property (nonatomic, retain) NSString      *loginName;
+@property (nonatomic, retain) NSString      *name;
+@property (nonatomic, retain) NSString      *phone;
+@property (nonatomic, retain) NSString      *email;
+@property (nonatomic, retain) NSString      *remark;
+@property (nonatomic, readwrite) BOOL       gender;
+@property (nonatomic, retain) NSString      *birthday;
 
-- (id)initWithClientIP:(NSString*)theClientIP guid:(NSString*)theGuid tId:(NSString*)theTId userName:(NSString*)theUserName;
+- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday;
 
 @end

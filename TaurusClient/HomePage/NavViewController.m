@@ -62,7 +62,7 @@
 							, nil];
 	
 	// tabitems...
-	NSArray* tabTitles = @[@"机票搜索", @"我的订单", @"常旅客", @"我的信息"];
+	NSArray* tabTitles = @[@"机票搜索", @"订单管理", @"常旅客", @"我的商旅"];
 	
 	for (int count = [self.viewControllers count], n = 0; n < count; ++n) {
 		__block UINavigationController* vc = [self.viewControllers objectAtIndex:n];

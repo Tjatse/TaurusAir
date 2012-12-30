@@ -149,10 +149,7 @@
         sleep(3);
         [BBlock dispatchOnMainThread:^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            User *cu = [[User alloc] initWithClientIP:@"127.0.01"
-                                                 guid:@"001"
-                                                  tId:@"001"
-                                             userName:@"15810591307"];
+            User *cu = [[User alloc] initWithUserId:@"001" loginName:@"001" name:@"熊俊" phone:@"15810591307" email:@"" remark:@"" gender:true birthday:@""];
             [[AppConfig get] setCurrentUser:cu];
             [cu release];
             [[AppConfig get] saveState];

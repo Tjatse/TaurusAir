@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NavViewController.h"
 
 @interface AppContext : NSObject
 
@@ -15,6 +16,8 @@
 
 // Singleton instance.
 + (AppContext *) get;
+
+@property (nonatomic, retain) NavViewController *tabbar;
 
 @property (nonatomic, readonly) float 			currentLatitude;
 @property (nonatomic, readonly) float 			currentLongitude;

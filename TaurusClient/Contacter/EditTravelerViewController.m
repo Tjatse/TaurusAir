@@ -11,6 +11,7 @@
 #import "UIBarButtonItem+Blocks.h"
 #import "BBlock.h"
 #import "MBProgressHUD.h"
+#import "AppContext.h"
 
 @interface EditTravelerViewController ()
 
@@ -103,22 +104,38 @@
 
 
 #pragma mark -TableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if(section == 1){
+        return 64;
+    }
+    return 0;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(_contacterType == CONTACTER){
-        if(indexPath.row == 5){
-            return 56;
-        }
-    }else{
-        if(indexPath.row == 7){
-            return 56;
+    if(indexPath.section == 0){
+        if(_contacterType == CONTACTER){
+            if(indexPath.row == 5){
+                return 56;
+            }
+        }else{
+            if(indexPath.row == 7){
+                return 56;
+            }
         }
     }
     return 44;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_datas count] + 1;
+    if(section == 0){
+        return [_datas count];
+    }
+    return 0;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -272,17 +289,6 @@
                 [pickerCell setValue:type];
             }
                 break;
-            case 7:{
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                [button setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
-                [button setTitle:@"删  除" forState:UIControlStateNormal];
-                CGFloat x = (cell.frame.size.width - 278)/2;
-                [button setFrame:CGRectMake(x, 5, 278, 45)];
-                [button addTarget:self action:@selector(delTraveler) forControlEvents:UIControlEventTouchUpInside];
-                [cell addSubview:button];
-            }
-                break;
             default:
                 break;
         }
@@ -292,13 +298,13 @@
 // TODO: Delete traveler here.
 - (void)delTraveler
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"信息删除后将不可恢复，确定继续吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alert show];
-    [alert release];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"信息删除后将不可恢复，确定继续吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil, nil];
+    [actionSheet showFromTabBar:[AppContext get].tabbar.tabBar];
+    [actionSheet release];
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex == 1){
+    if(buttonIndex == 0){
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.labelText = @"删除中...";
         [BBlock dispatchAfter:1 onMainThread:^{
@@ -311,6 +317,23 @@
             [self.navigationController popToRootViewControllerAnimated:YES];
         }];
     }
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if(section == 1){
+        UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 64)] autorelease];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
+        [button setTitle:@"删除" forState:UIControlStateNormal];
+        CGFloat x = (tableView.frame.size.width - 278)/2;
+        [button setFrame:CGRectMake(x, 5, 278, 45)];
+        [button addTarget:self action:@selector(delTraveler) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:button];
+        
+        return view;
+    }
+    return nil;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

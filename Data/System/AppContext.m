@@ -20,6 +20,7 @@
 @implementation AppContext
 
 @synthesize online;
+@synthesize tabbar;
 
 #pragma mark - life cycle
 
@@ -29,6 +30,7 @@
 	self.currentLocationCity = nil;
 	self.currentLocationGeocode = nil;
 	
+    [tabbar release], tabbar = nil;
 	[super dealloc];
 }
 

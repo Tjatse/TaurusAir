@@ -73,7 +73,7 @@
                                              andTapCallback:^(id control, UIEvent *event) {
                                                  [self showLoginViewController];
                                              }];
-        [ALToastView toastPinInView:self.view withText:@"登录后才能查看订单信息。" andBottomOffset: 120];
+        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“订单管理”。" andBottomOffset: 120];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"LOGIN_SUC" object:nil];
     }else{
         [self initComponent];
@@ -141,7 +141,6 @@
     [_tableView setBackgroundView:nil];
     [_tableView setDataSource:self];
     [_tableView setScrollEnabled:YES];
-    [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_tableView];
 }
 #pragma mark Filter
@@ -332,7 +331,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [cell setSelected:NO];
+    [cell setSelected:NO animated:YES];
     
     OrderDetailViewController *vc = [[OrderDetailViewController alloc] init];
     UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];

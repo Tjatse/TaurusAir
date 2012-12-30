@@ -13,7 +13,7 @@
 #import "TravelerTypePickerTableViewCell.h"
 #import "DateInputTableViewCell.h"
 
-@interface EditTravelerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate,StringInputTableViewCellDelegate, PickerInputTableViewCellDelegate, DateInputTableViewCellDelegate>{
+@interface EditTravelerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate, StringInputTableViewCellDelegate, PickerInputTableViewCellDelegate, DateInputTableViewCellDelegate>{
     NSArray     *_datas;
     @private
     UITextField *_focusedTextField;

@@ -101,6 +101,7 @@ static NSMutableArray *toasts;
 	
 	// Change toastview frame
 	view.frame = [self getBound:view inParent:parentView withBottomOffset: bottomOffset];
+    [parentView bringSubviewToFront:view];
 	[parentView addSubview:view];
     [view release];
 }

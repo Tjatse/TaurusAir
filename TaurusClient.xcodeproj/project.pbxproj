@@ -301,6 +301,10 @@
 		92B780E7168B057700A9DE32 /* OrderFlightDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780E5168B057600A9DE32 /* OrderFlightDetailViewController.xib */; };
 		92B780EB168B059D00A9DE32 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780E9168B059C00A9DE32 /* OrderDetailViewController.m */; };
 		92B780EC168B059D00A9DE32 /* OrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780EA168B059D00A9DE32 /* OrderDetailViewController.xib */; };
+		92EEEFE816905EA90046C20E /* avatar-female.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE416905EA90046C20E /* avatar-female.png */; };
+		92EEEFE916905EA90046C20E /* avatar-female@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE516905EA90046C20E /* avatar-female@2x.png */; };
+		92EEEFEA16905EA90046C20E /* avatar-male.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE616905EA90046C20E /* avatar-male.png */; };
+		92EEEFEB16905EA90046C20E /* avatar-male@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE716905EA90046C20E /* avatar-male@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -752,6 +756,10 @@
 		92B780E8168B059C00A9DE32 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderDetailViewController.h; path = MyOrder/OrderDetailViewController.h; sourceTree = "<group>"; };
 		92B780E9168B059C00A9DE32 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderDetailViewController.m; path = MyOrder/OrderDetailViewController.m; sourceTree = "<group>"; };
 		92B780EA168B059D00A9DE32 /* OrderDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderDetailViewController.xib; path = MyOrder/OrderDetailViewController.xib; sourceTree = "<group>"; };
+		92EEEFE416905EA90046C20E /* avatar-female.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-female.png"; sourceTree = "<group>"; };
+		92EEEFE516905EA90046C20E /* avatar-female@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-female@2x.png"; sourceTree = "<group>"; };
+		92EEEFE616905EA90046C20E /* avatar-male.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-male.png"; sourceTree = "<group>"; };
+		92EEEFE716905EA90046C20E /* avatar-male@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-male@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1342,6 +1350,10 @@
 		3E7B2B0716774685008789BE /* baseInfo */ = {
 			isa = PBXGroup;
 			children = (
+				92EEEFE416905EA90046C20E /* avatar-female.png */,
+				92EEEFE516905EA90046C20E /* avatar-female@2x.png */,
+				92EEEFE616905EA90046C20E /* avatar-male.png */,
+				92EEEFE716905EA90046C20E /* avatar-male@2x.png */,
 				3E7B2B0816774685008789BE /* check-(select).png */,
 				3E7B2B0916774685008789BE /* check-(select)@2x.png */,
 				3E7B2B0A16774685008789BE /* Check-(Unslected).png */,
@@ -1803,6 +1815,10 @@
 				3E30F24C168EDC55002C236B /* FlightSelectSortTimeViewController.xib in Resources */,
 				3E30F251168EDCA8002C236B /* FlightSelectSortCorpViewController.xib in Resources */,
 				3E30F256168EDCD7002C236B /* FlightSelectSortAirplaneViewController.xib in Resources */,
+				92EEEFE816905EA90046C20E /* avatar-female.png in Resources */,
+				92EEEFE916905EA90046C20E /* avatar-female@2x.png in Resources */,
+				92EEEFEA16905EA90046C20E /* avatar-male.png in Resources */,
+				92EEEFEB16905EA90046C20E /* avatar-male@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

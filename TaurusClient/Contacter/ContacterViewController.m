@@ -16,6 +16,8 @@
 #import "BBlock.h"
 #import "TravelerDetailViewController.h"
 #import "CreateTravelerViewController.h"
+#import "LoginViewController.h"
+#import "ALToastView.h"
 
 @interface ContacterViewController ()
 
@@ -47,11 +49,6 @@
 {
     [super viewDidLoad];
     
-    currentTableView = TRAVELERS;
-    _travelers = [[@"[{\"Birthday\":\"1967-12-1\",\"ChinaId\":\"4130261234987609871\",\"Gender\":true,\"Name\":\"李韦\",\"PassengerId\":36023,\"Phone\":null,\"TravelerType\":1},{\"Birthday\":\"1983-4-21\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔乐乐\",\"PassengerId\":36021,\"Phone\":\"13800102132\",\"TravelerType\":1},{\"Birthday\":\"2009-8-10\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔墨\",\"PassengerId\":36024,\"Phone\":null,\"TravelerType\":2}]" objectFromJSONString] mutableCopy];
-    
-    _contactors = [[@"[{\"Address\":\"北京市朝阳区东三环北路辛2号迪阳大厦1609\",\"ContactorId\":36025,\"Email\":\"xiongjun@beyondlink.net\",\"Name\":\"熊俊\",\"Phone\":\"15810591307\"},{\"Address\":\"武汉市中山路1024号504#\",\"ContactorId\":36024,\"Email\":\"zhangc@qq.com\",\"Name\":\"张超\",\"Phone\":\"13712341234\"}]" objectFromJSONString] mutableCopy];
-    
     [self setTitle:@"常旅客"];
     [self.view setBackgroundColor:[UIColor clearColor]];
     
@@ -60,14 +57,39 @@
     [self.tableViewContactors setBackgroundColor:[UIColor clearColor]];
     [self.tableViewContactors setBackgroundView:nil];
     
-    // notifications.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTraveler:) name:@"REFRESH_TRAVELER" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteTraveler:) name:@"DELETE_TRAVELER" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTraveler:) name:@"ADD_TRAVELER" object:nil];
+    if(![[AppConfig get] isLogon]){
+        [tableViewContactors setHidden:YES];
+        [tableViewTravelers setHidden:YES];
+        [buttonContactors setHidden:YES];
+        [buttonTravelers setHidden:YES];
+        
+        [self showLoginViewController];
+        self.navigationItem.rightBarButtonItem =
+        [UIBarButtonItem generateNormalStyleButtonWithTitle:@"登录"
+                                             andTapCallback:^(id control, UIEvent *event) {
+                                                 [self showLoginViewController];
+                                             }];
+        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“常旅客”。" andBottomOffset: 205];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"LOGIN_SUC" object:nil];
+    }else{
+        [self initComponent];
+    }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacter:) name:@"REFRESH_CONTACTER" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteContacter:) name:@"DELETE_CONTACTER" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addContacter:) name:@"ADD_CONTACTER" object:nil];
+}
+#pragma mark -Login Required
+- (void)loginSuccess
+{
+    [self initComponent];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_SUC" object:nil];
+}
+
+- (void)showLoginViewController
+{
+    LoginViewController *vc = [[LoginViewController alloc] init];
+    UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
+    [self.navigationController presentModalViewController:nav animated:YES];
+    [vc release];
+    [nav release];
 }
 - (void)viewDidUnload
 {
@@ -78,6 +100,41 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DELETE_CONTACTER" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_CONTACTER" object:nil];
     [super viewDidUnload];
+}
+#pragma mark - InitComponents
+- (void)initComponent
+{
+    self.navigationItem.rightBarButtonItem = nil;
+    NSArray *subViews = [self.view subviews];
+    if(subViews && [subViews count] > 0){
+        for(UIView *v in subViews){
+            if(v.tag == 0){
+                [v removeFromSuperview];
+            }
+        }
+    }
+    
+    [tableViewContactors setHidden:NO];
+    [tableViewTravelers setHidden:NO];
+    [buttonContactors setHidden:NO];
+    [buttonTravelers setHidden:NO];
+    
+    currentTableView = TRAVELERS;
+    _travelers = [[@"[{\"Birthday\":\"1967-12-1\",\"ChinaId\":\"4130261234987609871\",\"Gender\":true,\"Name\":\"李韦\",\"PassengerId\":36023,\"Phone\":null,\"TravelerType\":1},{\"Birthday\":\"1983-4-21\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔乐乐\",\"PassengerId\":36021,\"Phone\":\"13800102132\",\"TravelerType\":1},{\"Birthday\":\"2009-8-10\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔墨\",\"PassengerId\":36024,\"Phone\":null,\"TravelerType\":2}]" objectFromJSONString] mutableCopy];
+    
+    _contactors = [[@"[{\"Address\":\"北京市朝阳区东三环北路辛2号迪阳大厦1609\",\"ContactorId\":36025,\"Email\":\"xiongjun@beyondlink.net\",\"Name\":\"熊俊\",\"Phone\":\"15810591307\"},{\"Address\":\"武汉市中山路1024号504#\",\"ContactorId\":36024,\"Email\":\"zhangc@qq.com\",\"Name\":\"张超\",\"Phone\":\"13712341234\"}]" objectFromJSONString] mutableCopy];
+    
+    // notifications.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTraveler:) name:@"REFRESH_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteTraveler:) name:@"DELETE_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTraveler:) name:@"ADD_TRAVELER" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacter:) name:@"REFRESH_CONTACTER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteContacter:) name:@"DELETE_CONTACTER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addContacter:) name:@"ADD_CONTACTER" object:nil];
+    
+    [tableViewTravelers reloadData];
+    [tableViewContactors reloadData];
 }
 #pragma mark - Notifications
 - (void)refreshTraveler:(NSNotification *)notification
