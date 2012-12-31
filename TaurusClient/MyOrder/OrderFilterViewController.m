@@ -108,9 +108,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     _selectedRow = indexPath.row;
-    [BBlock dispatchAfter:0.2 onMainThread:^{
-        [cell setSelected:NO];
-    }];
+    [cell setSelected:NO];
 }
 
 @end

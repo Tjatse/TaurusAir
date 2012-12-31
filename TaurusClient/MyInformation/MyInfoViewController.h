@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyInfoViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>{
+@interface MyInfoViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>{
     
 }
 

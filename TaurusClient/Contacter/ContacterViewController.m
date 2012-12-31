@@ -305,8 +305,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [cell setSelected:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if(indexPath.row == 0){
         CreateTravelerViewController *vc = [[CreateTravelerViewController alloc] init];

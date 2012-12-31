@@ -305,6 +305,10 @@
 		92EEEFE916905EA90046C20E /* avatar-female@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE516905EA90046C20E /* avatar-female@2x.png */; };
 		92EEEFEA16905EA90046C20E /* avatar-male.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE616905EA90046C20E /* avatar-male.png */; };
 		92EEEFEB16905EA90046C20E /* avatar-male@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE716905EA90046C20E /* avatar-male@2x.png */; };
+		92EEEFF0169133BA0046C20E /* ChangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EEEFEE169133BA0046C20E /* ChangePwdViewController.m */; };
+		92EEEFF1169133BA0046C20E /* ChangePwdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFEF169133BA0046C20E /* ChangePwdViewController.xib */; };
+		92EEEFF91691750A0046C20E /* EditMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EEEFF71691750A0046C20E /* EditMyInfoViewController.m */; };
+		92EEEFFA1691750A0046C20E /* EditMyInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFF81691750A0046C20E /* EditMyInfoViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -760,6 +764,12 @@
 		92EEEFE516905EA90046C20E /* avatar-female@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-female@2x.png"; sourceTree = "<group>"; };
 		92EEEFE616905EA90046C20E /* avatar-male.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-male.png"; sourceTree = "<group>"; };
 		92EEEFE716905EA90046C20E /* avatar-male@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-male@2x.png"; sourceTree = "<group>"; };
+		92EEEFED169133BA0046C20E /* ChangePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChangePwdViewController.h; path = MyInformation/ChangePwdViewController.h; sourceTree = "<group>"; };
+		92EEEFEE169133BA0046C20E /* ChangePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChangePwdViewController.m; path = MyInformation/ChangePwdViewController.m; sourceTree = "<group>"; };
+		92EEEFEF169133BA0046C20E /* ChangePwdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChangePwdViewController.xib; path = MyInformation/ChangePwdViewController.xib; sourceTree = "<group>"; };
+		92EEEFF61691750A0046C20E /* EditMyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditMyInfoViewController.h; path = MyInformation/EditMyInfoViewController.h; sourceTree = "<group>"; };
+		92EEEFF71691750A0046C20E /* EditMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditMyInfoViewController.m; path = MyInformation/EditMyInfoViewController.m; sourceTree = "<group>"; };
+		92EEEFF81691750A0046C20E /* EditMyInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditMyInfoViewController.xib; path = MyInformation/EditMyInfoViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -844,6 +854,12 @@
 				3E1F860A1679C5EA00F49691 /* MyInfoViewController.h */,
 				3E1F860B1679C5EA00F49691 /* MyInfoViewController.m */,
 				3E1F860C1679C5EA00F49691 /* MyInfoViewController.xib */,
+				92EEEFED169133BA0046C20E /* ChangePwdViewController.h */,
+				92EEEFEE169133BA0046C20E /* ChangePwdViewController.m */,
+				92EEEFEF169133BA0046C20E /* ChangePwdViewController.xib */,
+				92EEEFF61691750A0046C20E /* EditMyInfoViewController.h */,
+				92EEEFF71691750A0046C20E /* EditMyInfoViewController.m */,
+				92EEEFF81691750A0046C20E /* EditMyInfoViewController.xib */,
 			);
 			name = MyInformation;
 			sourceTree = "<group>";
@@ -1819,6 +1835,8 @@
 				92EEEFE916905EA90046C20E /* avatar-female@2x.png in Resources */,
 				92EEEFEA16905EA90046C20E /* avatar-male.png in Resources */,
 				92EEEFEB16905EA90046C20E /* avatar-male@2x.png in Resources */,
+				92EEEFF1169133BA0046C20E /* ChangePwdViewController.xib in Resources */,
+				92EEEFFA1691750A0046C20E /* EditMyInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1967,6 +1985,8 @@
 				3E30F24B168EDC55002C236B /* FlightSelectSortTimeViewController.m in Sources */,
 				3E30F250168EDCA8002C236B /* FlightSelectSortCorpViewController.m in Sources */,
 				3E30F255168EDCD7002C236B /* FlightSelectSortAirplaneViewController.m in Sources */,
+				92EEEFF0169133BA0046C20E /* ChangePwdViewController.m in Sources */,
+				92EEEFF91691750A0046C20E /* EditMyInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

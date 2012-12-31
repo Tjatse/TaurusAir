@@ -60,7 +60,7 @@
                                        }];
     
     self.navigationItem.rightBarButtonItem =
-    [UIBarButtonItem generateNormalStyleButtonWithTitle:@"完成"
+    [UIBarButtonItem generateNormalStyleButtonWithTitle:@"保存"
                                          andTapCallback:^(id control, UIEvent *event) {
                                              // TODO: save traveler here.
                                              if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
@@ -299,7 +299,7 @@
 - (void)delTraveler
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"信息删除后将不可恢复，确定继续吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil, nil];
-    [actionSheet showFromTabBar:[AppContext get].tabbar.tabBar];
+    [actionSheet showFromTabBar:[AppContext get].navController.tabBar];
     [actionSheet release];
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

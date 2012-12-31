@@ -16,6 +16,9 @@
 #import "ALToastView.h"
 #import "JSONKit.h"
 #import "AppDefines.h"
+#import "AppContext.h"
+#import "ChangePwdViewController.h"
+#import "EditMyInfoViewController.h"
 
 @interface MyInfoViewController ()
 
@@ -59,6 +62,12 @@
         [self initComponent];
     }
 }
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_SUC" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"INFO_OPERATION" object:nil];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -82,8 +91,11 @@
     [nav release];
 }
 #pragma mark -Login Already
-- (void) initComponent
+- (void)initComponent
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(infoOperation:) name:@"INFO_OPERATION" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(infoRefresh:) name:@"REFRESH_MYINFO" object:nil];
+    
     self.navigationItem.rightBarButtonItem = nil;
     NSArray *subViews = [self.view subviews];
     if(subViews && [subViews count] > 0){
@@ -91,7 +103,6 @@
             [v removeFromSuperview];
         }
     }
-    //_datas = [[NSMutableArray arrayWithObjects:@"编号",@"登录名",@"显示名",@"手机号",@"邮件地址",@"性别",@"生日",@"说明", nil] retain];
     // init tableview.
     _tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height) style:UITableViewStyleGrouped];
     [_tableView setDelegate:self];
@@ -100,6 +111,15 @@
     [_tableView setDataSource:self];
     [_tableView setScrollEnabled:YES];
     [self.view addSubview:_tableView];
+}
+- (void)infoOperation:(NSNotification *)notification
+{
+    NSString *msg = [[notification userInfo] objectForKey:@"MSG"];
+    [ALToastView toastInView:self.view withText:msg];
+}
+- (void)infoRefresh:(NSNotification *)notification
+{
+    [_tableView reloadData];
 }
 
 
@@ -190,12 +210,31 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [cell setSelected:NO];
-    
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if(indexPath.section == 1 && indexPath.row == 0){
+        ChangePwdViewController *vc = [[ChangePwdViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc release];
+    }else if(indexPath.section == 0 && indexPath.row == 0){
+        EditMyInfoViewController *vc = [[EditMyInfoViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc release];
+    }
 }
 - (void)logout:(UIButton *)button{
     
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"注销后，部分功能将无法访问，确定继续吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"注销" otherButtonTitles:nil, nil];
+    [actionSheet showFromTabBar:[AppContext get].navController.tabBar];
+    [actionSheet release];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0){
+        [[AppConfig get] setCurrentUser:nil];
+        [[AppConfig get] saveState];
+        
+        [__APP_NAVVC__ popToRootViewControllerAnimated:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGOUT" object:nil];
+    }
 }
 @end

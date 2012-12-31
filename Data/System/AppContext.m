@@ -20,7 +20,7 @@
 @implementation AppContext
 
 @synthesize online;
-@synthesize tabbar;
+@synthesize navController;
 
 #pragma mark - life cycle
 
@@ -29,8 +29,7 @@
 	self.locMgr = nil;
 	self.currentLocationCity = nil;
 	self.currentLocationGeocode = nil;
-	
-    [tabbar release], tabbar = nil;
+	[navController release], navController = nil;
 	[super dealloc];
 }
 

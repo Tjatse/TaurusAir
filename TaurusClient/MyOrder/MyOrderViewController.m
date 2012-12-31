@@ -184,6 +184,9 @@
         _datas = [_clonedDatas mutableCopy];
     }
     [_tableView reloadData];
+    if([_datas count] == 0){
+        [ALToastView toastInView:self.view withText:@"没有符合筛选条件的订单信息。"];
+    }
 }
 #pragma mark Generate Buttons
 - (UIButton *)generateSortButton: (CGRect)frame
@@ -330,8 +333,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [cell setSelected:NO animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     OrderDetailViewController *vc = [[OrderDetailViewController alloc] init];
     UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];

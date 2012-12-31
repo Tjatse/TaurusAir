@@ -42,7 +42,7 @@
 {
 	if (_navVC == nil){
 		_navVC = [[NavViewController alloc] init];
-        [AppContext get].tabbar = [_navVC retain];
+        [AppContext get].navController = [_navVC retain];
     }
 	
 	return _navVC;
@@ -80,6 +80,18 @@
 {
     [super viewDidLoad];
 	[self.navigationController setNavigationBarHidden:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetNav:) name:@"LOGOUT" object:nil];
+}
+- (void)viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGOUT" object:nil];
+    [super viewDidUnload];
+}
+- (void)resetNav: (NSNotification *)notification
+{
+    [_navVC release], _navVC = nil;
+    [[AppContext get] setNavController:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

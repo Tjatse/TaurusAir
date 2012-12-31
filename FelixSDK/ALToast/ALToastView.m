@@ -110,7 +110,7 @@ static NSMutableArray *toasts;
 	ALToastView *view = [[ALToastView alloc] initWithText:text];
     
 	// Change toastview frame
-	view.frame = [self getBound:view inParent:parentView withBottomOffset:60];
+	view.frame = [self getBound:view inParent:parentView withBottomOffset:40];
 	view.alpha = 0.0f;
 	
 	if (toasts == nil) {

@@ -78,7 +78,7 @@
                                              
                                              if(_contacterType == CONTACTER){
                                                  if((NSNull *)name == [NSNull null] || [name length] == 0){
-                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”必须填写。" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”必须填写。" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
                                                      [alert show];
                                                      [alert release];
                                                      return;
@@ -87,7 +87,7 @@
                                                  NSString *chinaId = [_detail objectForKey:@"ChinaId"];
                                                  if((NSNull *)name == [NSNull null] || [name length] == 0 ||
                                                     (NSNull *)chinaId == [NSNull null] || [chinaId length] == 0){
-                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”和“身份证号”必须填写。" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”和“身份证号”必须填写。" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
                                                      [alert show];
                                                      [alert release];
                                                      return;

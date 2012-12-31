@@ -17,7 +17,7 @@
 // Singleton instance.
 + (AppContext *) get;
 
-@property (nonatomic, retain) NavViewController *tabbar;
+@property (nonatomic, retain) NavViewController *navController;
 
 @property (nonatomic, readonly) float 			currentLatitude;
 @property (nonatomic, readonly) float 			currentLongitude;

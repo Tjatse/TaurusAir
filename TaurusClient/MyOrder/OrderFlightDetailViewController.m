@@ -52,7 +52,12 @@
     [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
                                        andTapCallback:^(id control, UIEvent *event) {
                                            [self.navigationController popViewControllerAnimated:YES];
-                                       }]; 
+                                       }];
+    self.navigationItem.rightBarButtonItem =
+    [UIBarButtonItem generateNormalStyleButtonWithTitle:@"订单"
+                                       andTapCallback:^(id control, UIEvent *event) {
+                                           [self.navigationController dismissModalViewControllerAnimated:YES];
+                                       }];
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
 }
