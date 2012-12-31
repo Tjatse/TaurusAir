@@ -69,7 +69,7 @@
                                              andTapCallback:^(id control, UIEvent *event) {
                                                  [self showLoginViewController];
                                              }];
-        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“常旅客”。" andBottomOffset: 205];
+        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“常旅客”。" andBottomOffset: 208 andType: ERROR];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"LOGIN_SUC" object:nil];
     }else{
         [self initComponent];

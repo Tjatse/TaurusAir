@@ -231,6 +231,7 @@
         [alert show];
         [alert release];
     }else{
+        [ALToastView toastInView:self.view withText:@"必须先填写“手机号码”才能发送“验证码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
         [phoneField becomeFirstResponder];
     }
 }

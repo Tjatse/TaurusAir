@@ -24,13 +24,20 @@
 //
 
 #import <Foundation/Foundation.h>
-
+typedef enum {
+    INFOMATION = 0,
+    ERROR = 1
+} TOAST_TYPE;
 
 @interface ALToastView : UIView {
 @private
 	UILabel *_textLabel;
 }
++ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text;
 + (void)toastPinInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset;
++ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset andType: (TOAST_TYPE) type;
 + (void)toastInView:(UIView *)parentView withText:(NSString *)text;
++ (void)toastInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset;
++ (void)toastInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset andType: (TOAST_TYPE) type;
 
 @end

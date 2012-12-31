@@ -24,6 +24,7 @@ typedef enum{
 @property   (nonatomic, retain) IBOutlet    UIButton    *buttonSortTime;
 @property   (nonatomic, retain) IBOutlet    UIButton    *buttonSortPrice;
 @property   (nonatomic, retain) IBOutlet    UIButton    *buttonFilter;
+@property   (nonatomic, retain) IBOutlet    UIImageView *sortImageView;
 
 @property   (nonatomic, retain) NSMutableArray      *datas;
 @property   (nonatomic, retain) NSMutableArray      *clonedDatas;

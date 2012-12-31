@@ -11,6 +11,7 @@
 #import "UIBarButtonItem+Blocks.h"
 #import "BBlock.h"
 #import "MBProgressHUD.h"
+#import "ALToastView.h"
 
 @interface CreateTravelerViewController ()
 
@@ -43,9 +44,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     if(_contacterType == CONTACTER){
-        _datas = [[NSArray alloc] initWithArray: @[@"姓       名", @"手机号码", @"邮件地址", @"通信地址"]];
+        _datas = [[NSArray alloc] initWithArray: @[@"姓       名(*)", @"手机号码", @"邮件地址", @"通信地址"]];
     }else{
-        _datas = [[NSArray alloc] initWithArray: @[@"姓       名", @"性       别", @"身份证号", @"手机号码", @"生       日", @"类       型"]];
+        _datas = [[NSArray alloc] initWithArray: @[@"姓       名(*)", @"性       别", @"身份证号(*)", @"手机号码", @"生       日", @"类       型"]];
     }
     
     _detail = [[NSMutableDictionary alloc] initWithCapacity:0];
@@ -70,41 +71,7 @@
     self.navigationItem.rightBarButtonItem =
     [UIBarButtonItem generateNormalStyleButtonWithTitle:@"创建"
                                          andTapCallback:^(id control, UIEvent *event) {
-                                             // TODO: save traveler here.
-                                             if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
-                                                 [_focusedTextField resignFirstResponder];
-                                             }
-                                             NSString *name = [_detail objectForKey:@"Name"];
-                                             
-                                             if(_contacterType == CONTACTER){
-                                                 if((NSNull *)name == [NSNull null] || [name length] == 0){
-                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”必须填写。" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
-                                                     [alert show];
-                                                     [alert release];
-                                                     return;
-                                                 }
-                                             }else{
-                                                 NSString *chinaId = [_detail objectForKey:@"ChinaId"];
-                                                 if((NSNull *)name == [NSNull null] || [name length] == 0 ||
-                                                    (NSNull *)chinaId == [NSNull null] || [chinaId length] == 0){
-                                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“姓名”和“身份证号”必须填写。" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
-                                                     [alert show];
-                                                     [alert release];
-                                                     return;
-                                                 }
-                                             }
-                                             
-                                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                                             hud.labelText = @"保存中...";
-                                             [BBlock dispatchAfter:1 onMainThread:^{
-                                                 [hud hide:YES];
-                                                 if(_contacterType == CONTACTER){
-                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
-                                                 }else{
-                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
-                                                 }
-                                                 [self.navigationController popViewControllerAnimated:YES];
-                                             }];
+                                             [self createContacter];
                                          }];
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
@@ -128,7 +95,45 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma mark - Create Contacter
+- (void)createContacter
+{
+    // TODO: save traveler here.
+    if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
+        [_focusedTextField resignFirstResponder];
+    }
+    NSString *name = [_detail objectForKey:@"Name"];
+    
+    if(_contacterType == CONTACTER){
+        if((NSNull *)name == [NSNull null] || [name length] == 0){
+            float bottom = SCREEN_RECT.size.height/2;
+            [ALToastView toastInView:self.view withText:@"“姓名”必须填写。" andBottomOffset:bottom andType: ERROR];
+            return;
+        }
+    }else{
+        NSString *chinaId = [_detail objectForKey:@"ChinaId"];
+        if((NSNull *)name == [NSNull null] || [name length] == 0){
+            [ALToastView toastInView:self.view withText:@"“姓名”必须填写。" andBottomOffset:SCREEN_RECT.size.height/2 andType: ERROR];
+            return;
+        }
+        if((NSNull *)chinaId == [NSNull null] || [chinaId length] == 0){
+            [ALToastView toastInView:self.view withText:@"“身份证号”必须填写。" andBottomOffset:SCREEN_RECT.size.height/2 andType: ERROR];
+            return;
+        }
+    }
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"保存中...";
+    [BBlock dispatchAfter:1 onMainThread:^{
+        [hud hide:YES];
+        if(_contacterType == CONTACTER){
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
+        }else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+}
 
 #pragma mark -TableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

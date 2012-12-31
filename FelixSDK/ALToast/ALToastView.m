@@ -59,10 +59,14 @@ static NSMutableArray *toasts;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSObject
 
-- (id)initWithText:(NSString *)text {
+- (id)initWithText:(NSString *)text andType: (TOAST_TYPE)type {
 	if ((self = [self initWithFrame:CGRectZero])) {
 		// Add corner radius
-		self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.6];
+        if(type == INFOMATION){
+            self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.6];
+        }else if(type == ERROR){
+            self.backgroundColor = [UIColor colorWithRed:255 green:0 blue:0 alpha:.8];
+        }
 		self.layer.cornerRadius = 5;
 		self.autoresizingMask = UIViewAutoresizingNone;
 		self.autoresizesSubviews = NO;
@@ -95,9 +99,17 @@ static NSMutableArray *toasts;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public
 
-+ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset {
++ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text
+{
+    [self toastInView:parentView withText:text andBottomOffset:40];
+}
++ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset
+{
+    [self toastInView:parentView withText:text andBottomOffset:bottomOffset andType:INFOMATION];
+}
++ (void)toastPinInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset andType:(TOAST_TYPE)type {
 	// Add new instance to queue
-	ALToastView *view = [[ALToastView alloc] initWithText:text];
+	ALToastView *view = [[ALToastView alloc] initWithText:text andType: type];
 	
 	// Change toastview frame
 	view.frame = [self getBound:view inParent:parentView withBottomOffset: bottomOffset];
@@ -105,12 +117,22 @@ static NSMutableArray *toasts;
 	[parentView addSubview:view];
     [view release];
 }
-+ (void)toastInView:(UIView *)parentView withText:(NSString *)text {
+
++ (void)toastInView:(UIView *)parentView withText:(NSString *)text
+{
+    [self toastInView:parentView withText:text andBottomOffset:40];
+}
++ (void)toastInView:(UIView *)parentView withText:(NSString *)text andBottomOffset: (CGFloat)bottomOffset
+{
+    [self toastInView:parentView withText:text andBottomOffset:bottomOffset andType:INFOMATION];
+}
++ (void)toastInView:(UIView *)parentView withText:(NSString *)text andBottomOffset:(CGFloat)bottomOffset andType:(TOAST_TYPE)type
+{
 	// Add new instance to queue
-	ALToastView *view = [[ALToastView alloc] initWithText:text];
+	ALToastView *view = [[ALToastView alloc] initWithText:text andType: type];
     
 	// Change toastview frame
-	view.frame = [self getBound:view inParent:parentView withBottomOffset:40];
+	view.frame = [self getBound:view inParent:parentView withBottomOffset:bottomOffset];
 	view.alpha = 0.0f;
 	
 	if (toasts == nil) {
@@ -122,7 +144,7 @@ static NSMutableArray *toasts;
 		[toasts addObject:view];
 	}
 	
-  [view release];
+    [view release];
 }
 
 

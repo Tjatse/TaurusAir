@@ -20,6 +20,7 @@
 #import "OrderFilterViewController.h"
 #import "OrderDetailViewController.h"
 #import "OrderState.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define TAG_SORT_TIME   100
 #define TAG_SORT_PRICE  101
@@ -33,6 +34,7 @@
 @synthesize buttonFilter, buttonSortPrice, buttonSortTime;
 @synthesize datas = _datas;
 @synthesize clonedDatas = _clonedDatas;
+@synthesize sortImageView = _sortImageView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +55,7 @@
     [_threeCodes release];
     [_orderStates release];
     [_clonedDatas release];
+    [_sortImageView release];
     [super dealloc];
 }
 
@@ -73,7 +76,7 @@
                                              andTapCallback:^(id control, UIEvent *event) {
                                                  [self showLoginViewController];
                                              }];
-        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“订单管理”。" andBottomOffset: 120];
+        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“订单管理”。" andBottomOffset: 120 andType: ERROR];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:@"LOGIN_SUC" object:nil];
     }else{
         [self initComponent];
@@ -110,26 +113,31 @@
         }
     }
     
-    buttonSortTime = [[self generateSortButton:CGRectMake(10, 5, 86, 29)
+    buttonSortTime = [[self generateSortButton:CGRectMake(10, 5, 87, 31)
                                          title:@"时间"
                                      highlight:NO
                                       needSort:YES
                                            tag:TAG_SORT_TIME] retain];
     [self.view addSubview:buttonSortTime];
     
-    buttonSortPrice = [[self generateSortButton:CGRectMake((SCREEN_RECT.size.width - 86)/2, 5, 86, 29)
+    buttonSortPrice = [[self generateSortButton:CGRectMake((SCREEN_RECT.size.width - 87)/2, 5, 87, 31)
                                           title:@"航班"
                                       highlight:NO
                                        needSort:YES
                                             tag:TAG_SORT_PRICE] retain];
     [self.view addSubview:buttonSortPrice];
     
-    buttonFilter = [[self generateSortButton:CGRectMake(SCREEN_RECT.size.width - 96, 5, 86, 29)
+    buttonFilter = [[self generateSortButton:CGRectMake(SCREEN_RECT.size.width - 96, 5, 87, 31)
                                        title:@"筛选"
                                    highlight:NO
                                     needSort:NO
                                          tag:TAG_FILTER] retain];
     [self.view addSubview:buttonFilter];
+    
+    _sortImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sort_icon.png"]];
+    [_sortImageView setFrame:CGRectMake(80, 14, 8, 11)];
+    [self.view addSubview:_sortImageView];
+    [self.view bringSubviewToFront:_sortImageView];
         
     _datas = [[@"[{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2012-12-28,07:55,09:15\",\"FromTo\":\"PEKDLC\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181},{\"Cabin\":\"N\",\"Flight\":\"MU1302\",\"FlightLeaveTime\":\"2012-12-30,15:25,17:55\",\"FromTo\":\"FUOHIA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1170,\"Tid\":6595181},{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2013-01-08,07:55,09:15\",\"FromTo\":\"HJJDQA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1200,\"Tid\":6595181}]" objectFromJSONString] retain];
     _clonedDatas = [_datas mutableCopy];
@@ -142,23 +150,48 @@
     [_tableView setDataSource:self];
     [_tableView setScrollEnabled:YES];
     [self.view addSubview:_tableView];
+    
+    _asc = true;
+    [self sortEvent:buttonSortTime];
 }
 #pragma mark Filter
+- (void)setButtonState: (UIButton *)button andState:(BOOL)selected
+{
+    [button setBackgroundImage:[UIImage imageNamed:(selected ? @"sort_btn_focus_bg.png":@"sort_btn_bg.png")] forState:UIControlStateNormal];
+    if(button == buttonSortTime && selected){
+        [_sortImageView setFrame:CGRectMake(80, 14, 8, 11)];
+    }else if(button == buttonSortPrice && selected){
+        [_sortImageView setFrame:CGRectMake((SCREEN_RECT.size.width - 86)/2 + 70, 14, 8, 11)];
+    }else if(button == buttonFilter && selected){
+        return;
+    }
+    
+    CATransform3D trans1 = CATransform3DMakeRotation(0, 0, 0, 1);
+    CATransform3D trans2 = CATransform3DMakeRotation(1.0 * M_PI, 0, 0, 1);
+    
+    CABasicAnimation* rotateAni = [CABasicAnimation animationWithKeyPath:@"transform"];
+    rotateAni.removedOnCompletion = YES;
+    rotateAni.fromValue = [NSValue valueWithCATransform3D:!_asc ? trans1 : trans2];
+    rotateAni.toValue = [NSValue valueWithCATransform3D:_asc ? trans1 : trans2];
+    
+    _sortImageView.layer.transform = _asc ? trans1 : trans2;
+    [_sortImageView.layer addAnimation:rotateAni forKey:nil];
+}
 - (void)filterOrder: (NSNotification *)notification
 {
     _selectedRow = [[[notification userInfo] objectForKey:@"selectedRow"] intValue];
     if(_sort == PRICE){
-        [buttonSortPrice setBackgroundImage:[UIImage imageNamed:@"btn-sort.png"] forState:UIControlStateNormal];
+        [self setButtonState:buttonSortPrice andState:NO];
     }
     else if(_sort == TIME){
-        [buttonSortTime setBackgroundImage:[UIImage imageNamed:@"btn-sort.png"] forState:UIControlStateNormal];
+        [self setButtonState:buttonSortTime andState:NO];
     }
     
-    [buttonFilter setBackgroundImage:[UIImage imageNamed:@"btn-sort-highlight.png"] forState:UIControlStateNormal];
+    [self setButtonState:buttonFilter andState:YES];
     NSPredicate *predicate = nil;
     switch (_selectedRow) {
         case 0: // 全部
-            [buttonFilter setBackgroundImage:[UIImage imageNamed:@"btn-sort"] forState:UIControlStateNormal];
+            [self setButtonState:buttonFilter andState:NO];
             break;
         case 1: // 新订单 1010
             predicate = [NSPredicate predicateWithFormat:@"State==1010"];
@@ -185,7 +218,7 @@
     }
     [_tableView reloadData];
     if([_datas count] == 0){
-        [ALToastView toastInView:self.view withText:@"没有符合筛选条件的订单信息。"];
+        [ALToastView toastInView:self.view withText:@"没有符合筛选条件的订单信息。" andBottomOffset: 40 andType:ERROR];
     }
 }
 #pragma mark Generate Buttons
@@ -196,13 +229,10 @@
                              tag: (int)tag
 {
     UIButton *_button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_button setBackgroundImage:[UIImage imageNamed:(highlight ? @"btn-sort-highlight.png":@"btn-sort")] forState:UIControlStateNormal];
+    [_button setBackgroundImage:[UIImage imageNamed:(highlight ? @"sort_btn_focus_bg.png":@"sort_btn_bg.png")] forState:UIControlStateNormal];
     [_button setFrame:frame];
     [_button setTitle:title forState:UIControlStateNormal];
-    if(needSort){
-        [_button setImage:[UIImage imageNamed:@"sort-asc.png"] forState:UIControlStateNormal];
-        [_button setImageEdgeInsets:UIEdgeInsetsMake(8, 70, 10, 8)];
-    }
+    
     [_button setTag:tag];
     [_button addTarget:self action:@selector(sortEvent:) forControlEvents:UIControlEventTouchUpInside];
     [_button setUserInteractionEnabled:YES];
@@ -215,32 +245,23 @@
     switch (button.tag) {
         case TAG_SORT_TIME: {
             if(_sort == PRICE){
-                [buttonSortPrice setBackgroundImage:[UIImage imageNamed:@"btn-sort.png"] forState:UIControlStateNormal];
+                [self setButtonState:buttonSortPrice andState:NO];
             }
             _sort = TIME;
-            [buttonSortTime setBackgroundImage:[UIImage imageNamed:@"btn-sort-highlight.png"] forState:UIControlStateNormal];
-            if(_asc){
-                [buttonSortTime setImage:[UIImage imageNamed:@"sort-dsc.png"] forState:UIControlStateNormal];
-            }else{
-                [buttonSortTime setImage:[UIImage imageNamed:@"sort-asc"] forState:UIControlStateNormal];
-            }
             _asc = !_asc;
+            
+            [self setButtonState:buttonSortTime andState:YES];
             [self sortByKey:@"FlightLeaveTime" andASC:_asc];
             [_tableView reloadData];
         }
             break;
         case TAG_SORT_PRICE:{
             if(_sort == TIME){
-                [buttonSortTime setBackgroundImage:[UIImage imageNamed:@"btn-sort.png"] forState:UIControlStateNormal];
+                [self setButtonState:buttonSortTime andState:NO];
             }
             _sort = PRICE;
-            [buttonSortPrice setBackgroundImage:[UIImage imageNamed:@"btn-sort-highlight.png"] forState:UIControlStateNormal];
-            if(_asc){
-                [buttonSortPrice setImage:[UIImage imageNamed:@"sort-dsc.png"] forState:UIControlStateNormal];
-            }else{
-                [buttonSortPrice setImage:[UIImage imageNamed:@"sort-asc"] forState:UIControlStateNormal];
-            }
             _asc = !_asc;
+            [self setButtonState:buttonSortPrice andState:YES];
             [self sortByKey:@"Flight" andASC:_asc];
             [_tableView reloadData];
         }
