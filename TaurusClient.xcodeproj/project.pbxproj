@@ -163,6 +163,10 @@
 		3E75C29E1693AC7000CDB92F /* FlightNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C29C1693AC7000CDB92F /* FlightNotificationViewController.xib */; };
 		3E75C2A21693AC8D00CDB92F /* BasicSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2A01693AC8D00CDB92F /* BasicSettingsViewController.m */; };
 		3E75C2A31693AC8D00CDB92F /* BasicSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2A11693AC8D00CDB92F /* BasicSettingsViewController.xib */; };
+		3E75C2A81693AF6600CDB92F /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2A61693AF6600CDB92F /* FeedbackViewController.m */; };
+		3E75C2A91693AF6600CDB92F /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2A71693AF6600CDB92F /* FeedbackViewController.xib */; };
+		3E75C2AD1693AF8B00CDB92F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2AB1693AF8B00CDB92F /* AboutViewController.m */; };
+		3E75C2AE1693AF8B00CDB92F /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2AC1693AF8B00CDB92F /* AboutViewController.xib */; };
 		3E7B2AF616772A0B008789BE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF416772A0B008789BE /* MainViewController.m */; };
 		3E7B2AF716772A0B008789BE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF516772A0B008789BE /* MainViewController.xib */; };
 		3E7B2B6C16774685008789BE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B0516774685008789BE /* background.png */; };
@@ -591,6 +595,12 @@
 		3E75C29F1693AC8D00CDB92F /* BasicSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicSettingsViewController.h; path = BasicSettings/BasicSettingsViewController.h; sourceTree = "<group>"; };
 		3E75C2A01693AC8D00CDB92F /* BasicSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicSettingsViewController.m; path = BasicSettings/BasicSettingsViewController.m; sourceTree = "<group>"; };
 		3E75C2A11693AC8D00CDB92F /* BasicSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BasicSettingsViewController.xib; path = BasicSettings/BasicSettingsViewController.xib; sourceTree = "<group>"; };
+		3E75C2A51693AF6600CDB92F /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedbackViewController.h; path = Feedback/FeedbackViewController.h; sourceTree = "<group>"; };
+		3E75C2A61693AF6600CDB92F /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedbackViewController.m; path = Feedback/FeedbackViewController.m; sourceTree = "<group>"; };
+		3E75C2A71693AF6600CDB92F /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedbackViewController.xib; path = Feedback/FeedbackViewController.xib; sourceTree = "<group>"; };
+		3E75C2AA1693AF8B00CDB92F /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = About/AboutViewController.h; sourceTree = "<group>"; };
+		3E75C2AB1693AF8B00CDB92F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = About/AboutViewController.m; sourceTree = "<group>"; };
+		3E75C2AC1693AF8B00CDB92F /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutViewController.xib; path = About/AboutViewController.xib; sourceTree = "<group>"; };
 		3E7B2AF316772A0B008789BE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = HomePage/MainViewController.h; sourceTree = "<group>"; };
 		3E7B2AF416772A0B008789BE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = HomePage/MainViewController.m; sourceTree = "<group>"; };
 		3E7B2AF516772A0B008789BE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewController.xib; path = HomePage/MainViewController.xib; sourceTree = "<group>"; };
@@ -943,6 +953,8 @@
 				3E1F86041679C58E00F49691 /* MyInformation */,
 				3E75C2971693AC0700CDB92F /* FlightNotification */,
 				3E75C2991693AC2500CDB92F /* BasicSettings */,
+				3E75C2A41693AF4E00CDB92F /* Feedback */,
+				3E75C2AF1693AF9300CDB92F /* About */,
 				3E51618B1675D0F700D2DC78 /* AppDelegate.h */,
 				3E51618C1675D0F700D2DC78 /* AppDelegate.m */,
 				3E7B2B0416774685008789BE /* Resources */,
@@ -1344,6 +1356,26 @@
 				3E75C2A11693AC8D00CDB92F /* BasicSettingsViewController.xib */,
 			);
 			name = BasicSettings;
+			sourceTree = "<group>";
+		};
+		3E75C2A41693AF4E00CDB92F /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				3E75C2A51693AF6600CDB92F /* FeedbackViewController.h */,
+				3E75C2A61693AF6600CDB92F /* FeedbackViewController.m */,
+				3E75C2A71693AF6600CDB92F /* FeedbackViewController.xib */,
+			);
+			name = Feedback;
+			sourceTree = "<group>";
+		};
+		3E75C2AF1693AF9300CDB92F /* About */ = {
+			isa = PBXGroup;
+			children = (
+				3E75C2AA1693AF8B00CDB92F /* AboutViewController.h */,
+				3E75C2AB1693AF8B00CDB92F /* AboutViewController.m */,
+				3E75C2AC1693AF8B00CDB92F /* AboutViewController.xib */,
+			);
+			name = About;
 			sourceTree = "<group>";
 		};
 		3E7B2AF1167729E5008789BE /* HomePage */ = {
@@ -1839,6 +1871,8 @@
 				92EEEFFA1691750A0046C20E /* EditMyInfoViewController.xib in Resources */,
 				3E75C29E1693AC7000CDB92F /* FlightNotificationViewController.xib in Resources */,
 				3E75C2A31693AC8D00CDB92F /* BasicSettingsViewController.xib in Resources */,
+				3E75C2A91693AF6600CDB92F /* FeedbackViewController.xib in Resources */,
+				3E75C2AE1693AF8B00CDB92F /* AboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1991,6 +2025,8 @@
 				92EEEFF91691750A0046C20E /* EditMyInfoViewController.m in Sources */,
 				3E75C29D1693AC7000CDB92F /* FlightNotificationViewController.m in Sources */,
 				3E75C2A21693AC8D00CDB92F /* BasicSettingsViewController.m in Sources */,
+				3E75C2A81693AF6600CDB92F /* FeedbackViewController.m in Sources */,
+				3E75C2AD1693AF8B00CDB92F /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
