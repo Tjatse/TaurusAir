@@ -931,6 +931,8 @@
 				3E1F86031679C57700F49691 /* MyOrder */,
 				3E1F860F1679C63D00F49691 /* Contacter */,
 				3E1F86041679C58E00F49691 /* MyInformation */,
+				3E75C2971693AC0700CDB92F /* FlightNotification */,
+				3E75C2991693AC2500CDB92F /* BasicSettings */,
 				3E51618B1675D0F700D2DC78 /* AppDelegate.h */,
 				3E51618C1675D0F700D2DC78 /* AppDelegate.m */,
 				3E7B2B0416774685008789BE /* Resources */,
@@ -1312,6 +1314,20 @@
 				3E751E2D168962E8006FCA04 /* CHCSVParser.m */,
 			);
 			path = CHCSVParser;
+			sourceTree = "<group>";
+		};
+		3E75C2971693AC0700CDB92F /* FlightNotification */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = FlightNotification;
+			sourceTree = "<group>";
+		};
+		3E75C2991693AC2500CDB92F /* BasicSettings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = BasicSettings;
 			sourceTree = "<group>";
 		};
 		3E7B2AF1167729E5008789BE /* HomePage */ = {
