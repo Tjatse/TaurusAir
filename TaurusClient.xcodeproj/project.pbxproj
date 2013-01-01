@@ -159,6 +159,10 @@
 		3E751E31168963E9006FCA04 /* TwoCharCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E751E30168963E8006FCA04 /* TwoCharCode.m */; };
 		3E751E34168963FE006FCA04 /* CharCodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E751E33168963FE006FCA04 /* CharCodeHelper.m */; };
 		3E751E3716896429006FCA04 /* ThreeCharCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E751E3616896428006FCA04 /* ThreeCharCode.m */; };
+		3E75C29D1693AC7000CDB92F /* FlightNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C29B1693AC7000CDB92F /* FlightNotificationViewController.m */; };
+		3E75C29E1693AC7000CDB92F /* FlightNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C29C1693AC7000CDB92F /* FlightNotificationViewController.xib */; };
+		3E75C2A21693AC8D00CDB92F /* BasicSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2A01693AC8D00CDB92F /* BasicSettingsViewController.m */; };
+		3E75C2A31693AC8D00CDB92F /* BasicSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2A11693AC8D00CDB92F /* BasicSettingsViewController.xib */; };
 		3E7B2AF616772A0B008789BE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF416772A0B008789BE /* MainViewController.m */; };
 		3E7B2AF716772A0B008789BE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF516772A0B008789BE /* MainViewController.xib */; };
 		3E7B2B6C16774685008789BE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B0516774685008789BE /* background.png */; };
@@ -581,6 +585,12 @@
 		3E751E33168963FE006FCA04 /* CharCodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharCodeHelper.m; sourceTree = "<group>"; };
 		3E751E3516896428006FCA04 /* ThreeCharCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeCharCode.h; sourceTree = "<group>"; };
 		3E751E3616896428006FCA04 /* ThreeCharCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeCharCode.m; sourceTree = "<group>"; };
+		3E75C29A1693AC7000CDB92F /* FlightNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlightNotificationViewController.h; path = FlightNotification/FlightNotificationViewController.h; sourceTree = "<group>"; };
+		3E75C29B1693AC7000CDB92F /* FlightNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlightNotificationViewController.m; path = FlightNotification/FlightNotificationViewController.m; sourceTree = "<group>"; };
+		3E75C29C1693AC7000CDB92F /* FlightNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightNotificationViewController.xib; path = FlightNotification/FlightNotificationViewController.xib; sourceTree = "<group>"; };
+		3E75C29F1693AC8D00CDB92F /* BasicSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicSettingsViewController.h; path = BasicSettings/BasicSettingsViewController.h; sourceTree = "<group>"; };
+		3E75C2A01693AC8D00CDB92F /* BasicSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicSettingsViewController.m; path = BasicSettings/BasicSettingsViewController.m; sourceTree = "<group>"; };
+		3E75C2A11693AC8D00CDB92F /* BasicSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BasicSettingsViewController.xib; path = BasicSettings/BasicSettingsViewController.xib; sourceTree = "<group>"; };
 		3E7B2AF316772A0B008789BE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = HomePage/MainViewController.h; sourceTree = "<group>"; };
 		3E7B2AF416772A0B008789BE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = HomePage/MainViewController.m; sourceTree = "<group>"; };
 		3E7B2AF516772A0B008789BE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewController.xib; path = HomePage/MainViewController.xib; sourceTree = "<group>"; };
@@ -1319,6 +1329,9 @@
 		3E75C2971693AC0700CDB92F /* FlightNotification */ = {
 			isa = PBXGroup;
 			children = (
+				3E75C29A1693AC7000CDB92F /* FlightNotificationViewController.h */,
+				3E75C29B1693AC7000CDB92F /* FlightNotificationViewController.m */,
+				3E75C29C1693AC7000CDB92F /* FlightNotificationViewController.xib */,
 			);
 			name = FlightNotification;
 			sourceTree = "<group>";
@@ -1326,6 +1339,9 @@
 		3E75C2991693AC2500CDB92F /* BasicSettings */ = {
 			isa = PBXGroup;
 			children = (
+				3E75C29F1693AC8D00CDB92F /* BasicSettingsViewController.h */,
+				3E75C2A01693AC8D00CDB92F /* BasicSettingsViewController.m */,
+				3E75C2A11693AC8D00CDB92F /* BasicSettingsViewController.xib */,
 			);
 			name = BasicSettings;
 			sourceTree = "<group>";
@@ -1821,6 +1837,8 @@
 				92EEEFEB16905EA90046C20E /* avatar-male@2x.png in Resources */,
 				92EEEFF1169133BA0046C20E /* ChangePwdViewController.xib in Resources */,
 				92EEEFFA1691750A0046C20E /* EditMyInfoViewController.xib in Resources */,
+				3E75C29E1693AC7000CDB92F /* FlightNotificationViewController.xib in Resources */,
+				3E75C2A31693AC8D00CDB92F /* BasicSettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1971,6 +1989,8 @@
 				3E30F255168EDCD7002C236B /* FlightSelectSortAirplaneViewController.m in Sources */,
 				92EEEFF0169133BA0046C20E /* ChangePwdViewController.m in Sources */,
 				92EEEFF91691750A0046C20E /* EditMyInfoViewController.m in Sources */,
+				3E75C29D1693AC7000CDB92F /* FlightNotificationViewController.m in Sources */,
+				3E75C2A21693AC8D00CDB92F /* BasicSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
