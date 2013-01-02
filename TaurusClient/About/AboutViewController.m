@@ -8,6 +8,8 @@
 
 #import "AboutViewController.h"
 #import "UIBarButtonItem+ButtonMaker.h"
+#import "SoftVersonViewController.h"
+#import "CorpInfoViewController.h"
 
 @interface AboutViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -97,7 +99,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.row == 0) {
+		SoftVersonViewController* vc = [[SoftVersonViewController alloc] init];
+		[self.navigationController pushViewController:vc animated:YES];
+		SAFE_RELEASE(vc);
 	} else if (indexPath.row == 1) {
+		CorpInfoViewController* vc = [[CorpInfoViewController alloc] init];
+		[self.navigationController pushViewController:vc animated:YES];
+		SAFE_RELEASE(vc);
 	} else if (indexPath.row == 2) {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.jinniuit.com"]];
 	} else {

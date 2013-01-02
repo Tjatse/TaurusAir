@@ -15,12 +15,13 @@
 @synthesize toCity;
 @synthesize customerName;
 @synthesize departureTime;
+@synthesize flightNumber;
 
 //===========================================================
 // - (id)initWith:
 //
 //===========================================================
-- (id)initWithFromCity:(ThreeCharCode*)aFromCity toCity:(ThreeCharCode*)aToCity customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime
+- (id)initWithFromCity:(ThreeCharCode*)aFromCity toCity:(ThreeCharCode*)aToCity customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime flightNumber:(NSString*)aFlightNumber
 {
     self = [super init];
     if (self) {
@@ -28,6 +29,7 @@
         self.toCity = aToCity;
         self.customerName = aCustomerName;
         self.departureTime = aDepartureTime;
+        self.flightNumber = aFlightNumber;
     }
     return self;
 }
@@ -42,8 +44,10 @@
     self.toCity = nil;
     self.customerName = nil;
     self.departureTime = nil;
+    self.flightNumber = nil;
 	
     [super dealloc];
 }
+
 
 @end

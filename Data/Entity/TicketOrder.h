@@ -16,6 +16,6 @@
 @property (nonatomic, retain) ThreeCharCode *toCity;
 @property (nonatomic, retain) NSString *customerName;
 @property (nonatomic, retain) NSDate *departureTime;
-- (id)initWithFromCity:(ThreeCharCode*)aFromCity toCity:(ThreeCharCode*)aToCity customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime;
-
+@property (nonatomic, retain) NSString *flightNumber;
+- (id)initWithFromCity:(ThreeCharCode*)aFromCity toCity:(ThreeCharCode*)aToCity customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime flightNumber:(NSString*)aFlightNumber;
 @end

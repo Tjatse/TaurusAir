@@ -170,6 +170,11 @@
 		3E75C2B51693B68100CDB92F /* BasicSettingsCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2B41693B68100CDB92F /* BasicSettingsCells.xib */; };
 		3E75C2BC16944FE200CDB92F /* FlightNotificationCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2BB16944FE200CDB92F /* FlightNotificationCells.xib */; };
 		3E75C2BF169452DF00CDB92F /* TicketOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2BE169452DF00CDB92F /* TicketOrder.m */; };
+		3E75C2C21694590D00CDB92F /* TicketOrderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2C11694590D00CDB92F /* TicketOrderHelper.m */; };
+		3E75C2C6169461A700CDB92F /* SoftVersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2C4169461A700CDB92F /* SoftVersonViewController.m */; };
+		3E75C2C7169461A700CDB92F /* SoftVersonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2C5169461A700CDB92F /* SoftVersonViewController.xib */; };
+		3E75C2CB1694624E00CDB92F /* CorpInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2C91694624D00CDB92F /* CorpInfoViewController.m */; };
+		3E75C2CC1694624E00CDB92F /* CorpInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2CA1694624E00CDB92F /* CorpInfoViewController.xib */; };
 		3E7B2AF616772A0B008789BE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF416772A0B008789BE /* MainViewController.m */; };
 		3E7B2AF716772A0B008789BE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF516772A0B008789BE /* MainViewController.xib */; };
 		3E7B2B6C16774685008789BE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B0516774685008789BE /* background.png */; };
@@ -608,6 +613,14 @@
 		3E75C2BB16944FE200CDB92F /* FlightNotificationCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightNotificationCells.xib; path = FlightNotification/FlightNotificationCells.xib; sourceTree = "<group>"; };
 		3E75C2BD169452DF00CDB92F /* TicketOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketOrder.h; sourceTree = "<group>"; };
 		3E75C2BE169452DF00CDB92F /* TicketOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketOrder.m; sourceTree = "<group>"; };
+		3E75C2C01694590D00CDB92F /* TicketOrderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketOrderHelper.h; sourceTree = "<group>"; };
+		3E75C2C11694590D00CDB92F /* TicketOrderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketOrderHelper.m; sourceTree = "<group>"; };
+		3E75C2C3169461A700CDB92F /* SoftVersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoftVersonViewController.h; path = About/SoftVersonViewController.h; sourceTree = "<group>"; };
+		3E75C2C4169461A700CDB92F /* SoftVersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoftVersonViewController.m; path = About/SoftVersonViewController.m; sourceTree = "<group>"; };
+		3E75C2C5169461A700CDB92F /* SoftVersonViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SoftVersonViewController.xib; path = About/SoftVersonViewController.xib; sourceTree = "<group>"; };
+		3E75C2C81694624D00CDB92F /* CorpInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CorpInfoViewController.h; path = About/CorpInfoViewController.h; sourceTree = "<group>"; };
+		3E75C2C91694624D00CDB92F /* CorpInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CorpInfoViewController.m; path = About/CorpInfoViewController.m; sourceTree = "<group>"; };
+		3E75C2CA1694624E00CDB92F /* CorpInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CorpInfoViewController.xib; path = About/CorpInfoViewController.xib; sourceTree = "<group>"; };
 		3E7B2AF316772A0B008789BE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = HomePage/MainViewController.h; sourceTree = "<group>"; };
 		3E7B2AF416772A0B008789BE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = HomePage/MainViewController.m; sourceTree = "<group>"; };
 		3E7B2AF516772A0B008789BE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewController.xib; path = HomePage/MainViewController.xib; sourceTree = "<group>"; };
@@ -1383,6 +1396,12 @@
 				3E75C2AA1693AF8B00CDB92F /* AboutViewController.h */,
 				3E75C2AB1693AF8B00CDB92F /* AboutViewController.m */,
 				3E75C2AC1693AF8B00CDB92F /* AboutViewController.xib */,
+				3E75C2C3169461A700CDB92F /* SoftVersonViewController.h */,
+				3E75C2C4169461A700CDB92F /* SoftVersonViewController.m */,
+				3E75C2C5169461A700CDB92F /* SoftVersonViewController.xib */,
+				3E75C2C81694624D00CDB92F /* CorpInfoViewController.h */,
+				3E75C2C91694624D00CDB92F /* CorpInfoViewController.m */,
+				3E75C2CA1694624E00CDB92F /* CorpInfoViewController.xib */,
 			);
 			name = About;
 			sourceTree = "<group>";
@@ -1678,6 +1697,8 @@
 				3E30F215168E84C0002C236B /* CitySearchHelper.m */,
 				3E30F22A168EBEAC002C236B /* AirportSearchHelper.h */,
 				3E30F22B168EBEAC002C236B /* AirportSearchHelper.m */,
+				3E75C2C01694590D00CDB92F /* TicketOrderHelper.h */,
+				3E75C2C11694590D00CDB92F /* TicketOrderHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1886,6 +1907,8 @@
 				3E75C2AE1693AF8B00CDB92F /* AboutViewController.xib in Resources */,
 				3E75C2B51693B68100CDB92F /* BasicSettingsCells.xib in Resources */,
 				3E75C2BC16944FE200CDB92F /* FlightNotificationCells.xib in Resources */,
+				3E75C2C7169461A700CDB92F /* SoftVersonViewController.xib in Resources */,
+				3E75C2CC1694624E00CDB92F /* CorpInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2041,6 +2064,9 @@
 				3E75C2A81693AF6600CDB92F /* FeedbackViewController.m in Sources */,
 				3E75C2AD1693AF8B00CDB92F /* AboutViewController.m in Sources */,
 				3E75C2BF169452DF00CDB92F /* TicketOrder.m in Sources */,
+				3E75C2C21694590D00CDB92F /* TicketOrderHelper.m in Sources */,
+				3E75C2C6169461A700CDB92F /* SoftVersonViewController.m in Sources */,
+				3E75C2CB1694624E00CDB92F /* CorpInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
