@@ -10,9 +10,4 @@
 
 @interface MainViewController : UIViewController
 
-- (IBAction)onFlightSearchButtonTap:(id)sender;
-- (IBAction)onMyOrderButtonTap:(id)sender;
-- (IBAction)onContacterButtonTap:(id)sender;
-- (IBAction)onMyInfoButtonTap:(id)sender;
-
 @end

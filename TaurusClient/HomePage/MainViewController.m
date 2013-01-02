@@ -14,6 +14,15 @@
 
 @property (nonatomic, retain) NavViewController*	navVC;
 
+- (IBAction)onFlightSearchButtonTap:(id)sender;
+- (IBAction)onMyOrderButtonTap:(id)sender;
+- (IBAction)onContacterButtonTap:(id)sender;
+- (IBAction)onMyInfoButtonTap:(id)sender;
+- (IBAction)onFlightNotificationButtonTap:(id)sender;
+- (IBAction)onBasicSettingsButtonTap:(id)sender;
+- (IBAction)onFeedbackButtonTap:(id)sender;
+- (IBAction)onAboutButtonTap:(id)sender;
+
 @end
 
 @implementation MainViewController
@@ -42,7 +51,7 @@
 {
 	if (_navVC == nil){
 		_navVC = [[NavViewController alloc] init];
-        [AppContext get].navController = [_navVC retain];
+        [AppContext get].navController = _navVC;
     }
 	
 	return _navVC;
@@ -74,6 +83,26 @@
 	[self.navigationController pushViewController:self.navVC animated:YES];
 }
 
+- (void)onFlightNotificationButtonTap:(id)sender
+{
+	
+}
+
+- (void)onBasicSettingsButtonTap:(id)sender
+{
+	
+}
+
+- (void)onFeedbackButtonTap:(id)sender
+{
+	
+}
+
+- (void)onAboutButtonTap:(id)sender
+{
+	
+}
+
 #pragma mark - view methods
 
 - (void)viewDidLoad
@@ -83,14 +112,16 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetNav:) name:@"LOGOUT" object:nil];
 }
+
 - (void)viewDidUnload
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGOUT" object:nil];
     [super viewDidUnload];
 }
-- (void)resetNav: (NSNotification *)notification
+
+- (void)resetNav:(NSNotification *)notification
 {
-    [_navVC release], _navVC = nil;
+    self.navVC = nil;
     [[AppContext get] setNavController:nil];
 }
 
