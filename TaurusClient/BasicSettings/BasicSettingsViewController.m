@@ -7,6 +7,7 @@
 //
 
 #import "BasicSettingsViewController.h"
+#import "UIBarButtonItem+ButtonMaker.h"
 
 @interface BasicSettingsViewController ()
 
@@ -26,7 +27,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+	self.title = @"基本设置";
+	
+	self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
+																			   andTapCallback:^(id control, UIEvent *event) {
+																				   [self dismissModalViewControllerAnimated:YES];
+																			   }];
 }
 
 - (void)didReceiveMemoryWarning

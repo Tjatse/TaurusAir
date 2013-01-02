@@ -167,6 +167,7 @@
 		3E75C2A91693AF6600CDB92F /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2A71693AF6600CDB92F /* FeedbackViewController.xib */; };
 		3E75C2AD1693AF8B00CDB92F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2AB1693AF8B00CDB92F /* AboutViewController.m */; };
 		3E75C2AE1693AF8B00CDB92F /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2AC1693AF8B00CDB92F /* AboutViewController.xib */; };
+		3E75C2B51693B68100CDB92F /* BasicSettingsCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2B41693B68100CDB92F /* BasicSettingsCells.xib */; };
 		3E7B2AF616772A0B008789BE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF416772A0B008789BE /* MainViewController.m */; };
 		3E7B2AF716772A0B008789BE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF516772A0B008789BE /* MainViewController.xib */; };
 		3E7B2B6C16774685008789BE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B0516774685008789BE /* background.png */; };
@@ -601,6 +602,7 @@
 		3E75C2AA1693AF8B00CDB92F /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = About/AboutViewController.h; sourceTree = "<group>"; };
 		3E75C2AB1693AF8B00CDB92F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = About/AboutViewController.m; sourceTree = "<group>"; };
 		3E75C2AC1693AF8B00CDB92F /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutViewController.xib; path = About/AboutViewController.xib; sourceTree = "<group>"; };
+		3E75C2B41693B68100CDB92F /* BasicSettingsCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BasicSettingsCells.xib; path = BasicSettings/BasicSettingsCells.xib; sourceTree = "<group>"; };
 		3E7B2AF316772A0B008789BE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = HomePage/MainViewController.h; sourceTree = "<group>"; };
 		3E7B2AF416772A0B008789BE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = HomePage/MainViewController.m; sourceTree = "<group>"; };
 		3E7B2AF516772A0B008789BE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewController.xib; path = HomePage/MainViewController.xib; sourceTree = "<group>"; };
@@ -1354,6 +1356,7 @@
 				3E75C29F1693AC8D00CDB92F /* BasicSettingsViewController.h */,
 				3E75C2A01693AC8D00CDB92F /* BasicSettingsViewController.m */,
 				3E75C2A11693AC8D00CDB92F /* BasicSettingsViewController.xib */,
+				3E75C2B41693B68100CDB92F /* BasicSettingsCells.xib */,
 			);
 			name = BasicSettings;
 			sourceTree = "<group>";
@@ -1873,6 +1876,7 @@
 				3E75C2A31693AC8D00CDB92F /* BasicSettingsViewController.xib in Resources */,
 				3E75C2A91693AF6600CDB92F /* FeedbackViewController.xib in Resources */,
 				3E75C2AE1693AF8B00CDB92F /* AboutViewController.xib in Resources */,
+				3E75C2B51693B68100CDB92F /* BasicSettingsCells.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

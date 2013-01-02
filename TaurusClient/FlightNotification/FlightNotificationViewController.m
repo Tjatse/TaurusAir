@@ -7,6 +7,7 @@
 //
 
 #import "FlightNotificationViewController.h"
+#import "UIBarButtonItem+ButtonMaker.h"
 
 @interface FlightNotificationViewController ()
 
@@ -26,7 +27,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.title = @"航班提醒";
+	
+	self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
+																			   andTapCallback:^(id control, UIEvent *event) {
+																				   [self dismissModalViewControllerAnimated:YES];
+																			   }];
 }
 
 - (void)didReceiveMemoryWarning

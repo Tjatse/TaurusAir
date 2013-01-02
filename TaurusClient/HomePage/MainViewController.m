@@ -9,6 +9,11 @@
 #import "MainViewController.h"
 #import "AppContext.h"
 #import "NavViewController.h"
+#import "UIBGNavigationController.h"
+#import "FlightNotificationViewController.h"
+#import "FeedbackViewController.h"
+#import "BasicSettingsViewController.h"
+#import "AboutViewController.h"
 
 @interface MainViewController ()
 
@@ -85,22 +90,46 @@
 
 - (void)onFlightNotificationButtonTap:(id)sender
 {
+	FlightNotificationViewController* vc = [[FlightNotificationViewController alloc] init];
+	UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:vc];
 	
+	[self.navigationController presentModalViewController:navVC animated:YES];
+	
+	SAFE_RELEASE(navVC);
+	SAFE_RELEASE(vc);
 }
 
 - (void)onBasicSettingsButtonTap:(id)sender
 {
+	BasicSettingsViewController* vc = [[BasicSettingsViewController alloc] init];
+	UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:vc];
 	
+	[self.navigationController presentModalViewController:navVC animated:YES];
+	
+	SAFE_RELEASE(navVC);
+	SAFE_RELEASE(vc);
 }
 
 - (void)onFeedbackButtonTap:(id)sender
 {
+	FeedbackViewController* vc = [[FeedbackViewController alloc] init];
+	UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:vc];
 	
+	[self.navigationController presentModalViewController:navVC animated:YES];
+	
+	SAFE_RELEASE(navVC);
+	SAFE_RELEASE(vc);
 }
 
 - (void)onAboutButtonTap:(id)sender
 {
+	AboutViewController* vc = [[AboutViewController alloc] init];
+	UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:vc];
 	
+	[self.navigationController presentModalViewController:navVC animated:YES];
+	
+	SAFE_RELEASE(navVC);
+	SAFE_RELEASE(vc);
 }
 
 #pragma mark - view methods

@@ -53,6 +53,11 @@
 																				  andTapCallback:^(id control, UIEvent *event) {
 																					  [self onSubmitButtonTap:nil];
 																				  }];
+	
+	self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
+																			   andTapCallback:^(id control, UIEvent *event) {
+																				   [self dismissModalViewControllerAnimated:YES];
+																			   }];
 	self.submitButton.enabled = NO;
 	
 	[self.promptView becomeFirstResponder];
