@@ -14,6 +14,8 @@
 #import "CharCodeHelper.h"
 #import "ThreeCharCode.h"
 #import "FSConfig.h"
+#import "CitySelectViewController.h"
+#import "City.h"
 
 @interface BasicSettingsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -186,7 +188,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
+	if (indexPath.section == 0) {
+		if (indexPath.row == 0) {
+			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+			__block BasicSettingsViewController* blockSelf = self;
+			vc.citySelectedBlock = ^(City* city) {
+				[FSConfig setValue:[city.threeCharCodes[0] charCode] withKey:@"defaultDepartureCity"];
+				[blockSelf.tableView reloadData];
+			};
+			
+			NSString* defaultThreeCharCode = [FSConfig readValueWithKey:@"defaultDepartureCity"];
+			ThreeCharCode* charCode = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultThreeCharCode];
+			vc.defaultCityName = charCode.cityName;
+			
+			[self.navigationController pushViewController:vc animated:YES];
+			
+			SAFE_RELEASE(vc);
+		} else if (indexPath.row == 1) {
+			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+			__block BasicSettingsViewController* blockSelf = self;
+			vc.citySelectedBlock = ^(City* city) {
+				[FSConfig setValue:[city.threeCharCodes[0] charCode] withKey:@"defaultArrivalCity"];
+				[blockSelf.tableView reloadData];
+			};
+			
+			NSString* defaultThreeCharCode = [FSConfig readValueWithKey:@"defaultArrivalCity"];
+			ThreeCharCode* charCode = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultThreeCharCode];
+			vc.defaultCityName = charCode.cityName;
+			
+			[self.navigationController pushViewController:vc animated:YES];
+			
+			SAFE_RELEASE(vc);
+		}
+	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

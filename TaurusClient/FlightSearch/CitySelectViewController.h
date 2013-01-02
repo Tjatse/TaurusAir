@@ -21,5 +21,6 @@ typedef void (^OnCitySelectedBlock)(City* city);
 @property (nonatomic, retain) IBOutlet UISearchBar*		filterKeyBar;
 @property (nonatomic, retain) IBOutlet UITableView*		cityListView;
 @property (nonatomic, copy) OnCitySelectedBlock			citySelectedBlock;
+@property (nonatomic, retain) NSString*					defaultCityName;
 
 @end

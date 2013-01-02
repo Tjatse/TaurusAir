@@ -248,6 +248,8 @@
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
 			
+			vc.defaultCityName = self.departureCity.cityName;
+			
 			[self.navigationController pushViewController:vc animated:YES];
 			
 			SAFE_RELEASE(vc);
@@ -258,6 +260,8 @@
 				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
+			
+			vc.defaultCityName = self.arrivalCity.cityName;
 			
 			[self.navigationController pushViewController:vc animated:YES];
 			
@@ -272,6 +276,8 @@
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
 			
+			vc.defaultCityName = self.departureCity.cityName;
+			
 			[self.navigationController pushViewController:vc animated:YES];
 			
 			SAFE_RELEASE(vc);
@@ -282,6 +288,8 @@
 				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
 								 withRowAnimation:UITableViewRowAnimationFade];
 			};
+			
+			vc.defaultCityName = self.arrivalCity.cityName;
 			
 			[self.navigationController pushViewController:vc animated:YES];
 			

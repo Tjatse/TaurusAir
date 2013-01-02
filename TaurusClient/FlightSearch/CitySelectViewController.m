@@ -29,6 +29,7 @@
 	self.cityListView = nil;
 	self.citySelectedBlock = nil;
 	self.searchResults = nil;
+	self.defaultCityName = nil;
 	
 	[super dealloc];
 }
@@ -48,6 +49,28 @@
     
 	self.title = @"城市选择";
 	((UIScrollView*)self.cityListView).delegate = self;
+	
+	if (self.defaultCityName.length > 0) {
+		NSArray* allCityGroups = [CharCodeHelper allCityGroups];
+		
+		int n = 0;
+		for (CityGroup* cityGroup in allCityGroups) {
+			int m = 0;
+			for (City* city in cityGroup.cities) {
+				if ([city.cityName isEqualToString:self.defaultCityName]) {
+					[self.cityListView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:m inSection:n]
+											 atScrollPosition:UITableViewScrollPositionBottom
+													 animated:YES];
+					
+					break;
+				}
+				
+				++m;
+			}
+			
+			++n;
+		}
+	}
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,6 +105,14 @@
 		City* city = [cityGroup.cities objectAtIndex:indexPath.row];
 		
 		cell.textLabel.text = city.cityName;
+		
+		if (self.defaultCityName.length > 0) {
+			if ([city.cityName isEqualToString:self.defaultCityName]) {
+				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+			} else {
+				cell.accessoryType = UITableViewCellAccessoryNone;
+			}
+		}
 	} else {
 		SearchCityResult* city = [self.searchResults objectAtIndex:indexPath.row];
 		
