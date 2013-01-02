@@ -11,6 +11,9 @@
 #import "UIControl+BBlock.h"
 #import "UIAlertView+BBlock.h"
 #import "AppContext.h"
+#import "CharCodeHelper.h"
+#import "ThreeCharCode.h"
+#import "FSConfig.h"
 
 @interface BasicSettingsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -125,15 +128,57 @@
 		if (indexPath.row == 0) {
 			UITableViewCell* result = self.departureCell;
 		
-			
+			NSString* defaultThreeCharCode = [FSConfig readValueWithKey:@"defaultDepartureCity"];
+			ThreeCharCode* charCode = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultThreeCharCode];
+			result.detailTextLabel.text = charCode.cityName;
 			
 			return result;
-		} else if (indexPath.row == 1)
-			return self.arrivalCell;
-		else if (indexPath.row == 2)
-			return self.sortCell;
-		else
-			return self.notificationCell;
+		} else if (indexPath.row == 1) {
+			UITableViewCell* result = self.arrivalCell;
+			
+			NSString* defaultThreeCharCode = [FSConfig readValueWithKey:@"defaultArrivalCity"];
+			ThreeCharCode* charCode = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultThreeCharCode];
+			result.detailTextLabel.text = charCode.cityName;
+			
+			return result;
+		} else if (indexPath.row == 2) {
+			UITableViewCell* result = self.sortCell;
+			
+			BOOL isSortByPrice = [FSConfig readBoolWithKey:@"sortByPrice"];
+			UIButton* sortByTimeButton = (UIButton*)[result viewWithTag:100];
+			UIButton* sortByPriceButton = (UIButton*)[result viewWithTag:101];
+			
+			sortByTimeButton.selected = !isSortByPrice;
+			sortByPriceButton.selected = isSortByPrice;
+			
+			[sortByPriceButton addActionForControlEvents:UIControlEventTouchUpInside
+											   withBlock:^(id control, UIEvent *event) {
+												   [FSConfig setBoolValue:YES withKey:@"sortByPrice"];
+												   sortByTimeButton.selected = NO;
+												   sortByPriceButton.selected = YES;
+											   }];
+			
+			[sortByTimeButton addActionForControlEvents:UIControlEventTouchUpInside
+											  withBlock:^(id control, UIEvent *event) {
+												  [FSConfig setBoolValue:NO withKey:@"sortByPrice"];
+												  sortByTimeButton.selected = YES;
+												  sortByPriceButton.selected = NO;
+											  }];
+			
+			return result;
+		} else {
+			UITableViewCell* result = self.notificationCell;			
+			UISwitch* notificationSwitch = (UISwitch*)[result viewWithTag:100];
+			BOOL isFlightNotification = [FSConfig readBoolWithKey:@"flightNotification"];
+			
+			notificationSwitch.on = isFlightNotification;
+			[notificationSwitch addActionForControlEvents:UIControlEventValueChanged
+												withBlock:^(id control, UIEvent *event) {
+													[FSConfig setBoolValue:notificationSwitch.on withKey:@"flightNotification"];
+												}];
+			
+			return result;
+		}
 	} else {
 		return nil;
 	}
