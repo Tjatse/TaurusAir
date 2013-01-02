@@ -8,6 +8,9 @@
 
 #import "BasicSettingsViewController.h"
 #import "UIBarButtonItem+ButtonMaker.h"
+#import "UIControl+BBlock.h"
+#import "UIAlertView+BBlock.h"
+#import "AppContext.h"
 
 @interface BasicSettingsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -59,6 +62,25 @@
 	self.sortCell = [[NSBundle mainBundle] loadNibNamed:@"BasicSettingsCells" owner:0 options:0][2];
 	self.notificationCell = [[NSBundle mainBundle] loadNibNamed:@"BasicSettingsCells" owner:0 options:0][3];
 	self.resetButtonVw = [[NSBundle mainBundle] loadNibNamed:@"BasicSettingsCells" owner:0 options:0][4];
+	
+	// reset button
+	UIButton* resetButton = (UIButton*)[self.resetButtonVw viewWithTag:100];
+	[resetButton addActionForControlEvents:UIControlEventTouchUpInside
+								 withBlock:^(id control, UIEvent *event) {
+									 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil
+																						 message:@"确认恢复默认设置?"
+																			   cancelButtonTitle:@"取消"
+																				otherButtonTitle:@"确定"
+																				 completionBlock:^(NSInteger buttonIndex, UIAlertView *alertView) {
+																					 if (buttonIndex == 1) {
+																						 [[AppContext get] initSettings];
+																						 [self.tableView reloadData];
+																					 }
+																				 }];
+									 
+									 [alertView show];
+									 SAFE_RELEASE(alertView);
+								 }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -100,9 +122,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 0) {
-		if (indexPath.row == 0)
-			return self.departureCell;
-		else if (indexPath.row == 1)
+		if (indexPath.row == 0) {
+			UITableViewCell* result = self.departureCell;
+		
+			
+			
+			return result;
+		} else if (indexPath.row == 1)
 			return self.arrivalCell;
 		else if (indexPath.row == 2)
 			return self.sortCell;
@@ -115,6 +141,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	
+	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

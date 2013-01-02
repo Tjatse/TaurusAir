@@ -10,6 +10,8 @@
 #import "AppContext.h"
 #import "Reachability.h"
 #import "GeocodeHelper.h"
+#import "FSConfig.h"
+#import "NSDictionaryAdditions.h"
 
 @interface AppContext () <CLLocationManagerDelegate>
 
@@ -50,12 +52,25 @@
 		dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 			[self requestMyLocation];
 		});
+		
+		// is first run
+		if ([FSConfig readBoolWithKey:@"isFirstRun" defaultValue:YES]) {
+			[self initSettings];
+		}
 	}
 	
 	return self;
 }
 
 #pragma mark - core methods
+
+- (void)initSettings
+{
+	[FSConfig setValue:@"PEK" withKey:@"defaultDepartureCity"];
+	[FSConfig setValue:@"SHA" withKey:@"defaultArrivalCity"];
+	[FSConfig setBoolValue:NO withKey:@"sortByPrice"];
+	[FSConfig setBoolValue:YES withKey:@"flightNotification"];
+}
 
 - (BOOL)online
 {

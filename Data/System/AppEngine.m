@@ -9,8 +9,7 @@
 #import "AppEngine.h"
 #import "AppConfig.h"
 #import "AppContext.h"
-
-static AppEngine* singleton = nil;
+#import "FSConfig.h"
 
 @implementation AppEngine
 
@@ -18,12 +17,24 @@ static AppEngine* singleton = nil;
 {
     @synchronized(self)
     {
+		static AppEngine* singleton = nil;
+		
         // create our single instance
         if(singleton == nil) {
             singleton = [[self alloc] init];
         }
+		
+		return singleton;
     }
-    return singleton;
+}
+
+- (id)init
+{
+	if (self = [super init]) {
+		[FSConfig engine];
+	}
+	
+	return self;
 }
 
 -(void) startApp:(UIApplication *)uiApplication{

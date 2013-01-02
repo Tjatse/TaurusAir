@@ -25,4 +25,6 @@
 @property (nonatomic, retain) NSString*			currentLocationCity;
 @property (nonatomic, assign) BOOL				isLocationAvailable;
 
+- (void)initSettings;
+
 @end
