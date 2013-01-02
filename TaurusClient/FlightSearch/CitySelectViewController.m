@@ -59,7 +59,7 @@
 			for (City* city in cityGroup.cities) {
 				if ([city.cityName isEqualToString:self.defaultCityName]) {
 					[self.cityListView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:m inSection:n]
-											 atScrollPosition:UITableViewScrollPositionBottom
+											 atScrollPosition:UITableViewScrollPositionTop
 													 animated:YES];
 					
 					break;
