@@ -22,6 +22,7 @@
 #import "DateInputTableViewCell.h"
 #import "FlightSelectViewController.h"
 #import "ThreeCharCode.h"
+#import "FSConfig.h"
 
 @interface FlightSearchViewController () <DateInputTableViewCellDelegate>
 
@@ -77,6 +78,13 @@
 	// 返回时间为当前时间第四天
 	self.departureDate = [[NSDate date] dateAfterDay:1];
 	self.returnDate = [[NSDate date] dateAfterDay:3];
+	
+	// 默认的地址
+	NSString* defaultDepartureCityKey = [FSConfig readValueWithKey:@"defaultDepartureCity" defaultValue:@"PEK"];
+	NSString* defaultArrivalCityKey = [FSConfig readValueWithKey:@"defaultArrivalCity" defaultValue:@"SHA"];
+	
+	self.departureCity = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultDepartureCityKey];
+	self.arrivalCity = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultArrivalCityKey];
 }
 
 - (void)didReceiveMemoryWarning

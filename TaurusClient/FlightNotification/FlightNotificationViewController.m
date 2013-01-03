@@ -133,8 +133,12 @@
 	departureTimeLabel.text = [NSDate stringFromDate:ticketOrder.departureTime withFormat:[NSDate timestampFormatString]];
 	customerLabel.text = ticketOrder.customerName;
 	
-	NSTimeInterval timeInterval = ticketOrder.departureTime.timeIntervalSinceNow;
-	int seconds = timeInterval / 1000;
+	NSTimeInterval timeInterval = [ticketOrder.departureTime timeIntervalSinceDate:[NSDate date]];
+//	NSLog(@"dt %@:", ticketOrder.departureTime);
+//	NSLog(@"now %@:", [NSDate date]);
+//	NSLog(@"timeinterval: %f", timeInterval);
+	
+	int seconds = timeInterval;
 	
 	// 秒
 	int second = seconds % 60;
