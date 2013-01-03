@@ -23,6 +23,9 @@
 #import "FlightSelectViewController.h"
 #import "ThreeCharCode.h"
 #import "FSConfig.h"
+#import "AppDelegate.h"
+#import "UIBGNavigationController.h"
+#import "UIBarButtonItem+ButtonMaker.h"
 
 @interface FlightSearchViewController () <DateInputTableViewCellDelegate>
 
@@ -247,62 +250,44 @@
 {
 	__block FlightSearchViewController* blockSelf = self;
 	
-	if (tableView == self.singleFlightTableView) {
-		if (indexPath.row == 0) {
-			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
-			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.departureCity = city.threeCharCodes[0];
-				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-								 withRowAnimation:UITableViewRowAnimationFade];
-			};
-			
-			vc.defaultCityName = self.departureCity.cityName;
-			
-			[self.navigationController pushViewController:vc animated:YES];
-			
-			SAFE_RELEASE(vc);
-		} else if (indexPath.row == 1) {
-			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
-			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.arrivalCity = city.threeCharCodes[0];
-				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-								 withRowAnimation:UITableViewRowAnimationFade];
-			};
-			
-			vc.defaultCityName = self.arrivalCity.cityName;
-			
-			[self.navigationController pushViewController:vc animated:YES];
-			
-			SAFE_RELEASE(vc);
-		}
-	} else {
-		if (indexPath.row == 0) {
-			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
-			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.departureCity = city.threeCharCodes[0];
-				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-								 withRowAnimation:UITableViewRowAnimationFade];
-			};
-			
-			vc.defaultCityName = self.departureCity.cityName;
-			
-			[self.navigationController pushViewController:vc animated:YES];
-			
-			SAFE_RELEASE(vc);
-		} else if (indexPath.row == 1) {
-			CitySelectViewController* vc = [[CitySelectViewController alloc] init];
-			vc.citySelectedBlock = ^(City* city) {
-				blockSelf.arrivalCity = city.threeCharCodes[0];
-				[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-								 withRowAnimation:UITableViewRowAnimationFade];
-			};
-			
-			vc.defaultCityName = self.arrivalCity.cityName;
-			
-			[self.navigationController pushViewController:vc animated:YES];
-			
-			SAFE_RELEASE(vc);
-		}
+	if (indexPath.row == 0) {
+		CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+		vc.citySelectedBlock = ^(City* city) {
+			blockSelf.departureCity = city.threeCharCodes[0];
+			[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+							 withRowAnimation:UITableViewRowAnimationFade];
+		};
+		
+		vc.defaultCityName = self.departureCity.cityName;
+		vc.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
+																				 andTapCallback:^(id control, UIEvent *event) {
+																					 [self.navigationController dismissModalViewControllerAnimated:YES];
+																				 }];
+		
+		UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:vc];
+		[self.navigationController presentModalViewController:navVC animated:YES];
+		
+		SAFE_RELEASE(vc);
+		SAFE_RELEASE(navVC);
+	} else if (indexPath.row == 1) {
+		CitySelectViewController* vc = [[CitySelectViewController alloc] init];
+		vc.citySelectedBlock = ^(City* city) {
+			blockSelf.arrivalCity = city.threeCharCodes[0];
+			[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+							 withRowAnimation:UITableViewRowAnimationFade];
+		};
+		
+		vc.defaultCityName = self.arrivalCity.cityName;
+		vc.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
+																				 andTapCallback:^(id control, UIEvent *event) {
+																					 [self.navigationController dismissModalViewControllerAnimated:YES];
+																				 }];
+		
+		UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:vc];
+		[self.navigationController presentModalViewController:navVC animated:YES];
+		
+		SAFE_RELEASE(vc);
+		SAFE_RELEASE(navVC);
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
