@@ -19,6 +19,8 @@
 #import "AppContext.h"
 #import "ChangePwdViewController.h"
 #import "EditMyInfoViewController.h"
+#import "UserHelper.h"
+#import "MBProgressHUD.h"
 
 @interface MyInfoViewController ()
 
@@ -230,11 +232,22 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 0){
-        [[AppConfig get] setCurrentUser:nil];
-        [[AppConfig get] saveState];
-        
-        [__APP_NAVVC__ popToRootViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGOUT" object:nil];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.labelText = @"注销中...";
+        hud.dimBackground = YES;
+        [UserHelper logoutWithId:[AppConfig get].currentUser.userId
+                         success:^{
+                             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                             [[AppConfig get] clear];
+                             [[AppConfig get] saveState];
+                             
+                             [__APP_NAVVC__ popToRootViewControllerAnimated:YES];
+                             [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGOUT" object:nil];
+                         }
+                         failure:^(NSString *errorMsg) {
+                             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                             [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                         }];
     }
 }
 @end

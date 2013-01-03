@@ -13,6 +13,7 @@
 #import "ALToastView.h"
 #import "BBlock.h"
 #import "AppDefines.h"
+#import "UserHelper.h"
 
 #define TAG_PHONE   100
 #define TAG_VC      101 
@@ -95,20 +96,50 @@
 - (void)registerUser
 {
     [self singleTap:nil];
+    
+    UITextField *textFieldPhone = (UITextField *)[_tableView viewWithTag:TAG_PHONE];
+    if([textFieldPhone.text length] == 0){
+        [ALToastView toastInView:self.view withText:@"必须填写“手机号码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
+        return;
+    }
+    UITextField *textFieldVC = (UITextField *)[_tableView viewWithTag:TAG_VC];
+    if([textFieldVC.text length] == 0){
+        [ALToastView toastInView:self.view withText:@"必须填写“验证码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
+        return;
+    }
+    UITextField *textFieldPwd = (UITextField *)[_tableView viewWithTag:TAG_PWD];
+    if([textFieldPwd.text length] == 0){
+        [ALToastView toastInView:self.view withText:@"必须填写“密码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
+        return;
+    }
+    UITextField *textFieldCPwd = (UITextField *)[_tableView viewWithTag:TAG_CPWD];
+    if([textFieldCPwd.text length] == 0){
+        [ALToastView toastInView:self.view withText:@"必须填写“确认密码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
+        return;
+    }
+    
+    if(![textFieldPwd.text isEqualToString:textFieldCPwd.text]){
+        [ALToastView toastInView:self.view withText:@"“密码”与“确认密码”必须保持一致。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
+        return;
+    }
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"提交中...";
     
-    [BBlock dispatchOnSynchronousQueue:^{
-        sleep(3);
-        // Do something...
-        [BBlock dispatchOnMainThread:^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.navigationController popViewControllerAnimated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ACCOUNT_OPERATION"
-                                                                object:nil
-                                                              userInfo:[NSDictionary dictionaryWithObject:@"新账户注册成功，请登录。" forKey:@"MSG"]];
-        }];
-    }];
+    [UserHelper registerUserWithPhone:textFieldPhone.text
+                            validCode:textFieldVC.text
+                             password:textFieldPwd.text
+                              success:^{
+                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                  [self.navigationController popViewControllerAnimated:YES];
+                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"ACCOUNT_OPERATION"
+                                                                                      object:nil
+                                                                                    userInfo:[NSDictionary dictionaryWithObject:@"新账户注册成功，请登录。" forKey:@"MSG"]];
+                              }
+                              failure:^(NSString *errorMsg) {
+                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                  [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                              }];
 }
 - (void)singleTap:(UITapGestureRecognizer *)recognizer
 {
@@ -141,7 +172,7 @@
     switch (indexPath.row) {
         case 0: {
             cell.textLabel.text = @"手机号";
-            UITextField *textFieldName = [[UITextField alloc] initWithFrame:CGRectMake(80, 14, 200, 30)];
+            UITextField *textFieldName = [[UITextField alloc] initWithFrame:CGRectMake(80, 12, 200, 30)];
             [textFieldName setFont:[UIFont systemFontOfSize:14]];
             [textFieldName setPlaceholder:@"请输入您正在使用的手机号码"];
             [textFieldName setReturnKeyType:UIReturnKeyNext];
@@ -155,13 +186,13 @@
             break;
         case 1: {
             cell.textLabel.text = @"验证码";
-            UITextField *textFieldPwd = [[UITextField alloc] initWithFrame:CGRectMake(80, 14, 200, 30)];
+            UITextField *textFieldPwd = [[UITextField alloc] initWithFrame:CGRectMake(80, 12, 200, 30)];
             [textFieldPwd setFont:[UIFont systemFontOfSize:14]];
             [textFieldPwd setSecureTextEntry:YES];
             [textFieldPwd setPlaceholder:@"请输入验证码"];
-            [textFieldPwd setKeyboardType:UIKeyboardTypePhonePad];
+            [textFieldPwd setKeyboardType:UIKeyboardTypeDefault];
             [textFieldPwd setReturnKeyType:UIReturnKeyNext];
-            [textFieldPwd setTag:TAG_PWD];
+            [textFieldPwd setTag:TAG_VC];
             [textFieldPwd setDelegate:self];
             [cell addSubview:textFieldPwd];
             [textFieldPwd release];
@@ -173,11 +204,11 @@
             break;
         case 2: {
             cell.textLabel.text = @"密  码";
-            UITextField *textFieldPwd = [[UITextField alloc] initWithFrame:CGRectMake(80, 14, 200, 30)];
+            UITextField *textFieldPwd = [[UITextField alloc] initWithFrame:CGRectMake(80, 12, 200, 30)];
             [textFieldPwd setFont:[UIFont systemFontOfSize:14]];
             [textFieldPwd setSecureTextEntry:YES];
             [textFieldPwd setPlaceholder:@"请输入您的密码"];
-            [textFieldPwd setKeyboardType:UIKeyboardTypePhonePad];
+            [textFieldPwd setKeyboardType:UIKeyboardTypeDefault];
             [textFieldPwd setReturnKeyType:UIReturnKeyNext];
             [textFieldPwd setTag:TAG_PWD];
             [textFieldPwd setDelegate:self];
@@ -187,12 +218,12 @@
             break;
         case 3: {
             cell.textLabel.text = @"密码确认";
-            UITextField *textFieldPwd = [[UITextField alloc] initWithFrame:CGRectMake(80, 14, 200, 30)];
+            UITextField *textFieldPwd = [[UITextField alloc] initWithFrame:CGRectMake(80, 12, 200, 30)];
             [textFieldPwd setFont:[UIFont systemFontOfSize:14]];
             [textFieldPwd setSecureTextEntry:YES];
             [textFieldPwd setPlaceholder:@"请再次输入您的密码"];
-            [textFieldPwd setKeyboardType:UIKeyboardTypePhonePad];
-            [textFieldPwd setReturnKeyType:UIReturnKeyNext];
+            [textFieldPwd setKeyboardType:UIKeyboardTypeDefault];
+            [textFieldPwd setReturnKeyType:UIReturnKeyDone];
             [textFieldPwd setTag:TAG_CPWD];
             [textFieldPwd setDelegate:self];
             [cell addSubview:textFieldPwd];
@@ -209,7 +240,10 @@
 {
     switch (textField.tag) {
         case TAG_PHONE:
-            [[_tableView viewWithTag:TAG_PHONE] becomeFirstResponder];
+            [[_tableView viewWithTag:TAG_PWD] becomeFirstResponder];
+            break;
+        case TAG_VC:
+            [[_tableView viewWithTag:TAG_PWD] becomeFirstResponder];
             break;
         case TAG_PWD:
             [[_tableView viewWithTag:TAG_CPWD] becomeFirstResponder];

@@ -277,6 +277,12 @@
 		3EDF04A316898E2B00DE9546 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A216898E2B00DE9546 /* City.m */; };
 		3EDF04A616899B5400DE9546 /* CityGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04A516899B5400DE9546 /* CityGroup.m */; };
 		3EDF04C7168AA72F00DE9546 /* GeocodeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04C6168AA72F00DE9546 /* GeocodeHelper.m */; };
+		92033E341695268000BE2E27 /* PasswordRecovery.json in Resources */ = {isa = PBXBuildFile; fileRef = 92033E331695268000BE2E27 /* PasswordRecovery.json */; };
+		92033E37169556EA00BE2E27 /* RegisterUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 92033E36169556EA00BE2E27 /* RegisterUser.json */; };
+		92033E391695675A00BE2E27 /* UserLogin.json in Resources */ = {isa = PBXBuildFile; fileRef = 92033E381695675900BE2E27 /* UserLogin.json */; };
+		92033E3B1695878000BE2E27 /* EditUserInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 92033E3A1695878000BE2E27 /* EditUserInfo.json */; };
+		92033E3D1695AF6800BE2E27 /* EditUserPwd.json in Resources */ = {isa = PBXBuildFile; fileRef = 92033E3C1695AF6800BE2E27 /* EditUserPwd.json */; };
+		92033E3F1695B25A00BE2E27 /* UserLoginOut.json in Resources */ = {isa = PBXBuildFile; fileRef = 92033E3E1695B25A00BE2E27 /* UserLoginOut.json */; };
 		9209430D168C896100929BFF /* EditTravelerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9209430B168C896100929BFF /* EditTravelerViewController.m */; };
 		9209430E168C896100929BFF /* EditTravelerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9209430C168C896100929BFF /* EditTravelerViewController.xib */; };
 		92094313168C961700929BFF /* TravelerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92094311168C961700929BFF /* TravelerDetailViewController.m */; };
@@ -729,6 +735,12 @@
 		3EDF04A516899B5400DE9546 /* CityGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityGroup.m; sourceTree = "<group>"; };
 		3EDF04C5168AA72F00DE9546 /* GeocodeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeocodeHelper.h; sourceTree = "<group>"; };
 		3EDF04C6168AA72F00DE9546 /* GeocodeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeocodeHelper.m; sourceTree = "<group>"; };
+		92033E331695268000BE2E27 /* PasswordRecovery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = PasswordRecovery.json; path = TestData/PasswordRecovery.json; sourceTree = "<group>"; };
+		92033E36169556EA00BE2E27 /* RegisterUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RegisterUser.json; path = TestData/RegisterUser.json; sourceTree = "<group>"; };
+		92033E381695675900BE2E27 /* UserLogin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = UserLogin.json; path = TestData/UserLogin.json; sourceTree = "<group>"; };
+		92033E3A1695878000BE2E27 /* EditUserInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = EditUserInfo.json; path = TestData/EditUserInfo.json; sourceTree = "<group>"; };
+		92033E3C1695AF6800BE2E27 /* EditUserPwd.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = EditUserPwd.json; path = TestData/EditUserPwd.json; sourceTree = "<group>"; };
+		92033E3E1695B25A00BE2E27 /* UserLoginOut.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = UserLoginOut.json; path = TestData/UserLoginOut.json; sourceTree = "<group>"; };
 		9209430A168C896100929BFF /* EditTravelerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditTravelerViewController.h; path = Contacter/EditTravelerViewController.h; sourceTree = "<group>"; };
 		9209430B168C896100929BFF /* EditTravelerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditTravelerViewController.m; path = Contacter/EditTravelerViewController.m; sourceTree = "<group>"; };
 		9209430C168C896100929BFF /* EditTravelerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditTravelerViewController.xib; path = Contacter/EditTravelerViewController.xib; sourceTree = "<group>"; };
@@ -911,6 +923,12 @@
 			isa = PBXGroup;
 			children = (
 				3E30F21B168E9933002C236B /* RunAvCommand.js */,
+				92033E331695268000BE2E27 /* PasswordRecovery.json */,
+				92033E36169556EA00BE2E27 /* RegisterUser.json */,
+				92033E381695675900BE2E27 /* UserLogin.json */,
+				92033E3A1695878000BE2E27 /* EditUserInfo.json */,
+				92033E3C1695AF6800BE2E27 /* EditUserPwd.json */,
+				92033E3E1695B25A00BE2E27 /* UserLoginOut.json */,
 			);
 			name = TestData;
 			sourceTree = "<group>";
@@ -1909,6 +1927,12 @@
 				3E75C2BC16944FE200CDB92F /* FlightNotificationCells.xib in Resources */,
 				3E75C2C7169461A700CDB92F /* SoftVersonViewController.xib in Resources */,
 				3E75C2CC1694624E00CDB92F /* CorpInfoViewController.xib in Resources */,
+				92033E341695268000BE2E27 /* PasswordRecovery.json in Resources */,
+				92033E37169556EA00BE2E27 /* RegisterUser.json in Resources */,
+				92033E391695675A00BE2E27 /* UserLogin.json in Resources */,
+				92033E3B1695878000BE2E27 /* EditUserInfo.json in Resources */,
+				92033E3D1695AF6800BE2E27 /* EditUserPwd.json in Resources */,
+				92033E3F1695B25A00BE2E27 /* UserLoginOut.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

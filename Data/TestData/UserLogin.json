@@ -1,0 +1,16 @@
+{
+    "Meta": {
+        "Code": null,
+        "Message": null,
+        "Method": "UserLogin",
+        "Status": "ok"
+    },
+    "Page": null,
+    "Response": {
+        "ClientIp": "127.0.0.1",
+        "Guid": "e3f3296f-6bc6-45bb-9802-e8026cdd188c",
+        "Tid": 1109043,                                
+        "UserName": "ceshi_b2c",
+        "UserPwd": "123456"
+    }
+}

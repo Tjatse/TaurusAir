@@ -12,7 +12,8 @@
 #import "BBlock.h"
 #import "MBProgressHUD.h"
 #import "AppConfig.h"
-#import "User.h"
+#import "ALToastView.h"
+#import "UserHelper.h"
 
 @interface EditMyInfoViewController ()
 
@@ -56,29 +57,38 @@
     self.navigationItem.rightBarButtonItem =
     [UIBarButtonItem generateNormalStyleButtonWithTitle:@"保存"
                                          andTapCallback:^(id control, UIEvent *event) {
-                                             // TODO: save traveler here.
-                                             if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
-                                                 [_focusedTextField resignFirstResponder];
-                                             }
-                                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                                             hud.labelText = @"保存中...";
-                                             
-                                             if([_user.name length] == 0){
-                                                 _user.name = _user.loginName;
-                                             }
-                                             [[AppConfig get] setCurrentUser:_user];
-                                             [_user release];
-                                             [[AppConfig get] saveState];
-                                             
-                                             [BBlock dispatchAfter:1 onMainThread:^{
-                                                 [hud hide:YES];
-                                                 
-                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MYINFO" object:nil userInfo:nil];
-                                                 [self.navigationController popViewControllerAnimated:YES];
-                                             }];
+                                             [self saveInfo];
                                          }];
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
+}
+- (void)saveInfo
+{
+    // TODO: save traveler here.
+    if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
+        [_focusedTextField resignFirstResponder];
+    }
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"保存中...";
+    
+    if([_user.name length] == 0){
+        _user.name = _user.loginName;
+    }
+    [UserHelper editUserInfo:_user
+                     success:^{
+                         [MBProgressHUD hideHUDForView:self.view animated:YES];
+                         [[AppConfig get] setCurrentUser:_user];
+                         [_user release];
+                         [[AppConfig get] saveState];
+                         
+                         [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_MYINFO" object:nil userInfo:nil];
+                         [[NSNotificationCenter defaultCenter] postNotificationName:@"INFO_OPERATION" object:nil userInfo:[NSDictionary dictionaryWithObject:@"修改个人信息成功。" forKey:@"MSG"]];
+                         [self.navigationController popViewControllerAnimated:YES];
+                     }
+                     failure:^(NSString *errorMsg) {
+                         [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                         [MBProgressHUD hideHUDForView:self.view animated:YES];
+                     }];
 }
 - (void)viewWillAppear:(BOOL)animated
 {

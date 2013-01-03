@@ -12,6 +12,9 @@
 #import "MBProgressHUD.h"
 #import "BBlock.h"
 #import "AppDefines.h"
+#import "ALToastView.h"
+#import "AppConfig.h"
+#import "UserHelper.h"
 
 #define TAG_OLD_PWD     100
 #define TAG_NEW_PWD     101
@@ -92,9 +95,7 @@
         return;
     }
     if(![[fieldCfmPwd text] isEqualToString:[fieldNewPwd text]]){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"“新密码”和“确认密码”不一致。" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
-        [alert show];
-        [alert release];
+        [ALToastView toastInView:self.view withText:@"“新密码”和“确认密码”不一致。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
         return;
     }
     
@@ -102,17 +103,20 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"提交中...";
     
-    [BBlock dispatchOnSynchronousQueue:^{
-        sleep(3);
-        // Do something...
-        [BBlock dispatchOnMainThread:^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.navigationController popViewControllerAnimated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"INFO_OPERATION"
-                                                                object:nil
-                                                              userInfo:[NSDictionary dictionaryWithObject:@"密码已成功修改。" forKey:@"MSG"]];
-        }];
-    }];
+    [UserHelper pwdEditWithId:[AppConfig get].currentUser.userId
+                  oldPassword:fieldOldPwd.text
+                  newPassword:fieldNewPwd.text
+                      success:^{
+                          [MBProgressHUD hideHUDForView:self.view animated:YES];
+                          [self.navigationController popViewControllerAnimated:YES];
+                          [[NSNotificationCenter defaultCenter] postNotificationName:@"INFO_OPERATION"
+                                                                              object:nil
+                                                                            userInfo:[NSDictionary dictionaryWithObject:@"密码已成功修改。" forKey:@"MSG"]];
+                      }
+                      failure:^(NSString *errorMsg) {
+                          [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                          [MBProgressHUD hideHUDForView:self.view animated:YES];
+                      }];
 }
 - (void)singleTap:(UITapGestureRecognizer *)recognizer
 {

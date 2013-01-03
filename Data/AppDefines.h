@@ -19,11 +19,13 @@ typedef enum {
 #define SCREEN_RECT             [[UIScreen mainScreen] bounds]
 #define STATUSBAR_FRAME         [[UIApplication sharedApplication] statusBarFrame]
 #define NAVBAR_HEIGHT           44
+#define SANDBOX                 @"Development" // Production or Development
+#define IS_DEPLOYED()           ([SANDBOX isEqualToString:@"Production"])
 
 // uris
 #define REACHABLE_HOST      @"http://211.144.155.155:5001"
 #define CLIENT_ID           @"m_b2c_001"
-#define SAFECODE            @""
+#define SAFE_CODE           @""
 #define ACCOUNT_REG         @"Interfaces/RegistUser.ashx"
 #define ACCOUNT_UPDATE      @"Interfaces/EditUserInfo.ashx"
 #define ACCOUNT_LOGIN       @"Interfaces/UserLogin.ashx"
@@ -31,6 +33,7 @@ typedef enum {
 #define ACCOUNT_UPDPWD      @"Interfaces/EditUserPwd.ashx"
 #define ACCOUNT_FINDPWD     @"Interfaces/PasswordRecovery.ashx"
 
+#define setRequestAuth(request) [request setPostValue:CLIENT_ID forKey:@"ClientId"];[request setPostValue:SAFE_CODE forKey:@"safeCode"];
 
 #endif // __TC_CONFIG_H
 

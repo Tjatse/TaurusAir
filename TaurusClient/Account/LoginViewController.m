@@ -16,7 +16,8 @@
 #import "MBProgressHUD.h"
 #import "AppConfig.h"
 #import "ForgotPwdViewController.h"
-#import "RegisterViewController.h"     
+#import "RegisterViewController.h"    
+#import "UserHelper.h"
 
 #define TAG_NAME    100
 #define TAG_PWD     101
@@ -66,6 +67,8 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSMSSentToast:) name:@"ACCOUNT_OPERATION" object:nil];
+    
+    _rememberMe = [AppConfig get].rememberedName != nil;
     [self initComponent];
 }
 - (void)viewDidUnload
@@ -142,21 +145,44 @@
 // TODO: login to production environment.
 - (void)login
 {
-    [self singleTap:nil];
+    [[_tableView viewWithTag:TAG_NAME] resignFirstResponder];
+    [[_tableView viewWithTag:TAG_PWD] resignFirstResponder];
+    
+    UITextField *textFieldUserName = (UITextField *)[_tableView viewWithTag:TAG_NAME];
+    if([[textFieldUserName text] length] == 0){
+        [textFieldUserName becomeFirstResponder];
+        return;
+    }
+    UITextField *textFieldPwd = (UITextField *)[_tableView viewWithTag:TAG_PWD];
+    if([[textFieldPwd text] length] == 0){
+        [textFieldPwd becomeFirstResponder];
+        return;
+    }
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"正在登录...";
-    [BBlock dispatchOnSynchronousQueue:^{
-        sleep(3);
-        [BBlock dispatchOnMainThread:^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            User *cu = [[User alloc] initWithUserId:@"001" loginName:@"xiongjun" name:@"熊俊" phone:@"15810591307" email:@"" remark:@"" gender:true birthday:@""];
-            [[AppConfig get] setCurrentUser:cu];
-            [cu release];
-            [[AppConfig get] saveState];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_SUC" object:nil];
-            [self dismissModalViewControllerAnimated:YES];
-        }];
-    }];
+    
+    [UserHelper loginWithName:textFieldUserName.text
+                     password:textFieldPwd.text
+                      success:^(User *user) {
+                          
+                          [MBProgressHUD hideHUDForView:self.view animated:YES];
+                          [[AppConfig get] setCurrentUser:user];
+                          if(_rememberMe){
+                              [[AppConfig get] setRememberedName:textFieldUserName.text];
+                          }else{
+                              [[AppConfig get] setRememberedName:nil];
+                          }
+                          [[AppConfig get] saveState];
+                          [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_SUC" object:nil];
+                          [self dismissModalViewControllerAnimated:YES];
+                          
+                      }
+                      failure:^(NSString *errorMsg) {
+                          [MBProgressHUD hideHUDForView:self.view animated:YES];
+                          [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                      }];
+    
 }
 - (void)singleTap:(UITapGestureRecognizer *)recognizer
 {
@@ -219,6 +245,9 @@
             [textFieldName setTag:TAG_NAME];
             //[textFieldName becomeFirstResponder];
             [textFieldName setDelegate:self];
+            if([AppConfig get].rememberedName){
+                [textFieldName setText:[AppConfig get].rememberedName];
+            }
             [cell addSubview:textFieldName];
             [textFieldName release];
             }
@@ -242,6 +271,7 @@
             [switchRememberMe addTarget:self action:@selector(onSwitchChanged:) forControlEvents:UIControlEventValueChanged];
             [switchRememberMe setOn:YES];
             switchRememberMe.tag = TAG_RMB;
+            [switchRememberMe setOn:_rememberMe];
             cell.accessoryView = switchRememberMe;
             [switchRememberMe release];
         }

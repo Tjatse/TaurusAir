@@ -15,6 +15,8 @@
 
 @property (nonatomic, retain) User                          *currentUser;
 @property (nonatomic, readonly, getter = isLogon) BOOL      logon;
+@property (nonatomic, retain) NSString                      *rememberedName;
+@property (nonatomic, retain) NSMutableDictionary           *pwdRecoveryHash;
 
 // Get Instance.
 +(AppConfig*) get;

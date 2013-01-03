@@ -12,7 +12,7 @@
 @implementation NSDictionary (Additions)
 
 - (BOOL)getBoolValueForKey:(NSString *)key defaultValue:(BOOL)defaultValue {
-    return [self objectForKey:key] == [NSNull null] ? defaultValue 
+    return ([self objectForKey:key] == [NSNull null] || [self objectForKey:key] == nil) ? defaultValue
 						: [[self objectForKey:key] boolValue];
 }
 

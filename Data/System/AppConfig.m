@@ -14,10 +14,13 @@ static int _currentNumber = 1;
 @implementation AppConfig
 @synthesize currentUser;
 @synthesize logon;
+@synthesize pwdRecoveryHash;
+@synthesize rememberedName;
 
 - (void) dealloc
 {
     [currentUser release], currentUser = nil;
+    [pwdRecoveryHash release], pwdRecoveryHash = nil;
     [super dealloc];
 }
 
@@ -76,6 +79,7 @@ static int _currentNumber = 1;
 - (void) clear
 {
     [currentUser release], currentUser = nil;
+    //[pwdRecoveryHash release], pwdRecoveryHash = nil;
 }
 
 - (void)destroy
@@ -92,6 +96,8 @@ static int _currentNumber = 1;
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
     [encoder encodeObject:self.currentUser forKey:@"currentUser"];
+    [encoder encodeObject:self.pwdRecoveryHash forKey:@"pwdRecoveryHash"];
+    [encoder encodeObject:self.rememberedName forKey:@"rememberedName"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -99,6 +105,8 @@ static int _currentNumber = 1;
     self = [super init];
     if (self) {
         self.currentUser = [decoder decodeObjectForKey:@"currentUser"];
+        self.pwdRecoveryHash = [decoder decodeObjectForKey:@"pwdRecoveryHash"];
+        self.rememberedName = [decoder decodeObjectForKey:@"rememberedName"];
     }
     return self;
 }
@@ -108,6 +116,8 @@ static int _currentNumber = 1;
     id theCopy = [[[self class] allocWithZone:zone] init];  // use designated initializer
     
     [theCopy setCurrentUser:[[self.currentUser copy] autorelease]];
+    [theCopy setPwdRecoveryHash:[[self.pwdRecoveryHash copy] autorelease]];
+    [theCopy setRememberedName:[[self.rememberedName copy] autorelease]];
     
     return theCopy;
 }

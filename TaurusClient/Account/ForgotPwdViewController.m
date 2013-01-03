@@ -12,6 +12,11 @@
 #import "MBProgressHUD.h"
 #import "BBlock.h"
 #import "AppDefines.h"
+#import "UserHelper.h"
+#import "ALToastView.h"
+#import "AppConfig.h"
+#import "NSDateAdditions.h"
+#import "NSDictionaryAdditions.h"
 
 #define TAG_NAME    100
 #define TAG_PHONE   101
@@ -116,18 +121,40 @@
     [self singleTap:nil];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"提交中...";
-
-    [BBlock dispatchOnSynchronousQueue:^{
-        sleep(3);
-        // Do something...
-        [BBlock dispatchOnMainThread:^{
+    
+    NSString *date = [[NSDate date] stringWithFormat:@"yyyy-MM-dd"];
+    int c = 0;
+    NSMutableDictionary *hash = [[AppConfig get].pwdRecoveryHash mutableCopy];
+    if(hash == nil){
+        hash = [[NSMutableDictionary alloc] initWithCapacity:0];
+    }else{
+        c = [hash getIntValueForKey:date defaultValue:0];
+        
+        if(c >= 3){
+            [ALToastView toastInView:self.view withText:@"您已达到今日最大尝试次数。" andBottomOffset:44 andType:ERROR];
+            [hash release];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.navigationController popViewControllerAnimated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ACCOUNT_OPERATION"
-                                                                object:nil
-                                                              userInfo:[NSDictionary dictionaryWithObject:@"密码已经发送到您的手机。" forKey:@"MSG"]];
-        }];
-    }];
+            return;
+        }
+    }
+    [hash setObject:[NSNumber numberWithInt:c + 1] forKey:date];
+    [[AppConfig get] setPwdRecoveryHash:hash];
+    [hash release];
+    [[AppConfig get] saveState];
+    
+    [UserHelper pwdRecoveryWithLoginName:fieldLoginName.text
+                                   phone:fieldPhone.text
+                                 success:^{
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                     [self.navigationController popViewControllerAnimated:YES];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"ACCOUNT_OPERATION"
+                                                                                         object:nil
+                                                                                       userInfo:[NSDictionary dictionaryWithObject:@"密码已经发送到您的手机。" forKey:@"MSG"]];
+                                 }
+                                 failure:^(NSString *errorMsg) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                     [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                 }];
 }
 - (void)singleTap:(UITapGestureRecognizer *)recognizer
 {
