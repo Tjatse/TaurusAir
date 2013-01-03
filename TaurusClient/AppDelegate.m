@@ -12,6 +12,12 @@
 #import "FSConfig.h"
 #import "AppEngine.h"
 
+@interface AppDelegate ()
+
+@property (nonatomic, assign) UIBackgroundTaskIdentifier		bgTask;
+
+@end
+
 @implementation AppDelegate
 
 - (void)dealloc
@@ -50,6 +56,29 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     [[AppEngine get] pauseApp:application];
+
+	NSAssert(self.bgTask == UIBackgroundTaskInvalid, nil);
+	
+	self.bgTask = [application beginBackgroundTaskWithExpirationHandler: ^{
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if (UIBackgroundTaskInvalid != self.bgTask) {
+				
+				[application endBackgroundTask:self.bgTask];
+				self.bgTask = UIBackgroundTaskInvalid;
+			}
+		});
+	}];
+	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+				   ^{
+					   dispatch_async(dispatch_get_main_queue(), ^{
+						   if (UIBackgroundTaskInvalid != self.bgTask) {
+                               
+							   [application endBackgroundTask:self.bgTask];
+							   self.bgTask = UIBackgroundTaskInvalid;
+						   }
+					   });
+				   });
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -59,6 +88,11 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+	// TODO: 航班提醒处理
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

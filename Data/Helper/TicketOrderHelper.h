@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class TicketOrder;
+
 @interface TicketOrderHelper : NSObject
 
 + (TicketOrderHelper*)sharedHelper;
 
 @property (nonatomic, retain) NSMutableArray* allTicketOrders;
+
+- (void)pushTicketOrder:(TicketOrder*)ticket;
 
 @end

@@ -13,6 +13,7 @@
 - (NSString *)getFormatYearMonthDay;
 - (int )getWeekNumOfMonth;
 - (int )getWeekOfYear;
+- (NSDate*)dateAfterHours:(int)hours;
 - (NSDate *)dateAfterDay:(int)day;
 - (NSDate *)dateafterMonth:(int)month;
 - (NSUInteger)getDay;
