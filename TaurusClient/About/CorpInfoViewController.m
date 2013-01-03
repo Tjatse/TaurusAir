@@ -38,6 +38,11 @@
 {
     [super viewDidLoad];
 	
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.loadingVw] autorelease];
+	
+	self.loadingVw.hidden = NO;
+	[self.loadingVw startAnimating];
+	
     self.title = @"公司信息";
 	[self.webVw loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.jinniuit.com"]]];
 }
@@ -51,8 +56,6 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-	self.loadingVw.hidden = NO;
-	[self.loadingVw startAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView

@@ -10,6 +10,7 @@
 #import "AppConfig.h"
 #import "AppContext.h"
 #import "FSConfig.h"
+#import "TicketOrderHelper.h"
 
 @implementation AppEngine
 
@@ -32,6 +33,7 @@
 {
 	if (self = [super init]) {
 		[FSConfig engine];
+		[TicketOrderHelper sharedHelper];
 	}
 	
 	return self;

@@ -20,6 +20,7 @@
 #import "TwoCharCode.h"
 #import "ThreeCharCode.h"
 #import "FlightSelectSortMainViewController.h"
+#import "FSConfig.h"
 
 NSArray* timeFilters()
 {
@@ -197,6 +198,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 			self.title = @"往返回程";
 			break;
 	}
+	
+	// sortByPrice
+	self.isSortByPrice = [FSConfig readBoolWithKey:@"sortByPrice" defaultValue:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -242,6 +246,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	}
 	
 	[self performFlightInfosSort];
+	[FSConfig setBoolValue:YES withKey:@"sortByPrice"];
 }
 
 - (void)onSelectDateButtonTap:(id)sender
@@ -281,6 +286,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	}
 	
 	[self performFlightInfosSort];
+	[FSConfig setBoolValue:NO withKey:@"sortByPrice"];
 }
 
 - (void)onSectionPayButtonTap:(UIButton*)sender

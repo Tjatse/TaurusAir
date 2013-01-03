@@ -36,6 +36,19 @@
 	}
 	return i;
 }
+
+- (NSDate *)dateAfterHours:(int)hours
+{
+	NSCalendar* calendar = [NSCalendar currentCalendar];
+	NSDateComponents *componentsToAdd = [[NSDateComponents alloc] init];
+
+	[componentsToAdd setHour:hours];
+	NSDate *dateAfterDay = [calendar dateByAddingComponents:componentsToAdd toDate:self options:0];
+	[componentsToAdd release];
+	
+	return dateAfterDay;
+}
+
 //返回day天后的日期(若day为负数,则为|day|天前的日期)
 - (NSDate *)dateAfterDay:(int)day
 {
