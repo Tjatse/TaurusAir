@@ -68,6 +68,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 @property (nonatomic, assign) BOOL						isTimeDesc;
 @property (nonatomic, assign) BOOL						isPriceDesc;
 @property (nonatomic, assign) BOOL						isSortByPrice;
+@property (nonatomic, retain) IBOutlet UIButton*		sortByPriceBtn;
+@property (nonatomic, retain) IBOutlet UIButton*		sortByTimeBtn;
 
 - (void)onFlightGroupTap:(UIGestureRecognizer*)sender;
 - (void)onSectionPayButtonTap:(UIButton*)sender;
@@ -99,6 +101,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	
 	self.corpFilter = nil;
 	
+	self.sortByPriceBtn = nil;
+	self.sortByTimeBtn = nil;
+	
 	[super dealloc];
 }
 
@@ -117,7 +122,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	
 	NSMutableDictionary* jsonContent = [[content mutableObjectFromJSONString] objectForKey:@"Response"];
 	
-	float delayInSeconds = 0.3f;
+	float delayInSeconds = 0.1f;
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 		FlightSelectViewController* vc = [[FlightSelectViewController alloc] initWithViewType:aViewType
@@ -223,6 +228,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)onPriceSortButtonTap:(id)sender
 {
+	self.sortByPriceBtn.selected = YES;
+	self.sortByTimeBtn.selected = NO;
+	
 	if (self.isSortByPrice) {
 		self.isPriceDesc = !self.isPriceDesc;
 		
@@ -263,6 +271,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)onTimeSortButtonTap:(id)sender
 {
+	self.sortByPriceBtn.selected = NO;
+	self.sortByTimeBtn.selected = YES;
+	
 	if (!self.isSortByPrice) {
 		self.isTimeDesc = !self.isTimeDesc;
 		
@@ -355,8 +366,13 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		}
 	}];
 
-	NSMutableIndexSet* sections = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, flightInfos.count)];
-	[self.ticketResultsVw reloadSections:sections withRowAnimation:UITableViewRowAnimationLeft];
+//	[self.ticketResultsVw beginUpdates];
+//	
+//	NSMutableIndexSet* sections = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, flightInfos.count)];
+//	[self.ticketResultsVw reloadSections:sections withRowAnimation:UITableViewRowAnimationTop];
+//	[self.ticketResultsVw endUpdates];
+	
+	[self.ticketResultsVw reloadData];
 }
 
 - (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo
