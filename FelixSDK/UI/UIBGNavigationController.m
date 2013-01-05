@@ -9,6 +9,7 @@
 #import "UIBGNavigationController.h"
 #import "UINavigationBar(RemoveGradient).h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIViewAdditions.h"
 
 @interface UIBGNavigationController ()
 
@@ -80,6 +81,86 @@
 	}
 
 	[super pushViewController:viewController animated:animated];
+}
+
+- (void)presentModalViewController:(UIViewController *)vc animated:(BOOL)animated
+{
+	if (animated) {
+		[super presentModalViewController:vc animated:YES];
+		
+		CABasicAnimation* scaleAni = [CABasicAnimation animationWithKeyPath:@"transform"];
+		scaleAni.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+		scaleAni.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.6f, 0.6f, 1)];
+		scaleAni.removedOnCompletion = YES;
+		
+		CABasicAnimation* opacityAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+		opacityAni.fromValue = [NSNumber numberWithFloat:1.0f];
+		opacityAni.toValue = [NSNumber numberWithFloat:0.5f];
+		opacityAni.removedOnCompletion = YES;
+		
+		CAAnimationGroup* groupAni = [CAAnimationGroup animation];
+		groupAni.animations = [NSArray arrayWithObjects:scaleAni, opacityAni, nil];
+		groupAni.duration = 0.7f;
+		groupAni.removedOnCompletion = YES;
+		groupAni.fillMode = kCAFillModeForwards;
+		
+		//	[groupAni setAnimationDidStartBlock:nil
+		//			   andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
+		//				   if (finished) {
+		//					   [fromNC.view removeFromSuperview];
+		//					   fromNC.view.layer.opacity = 1.0f;
+		//				   } else {
+		//				   }
+		//			   }];
+		
+		[self.view.layer addAnimation:groupAni forKey:@"sink"];
+		
+		CAKeyframeAnimation* appearMoveAni = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+		appearMoveAni.duration = 0.6f;
+		CGMutablePathRef path = CGPathCreateMutable();
+		CGPathMoveToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 1.5f);
+		CGPathAddLineToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 0.5f - vc.view.height * 0.05f);
+		CGPathAddLineToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 0.5f);
+		
+		appearMoveAni.removedOnCompletion = YES;
+		appearMoveAni.path = path;
+		appearMoveAni.fillMode = kCAFillModeForwards;
+		
+		CGPathRelease(path);
+		
+		[vc.view.layer addAnimation:appearMoveAni forKey:@"blowup"];
+	} else {
+		[super presentModalViewController:vc animated:NO];
+	}
+}
+
+- (void)dismissModalViewControllerAnimated:(BOOL)animated
+{
+	if (animated) {
+		[super dismissModalViewControllerAnimated:YES];
+		
+		UIViewController* parentVC = self.parentViewController;
+		
+		CABasicAnimation* scaleAni = [CABasicAnimation animationWithKeyPath:@"transform"];
+		scaleAni.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.6f, 0.6f, 1)];
+		scaleAni.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1, 1, 1)];
+		scaleAni.removedOnCompletion = YES;
+		
+		CABasicAnimation* opacityAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+		opacityAni.fromValue = [NSNumber numberWithFloat:0.5f];
+		opacityAni.toValue = [NSNumber numberWithFloat:1.0f];
+		opacityAni.removedOnCompletion = YES;
+		
+		CAAnimationGroup* groupAni = [CAAnimationGroup animation];
+		groupAni.animations = [NSArray arrayWithObjects:scaleAni, opacityAni, nil];
+		groupAni.duration = 0.3f;
+		groupAni.removedOnCompletion = YES;
+		groupAni.fillMode = kCAFillModeForwards;
+		
+		[parentVC.view.layer addAnimation:groupAni forKey:@"sink"];
+	} else {
+		[super dismissModalViewControllerAnimated:NO];
+	}
 }
 
 - (IBAction)buttonClick:(id)sender
