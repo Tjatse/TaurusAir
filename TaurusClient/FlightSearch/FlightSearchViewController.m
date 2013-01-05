@@ -29,6 +29,9 @@
 
 @interface FlightSearchViewController () <DateInputTableViewCellDelegate>
 
+@property (nonatomic, retain) IBOutlet UIButton*	departureBtn;
+@property (nonatomic, retain) IBOutlet UIButton*	arrivalBtn;
+
 @property (nonatomic, retain) ThreeCharCode*		departureCity;
 @property (nonatomic, retain) ThreeCharCode*		arrivalCity;
 @property (nonatomic, retain) NSDate*				departureDate;
@@ -45,6 +48,8 @@
 	self.doubleFlightParentView = nil;
 	self.doubleFlightTableView = nil;
 	
+	self.departureBtn = nil;
+	self.arrivalBtn = nil;
 	self.departureCity = nil;
 	self.arrivalCity = nil;
 	self.departureDate = nil;
@@ -68,6 +73,9 @@
 	
 	[self.view addSubview:self.singleFlightParentView];
 	[self.view addSubview:self.doubleFlightParentView];
+	
+	self.singleFlightParentView.top = 60;
+	self.doubleFlightParentView.top = 60;
 	
 	self.doubleFlightParentView.hidden = YES;
 	
@@ -99,54 +107,88 @@
 
 - (void)onSwitchToDoubleFlightButtonTap:(id)sender
 {
+//	self.doubleFlightParentView.hidden = NO;
+//	self.doubleFlightParentView.layer.opacity = 1.0f;
+//	
+//	CABasicAnimation* disappearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//	disappearAni.removedOnCompletion = YES;
+//	disappearAni.fromValue = [NSNumber numberWithFloat:0.0f];
+//	disappearAni.toValue = [NSNumber numberWithFloat:1.0f];
+//	
+//	[self.doubleFlightParentView.layer addAnimation:disappearAni forKey:nil];
+//
+//	self.singleFlightParentView.layer.opacity = 0.0f;
+//	CABasicAnimation* appearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//	appearAni.removedOnCompletion = YES;
+//	appearAni.fromValue = [NSNumber numberWithFloat:1.0f];
+//	appearAni.toValue = [NSNumber numberWithFloat:0.0f];
+//	[appearAni setAnimationDidStartBlock:nil
+//				andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
+//					self.singleFlightParentView.hidden = YES;
+//				}];
+//	
+//	[self.singleFlightParentView.layer addAnimation:appearAni forKey:nil];
+	
+	self.departureBtn.selected = NO;
+	self.arrivalBtn.selected = YES;
+	
+	self.singleFlightParentView.left = 0;
+	self.doubleFlightParentView.left = self.singleFlightParentView.width;
+	self.singleFlightParentView.hidden = NO;
 	self.doubleFlightParentView.hidden = NO;
-	self.doubleFlightParentView.layer.opacity = 1.0f;
 	
-	CABasicAnimation* disappearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
-	disappearAni.removedOnCompletion = YES;
-	disappearAni.fromValue = [NSNumber numberWithFloat:0.0f];
-	disappearAni.toValue = [NSNumber numberWithFloat:1.0f];
-	
-	[self.doubleFlightParentView.layer addAnimation:disappearAni forKey:nil];
-
-	self.singleFlightParentView.layer.opacity = 0.0f;
-	CABasicAnimation* appearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
-	appearAni.removedOnCompletion = YES;
-	appearAni.fromValue = [NSNumber numberWithFloat:1.0f];
-	appearAni.toValue = [NSNumber numberWithFloat:0.0f];
-	[appearAni setAnimationDidStartBlock:nil
-				andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
-					self.singleFlightParentView.hidden = YES;
-				}];
-	
-	[self.singleFlightParentView.layer addAnimation:appearAni forKey:nil];
+	[UIView animateWithDuration:.3f
+					 animations:^{
+						 self.singleFlightParentView.left = -self.singleFlightParentView.width;
+						 self.doubleFlightParentView.left = 0;
+					 }
+					 completion:^(BOOL finished) {
+						 self.singleFlightParentView.hidden = YES;
+					 }];
 	
 	[self.doubleFlightTableView reloadData];
 }
 
 - (void)onSwitchToSingleFlightButtonTap:(id)sender
 {
+//	self.singleFlightParentView.hidden = NO;
+//	self.singleFlightParentView.layer.opacity = 1.0f;
+//	
+//	CABasicAnimation* disappearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//	disappearAni.removedOnCompletion = YES;
+//	disappearAni.fromValue = [NSNumber numberWithFloat:0.0f];
+//	disappearAni.toValue = [NSNumber numberWithFloat:1.0f];
+//	
+//	[self.singleFlightParentView.layer addAnimation:disappearAni forKey:nil];
+//	
+//	self.doubleFlightParentView.layer.opacity = 0.0f;
+//	CABasicAnimation* appearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//	appearAni.removedOnCompletion = YES;
+//	appearAni.fromValue = [NSNumber numberWithFloat:1.0f];
+//	appearAni.toValue = [NSNumber numberWithFloat:0.0f];
+//	[appearAni setAnimationDidStartBlock:nil
+//				andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
+//					self.doubleFlightParentView.hidden = YES;
+//				}];
+//	
+//	[self.doubleFlightParentView.layer addAnimation:appearAni forKey:nil];
+	
+	self.departureBtn.selected = YES;
+	self.arrivalBtn.selected = NO;
+
+	self.singleFlightParentView.left = -self.singleFlightParentView.width;
+	self.doubleFlightParentView.left = 0;
 	self.singleFlightParentView.hidden = NO;
-	self.singleFlightParentView.layer.opacity = 1.0f;
+	self.doubleFlightParentView.hidden = NO;
 	
-	CABasicAnimation* disappearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
-	disappearAni.removedOnCompletion = YES;
-	disappearAni.fromValue = [NSNumber numberWithFloat:0.0f];
-	disappearAni.toValue = [NSNumber numberWithFloat:1.0f];
-	
-	[self.singleFlightParentView.layer addAnimation:disappearAni forKey:nil];
-	
-	self.doubleFlightParentView.layer.opacity = 0.0f;
-	CABasicAnimation* appearAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
-	appearAni.removedOnCompletion = YES;
-	appearAni.fromValue = [NSNumber numberWithFloat:1.0f];
-	appearAni.toValue = [NSNumber numberWithFloat:0.0f];
-	[appearAni setAnimationDidStartBlock:nil
-				andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
-					self.doubleFlightParentView.hidden = YES;
-				}];
-	
-	[self.doubleFlightParentView.layer addAnimation:appearAni forKey:nil];
+	[UIView animateWithDuration:.3f
+					 animations:^{
+						 self.singleFlightParentView.left = 0;
+						 self.doubleFlightParentView.left = self.singleFlightParentView.width;
+					 }
+					 completion:^(BOOL finished) {
+						 self.doubleFlightParentView.hidden = YES;
+					 }];
 	
 	[self.singleFlightTableView reloadData];
 }
