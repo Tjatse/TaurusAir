@@ -23,6 +23,7 @@ typedef enum {
 #define IS_DEPLOYED()           ([SANDBOX isEqualToString:@"Production"])
 
 // uris
+// account.
 #define REACHABLE_HOST      @"http://211.144.155.155:5001"
 #define CLIENT_ID           @"m_b2c_001"
 #define SAFE_CODE           @""
@@ -32,6 +33,8 @@ typedef enum {
 #define ACCOUNT_LOGOUT      @"Interfaces/UserLoginOut.ashx"
 #define ACCOUNT_UPDPWD      @"Interfaces/EditUserPwd.ashx"
 #define ACCOUNT_FINDPWD     @"Interfaces/PasswordRecovery.ashx"
+// order.
+#define ORDER_LIST          @"Interfaces/GetTicketOrdersByCondition.ashx"
 
 #define setRequestAuth(request) [request setPostValue:CLIENT_ID forKey:@"ClientId"];[request setPostValue:SAFE_CODE forKey:@"safeCode"];
 

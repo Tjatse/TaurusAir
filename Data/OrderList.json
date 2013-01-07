@@ -1,0 +1,47 @@
+{
+    "Meta": {
+        "Code": null,
+        "Message": null,
+        "Method": "GetTicketOrdersByCondition",
+        "Status": "ok"
+    },
+    "Page": {
+        "NowPage": 1,
+        "PerPageCount": 10,
+        "TotalCount": 1
+    },
+    "Response":[{
+                    "Cabin": "Y",
+                    "Flight": "CZ6132",
+                    "FlightLeaveTime": "2012-12-28,07:55,09:15",
+                    "FromTo": "PEKDLC",
+                    "OrderType": 1,
+                    "Passengers": null,
+                    "PayState": 1710,
+                    "State": 1010,
+                    "Tid": 6595181
+                },
+                {
+                    "Cabin": "N",
+                    "Flight": "MU1302",
+                    "FlightLeaveTime": "2012-12-30,15:25,17:55",
+                    "FromTo": "FUOHIA",
+                    "OrderType": 1,
+                    "Passengers": null,
+                    "PayState": 1710,
+                    "State": 1170,
+                    "Tid": 6595181
+                },
+                {
+                    "Cabin": "Y",
+                    "Flight": "CZ6132",
+                    "FlightLeaveTime": "2013-01-08,07:55,09:15",
+                    "FromTo": "HJJDQA",
+                    "OrderType": 1,
+                    "Passengers": null,
+                    "PayState": 1710,
+                    "State": 1200,
+                    "Tid": 6595181
+                }
+            ]
+}

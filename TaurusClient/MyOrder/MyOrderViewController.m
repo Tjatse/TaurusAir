@@ -20,6 +20,7 @@
 #import "OrderFilterViewController.h"
 #import "OrderDetailViewController.h"
 #import "OrderState.h"
+#import "OrderHelper.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define TAG_SORT_TIME   100
@@ -100,6 +101,17 @@
 }
 #pragma mark -Login Already
 - (void) initComponent
+{
+    [OrderHelper orderListWithId:[AppConfig get].currentUser.userId
+                         success:^(NSArray *orders) {
+                             
+                         }
+                         failure:^(NSString *errorMsg) {
+                             
+                         }];
+}
+
+- (void)renderViews
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterOrder:) name:@"ORDER_FILTER" object:nil];
     _orderStates = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allOrderStates]];
