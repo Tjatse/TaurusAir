@@ -12,6 +12,8 @@
 #import "BBlock.h"
 #import "MBProgressHUD.h"
 #import "AppContext.h"
+#import "ContacterHelper.h"
+#import "ALToastView.h"
 
 @interface EditTravelerViewController ()
 
@@ -62,22 +64,7 @@
     self.navigationItem.rightBarButtonItem =
     [UIBarButtonItem generateNormalStyleButtonWithTitle:@"保存"
                                          andTapCallback:^(id control, UIEvent *event) {
-                                             // TODO: save traveler here.
-                                             if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
-                                                 [_focusedTextField resignFirstResponder];
-                                             }
-                                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                                             hud.labelText = @"保存中...";
-                                             [BBlock dispatchAfter:1 onMainThread:^{
-                                                 [hud hide:YES];
-                                                 
-                                                 if(_contacterType == CONTACTER){
-                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
-                                                 }else{
-                                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
-                                                 }
-                                                 [self.navigationController popViewControllerAnimated:YES];
-                                             }];
+                                             [self save];
                                          }];
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
@@ -101,7 +88,42 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma mark - Save
+- (void)save
+{
+    if(_focusedTextField && [_focusedTextField canResignFirstResponder]){
+        [_focusedTextField resignFirstResponder];
+    }
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"保存中...";
+    hud.dimBackground = YES;
+    if(_contacterType == CONTACTER){
+        [ContacterHelper contacterOperateWithData:_detail
+                                      operateType:kModify
+                                          success:^(NSString *identification) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
+                                              [self.navigationController popToRootViewControllerAnimated:YES];
+                                          }
+                                          failure:^(NSString *errorMsg) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                          }];
+    }else{
+        
+        [ContacterHelper passengerOperateWithData:_detail
+                                      operateType:kModify
+                                          success:^(NSString *identification) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
+                                              [self.navigationController popToRootViewControllerAnimated:YES];
+                                          }
+                                          failure:^(NSString *errorMsg) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                          }];
+    }
+}
 
 #pragma mark -TableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -305,17 +327,35 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 0){
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.labelText = @"删除中...";
-        [BBlock dispatchAfter:1 onMainThread:^{
-            [hud hide:YES];
-            if(_contacterType == CONTACTER){
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DELETE_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[_detail objectForKey:@"ContactorId"] forKey:@"ContactorId"]];
-            }else{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DELETE_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:[_detail objectForKey:@"PassengerId"] forKey:@"PassengerId"]];
-            }
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }];
+        hud.dimBackground = YES;
+        if(_contacterType == CONTACTER){
+            [ContacterHelper contacterOperateWithData:_detail
+                                          operateType:kDelete
+                                              success:^(NSString *identification) {
+                                                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"DELETE_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[_detail objectForKey:@"ContactorId"] forKey:@"ContactorId"]];
+                                                  [self.navigationController popToRootViewControllerAnimated:YES];
+                                              }
+                                              failure:^(NSString *errorMsg) {
+                                                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                                  [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                              }];
+        }else{
+            
+            [ContacterHelper passengerOperateWithData:_detail
+                                          operateType:kDelete
+                                              success:^(NSString *identification) {
+                                                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"DELETE_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:[_detail objectForKey:@"PassengerId"] forKey:@"PassengerId"]];
+                                                  [self.navigationController popToRootViewControllerAnimated:YES];
+                                              }
+                                              failure:^(NSString *errorMsg) {
+                                                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                                  [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                              }];
+        }
     }
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

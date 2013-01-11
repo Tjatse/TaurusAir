@@ -22,6 +22,7 @@
 #import "OrderState.h"
 #import "OrderHelper.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MBProgressHUD.h"
 
 #define TAG_SORT_TIME   100
 #define TAG_SORT_PRICE  101
@@ -102,22 +103,29 @@
 #pragma mark -Login Already
 - (void) initComponent
 {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"获取中...";
     [OrderHelper orderListWithId:[AppConfig get].currentUser.userId
                          success:^(NSArray *orders) {
-                             
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
+                             [self renderViews:orders];
                          }
                          failure:^(NSString *errorMsg) {
-                             
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
+                             [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
                          }];
 }
 
-- (void)renderViews
+- (void)renderViews:(NSArray *)orders
 {
+    _datas = [orders mutableCopy];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterOrder:) name:@"ORDER_FILTER" object:nil];
     _orderStates = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allOrderStates]];
     _threeCodes = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allThreeCharCodesDictionary]];
     
-    self.navigationItem.rightBarButtonItem = nil;
+    [self setRightButton: NO];
+    
     NSArray *subViews = [self.view subviews];
     if(subViews && [subViews count] > 0){
         for(UIView *v in subViews){
@@ -150,8 +158,7 @@
     [_sortImageView setFrame:CGRectMake(80, 14, 8, 11)];
     [self.view addSubview:_sortImageView];
     [self.view bringSubviewToFront:_sortImageView];
-        
-    _datas = [[@"[{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2012-12-28,07:55,09:15\",\"FromTo\":\"PEKDLC\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1010,\"Tid\":6595181},{\"Cabin\":\"N\",\"Flight\":\"MU1302\",\"FlightLeaveTime\":\"2012-12-30,15:25,17:55\",\"FromTo\":\"FUOHIA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1170,\"Tid\":6595181},{\"Cabin\":\"Y\",\"Flight\":\"CZ6132\",\"FlightLeaveTime\":\"2013-01-08,07:55,09:15\",\"FromTo\":\"HJJDQA\",\"OrderType\":1,\"Passengers\":null,\"PayState\":1710,\"State\":1200,\"Tid\":6595181}]" objectFromJSONString] retain];
+    
     _clonedDatas = [_datas mutableCopy];
     
     // init tableview.
@@ -165,6 +172,49 @@
     
     _asc = true;
     [self sortEvent:buttonSortTime];
+}
+#pragma mark Refresh
+- (void)setRightButton: (BOOL)refreshing{
+    if(!refreshing){
+        [self.navigationItem setRightBarButtonItem:nil];
+        self.navigationItem.rightBarButtonItem =
+        [UIBarButtonItem generateNormalStyleButtonWithTitle:@"刷新"
+                                             andTapCallback:^(id control, UIEvent *event) {
+                                                 [self refresh];
+                                             }];
+    }else{
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 61, 30)];
+        [imageView setImage:[UIImage imageNamed:@"t_btn_right.png"]];
+        
+        UIActivityIndicatorView *ind = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        [ind setFrame:CGRectMake(20, 5, 20, 20)];
+        [imageView addSubview:ind];
+        self.navigationItem.rightBarButtonItem.customView = imageView;
+        [ind startAnimating];
+        [ind release];
+        [imageView release];
+    }
+}
+- (void)refresh
+{
+    [self setRightButton:YES];
+    
+    [OrderHelper orderListWithId:[AppConfig get].currentUser.userId
+                         success:^(NSArray *orders) {
+                             [_datas release], _datas = nil;
+                             _datas = [orders mutableCopy];
+                             [_clonedDatas release], _clonedDatas = nil;
+                             _clonedDatas = [_datas mutableCopy];
+                             
+                             [self filterOrder:[NSNotification notificationWithName:@"ORDER_FILTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:0] forKey:@"selectedRow"]]];
+                             
+                             [_tableView reloadData];
+                             [self setRightButton:NO];
+                         }
+                         failure:^(NSString *errorMsg) {
+                             [self setRightButton:NO];
+                             [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                         }];
 }
 #pragma mark Filter
 - (void)setButtonState: (UIButton *)button andState:(BOOL)selected
@@ -198,8 +248,11 @@
     else if(_sort == TIME){
         [self setButtonState:buttonSortTime andState:NO];
     }
+    _asc = NO;
     
+    _sort = TIME;
     [self setButtonState:buttonFilter andState:YES];
+    [self setButtonState:buttonSortTime andState:YES];
     NSPredicate *predicate = nil;
     switch (_selectedRow) {
         case 0: // 全部
@@ -228,6 +281,7 @@
     }else{
         _datas = [_clonedDatas mutableCopy];
     }
+    [self sortByKey:@"FlightLeaveTime" andASC:_asc];
     [_tableView reloadData];
     if([_datas count] == 0){
         [ALToastView toastInView:self.view withText:@"没有符合筛选条件的订单信息。" andBottomOffset: 40 andType:ERROR];
@@ -369,6 +423,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     OrderDetailViewController *vc = [[OrderDetailViewController alloc] init];
+    [vc setOrderListItem: [_datas objectAtIndex:indexPath.row]];
     UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
     [self.navigationController presentModalViewController:nav animated:YES];
     [vc release];

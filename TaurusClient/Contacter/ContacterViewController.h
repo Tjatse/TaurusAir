@@ -14,7 +14,8 @@ typedef enum {
 
 @interface ContacterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
-    TABLEVIEW_VISIBLE   currentTableView;
+    TABLEVIEW_VISIBLE   _currentTableView;
+    BOOL                _isLoading;
     NSMutableArray      *_travelers;
     NSMutableArray      *_contactors;
 }

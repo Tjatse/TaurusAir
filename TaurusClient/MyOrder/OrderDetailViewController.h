@@ -21,5 +21,6 @@
 
 @property   (nonatomic, retain) IBOutlet UITableView    *tableView;
 @property   (nonatomic, retain) IBOutlet UIView         *viewBottom;
+@property   (nonatomic, retain) NSDictionary            *orderListItem;
 
 @end

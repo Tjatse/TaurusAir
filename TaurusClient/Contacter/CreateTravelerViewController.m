@@ -12,6 +12,7 @@
 #import "BBlock.h"
 #import "MBProgressHUD.h"
 #import "ALToastView.h"
+#import "ContacterHelper.h"
 
 @interface CreateTravelerViewController ()
 
@@ -122,17 +123,36 @@
         }
     }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"保存中...";
-    [BBlock dispatchAfter:1 onMainThread:^{
-        [hud hide:YES];
-        if(_contacterType == CONTACTER){
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
-        }else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-    }];
+    hud.dimBackground = YES;
+    if(_contacterType == CONTACTER){
+        [ContacterHelper contacterOperateWithData:_detail
+                                      operateType:kAdd
+                                          success:^(NSString *identification) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [_detail setValue:identification forKey:@"ContactorId"];
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
+                                              [self.navigationController popToRootViewControllerAnimated:YES];
+                                          }
+                                          failure:^(NSString *errorMsg) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                          }];
+    }else{
+        [ContacterHelper passengerOperateWithData:_detail
+                                      operateType:kAdd
+                                          success:^(NSString *identification) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [_detail setValue:identification forKey:@"PassengerId"];
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
+                                              [self.navigationController popToRootViewControllerAnimated:YES];
+                                          }
+                                          failure:^(NSString *errorMsg) {
+                                              [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                              [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                          }];
+    }
 }
 
 #pragma mark -TableView

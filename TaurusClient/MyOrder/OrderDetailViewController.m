@@ -17,6 +17,10 @@
 #import "ThreeCharCode.h"
 #import "OrderFlightDetailViewController.h"
 #import "UIBGNavigationController.h"
+#import "MBProgressHUD.h"
+#import "OrderHelper.h"
+#import "AppConfig.h"
+#import "ALToastView.h"
 
 @interface OrderDetailViewController ()
 
@@ -25,6 +29,7 @@
 @implementation OrderDetailViewController
 @synthesize tableView = _tableView;
 @synthesize viewBottom = _viewBottom;
+@synthesize orderListItem = _orderListItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,6 +50,7 @@
     [_twoCodes release];
     [_flight release];
     [_contactorPhone release];
+    [_orderListItem release];
     [super dealloc];
 }
 
@@ -58,19 +64,35 @@
     _threeCodes = [[CharCodeHelper allThreeCharCodesDictionary] retain];
     _twoCodes = [[CharCodeHelper allTwoCharCodesDictionary] retain];
     _orderStates = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allOrderStates]];
-    _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
     
-    _detail = [@{@"Airport": @50,@"CommissionPrice": @0,@"Fare": @710,@"Flight": @"CZ_CZ6132_Y_PEK_2012-12-28 07:55_DLC_2012-12-28 09:15",@"Fuel": @70,@"OrderPrice": @830,@"OrderType": @1,@"PayState": @1710,@"State": @1200,@"Tid": @6595181,@"Total": @830,@"Traveler": @"测试_1_413024198309141234",@"BookTime":@"2012-12-24 19:02",@"ContactorName":@"Test用户",@"ContactorPhone":@"15810591307",@"SendAddress":@"北京市朝阳区东三环北路辛二号迪阳大厦1609"} retain];
+    [_tableView setBackgroundView:nil];
+    [_tableView setBackgroundColor:[UIColor clearColor]];
+    [_viewBottom setFrame:CGRectMake(0, SCREEN_RECT.size.height - STATUSBAR_FRAME.size.height - NAVBAR_HEIGHT - 36, SCREEN_RECT.size.width, 36)];
     
     self.navigationItem.leftBarButtonItem =
     [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
                                        andTapCallback:^(id control, UIEvent *event) {
                                            [self.navigationController dismissModalViewControllerAnimated:YES];
                                        }];
-    [_tableView setBackgroundView:nil];
-    [_tableView setBackgroundColor:[UIColor clearColor]];
     
-    [self initComponents];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"获取中...";
+    NSString *orderId = [NSString stringWithFormat:@"%d",[[_orderListItem objectForKey:@"OrderId"] intValue]];
+    [OrderHelper orderDetailWithId:orderId
+                            userId:[AppConfig get].currentUser.userId
+                           success:^(NSDictionary *order) {
+                               _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
+                               
+                               _detail = [order mutableCopy];
+                               
+                               [self initComponents];
+                               [_tableView reloadData];
+                               [MBProgressHUD hideHUDForView:self.view animated:YES];
+                           }
+                           failure:^(NSString *errorMsg) {
+                               [MBProgressHUD hideHUDForView:self.view animated:YES];
+                               [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                           }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,9 +102,7 @@
 }
 #pragma mark -Init components
 - (void)initComponents
-{
-    [_viewBottom setFrame:CGRectMake(0, SCREEN_RECT.size.height - STATUSBAR_FRAME.size.height - NAVBAR_HEIGHT - 36, SCREEN_RECT.size.width, 36)];
-    
+{   
     UILabel *labelPriceInfo = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 100, 36)];
     [labelPriceInfo setText:@"订单金额："];
     [labelPriceInfo setTextColor:[UIColor whiteColor]];

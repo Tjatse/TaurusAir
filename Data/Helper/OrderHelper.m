@@ -54,8 +54,8 @@
     }
 }
 + (void)orderListWithId:(NSString *)userId
-                success:(void (^)(NSArray *))success
-                failure:(void (^)(NSString *))failure
+                success:(void (^)(NSArray *orders))success
+                failure:(void (^)(NSString *errMsg))failure
 {
     if(IS_DEPLOYED()){
         if([AppContext get].online)
@@ -85,6 +85,66 @@
             [self analyzeOrderListRet:JSON
                               success:success
                               failure:failure];
+        }];
+    }
+}
+
+#pragma mark - Order Detail
++ (void)analyzeOrderDetailRet: (id)JSON
+                      success: (void (^)(NSDictionary *results))success
+                      failure: (void (^)(NSString *errorMsg))failure;
+{
+    if (JSON == [NSNull null] || JSON == nil) {
+        failure(@"无法连接服务器。");
+    }else{
+        NSDictionary *meta= [JSON objectForKey:@"Meta"];
+        
+        if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"GetTicketOrderDetailById"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
+            NSDictionary *resp = [JSON objectForKey:@"Response"];
+            if(resp) {
+                success(resp);
+            }else{
+                failure([meta getStringValueForKey:@"Message" defaultValue:@"获取订单详细信息失败，服务器端返回错误。"]);
+            }
+        }else{
+            failure([meta getStringValueForKey:@"Message" defaultValue:@"服务器返回数据错误。"]);
+        }
+    }
+}
++ (void)orderDetailWithId:(NSString *)orderId
+                   userId: (NSString *)userId
+                  success:(void (^)(NSDictionary *order))success
+                  failure:(void (^)(NSString *))failure
+{
+    if(IS_DEPLOYED()){
+        if([AppContext get].online)
+        {
+            NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ORDER_DETAIL];
+            __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+            [request setPostValue:userId forKey:@"Tid"];
+            [request setPostValue:orderId forKey:@"OrderId"];
+            setRequestAuth(request);
+            [request setCompletionBlock:^{
+                id JSON = [[request responseString] objectFromJSONString];
+                [self analyzeOrderDetailRet:JSON
+                                    success:success
+                                    failure:failure];
+            }];
+            [request setFailedBlock:^{
+                failure([request.error localizedDescription]);
+            }];
+            [request startAsynchronous];
+        }
+        else
+        {
+            failure(@"当前网络不可用，且没有本地数据。");
+        }
+    }else{
+        [BBlock dispatchAfter:1 onMainThread:^{
+            id JSON = [self dummy:@"OrderDetail"];
+            [self analyzeOrderDetailRet:JSON
+                                success:success
+                                failure:failure];
         }];
     }
 }

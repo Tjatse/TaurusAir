@@ -1,0 +1,38 @@
+{
+    "Meta": {
+        "Code": null,
+        "Message": null,
+        "Method": "GetPassengers",
+        "Status": "ok"
+    },
+    "Page": {
+        "NowPage": 1,
+        "PerPageCount": 10,
+        "TotalCount": 2
+    },
+    "Response": [{
+         "Birthday": "1967-12-1",
+         "ChinaId": "4130261234987609871",
+         "Gender": true,
+         "Name": "李韦",
+         "PassengerId": 36023,
+         "Phone": null,
+         "TravelerType": 1
+     },{
+         "Birthday": "1983-4-21",
+         "ChinaId": "4130261234987609871",
+         "Gender": false,
+         "Name": "孔乐乐",
+         "PassengerId": 36021,
+         "Phone":"13800102132",
+         "TravelerType": 1
+     },{
+         "Birthday": "2009-8-10",
+         "ChinaId": "4130261234987609871",
+         "Gender": false,
+         "Name": "孔墨",
+         "PassengerId": 36024,
+         "Phone":null,
+         "TravelerType": 2
+     }]
+}

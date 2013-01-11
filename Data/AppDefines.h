@@ -35,6 +35,13 @@ typedef enum {
 #define ACCOUNT_FINDPWD     @"Interfaces/PasswordRecovery.ashx"
 // order.
 #define ORDER_LIST          @"Interfaces/GetTicketOrdersByCondition.ashx"
+#define ORDER_DETAIL        @"Interfaces/GetTicketOrderDetailById.ashx"
+
+// traveler.
+#define TRAVELER_PASSENGERS @"Interfaces/GetPassengers.ashx"
+#define TRAVELER_CONTACTERS @"Interfaces/GetContactors.ashx"
+#define TRAVELER_PSG_OPR    @"Interfaces/OperatePassenger.ashx"
+#define TRAVELER_CTC_OPR    @"Interfaces/OperateContactor.ashx"
 
 #define setRequestAuth(request) [request setPostValue:CLIENT_ID forKey:@"ClientId"];[request setPostValue:SAFE_CODE forKey:@"safeCode"];
 

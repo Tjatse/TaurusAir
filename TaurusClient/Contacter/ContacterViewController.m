@@ -18,6 +18,8 @@
 #import "CreateTravelerViewController.h"
 #import "LoginViewController.h"
 #import "ALToastView.h"
+#import "ContacterHelper.h"
+#import "MBProgressHUD.h"
 
 @interface ContacterViewController ()
 
@@ -113,16 +115,32 @@
             }
         }
     }
+    _isLoading = YES;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"读取常旅客...";
+    [ContacterHelper passengersWithId:[AppConfig get].currentUser.userId
+                              success:^(NSArray *passengers) {
+                                  [self renderView:passengers];
+                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                  _isLoading = NO;
+                              }
+                              failure:^(NSString *errorMsg) {
+                                  [ALToastView toastPinInView:self.view withText:errorMsg andBottomOffset: 208 andType: ERROR];
+                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                  _isLoading = NO;
+                              }];
+}
+- (void)renderView: (NSArray *)travelers{
+    
+    _currentTableView = TRAVELERS;
+    _travelers = [travelers mutableCopy];
     
     [tableViewContactors setHidden:NO];
     [tableViewTravelers setHidden:NO];
     [buttonContactors setHidden:NO];
     [buttonTravelers setHidden:NO];
     
-    currentTableView = TRAVELERS;
-    _travelers = [[@"[{\"Birthday\":\"1967-12-1\",\"ChinaId\":\"4130261234987609871\",\"Gender\":true,\"Name\":\"李韦\",\"PassengerId\":36023,\"Phone\":null,\"TravelerType\":1},{\"Birthday\":\"1983-4-21\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔乐乐\",\"PassengerId\":36021,\"Phone\":\"13800102132\",\"TravelerType\":1},{\"Birthday\":\"2009-8-10\",\"ChinaId\":\"4130261234987609871\",\"Gender\":false,\"Name\":\"孔墨\",\"PassengerId\":36024,\"Phone\":null,\"TravelerType\":2}]" objectFromJSONString] mutableCopy];
-    
-    _contactors = [[@"[{\"Address\":\"北京市朝阳区东三环北路辛2号迪阳大厦1609\",\"ContactorId\":36025,\"Email\":\"xiongjun@beyondlink.net\",\"Name\":\"熊俊\",\"Phone\":\"15810591307\"},{\"Address\":\"武汉市中山路1024号504#\",\"ContactorId\":36024,\"Email\":\"zhangc@qq.com\",\"Name\":\"张超\",\"Phone\":\"13712341234\"}]" objectFromJSONString] mutableCopy];
+    [self setRightButton:NO];
     
     // notifications.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTraveler:) name:@"REFRESH_TRAVELER" object:nil];
@@ -135,6 +153,67 @@
     
     [tableViewTravelers reloadData];
     [tableViewContactors reloadData];
+}
+#pragma mark Refresh
+- (void)setRightButton: (BOOL)refreshing{
+    if(!refreshing){
+        [self.navigationItem setRightBarButtonItem:nil];
+        self.navigationItem.rightBarButtonItem =
+        [UIBarButtonItem generateNormalStyleButtonWithTitle:@"刷新"
+                                             andTapCallback:^(id control, UIEvent *event) {
+                                                 [self refresh];
+                                             }];
+    }else{
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 61, 30)];
+        [imageView setImage:[UIImage imageNamed:@"t_btn_right.png"]];
+        
+        UIActivityIndicatorView *ind = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        [ind setFrame:CGRectMake(20, 5, 20, 20)];
+        [imageView addSubview:ind];
+        self.navigationItem.rightBarButtonItem.customView = imageView;
+        [ind startAnimating];
+        [ind release];
+        [imageView release];
+    }
+}
+- (void)refresh
+{
+    if(_isLoading){ return; }
+    [self setRightButton:YES];
+    
+    if(_currentTableView == TRAVELERS){
+        _isLoading = YES;
+        [ContacterHelper passengersWithId:[AppConfig get].currentUser.userId
+                                  success:^(NSArray *passengers) {
+                                      [_travelers release], _travelers = nil;
+                                      _travelers = [passengers mutableCopy];
+                                     
+                                      [tableViewTravelers reloadData];
+                                      [self setRightButton:NO];
+                                      _isLoading = NO;
+                                  }
+                                  failure:^(NSString *errorMsg) {
+                                      [self setRightButton:NO];
+                                      [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                      _isLoading = NO;
+                                  }];
+    }else if(_currentTableView == CONTACTORS){
+        _isLoading = YES;
+        [ContacterHelper contactersWithId:[AppConfig get].currentUser.userId
+                                  success:^(NSArray *contacters) {
+                                      [_contactors release], _contactors = nil;
+                                      _contactors = [contacters mutableCopy];
+                                      [tableViewContactors reloadData];
+                                      [self setRightButton:NO];
+                                      _isLoading = NO;
+                                  }
+                                  failure:^(NSString *errorMsg) {
+                                      [self setRightButton:NO];
+                                      [ALToastView toastPinInView:self.view withText:errorMsg andBottomOffset: 208 andType: ERROR];
+                                      _isLoading = NO;
+                                  }];
+
+    }
 }
 #pragma mark - Notifications
 - (void)refreshTraveler:(NSNotification *)notification
@@ -206,6 +285,25 @@
     [_contactors addObject:contacter];
     [tableViewContactors reloadData];
 }
+- (void)loadContacters
+{
+    _isLoading = YES;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"读取联系人...";
+    
+    [ContacterHelper contactersWithId:[AppConfig get].currentUser.userId
+                              success:^(NSArray *contacters) {
+                                  _contactors = [contacters mutableCopy];
+                                  [tableViewContactors reloadData];
+                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                  _isLoading = NO;
+                              }
+                              failure:^(NSString *errorMsg) {
+                                  [ALToastView toastPinInView:self.view withText:errorMsg andBottomOffset: 208 andType: ERROR];
+                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                  _isLoading = NO;
+                              }];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -215,20 +313,27 @@
 #pragma mark - Events
 -(void)swithTableView:(id)sender
 {
+    if(_isLoading){ return; }
+    
     int tag = ((UIButton *)sender).tag;
-    if(tag == currentTableView){
+    if(tag == _currentTableView){
         return;
     }
     
     if(tag == TRAVELERS){
-        [buttonContactors setBackgroundImage:[UIImage imageNamed:@"tab_btn_right_off.png"] forState:UIControlStateNormal];
-        [buttonTravelers setBackgroundImage:[UIImage imageNamed:@"tab_btn_left_on.png"] forState:UIControlStateNormal];
+        [self setButtonHightlight:buttonContactors isHightlight:@"tab_btn_right_off.png"];
+        [self setButtonHightlight:buttonTravelers isHightlight:@"tab_btn_left_on.png"];
     }else if(tag == CONTACTORS){
-        [buttonTravelers setBackgroundImage:[UIImage imageNamed:@"tab_btn_left_off.png"] forState:UIControlStateNormal];
-        [buttonContactors setBackgroundImage:[UIImage imageNamed:@"tab_btn_right_on.png"] forState:UIControlStateNormal];
+        [self setButtonHightlight:buttonTravelers isHightlight:@"tab_btn_left_off.png"];
+        [self setButtonHightlight:buttonContactors isHightlight:@"tab_btn_right_on.png"];
     }
     [self slideTableView:(tag == TRAVELERS)];
-    currentTableView = tag;
+    _currentTableView = tag;
+}
+- (void)setButtonHightlight: (UIButton *)button
+         isHightlight: (NSString *)highlightImage
+{
+    [button setBackgroundImage:[UIImage imageNamed:highlightImage] forState:UIControlStateNormal];
 }
 - (void)slideTableView: (BOOL)origin
 {
@@ -249,7 +354,9 @@
                          [self.tableViewContactors setFrame:frameContators];
                      }
                      completion:^(BOOL finished) {
-                         
+                         if(_currentTableView == CONTACTORS && _contactors == nil){
+                             [self loadContacters];
+                         }
                      }];
 }
 #pragma mark - TableView

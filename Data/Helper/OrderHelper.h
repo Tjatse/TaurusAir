@@ -12,4 +12,8 @@
 + (void)orderListWithId: (NSString *)userId
                 success: (void (^)(NSArray *orders))success
                 failure: (void (^)(NSString *errorMsg))failure;
++ (void)orderDetailWithId: (NSString *)orderId
+                   userId: (NSString *)userId
+                success: (void (^)(NSDictionary *order))success
+                failure: (void (^)(NSString *errorMsg))failure;
 @end
