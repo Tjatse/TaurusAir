@@ -476,17 +476,17 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	for (int n = 0; n < rowsCount; ++n)
 		[rows addObject:[NSIndexPath indexPathForRow:n inSection:section]];
 	
-//	if (isSelected)
-//		[self.ticketResultsVw insertRowsAtIndexPaths:rows
-//									withRowAnimation:UITableViewRowAnimationFade];
-//	else
-//		[self.ticketResultsVw deleteRowsAtIndexPaths:rows
-//									withRowAnimation:UITableViewRowAnimationFade];
+	if (isSelected)
+		[self.ticketResultsVw insertRowsAtIndexPaths:rows
+									withRowAnimation:UITableViewRowAnimationFade];
+	else
+		[self.ticketResultsVw deleteRowsAtIndexPaths:rows
+									withRowAnimation:UITableViewRowAnimationFade];
 	
 //	[self.ticketResultsVw reloadSections:[NSIndexSet indexSetWithIndex:section]
 //						withRowAnimation:UITableViewRowAnimationFade];
 	
-	[self.ticketResultsVw reloadData];
+//	[self.ticketResultsVw reloadData];
 }
 
 #pragma mark - core methods
@@ -716,13 +716,13 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		}
 	}];
 
-//	[self.ticketResultsVw beginUpdates];
-//	
-//	NSMutableIndexSet* sections = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, flightInfos.count)];
-//	[self.ticketResultsVw reloadSections:sections withRowAnimation:UITableViewRowAnimationTop];
-//	[self.ticketResultsVw endUpdates];
+	[self.ticketResultsVw beginUpdates];
 	
-	[self.ticketResultsVw reloadData];
+	NSMutableIndexSet* sections = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, flightInfos.count)];
+	[self.ticketResultsVw reloadSections:sections withRowAnimation:UITableViewRowAnimationFade];
+	[self.ticketResultsVw endUpdates];
+	
+//	[self.ticketResultsVw reloadData];
 }
 
 - (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo
@@ -791,7 +791,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	
 	// item info
 	// 根据价格选取最优的机票
-	NSDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
+	NSArray* flightInfos = [self.jsonContent objectForKey:@"FlightsInfo"];
+	NSDictionary* flightInfo = [flightInfos objectAtIndex:section];
 //	NSArray* cabinInfos = [flightInfo objectForKey:@"CabinInfo"];
 	NSDictionary* optimalCabin = [self queryOptimalCabinInfo:flightInfo];
 	
@@ -804,6 +805,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	UILabel* priceLabel = (UILabel*)[result viewWithTag:105];
 	UILabel* discountLabel = (UILabel*)[result viewWithTag:106];
 	UIButton* payButton = (UIButton*)[result viewWithTag:107];
+	
+	UIView* bottomSepLineVw = (UIView*)[result viewWithTag:300];
+	bottomSepLineVw.hidden = section != flightInfos.count - 1;
 	
 	UIButton* sectionTapButton = (UIButton*)[result viewWithTag:120];
 	sectionTapButton.strongRefTag = @(section);
@@ -902,7 +906,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	int cabin1Index = row * 2;
 	NSDictionary* cabin1 = [cabinInfos objectAtIndex:cabin1Index];
 	UIView* cabin1Vw = [self generateCabinView:cabin1];
-//	cabin1Vw.tag = 9900;
+	cabin1Vw.tag = 9900;
 	cabin1Vw.strongRefTag = @9900;
 	
 	UIButton* cabin1PayBtn = (UIButton*)[cabin1Vw viewWithTag:200];
@@ -917,7 +921,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	if (cabin2Index < cabinInfos.count) {
 		NSDictionary* cabin2 = [cabinInfos objectAtIndex:cabin2Index];
 		UIView* cabin2Vw = [self generateCabinView:cabin2];
-//		cabin2Vw.tag = 9901;
+		cabin2Vw.tag = 9901;
 		cabin2Vw.strongRefTag = @9901;
 		
 		cabin2Vw.left = cabin1Vw.width;
