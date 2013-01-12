@@ -111,6 +111,7 @@
                                [self renderViews:orders];
                            }
                            failure:^(NSString *errorMsg) {
+                               [self setRightButton:NO];
                                [MBProgressHUD hideHUDForView:self.view animated:YES];
                                [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
                            }];
@@ -121,6 +122,7 @@
     _datas = [orders mutableCopy];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterOrder:) name:@"ORDER_FILTER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderReresh:) name:@"ORDER_REFRESH" object:nil];
     _orderStates = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allOrderStates]];
     _threeCodes = [[NSDictionary alloc] initWithDictionary:[CharCodeHelper allThreeCharCodesDictionary]];
     
@@ -162,7 +164,7 @@
     _clonedDatas = [_datas mutableCopy];
     
     // init tableview.
-    _tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 40, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 40, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height - 90) style:UITableViewStyleGrouped];
     [_tableView setDelegate:self];
     [_tableView setBackgroundColor:[UIColor clearColor]];
     [_tableView setBackgroundView:nil];
@@ -194,6 +196,10 @@
         [ind release];
         [imageView release];
     }
+}
+- (void)orderReresh:(NSNotification *)notification
+{
+    [self refresh];
 }
 - (void)refresh
 {
