@@ -179,7 +179,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.backgroundColor = [UIColor clearColor];
 		// Make it invisible for now
 		self.alpha = 0.0f;
-		self.userInteractionEnabled = NO;
+//		self.userInteractionEnabled = NO;
 		
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;

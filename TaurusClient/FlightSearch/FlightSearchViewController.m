@@ -74,10 +74,15 @@
 	[self.view addSubview:self.singleFlightParentView];
 	[self.view addSubview:self.doubleFlightParentView];
 	
-	self.singleFlightParentView.top = 60;
-	self.doubleFlightParentView.top = 60;
+	self.singleFlightParentView.top = 50;
+	self.doubleFlightParentView.top = 50;
 	
 	self.doubleFlightParentView.hidden = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	
 	// 获取所在城市
 	NSString* city = [AppContext get].currentLocationCity;
