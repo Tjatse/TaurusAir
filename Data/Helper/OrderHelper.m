@@ -164,12 +164,13 @@
 
 #pragma mark - place order
 
-+ (void)performPlaceOrderWithFlightInfo:(NSArray*)flightInfos						// NSDictionary
-							   andCabin:(NSArray*)cabins							// NSDictionary
-						   andTravelers:(NSArray *)travelers
-						   andContactor:(NSDictionary*)contactor
-								success:(void (^)(NSDictionary *))success
-								failure:(void (^)(NSString *))failure
++ (void)performPlaceOrderWithUser:(User*)user
+					andFlightInfo:(NSArray*)flightInfos						// NSDictionary
+						 andCabin:(NSArray*)cabins							// NSDictionary
+					 andTravelers:(NSArray *)travelers
+					 andContactor:(NSDictionary*)contactor
+						  success:(void (^)(NSDictionary *))success
+						  failure:(void (^)(NSString *))failure
 {
 	NSParameterAssert(success != nil);
 	NSParameterAssert(failure != nil);
@@ -186,9 +187,9 @@
 				 ; n < count
 				 ; ++n) {
 				
-				for (int travelersCount = travelers.count, m = 0
-					 ; m < travelersCount
-					 ; ++m) {
+//				for (int travelersCount = travelers.count, m = 0
+//					 ; m < travelersCount
+//					 ; ++m) {
 
 					if ([flightStr length] != 0) {
 						[flightStr appendString:@"^"];
@@ -214,15 +215,15 @@
 					 , [flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]
 					 , toThreeCharCode
 					 , [flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""]];
-				}
+//				}
 			}
 			
 			// Traveler
 			// 乘客
 			NSMutableString* travelerStr = [NSMutableString string];
-			for (int flightCount = flightInfos.count, m = 0
-				 ; m < flightCount
-				 ; ++m) {
+//			for (int flightCount = flightInfos.count, m = 0
+//				 ; m < flightCount
+//				 ; ++m) {
 				
 				for (int count = travelers.count, n = 0
 					 ; n < count
@@ -248,7 +249,7 @@
 					
 					[travelerStr appendFormat:@"%@_%@_%@", name, travelerType, chinaId];
 				}
-			}
+//			}
 			
 			// 联系人姓名 ContactorName
 			NSString* contactorName = [contactor getStringValueForKey:@"Name" defaultValue:@""];
@@ -269,6 +270,11 @@
             [request setPostValue:contactorEmail forKey:@"ContactorEmail"];
             [request setPostValue:passengerRemark forKey:@"PassengerRemark"];
             
+			[request setPostValue:user.userId forKey:@"Tid"];
+            [request setPostValue:user.name forKey:@"UserName"];
+            [request setPostValue:user.guid forKey:@"Guid"];
+            [request setPostValue:user.userPwd forKey:@"UserPwd"];
+			
 			setRequestAuth(request);
             
 			[request setCompletionBlock:^{
@@ -302,9 +308,10 @@
     }
 }
 
-+ (void)performCreatePayUrl:(NSDictionary *)placeOrderJson
-					success:(void (^)(NSDictionary *))success
-					failure:(void (^)(NSString *))failure
++ (void)performCreatePayUrlOrderWithUser:(User*)user
+					   andPlaceOrderJson:(NSDictionary*)placeOrderJson
+								 success:(void (^)(NSDictionary *))success
+								 failure:(void (^)(NSString *))failure
 {
 	NSParameterAssert(success != nil);
 	NSParameterAssert(failure != nil);
@@ -323,6 +330,11 @@
 			[request setPostValue:orderId forKey:@"OrderId"];
             [request setPostValue:payPlat forKey:@"PayPlat"];
             
+			[request setPostValue:user.userId forKey:@"Tid"];
+            [request setPostValue:user.name forKey:@"UserName"];
+            [request setPostValue:user.guid forKey:@"Guid"];
+            [request setPostValue:user.userPwd forKey:@"UserPwd"];
+			
 			setRequestAuth(request);
             
 			[request setCompletionBlock:^{

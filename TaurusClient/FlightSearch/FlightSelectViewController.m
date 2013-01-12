@@ -20,6 +20,7 @@
 #import "NSObject+RefTag.h"
 #import "ALToastView.h"
 
+#import "AppContext.h"
 #import "AppConfig.h"
 #import "City.h"
 #import "AirportSearchHelper.h"
@@ -37,7 +38,7 @@ NSArray* timeFilters()
 	static NSArray* arr = nil;
 	
 	if (arr == nil) {
-		arr = [@[@"不限", @"上午", @"下午", @"晚上"] retain];
+		arr = [@[@"不限", @"上午(00:00~12:00)", @"下午(12:00~18:00)", @"晚上(18:00~24:00)"] retain];
 	}
 		
 	return arr;
@@ -521,13 +522,29 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		, @"Email": @"sdfsdf@com.com"};
 		
 		[OrderHelper
-		 performPlaceOrderWithFlightInfo:@[self.selectedPayInfos[0]]
+		 performPlaceOrderWithUser:[AppConfig get].currentUser
+		 andFlightInfo:@[self.selectedPayInfos[0]]
 		 andCabin:@[self.selectedPayInfos[1]]
 		 andTravelers:passangers
 		 andContactor:contactor
 		 success:^(NSDictionary * respObj) {
-			 [MBProgressHUD hideHUDForView:self.view
-								  animated:YES];
+			 [OrderHelper performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+														  andPlaceOrderJson:respObj
+												   success:^(NSDictionary * payUrlRespObj) {
+													   [MBProgressHUD hideHUDForView:self.view
+																			animated:YES];
+													   
+													   NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+												   }
+												   failure:^(NSString * errorMsg) {
+													   [MBProgressHUD hideHUDForView:self.view
+																			animated:YES];
+													   
+													   [ALToastView toastInView:self.view
+																	   withText:errorMsg
+																andBottomOffset:44.0f
+																		andType:ERROR];
+												   }];
 			 
 			 NSLog(@"respOcj: %@", respObj);
 		 }
@@ -546,7 +563,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 - (void)loginCancel
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_CANCEL" object:nil];
-	[ALToastView toastPinInView:self.view withText:@"登录后才能“预定机票”。"
+	[ALToastView toastPinInView:self.view withText:@"登录后才能“预订机票”。"
 				andBottomOffset:44.0f
 						andType:ERROR];
 }

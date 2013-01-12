@@ -23,15 +23,17 @@
                   failure: (void (^)(NSString *errorMsg))failure;
 
 // place order
-+ (void)performPlaceOrderWithFlightInfo:(NSArray*)flightInfos						// NSDictionary
-							   andCabin:(NSArray*)cabins							// NSDictionary
-						   andTravelers:(NSArray *)travelers
-						   andContactor:(NSDictionary*)contactor
-								success:(void (^)(NSDictionary *))success
-								failure:(void (^)(NSString *))failure;
++ (void)performPlaceOrderWithUser:(User*)user
+					andFlightInfo:(NSArray*)flightInfos						// NSDictionary
+						 andCabin:(NSArray*)cabins							// NSDictionary
+					 andTravelers:(NSArray *)travelers
+					 andContactor:(NSDictionary*)contactor
+						  success:(void (^)(NSDictionary *))success
+						  failure:(void (^)(NSString *))failure;
 
 // CreatePayUrl
-+ (void)performCreatePayUrl:(NSDictionary*)placeOrderJson
++ (void)performCreatePayUrlOrderWithUser:(User*)user
+					   andPlaceOrderJson:(NSDictionary*)placeOrderJson
 					success:(void (^)(NSDictionary *))success
 					failure:(void (^)(NSString *))failure;
 
