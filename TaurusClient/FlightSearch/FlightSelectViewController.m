@@ -29,6 +29,7 @@
 #import "FlightSelectViewController.h"
 #import "FlightSearchHelper.h"
 #import "LoginViewController.h"
+#import "AirplaneTypeHelper.h"
 
 NSArray* timeFilters()
 {
@@ -698,7 +699,13 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	airportLabel.text = [NSString stringWithFormat:@"%@-%@", self.departureCity.airportAbbrName, self.arrivalCity.airportAbbrName];
 	
 	//
-	airplaneTypeLabel.text = [flightInfo getStringValueForKey:@"Plane" defaultValue:nil];
+	NSString* airplaneTypeStr = [flightInfo getStringValueForKey:@"Plane" defaultValue:nil];
+	NSDictionary* airplaneTypes = [[AirplaneTypeHelper sharedHelper] allAirplaneType];
+	AirplaneType* airplaneType = [airplaneTypes objectForKey:airplaneTypeStr];
+	
+	airplaneTypeLabel.text = [NSString stringWithFormat:@"%@%@"
+							  , airplaneType == nil ? @"中型机" : airplaneType.friendlyPlaneType
+							  , [flightInfo getStringValueForKey:@"Plane" defaultValue:nil]];
 	
 	//
 	priceLabel.text = [NSString stringWithFormat:@"￥%d", [optimalCabin getIntValueForKey:@"PayPrice" defaultValue:0]];

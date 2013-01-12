@@ -21,8 +21,6 @@
 @property (nonatomic, retain) NSMutableArray*			csvPureLines;
 @property (nonatomic, retain) NSMutableArray*			lastLineItems;
 
-+ (NSArray*)parseContentOfCSVFile:(NSString*)filePath;
-
 @end
 
 @implementation CharCodeHelper

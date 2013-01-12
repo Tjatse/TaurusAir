@@ -7,7 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AirplaneType.h"
 
 @interface AirplaneTypeHelper : NSObject
+
+@property (nonatomic, retain) NSDictionary*		allAirplaneType;
+
++ (id)sharedHelper;
+
+@end
+
+
+@interface AirplaneType (FriendlyPlaneType)
+
+@property (nonatomic, readonly) NSString*	friendlyPlaneType;
 
 @end

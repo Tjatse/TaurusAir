@@ -22,6 +22,8 @@
 + (NSArray*)allCityGroups;
 + (NSDictionary*)allOrderStates;
 
++ (NSArray*)parseContentOfCSVFile:(NSString*)filePath;
+
 @end
 
 typedef enum tagFlightAreaType
