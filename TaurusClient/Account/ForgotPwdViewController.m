@@ -122,29 +122,31 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"提交中...";
     
-    NSString *date = [[NSDate date] stringWithFormat:@"yyyy-MM-dd"];
-    int c = 0;
-    NSMutableDictionary *hash = [[AppConfig get].pwdRecoveryHash mutableCopy];
-    if(hash == nil){
-        hash = [[NSMutableDictionary alloc] initWithCapacity:0];
-    }else{
-        c = [hash getIntValueForKey:date defaultValue:0];
-        
-        if(c >= 3){
-            [ALToastView toastInView:self.view withText:@"您已达到今日最大尝试次数。" andBottomOffset:44 andType:ERROR];
-            [hash release];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            return;
-        }
-    }
-    [hash setObject:[NSNumber numberWithInt:c + 1] forKey:date];
-    [[AppConfig get] setPwdRecoveryHash:hash];
-    [hash release];
-    [[AppConfig get] saveState];
-    
     [UserHelper pwdRecoveryWithLoginName:fieldLoginName.text
-                                   phone:fieldPhone.text
+                                  cnName:fieldPhone.text
                                  success:^{
+                                     
+                                     
+                                     NSString *date = [[NSDate date] stringWithFormat:@"yyyy-MM-dd"];
+                                     int c = 0;
+                                     NSMutableDictionary *hash = [[AppConfig get].pwdRecoveryHash mutableCopy];
+                                     if(hash == nil){
+                                         hash = [[NSMutableDictionary alloc] initWithCapacity:0];
+                                     }else{
+                                         c = [hash getIntValueForKey:date defaultValue:0];
+                                         
+                                         if(c >= 3){
+                                             [ALToastView toastInView:self.view withText:@"您已达到今日最大尝试次数。" andBottomOffset:44 andType:ERROR];
+                                             [hash release];
+                                             [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                             return;
+                                         }
+                                     }
+                                     [hash setObject:[NSNumber numberWithInt:c + 1] forKey:date];
+                                     [[AppConfig get] setPwdRecoveryHash:hash];
+                                     [hash release];
+                                     [[AppConfig get] saveState];
+                                     
                                      [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      [self.navigationController popViewControllerAnimated:YES];
                                      [[NSNotificationCenter defaultCenter] postNotificationName:@"ACCOUNT_OPERATION"
@@ -187,7 +189,7 @@
             cell.textLabel.text = @"登录名";
             UITextField *textFieldName = [[UITextField alloc] initWithFrame:CGRectMake(80, 14, 200, 30)];
             [textFieldName setFont:[UIFont systemFontOfSize:14]];
-            [textFieldName setPlaceholder:@"请输入用户名/手机号"];
+            [textFieldName setPlaceholder:@"请输入用户名"];
             [textFieldName setReturnKeyType:UIReturnKeyNext];
             [textFieldName setTag:TAG_NAME];
             //[textFieldName becomeFirstResponder];
@@ -197,11 +199,11 @@
         }
             break;
         case 1: {
-            cell.textLabel.text = @"手机号";
+            cell.textLabel.text = @"中文名";
             UITextField *textFieldPhone = [[UITextField alloc] initWithFrame:CGRectMake(80, 14, 200, 30)];
             [textFieldPhone setFont:[UIFont systemFontOfSize:14]];
-            [textFieldPhone setPlaceholder:@"请输入接收短信的手机号"];
-            [textFieldPhone setKeyboardType:UIKeyboardTypePhonePad];
+            [textFieldPhone setPlaceholder:@"请输入中文名"];
+            [textFieldPhone setKeyboardType:UIKeyboardTypeDefault];
             [textFieldPhone setReturnKeyType:UIReturnKeyNext];
             [textFieldPhone setTag:TAG_PHONE];
             [textFieldPhone setDelegate:self];
@@ -220,6 +222,9 @@
     switch (textField.tag) {
         case TAG_NAME:
             [[_tableView viewWithTag:TAG_PHONE] becomeFirstResponder];
+            break;
+        case TAG_PHONE:
+            [[_tableView viewWithTag:TAG_PHONE] resignFirstResponder];
             break;
         default:
             break;

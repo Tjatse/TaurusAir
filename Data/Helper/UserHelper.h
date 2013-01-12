@@ -16,7 +16,7 @@
                    failure: (void (^)(NSString *errorMsg))failure;
 
 + (void)pwdRecoveryWithLoginName: (NSString *)loginName
-                           phone: (NSString *)phone
+                          cnName: (NSString *)cnName
                          success: (void (^)())success
                          failure: (void (^)(NSString *errorMsg))failure;
 
@@ -36,6 +36,10 @@
              password: (NSString *)password
               success: (void (^)(User *user))success
               failure: (void (^)(NSString *errorMsg))failure;
+
++ (void)userInfoWithId: (NSString *)userId
+               success: (void (^)(User *user))success
+               failure: (void (^)(NSString *errorMsg))failure;
 
 + (void)logoutWithId: (NSString *)userId
              success: (void (^)())success

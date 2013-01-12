@@ -17,12 +17,13 @@
 @synthesize remark = _remark;
 @synthesize gender = _gender;
 @synthesize birthday = _birthday;
+@synthesize guid = _guid;
 
 //===========================================================
 // - (id)initWith:
 //
 //===========================================================
-- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday
+- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday guid:(NSString*)theGuid
 {
     self = [super init];
     if (self) {
@@ -34,6 +35,7 @@
         _remark = [theRemark retain];
         _gender = flag;
         _birthday = [theBirthday retain];
+        _guid = [theGuid retain];
     }
     return self;
 }
@@ -47,6 +49,7 @@
     [_email release], _email = nil;
     [_remark release], _remark = nil;
     [_birthday release], _birthday = nil;
+    [_guid release], _guid = nil;
     [super dealloc];
 }
 
@@ -64,6 +67,7 @@
     [encoder encodeObject:self.remark forKey:@"remark"];
     [encoder encodeBool:self.gender forKey:@"gender"];
     [encoder encodeObject:self.birthday forKey:@"birthday"];
+    [encoder encodeObject:self.guid forKey:@"guid"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -78,6 +82,7 @@
         self.remark = [decoder decodeObjectForKey:@"remark"];
         self.gender = [decoder decodeBoolForKey:@"gender"];
         self.birthday = [decoder decodeObjectForKey:@"birthday"];
+        self.guid = [decoder decodeObjectForKey:@"guid"];
     }
     return self;
 }
@@ -94,6 +99,7 @@
     [theCopy setRemark:[[self.remark copy] autorelease]];
     [theCopy setGender:self.gender];
     [theCopy setBirthday:[[self.birthday copy] autorelease]];
+    [theCopy setGuid:[[self.guid copy] autorelease]];
     
     return theCopy;
 }

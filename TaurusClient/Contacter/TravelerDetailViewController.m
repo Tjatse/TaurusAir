@@ -143,12 +143,14 @@
             }
                 break;
             case 3:{
-                [cell.detailTextLabel setText:[_detail objectForKey:@"Email"]];
+                NSString *email = [_detail objectForKey:@"Email"];
+                [cell.detailTextLabel setText:(NSNull *)email != [NSNull null] ? email: @"-"];
             }
                 break;
             case 4:{
                 [cell.detailTextLabel setNumberOfLines:0];
-                [cell.detailTextLabel setText:[_detail objectForKey:@"Address"]];
+                NSString *address = [_detail objectForKey:@"Address"];
+                [cell.detailTextLabel setText:(NSNull *)address != [NSNull null] ? address: @"-"];
             }
                 break;
             default:
@@ -175,8 +177,10 @@
                 [cell.detailTextLabel setText: (NSNull *)phone != [NSNull null]?phone:@"-"];
             }
                 break;
-            case 5:
-                [cell.detailTextLabel setText:[_detail objectForKey:@"Birthday"]];
+            case 5:{
+                NSString *_birthday = [_detail objectForKey:@"Birthday"];
+                [cell.detailTextLabel setText:(NSNull *)_birthday != [NSNull null] ? [_birthday componentsSeparatedByString:@" "][0]:@"-"];
+            }
                 break;
             case 6:{
                 NSString *type = @"成人";
