@@ -15,7 +15,7 @@
 + (void)performFlightSearchWithDepartureCity:(ThreeCharCode*)aDepartureCity
 							  andArrivalCity:(ThreeCharCode*)aArrivalCity
 							andDepartureDate:(NSDate*)aDepartureDate
-								  andSuccess:(void (^)(NSDictionary* respObj))success
+								  andSuccess:(void (^)(NSMutableDictionary* respObj))success
 								  andFailure:(void (^)(NSString *errorMsg))failure;
 
 @end

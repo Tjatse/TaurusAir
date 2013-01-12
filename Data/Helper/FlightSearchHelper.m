@@ -23,7 +23,7 @@
 + (void)performFlightSearchWithDepartureCity:(ThreeCharCode *)aDepartureCity
 							  andArrivalCity:(ThreeCharCode *)aArrivalCity
 							andDepartureDate:(NSDate *)aDepartureDate
-								  andSuccess:(void (^)(NSDictionary* respObj))success
+								  andSuccess:(void (^)(NSMutableDictionary* respObj))success
 								  andFailure:(void (^)(NSString *))failure
 {
 	NSParameterAssert(success != nil);
@@ -42,7 +42,7 @@
 			setRequestAuth(request);
             
 			[request setCompletionBlock:^{
-                id jsonObj = [[request responseString] objectFromJSONString];
+                id jsonObj = [[request responseString] mutableObjectFromJSONString];
                 success(jsonObj);
             }];
 			
@@ -55,7 +55,7 @@
             failure(@"当前网络不可用，且没有本地数据。");
         }
     } else {
-        [BBlock dispatchAfter:1 onMainThread:^{
+        [BBlock dispatchAfter:0.2f onMainThread:^{
 			NSString* path = [[NSBundle mainBundle] pathForResource:@"RunAvCommand" ofType:@"js"];
 			NSString* content = [NSString stringWithContentsOfFile:path
 														  encoding:NSUTF8StringEncoding

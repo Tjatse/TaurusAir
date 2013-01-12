@@ -43,13 +43,6 @@ extern NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType);
 
 @interface FlightSelectViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, retain) IBOutlet UILabel*				dateLabel;
-@property (nonatomic, retain) IBOutlet UILabel*				cityFromToLabel;
-@property (nonatomic, retain) IBOutlet UILabel*				ticketCountLabel;
-@property (nonatomic, retain) IBOutlet UITableView*			ticketResultsVw;
-@property (nonatomic, retain) IBOutlet UIImageView*			timeSortImgVw;
-@property (nonatomic, retain) IBOutlet UIImageView*			priceSortImgVw;
-
 @property (nonatomic, assign) FlightSelectViewType			viewType;
 @property (nonatomic, retain) ThreeCharCode*				departureCity;
 @property (nonatomic, retain) ThreeCharCode*				arrivalCity;
