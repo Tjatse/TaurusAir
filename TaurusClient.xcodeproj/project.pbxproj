@@ -276,6 +276,7 @@
 		3E7EC66816A0F00100682741 /* NSObject+RefTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC66716A0F00100682741 /* NSObject+RefTag.m */; };
 		3E7EC68016A1288900682741 /* AirplaneTypeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC67F16A1288800682741 /* AirplaneTypeHelper.m */; };
 		3E7EC68316A12AFF00682741 /* airplane_type_code.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3E7EC68216A12AFE00682741 /* airplane_type_code.csv */; };
+		3E7EC68616A12B4400682741 /* AirplaneType.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC68516A12B4400682741 /* AirplaneType.m */; };
 		3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04991689827200DE9546 /* UIColor+Additions.m */; };
 		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
@@ -749,6 +750,8 @@
 		3E7EC67E16A1288800682741 /* AirplaneTypeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirplaneTypeHelper.h; sourceTree = "<group>"; };
 		3E7EC67F16A1288800682741 /* AirplaneTypeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirplaneTypeHelper.m; sourceTree = "<group>"; };
 		3E7EC68216A12AFE00682741 /* airplane_type_code.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = airplane_type_code.csv; sourceTree = "<group>"; };
+		3E7EC68416A12B4400682741 /* AirplaneType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirplaneType.h; sourceTree = "<group>"; };
+		3E7EC68516A12B4400682741 /* AirplaneType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirplaneType.m; sourceTree = "<group>"; };
 		3EDF04981689827200DE9546 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EDF04991689827200DE9546 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EDF049C16898A8100DE9546 /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CitySelectViewController.h; path = FlightSearch/CitySelectViewController.h; sourceTree = "<group>"; };
@@ -1721,6 +1724,8 @@
 				3E30F218168E85B9002C236B /* SearchCityResult.m */,
 				3E75C2BD169452DF00CDB92F /* TicketOrder.h */,
 				3E75C2BE169452DF00CDB92F /* TicketOrder.m */,
+				3E7EC68416A12B4400682741 /* AirplaneType.h */,
+				3E7EC68516A12B4400682741 /* AirplaneType.m */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -2173,6 +2178,7 @@
 				3E7EC65B16A0E2E500682741 /* AppDefines.m in Sources */,
 				3E7EC66816A0F00100682741 /* NSObject+RefTag.m in Sources */,
 				3E7EC68016A1288900682741 /* AirplaneTypeHelper.m in Sources */,
+				3E7EC68616A12B4400682741 /* AirplaneType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
