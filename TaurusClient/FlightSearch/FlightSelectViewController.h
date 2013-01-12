@@ -60,10 +60,11 @@ extern NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType);
 
 + (void)performQueryWithNavVC:(UINavigationController*)navVC
 				  andViewType:(FlightSelectViewType)aViewType
-				andDepartureCity:(ThreeCharCode*)aDepartureCity
-				  andArrivalCity:(ThreeCharCode*)aArrivalCity
-				andDepartureDate:(NSDate*)aDepartureDate
-				   andReturnDate:(NSDate*)aReturnDate;
+			 andDepartureCity:(ThreeCharCode*)aDepartureCity
+			   andArrivalCity:(ThreeCharCode*)aArrivalCity
+			 andDepartureDate:(NSDate*)aDepartureDate
+				andReturnDate:(NSDate*)aReturnDate
+				  andParentVC:(FlightSelectViewController*)parentVC;
 
 - (id)initWithViewType:(FlightSelectViewType)aViewType
 	  andDepartureCity:(ThreeCharCode*)aDepartureCity

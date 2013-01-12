@@ -201,7 +201,8 @@
 									 andDepartureCity:self.departureCity
 									   andArrivalCity:self.arrivalCity
 									 andDepartureDate:self.departureDate
-										andReturnDate:self.returnDate];
+										andReturnDate:self.returnDate
+										  andParentVC:nil];
 }
 
 - (IBAction)onPerformDoubleFlightSearchButtonTap:(id)sender
@@ -212,7 +213,8 @@
 									 andDepartureCity:self.departureCity
 									   andArrivalCity:self.arrivalCity
 									 andDepartureDate:self.departureDate
-										andReturnDate:self.returnDate];
+										andReturnDate:self.returnDate
+										  andParentVC:nil];
 }
 
 #pragma mark - tableview methods

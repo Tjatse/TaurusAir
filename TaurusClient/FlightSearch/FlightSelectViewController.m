@@ -159,6 +159,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 			   andArrivalCity:(ThreeCharCode*)aArrivalCity
 			 andDepartureDate:(NSDate*)aDepartureDate
 				andReturnDate:(NSDate*)aReturnDate
+				  andParentVC:(FlightSelectViewController*)parentVC
 {
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:navVC.topViewController.view animated:YES];
 	hud.labelText = @"正在查询...";
@@ -177,6 +178,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 																			  andDepartureDate:aDepartureDate
 																				 andReturnDate:aReturnDate
 																				andJsonContent:respObj];
+		 
+		 vc.parentVC = parentVC;
 		 
 		 UIBGNavigationController* newNavVC = [[[UIBGNavigationController alloc] initWithRootViewController:vc] autorelease];
 		 [navVC presentModalViewController:newNavVC animated:YES];
@@ -498,15 +501,76 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 						   andDepartureCity:self.arrivalCity
 							 andArrivalCity:self.departureCity
 						   andDepartureDate:self.returnDate
-							  andReturnDate:nil];
+							  andReturnDate:nil
+								andParentVC:self];
 	} else if (self.viewType == kFlightSelectViewTypeReturn) {
 		// 回程，预订
 		
-	} else if (self.viewType == kFlightSelectViewTypeSingle) {
 		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"正在提交订单...";
 		
+		// FIXME: 模拟乘客
+		NSArray* passangers = @[
+		@{@"Name": @"张三"
+		, @"TravelerType": @"1"
+		, @"ChinaId": @"413024198309141234"}
+		, @{@"Name": @"李四"
+		, @"TravelerType": @"1"
+		, @"ChinaId": @"413024198309141234"}
+		];
+		
+		NSDictionary* contactor = @{@"Name" : @"张三"
+		, @"Phone" : @"13800138000"
+		, @"Email": @"sdfsdf@com.com"};
+		
+		[OrderHelper
+		 performPlaceOrderWithUser:[AppConfig get].currentUser
+		 andFlightInfo:@[self.parentVC.selectedPayInfos[0], self.selectedPayInfos[0]]
+		 andCabin:@[self.parentVC.selectedPayInfos[1], self.selectedPayInfos[1]]
+		 andTravelers:passangers
+		 andContactor:contactor
+		 success:^(NSDictionary * respObj) {
+			 [OrderHelper
+			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+			  andPlaceOrderJson:respObj
+			  success:^(NSDictionary * payUrlRespObj) {
+				  [MBProgressHUD hideHUDForView:self.view
+									   animated:YES];
+				  
+				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+				  
+				  [ALToastView toastPinInView:self.view withText:@"预订成功。"
+							  andBottomOffset:44.0f
+									  andType:ERROR];
+				  
+				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+			  }
+			  failure:^(NSString * errorMsg) {
+				  [MBProgressHUD hideHUDForView:self.view
+									   animated:YES];
+				  
+				  [ALToastView toastInView:self.view
+								  withText:errorMsg
+						   andBottomOffset:44.0f
+								   andType:ERROR];
+			  }];
+			 
+			 NSLog(@"respOcj: %@", respObj);
+		 }
+		 failure:^(NSString * errorMsg) {
+			 [MBProgressHUD hideHUDForView:self.view
+								  animated:YES];
+			 
+			 [ALToastView toastInView:self.view
+							 withText:errorMsg
+					  andBottomOffset:44.0f
+							  andType:ERROR];
+		 }];
+	} else if (self.viewType == kFlightSelectViewTypeSingle) {
 		// 单程，预订
+		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud.labelText = @"正在提交订单...";
+		
 		// FIXME: 模拟乘客
 		NSArray* passangers = @[
 			@{@"Name": @"张三"
@@ -528,23 +592,30 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		 andTravelers:passangers
 		 andContactor:contactor
 		 success:^(NSDictionary * respObj) {
-			 [OrderHelper performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
-														  andPlaceOrderJson:respObj
-												   success:^(NSDictionary * payUrlRespObj) {
-													   [MBProgressHUD hideHUDForView:self.view
-																			animated:YES];
-													   
-													   NSLog(@"payUrlRespObj: %@", payUrlRespObj);
-												   }
-												   failure:^(NSString * errorMsg) {
-													   [MBProgressHUD hideHUDForView:self.view
-																			animated:YES];
-													   
-													   [ALToastView toastInView:self.view
-																	   withText:errorMsg
-																andBottomOffset:44.0f
-																		andType:ERROR];
-												   }];
+			 [OrderHelper
+			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+			  andPlaceOrderJson:respObj
+			  success:^(NSDictionary * payUrlRespObj) {
+				  [MBProgressHUD hideHUDForView:self.view
+									   animated:YES];
+				  
+				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+				  
+				  [ALToastView toastPinInView:self.view withText:@"预订成功。"
+							  andBottomOffset:44.0f
+									  andType:ERROR];
+				  
+				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+			  }
+			  failure:^(NSString * errorMsg) {
+				  [MBProgressHUD hideHUDForView:self.view
+									   animated:YES];
+				  
+				  [ALToastView toastInView:self.view
+								  withText:errorMsg
+						   andBottomOffset:44.0f
+								   andType:ERROR];
+			  }];
 			 
 			 NSLog(@"respOcj: %@", respObj);
 		 }
