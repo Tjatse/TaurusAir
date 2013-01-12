@@ -33,6 +33,7 @@ typedef enum {
 #define ACCOUNT_LOGOUT      @"Interfaces/UserLoginOut.ashx"
 #define ACCOUNT_UPDPWD      @"Interfaces/EditUserPwd.ashx"
 #define ACCOUNT_FINDPWD     @"Interfaces/PasswordRecovery.ashx"
+#define ACCOUNT_VERIFY_CODE @"Interfaces/GetVerifyCode.ashx"
 // order.
 #define ORDER_LIST          @"Interfaces/GetTicketOrdersByCondition.ashx"
 #define ORDER_DETAIL        @"Interfaces/GetTicketOrderDetailById.ashx"

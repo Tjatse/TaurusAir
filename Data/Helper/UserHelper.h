@@ -11,6 +11,10 @@
 
 @interface UserHelper : NSObject
 
++ (void)validCodeWithPhone: (NSString *)phone
+                   success: (void (^)(NSString *code))success
+                   failure: (void (^)(NSString *errorMsg))failure;
+
 + (void)pwdRecoveryWithLoginName: (NSString *)loginName
                            phone: (NSString *)phone
                          success: (void (^)())success

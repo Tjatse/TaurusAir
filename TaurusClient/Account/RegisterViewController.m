@@ -26,6 +26,7 @@
 @end
 
 @implementation RegisterViewController
+@synthesize verifyCode = _verifyCode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +39,7 @@
 - (void)dealloc
 {
     [_tableView release];
+    [_verifyCode release];
     [super dealloc];
 }
 
@@ -107,6 +109,11 @@
         [ALToastView toastInView:self.view withText:@"必须填写“验证码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
         return;
     }
+    if(_verifyCode == nil || ![textFieldVC.text isEqualToString:_verifyCode]){
+        [ALToastView toastInView:self.view withText:@"“验证码”不正确。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
+        return;
+    }
+    
     UITextField *textFieldPwd = (UITextField *)[_tableView viewWithTag:TAG_PWD];
     if([textFieldPwd.text length] == 0){
         [ALToastView toastInView:self.view withText:@"必须填写“密码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
@@ -137,6 +144,7 @@
                                                                                     userInfo:[NSDictionary dictionaryWithObject:@"新账户注册成功，请登录。" forKey:@"MSG"]];
                               }
                               failure:^(NSString *errorMsg) {
+                                  NSLog(@"%@", errorMsg);
                                   [MBProgressHUD hideHUDForView:self.view animated:YES];
                                   [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
                               }];
@@ -274,16 +282,22 @@
 {
     switch (buttonIndex) {
         case 1:{
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.labelText = @"正在发送短信...";
-            [BBlock dispatchOnSynchronousQueue:^{
-                sleep(3);
-                [BBlock dispatchOnMainThread:^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    [self singleTap:nil];
-                    [ALToastView toastInView:self.view withText:@"短信已发送，请查收。"];
-                }];
-            }];
+            
+            [self singleTap:nil];
+            UITextField *phoneField = (UITextField *)[_tableView viewWithTag:TAG_PHONE];
+            [UserHelper validCodeWithPhone:phoneField.text
+                                   success:^(NSString *code) {
+                                       [_verifyCode release], _verifyCode = nil;
+                                       _verifyCode = [code retain];
+                                       [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                       [ALToastView toastInView:self.navigationController.view withText:@"短信已发送，请查收。"];
+                                   }
+                                   failure:^(NSString *errorMsg) {
+                                       [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                       [ALToastView toastInView:self.navigationController.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                   }];
         }
             break;
             

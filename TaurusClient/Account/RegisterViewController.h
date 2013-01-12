@@ -12,4 +12,6 @@
     UITableView     *_tableView;
 }
 
+@property (nonatomic, retain) NSString  *verifyCode;
+
 @end

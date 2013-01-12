@@ -30,6 +30,63 @@
     
     return [content objectFromJSONString];
 }
+#pragma mark - Get Validation Code
++ (void)analyzeValidCodeRet: (id)JSON
+                      success: (void (^)())success
+                      failure: (void (^)(NSString *errorMsg))failure;
+{
+    if (JSON == [NSNull null] || JSON == nil) {
+        failure(@"无法连接服务器。");
+    }else{
+        NSDictionary *meta= [JSON objectForKey:@"Meta"];
+        
+        if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"GetVerifyCode"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
+            BOOL resp = [JSON getBoolValueForKey:@"Response" defaultValue:false];
+            if(resp) {
+                success();
+            }else{
+                failure([meta getStringValueForKey:@"Message" defaultValue:@"获取验证码失败，服务器端返回错误。"]);
+            }
+        }else{
+            failure([meta getStringValueForKey:@"Message" defaultValue:@"服务器返回数据错误。"]);
+        }
+    }
+}
++ (void)validCodeWithPhone: (NSString *)phone
+                   success: (void (^)(NSString *code))success
+                   failure: (void (^)(NSString *errorMsg))failure
+{
+    if(IS_DEPLOYED()){
+        if([AppContext get].online)
+        {
+            NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ACCOUNT_VERIFY_CODE];
+            __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+            [request setPostValue:phone forKey:@"Phone"];
+            setRequestAuth(request);
+            [request setCompletionBlock:^{
+                id JSON = [[request responseString] objectFromJSONString];
+                [self analyzePwdRecoveryRet:JSON
+                                    success:success
+                                    failure:failure];
+            }];
+            [request setFailedBlock:^{
+                failure([request.error localizedDescription]);
+            }];
+            [request startAsynchronous];
+        }
+        else
+        {
+            failure(@"当前网络不可用，且没有本地数据。");
+        }
+    }else{
+        [BBlock dispatchAfter:1 onMainThread:^{
+            id JSON = [self dummy:@"GetVerifyCode"];
+            [self analyzePwdRecoveryRet:JSON
+                                success:success
+                                failure:failure];
+        }];
+    }
+}
 #pragma mark - Password Recovery
 + (void)analyzePwdRecoveryRet: (id)JSON
                       success: (void (^)())success
@@ -186,7 +243,8 @@
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             [request setPostValue:validCode forKey:@"VCode"];
             [request setPostValue:phone forKey:@"Phone"];
-            [request setPostValue:password forKey:@"Password"];
+            [request setPostValue:phone forKey:@"LoginName"];
+            [request setPostValue:password forKey:@"Pwd"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
