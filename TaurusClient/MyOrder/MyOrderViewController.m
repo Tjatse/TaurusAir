@@ -111,6 +111,7 @@
                                [self renderViews:orders];
                            }
                            failure:^(NSString *errorMsg) {
+                               [self setRightButton:NO];
                                [MBProgressHUD hideHUDForView:self.view animated:YES];
                                [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
                            }];

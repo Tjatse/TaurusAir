@@ -60,6 +60,8 @@
                                        }];
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
+    
+    [_tableView setEditing:YES animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

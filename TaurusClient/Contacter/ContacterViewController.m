@@ -128,6 +128,7 @@
                                   [ALToastView toastPinInView:self.view withText:errorMsg andBottomOffset: 208 andType: ERROR];
                                   [MBProgressHUD hideHUDForView:self.view animated:YES];
                                   _isLoading = NO;
+                                  [self setRightButton:NO];
                               }];
 }
 - (void)renderView: (NSArray *)travelers{
