@@ -18,6 +18,7 @@
 #import "MBProgressHUD.h"
 #import "ALToastView.h"
 #import "NSObject+RefTag.h"
+#import "ALToastView.h"
 
 #import "AppConfig.h"
 #import "City.h"
@@ -71,7 +72,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 @interface FlightSelectViewController ()
 {
-	NSDictionary*	_selectedPayCabin;
+	NSDictionary*					_selectedPayCabin;
 }
 
 @property (nonatomic, retain) NSMutableDictionary*			jsonContent;
@@ -144,6 +145,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.selectDateContainerVw = nil;
 	self.selectDatePicker = nil;
 	
+	self.parentVC = nil;
+	
 	[super dealloc];
 }
 
@@ -155,7 +158,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 				andReturnDate:(NSDate*)aReturnDate
 {
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:navVC.topViewController.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:aDepartureCity
@@ -172,8 +175,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 																				 andReturnDate:aReturnDate
 																				andJsonContent:respObj];
 		 
-		 //		[navVC pushViewController:vc animated:YES];
-		 
 		 UIBGNavigationController* newNavVC = [[[UIBGNavigationController alloc] initWithRootViewController:vc] autorelease];
 		 [navVC presentModalViewController:newNavVC animated:YES];
 		 
@@ -183,6 +184,10 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		 [MBProgressHUD hideHUDForView:navVC.topViewController.view
 							  animated:YES];
 		 
+		 [ALToastView toastInView:navVC.topViewController.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 }
 
@@ -233,7 +238,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 {
 	[super viewWillAppear:animated];
 	
-	if (self.viewType == kFlightSelectViewTypeDeparture) {
+	if (self.viewType != kFlightSelectViewTypeSingle) {
 		self.prevDate.hidden = YES;
 		self.nextDate.hidden = YES;
 		self.selectDate.hidden = YES;
@@ -254,7 +259,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.departureDate = self.selectDatePicker.date;
 	
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:self.departureCity
@@ -269,6 +274,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
+
+		 [ALToastView toastInView:self.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 
 	self.selectDateParentVw.hidden = YES;
@@ -284,7 +294,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.departureDate = [self.departureDate dateAfterDay:1];
 	
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:self.departureCity
@@ -299,6 +309,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
+
+		 [ALToastView toastInView:self.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 }
 
@@ -307,7 +322,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.departureDate = [self.departureDate dateAfterDay:-1];
 	
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:self.departureCity
@@ -322,6 +337,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
+
+		 [ALToastView toastInView:self.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 }
 
@@ -464,7 +484,22 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)performPay
 {
-	
+	// 如果当前是往返模式，且父容器为空
+	if (self.viewType == kFlightSelectViewTypeDeparture) {
+		// 请求返回的机票
+		[[self class] performQueryWithNavVC:self.navigationController
+								andViewType:kFlightSelectViewTypeReturn
+						   andDepartureCity:self.arrivalCity
+							 andArrivalCity:self.departureCity
+						   andDepartureDate:self.returnDate
+							  andReturnDate:nil];
+	} else if (self.viewType == kFlightSelectViewTypeReturn) {
+		// 回程，预订
+		
+	} else if (self.viewType == kFlightSelectViewTypeSingle) {
+		// 单程，预订
+		
+	}
 }
 
 - (void)loginSuccess
@@ -533,9 +568,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 			else
 				return payPrice1 - payPrice2;
 		} else {
-			// TODO: 时间
-			NSString* leaveTime1 = [info1 getStringValueForKey:@"LeaveTime" defaultValue:nil];
-			NSString* leaveTime2 = [info2 getStringValueForKey:@"LeaveTime" defaultValue:nil];
+			// 时间
+			NSDate* leaveTime1 = [NSDate dateFromString:[info1 getStringValueForKey:@"LeaveTime" defaultValue:nil]];
+			NSDate* leaveTime2 = [NSDate dateFromString:[info2 getStringValueForKey:@"LeaveTime" defaultValue:nil]];
 			
 			if (self.isTimeDesc)
 				return [leaveTime2 compare:leaveTime1];
@@ -646,8 +681,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		forControlEvents:UIControlEventTouchUpInside];
 
 	//
-	takeOffTimeLabel.text = [flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""];
-	landingTimeLabel.text = [flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""];
+	NSDate* leaveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]];
+	NSDate* arriveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""]];
+	
+	takeOffTimeLabel.text = [leaveTime stringWithFormat:@"hh:mm"];
+	landingTimeLabel.text = [arriveTime stringWithFormat:@"hh:mm"];
 	
 	//
 	NSString* twoCharcodeStr = [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""];
@@ -691,7 +729,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString* cellId = @"cellId";
-	
 	UITableViewCell* result = [tableView dequeueReusableCellWithIdentifier:cellId];
 	
 	if (result != nil) {

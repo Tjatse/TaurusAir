@@ -54,6 +54,8 @@ extern NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType);
 @property (nonatomic, assign) FlightSelectPlaneFilterType	planeFilter;
 @property (nonatomic, assign) TwoCharCode*					corpFilter;
 
+@property (nonatomic, assign) FlightSelectViewController*	parentVC;
+
 + (void)performQueryWithNavVC:(UINavigationController*)navVC
 				  andViewType:(FlightSelectViewType)aViewType
 				andDepartureCity:(ThreeCharCode*)aDepartureCity

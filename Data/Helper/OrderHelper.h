@@ -10,7 +10,7 @@
 
 @class ThreeCharCode;
 @class TwoCharCode;
-@class User;
+@class ContacterHelper;
 
 @interface OrderHelper : NSObject
 + (void)orderListWithId: (NSString *)userId
@@ -22,12 +22,19 @@
                 failure: (void (^)(NSString *errorMsg))failure;
 
 // place order
-+ (void)performPlaceOrder:(NSArray*)twoCharCodes		// TwoCharCode
-		 andThreeCharCode:(NSArray*)threeCharCodes		// ThreeCharCode
-				 andCabin:(NSArray*)cabins				// NSDictionary
-			  andDateTime:(NSArray*)departureTimes		// NSDate
-				  andUser:(User *)user
-				  success:(void (^)(NSDictionary* respObj))success
-				  failure:(void (^)(NSString* errorMsg))failure;
++ (void)performPlaceOrder:(NSArray*)twoCharCodes					// TwoCharCode
+andDepartureThreeCharCode:(NSArray*)departureThreeCharCodes			// ThreeCharCode
+  andArrivalThreeCharCode:(NSArray*)arrivalThreeCharCodes			// arrivalThreeCharCodes
+			andFlightInfo:(NSArray*)flightInfos						// NSDictionary
+				 andCabin:(NSArray*)cabins							// NSDictionary
+			 andTravelers:(NSArray *)travelers
+			 andContactor:(NSDictionary*)contactor
+				  success:(void (^)(NSDictionary *))success
+				  failure:(void (^)(NSString *))failure;
+
+// CreatePayUrl
++ (void)performCreatePayUrl:(NSDictionary*)placeOrderJson
+					success:(void (^)(NSDictionary *))success
+					failure:(void (^)(NSString *))failure;
 
 @end

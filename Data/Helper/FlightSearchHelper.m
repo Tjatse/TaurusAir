@@ -42,8 +42,14 @@
 			setRequestAuth(request);
             
 			[request setCompletionBlock:^{
-                id jsonObj = [[request responseString] mutableObjectFromJSONString];
-                success(jsonObj);
+				NSString* respString = [request responseString];
+                NSMutableDictionary* jsonObj = [respString mutableObjectFromJSONString];
+				
+				if (![[jsonObj getStringValueForKeyPath:@"Meta.Status" defaultValue:@""] isEqualToString:@"ok"])
+					failure([jsonObj getStringValueForKeyPath:@"Meta.Message" defaultValue:@"查询失败。"]);
+				else {
+					success([jsonObj objectForKey:@"Response"]);
+				}
             }];
 			
             [request setFailedBlock:^{
