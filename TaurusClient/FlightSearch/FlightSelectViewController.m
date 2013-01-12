@@ -16,7 +16,10 @@
 #import "NSDictionaryAdditions.h"
 #import "FSConfig.h"
 #import "MBProgressHUD.h"
+#import "ALToastView.h"
+#import "NSObject+RefTag.h"
 
+#import "AppConfig.h"
 #import "City.h"
 #import "AirportSearchHelper.h"
 #import "TwoCharCode.h"
@@ -24,6 +27,7 @@
 #import "FlightSelectSortMainViewController.h"
 #import "FlightSelectViewController.h"
 #import "FlightSearchHelper.h"
+#import "LoginViewController.h"
 
 NSArray* timeFilters()
 {
@@ -66,6 +70,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 }
 
 @interface FlightSelectViewController ()
+{
+	NSDictionary*	_selectedPayCabin;
+}
 
 @property (nonatomic, retain) NSMutableDictionary*			jsonContent;
 @property (nonatomic, assign) BOOL							isTimeDesc;
@@ -88,7 +95,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 @property (nonatomic, retain) IBOutlet UIView*				selectDateContainerVw;
 @property (nonatomic, retain) IBOutlet UIDatePicker*		selectDatePicker;
 
-- (void)onFlightGroupTap:(UIGestureRecognizer*)sender;
+- (void)onFlightGroupTap:(UIButton*)sender;
 - (void)onSectionPayButtonTap:(UIButton*)sender;
 - (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo;
 - (UIView*)generateCabinView:(NSDictionary*)cabin;
@@ -97,6 +104,10 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 - (void)displaySearchResultToView;
 - (IBAction)onSelectDateCompleteButtonTap:(id)sender;
 - (IBAction)onSelectDateCancelButtonTap:(id)sender;
+
+- (void)performPay;
+- (void)showLoginViewController;
+- (void)loginSuccess;
 
 @end
 
@@ -391,15 +402,36 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)onSectionPayButtonTap:(UIButton*)sender
 {
-	// TODO: pay
+	_selectedPayCabin = sender.strongRefTag;
+	
+	// pay
+	
+	if (![[AppConfig get] isLogon]){
+        [self showLoginViewController];
+        self.navigationItem.rightBarButtonItem =
+        [UIBarButtonItem generateNormalStyleButtonWithTitle:@"登录"
+                                             andTapCallback:^(id control, UIEvent *event) {
+                                                 [self showLoginViewController];
+                                             }];
+		
+        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“预定机票”。" andBottomOffset: 120 andType: ERROR];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(loginSuccess)
+													 name:@"LOGIN_SUC"
+												   object:nil];
+	} else {
+		[self performPay];
+	}
 }
 
 #pragma mark - gesture
 
-- (void)onFlightGroupTap:(UIGestureRecognizer *)sender
+- (void)onFlightGroupTap:(UIButton*)sender
 {
-	UIView* senderVw = sender.view;
-	int section = senderVw.tag - 9900;
+	UIView* senderVw = sender;
+//	int section = senderVw.tag - 9900;
+	
+	int section = [senderVw.strongRefTag intValue];
 
 	NSMutableDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
 	
@@ -415,16 +447,41 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	for (int n = 0; n < rowsCount; ++n)
 		[rows addObject:[NSIndexPath indexPathForRow:n inSection:section]];
 	
-	if (isSelected)
-		[self.ticketResultsVw insertRowsAtIndexPaths:rows
-									withRowAnimation:UITableViewRowAnimationLeft];
-	else
-		[self.ticketResultsVw deleteRowsAtIndexPaths:rows
-									withRowAnimation:UITableViewRowAnimationRight];
+//	if (isSelected)
+//		[self.ticketResultsVw insertRowsAtIndexPaths:rows
+//									withRowAnimation:UITableViewRowAnimationFade];
+//	else
+//		[self.ticketResultsVw deleteRowsAtIndexPaths:rows
+//									withRowAnimation:UITableViewRowAnimationFade];
+	
+//	[self.ticketResultsVw reloadSections:[NSIndexSet indexSetWithIndex:section]
+//						withRowAnimation:UITableViewRowAnimationFade];
+	
+	[self.ticketResultsVw reloadData];
 }
 
 #pragma mark - core methods
 
+- (void)performPay
+{
+	
+}
+
+- (void)loginSuccess
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_SUC" object:nil];
+    [self performPay];
+}
+
+- (void)showLoginViewController
+{
+	LoginViewController *vc = [[LoginViewController alloc] init];
+	UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
+	[self.navigationController presentModalViewController:nav animated:YES];
+	[vc release];
+	[nav release];
+}
+	
 - (void)displaySearchResultToView
 {
 	// init controls
@@ -549,15 +606,16 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 {
 	UIView* result = [[NSBundle mainBundle] loadNibNamed:@"FlightSelectCells" owner:nil options:nil][0];
 	
-	result.tag = section + 9900;
+//	result.tag = section + 9900;
+	result.strongRefTag = @(section);
 	
-	UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-																				 action:@selector(onFlightGroupTap:)];
-	
-	tapGesture.numberOfTapsRequired = 1;
-	tapGesture.numberOfTouchesRequired = 1;
-	[result addGestureRecognizer:tapGesture];
-	SAFE_RELEASE(tapGesture);
+//	UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+//																				 action:@selector(onFlightGroupTap:)];
+//	
+//	tapGesture.numberOfTapsRequired = 1;
+//	tapGesture.numberOfTouchesRequired = 1;
+//	[result addGestureRecognizer:tapGesture];
+//	SAFE_RELEASE(tapGesture);
 	
 	// item info
 	// 根据价格选取最优的机票
@@ -575,7 +633,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	UILabel* discountLabel = (UILabel*)[result viewWithTag:106];
 	UIButton* payButton = (UIButton*)[result viewWithTag:107];
 	
-	payButton.tag = section + 9900;
+	UIButton* sectionButton = (UIButton*)[result viewWithTag:120];
+	sectionButton.strongRefTag = @(section);
+	[sectionButton addTarget:self
+					  action:@selector(onFlightGroupTap:)
+			forControlEvents:UIControlEventTouchUpInside];
+	
+//	payButton.tag = section + 9900;
+	payButton.strongRefTag = optimalCabin;
 	[payButton addTarget:self
 				  action:@selector(onSectionPayButtonTap:)
 		forControlEvents:UIControlEventTouchUpInside];
@@ -657,7 +722,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	int cabin1Index = row * 2;
 	NSDictionary* cabin1 = [cabinInfos objectAtIndex:cabin1Index];
 	UIView* cabin1Vw = [self generateCabinView:cabin1];
-	cabin1Vw.tag = 9900;
+//	cabin1Vw.tag = 9900;
+	cabin1Vw.strongRefTag = @9900;
+	
+	UIButton* cabin1PayBtn = (UIButton*)[cabin1Vw viewWithTag:200];
+	cabin1PayBtn.strongRefTag = cabin1;
+	[cabin1PayBtn addTarget:self
+					 action:@selector(onSectionPayButtonTap:)
+		   forControlEvents:UIControlEventTouchUpInside];
 	
 	[result addSubview:cabin1Vw];
 	
@@ -665,9 +737,17 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	if (cabin2Index < cabinInfos.count) {
 		NSDictionary* cabin2 = [cabinInfos objectAtIndex:cabin2Index];
 		UIView* cabin2Vw = [self generateCabinView:cabin2];
-		cabin2Vw.tag = 9901;
+//		cabin2Vw.tag = 9901;
+		cabin2Vw.strongRefTag = @9901;
 		
 		cabin2Vw.left = cabin1Vw.width;
+
+		UIButton* cabin2PayBtn = (UIButton*)[cabin2Vw viewWithTag:200];
+		cabin2PayBtn.strongRefTag = cabin2;
+		[cabin2PayBtn addTarget:self
+						 action:@selector(onSectionPayButtonTap:)
+			   forControlEvents:UIControlEventTouchUpInside];
+
 		[result addSubview:cabin2Vw];
 	}
 	
