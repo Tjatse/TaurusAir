@@ -73,9 +73,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 }
 
 @interface FlightSelectViewController ()
-{
-	NSDictionary*					_selectedPayCabin;
-}
 
 @property (nonatomic, retain) NSMutableDictionary*			jsonContent;
 @property (nonatomic, assign) BOOL							isTimeDesc;
@@ -150,6 +147,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.selectDatePicker = nil;
 	
 	self.parentVC = nil;
+	self.selectedPayInfos = nil;
 	
 	[super dealloc];
 }
@@ -426,7 +424,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)onSectionPayButtonTap:(UIButton*)sender
 {
-	_selectedPayCabin = sender.strongRefTag;
+	self.selectedPayInfos = sender.strongRefTag;
 	
 	// pay
 	if (![[AppConfig get] isLogon]){
@@ -504,8 +502,44 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		// 回程，预订
 		
 	} else if (self.viewType == kFlightSelectViewTypeSingle) {
+		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud.labelText = @"正在提交订单...";
+		
 		// 单程，预订
-		[OrderHelper perform];
+		// FIXME: 模拟乘客
+		NSArray* passangers = @[
+			@{@"Name": @"张三"
+		, @"TravelerType": @"1"
+		, @"ChinaId": @"413024198309141234"}
+		, @{@"Name": @"李四"
+		, @"TravelerType": @"1"
+		, @"ChinaId": @"413024198309141234"}
+		];
+		
+		NSDictionary* contactor = @{@"Name" : @"张三"
+		, @"Phone" : @"13800138000"
+		, @"Email": @"sdfsdf@com.com"};
+		
+		[OrderHelper
+		 performPlaceOrderWithFlightInfo:@[self.selectedPayInfos[0]]
+		 andCabin:@[self.selectedPayInfos[1]]
+		 andTravelers:passangers
+		 andContactor:contactor
+		 success:^(NSDictionary * respObj) {
+			 [MBProgressHUD hideHUDForView:self.view
+								  animated:YES];
+			 
+			 NSLog(@"respOcj: %@", respObj);
+		 }
+		 failure:^(NSString * errorMsg) {
+			 [MBProgressHUD hideHUDForView:self.view
+								  animated:YES];
+			 
+			 [ALToastView toastInView:self.view
+							 withText:errorMsg
+					  andBottomOffset:44.0f
+							  andType:ERROR];
+		 }];
 	}
 }
 
