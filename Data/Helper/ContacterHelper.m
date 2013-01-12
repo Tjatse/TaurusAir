@@ -14,6 +14,7 @@
 #import "JSONKit.h"
 #import "NSDictionaryAdditions.h"
 #import "BBlock.h"
+#import "AppConfig.h"
 
 @interface ContacterHelper(Private)
 + (id)dummy: (NSString *)key;
@@ -43,7 +44,7 @@
         if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"GetPassengers"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
             NSArray *resp = [JSON objectForKey:@"Response"];
             if(resp) {
-                success(resp);
+                success((NSNull *)resp == [NSNull null] ? @[]:resp);
             }else{
                 failure([meta getStringValueForKey:@"Message" defaultValue:@"获取常旅客失败，服务器端返回错误。"]);
             }
@@ -63,6 +64,8 @@
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, TRAVELER_PASSENGERS];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             [request setPostValue:userId forKey:@"Tid"];
+            [request setPostValue:@"1" forKey:@"NowPage"];
+            [request setPostValue:@"10000" forKey:@"PerPageCount"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
@@ -101,7 +104,7 @@
         if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"GetContactors"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
             NSArray *resp = [JSON objectForKey:@"Response"];
             if(resp) {
-                success(resp);
+                success((NSNull *)resp == [NSNull null] ? @[]:resp);
             }else{
                 failure([meta getStringValueForKey:@"Message" defaultValue:@"获取联系人失败，服务器端返回错误。"]);
             }
@@ -121,6 +124,8 @@
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, TRAVELER_CONTACTERS];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             [request setPostValue:userId forKey:@"Tid"];
+            [request setPostValue:@"1" forKey:@"NowPage"];
+            [request setPostValue:@"10000" forKey:@"PerPageCount"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
@@ -182,8 +187,17 @@
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, TRAVELER_CTC_OPR];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             for(NSString *k in [data allKeys]){
-                [request setPostValue:[data objectForKey:k] forKey:k];
+                if([k isEqualToString: @"Gender"]){
+                    BOOL g = [[data objectForKey:k] boolValue];
+                    [request setPostValue:g ? @"true":@"false" forKey:k];
+                }else{
+                    [request setPostValue:[data objectForKey:k] forKey:k];
+                }
             }
+            User *u = [AppConfig get].currentUser;
+            [request setPostValue:u.guid forKey:@"Guid"];
+            [request setPostValue:u.userId forKey:@"Tid"];
+            [request setPostValue:u.loginName forKey:@"UserName"];
             [request setPostValue:[NSString stringWithFormat:@"%d", operateType] forKey:@"Operate"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
@@ -244,8 +258,17 @@
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, TRAVELER_PSG_OPR];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             for(NSString *k in [data allKeys]){
-                [request setPostValue:[data objectForKey:k] forKey:k];
+                if([k isEqualToString: @"Gender"]){
+                    BOOL g = [[data objectForKey:k] boolValue];
+                    [request setPostValue:g ? @"true":@"false" forKey:k];
+                }else{
+                    [request setPostValue:[data objectForKey:k] forKey:k];
+                }
             }
+            User *u = [AppConfig get].currentUser;
+            [request setPostValue:u.userId forKey:@"Tid"];
+            [request setPostValue:u.loginName forKey:@"UserName"];
+            [request setPostValue:u.guid forKey:@"Guid"];
             [request setPostValue:[NSString stringWithFormat:@"%d", operateType] forKey:@"Operate"];
             setRequestAuth(request);
             [request setCompletionBlock:^{

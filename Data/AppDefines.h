@@ -30,6 +30,7 @@ typedef enum {
 #define ACCOUNT_REG         @"Interfaces/RegistUser.ashx"
 #define ACCOUNT_UPDATE      @"Interfaces/EditUserInfo.ashx"
 #define ACCOUNT_LOGIN       @"Interfaces/UserLogin.ashx"
+#define ACCOUNT_GET         @"Interfaces/GetUserInfoById.ashx"
 #define ACCOUNT_LOGOUT      @"Interfaces/UserLoginOut.ashx"
 #define ACCOUNT_UPDPWD      @"Interfaces/EditUserPwd.ashx"
 #define ACCOUNT_FINDPWD     @"Interfaces/PasswordRecovery.ashx"

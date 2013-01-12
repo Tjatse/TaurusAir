@@ -205,7 +205,11 @@
             [cell addSubview:textFieldPwd];
             [textFieldPwd release];
             
-            UIButton *buttonVC = [UIButton buttonWithType:UIButtonTypeInfoDark];
+            UIButton *buttonVC = [UIButton buttonWithType:UIButtonTypeCustom];
+            [buttonVC setBackgroundImage:[UIImage imageNamed:@"btn-vcode.png"] forState:UIControlStateNormal];
+            [buttonVC setTitle:@"点击获取" forState:UIControlStateNormal];
+            [buttonVC.titleLabel setFont:[UIFont systemFontOfSize:12]];
+            [buttonVC setFrame:CGRectMake(0, 0, 62, 31)];
             [buttonVC addTarget:self action:@selector(sendVCode:) forControlEvents:UIControlEventTouchUpInside];
             cell.accessoryView = buttonVC;
         }
@@ -283,6 +287,7 @@
     switch (buttonIndex) {
         case 1:{
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.dimBackground = YES;
             hud.labelText = @"正在发送短信...";
             
             [self singleTap:nil];

@@ -165,17 +165,28 @@
     [UserHelper loginWithName:textFieldUserName.text
                      password:textFieldPwd.text
                       success:^(User *user) {
-                          
-                          [MBProgressHUD hideHUDForView:self.view animated:YES];
-                          [[AppConfig get] setCurrentUser:user];
                           if(_rememberMe){
                               [[AppConfig get] setRememberedName:textFieldUserName.text];
                           }else{
                               [[AppConfig get] setRememberedName:nil];
                           }
                           [[AppConfig get] saveState];
-                          [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_SUC" object:nil];
-                          [self.navigationController dismissModalViewControllerAnimated:YES];
+                          NSString *guid = [[NSString alloc] initWithString:user.guid];
+                          [UserHelper userInfoWithId:user.userId
+                                             success:^(User *u) {
+                                                 [u setGuid: guid];
+                                                 [guid release];
+                                                 [[AppConfig get] setCurrentUser:u];
+                                                 [[AppConfig get] saveState];
+                                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_SUC" object:nil];
+                                                 [self.navigationController dismissModalViewControllerAnimated:YES];
+                                             }
+                                             failure:^(NSString *errorMsg) {
+                                                 [guid release];
+                                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                 [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                             }];
                           
                       }
                       failure:^(NSString *errorMsg) {

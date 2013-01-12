@@ -220,12 +220,14 @@
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell.textField setKeyboardType:UIKeyboardTypeEmailAddress];
-                [inputCell setStringValue:[_detail objectForKey:@"Email"]];
+                NSString *email = [_detail objectForKey:@"Email"];
+                [inputCell setStringValue:[_detail objectForKey:(NSNull *)email == [NSNull null] ? @"":email]];
             }
                 break;
             case 4:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Address"]];
+                NSString *address = [_detail objectForKey:@"Address"];
+                [(StringInputTableViewCell *)cell setStringValue:(NSNull *)address == [NSNull null] ? @"":address];
             }
                 break;
             case 5:{
@@ -289,7 +291,7 @@
                 if((NSNull *)birthday == [NSNull null]){
                     birthday = @"1900-1-1";
                 }
-                NSDate *date=[formatter dateFromString:birthday];
+                NSDate *date=[formatter dateFromString:[birthday componentsSeparatedByString:@" "][0]];
                 [formatter release];
                 [dateCell setDateValue:date];
             }
@@ -399,6 +401,15 @@
         }else if(indexPath.row == 4){
             [_tableView setContentOffset:CGPointMake(0, 132) animated:YES];
         }
+    }else if(_contacterType == CONTACTER){
+        NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
+        if(indexPath.row == 1 || indexPath.row == 2){
+            [_tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }else if(indexPath.row == 3){
+            [_tableView setContentOffset:CGPointMake(0, 44) animated:YES];
+        }else if(indexPath.row == 4){
+            [_tableView setContentOffset:CGPointMake(0, 88) animated:YES];
+        }
     }
 }
 - (void)tableViewCell:(DateInputTableViewCell *)cell didEndEditingWithDate:(NSDate *)value
@@ -422,7 +433,7 @@
         }else if(row == 3){
             [_detail setValue:value forKey:@"Email"];
         }else if(row == 4){
-            [_detail setValue:value forKey:@"Phone"];
+            [_detail setValue:value forKey:@"Address"];
         }
     }else{
         if(row == 1){

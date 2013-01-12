@@ -32,7 +32,7 @@
 }
 #pragma mark - Get Validation Code
 + (void)analyzeValidCodeRet: (id)JSON
-                      success: (void (^)())success
+                      success: (void (^)(NSString *vcode))success
                       failure: (void (^)(NSString *errorMsg))failure;
 {
     if (JSON == [NSNull null] || JSON == nil) {
@@ -41,9 +41,9 @@
         NSDictionary *meta= [JSON objectForKey:@"Meta"];
         
         if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"GetVerifyCode"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
-            BOOL resp = [JSON getBoolValueForKey:@"Response" defaultValue:false];
+            NSString *resp = [JSON getStringValueForKey:@"Response" defaultValue:nil];
             if(resp) {
-                success();
+                success(resp);
             }else{
                 failure([meta getStringValueForKey:@"Message" defaultValue:@"获取验证码失败，服务器端返回错误。"]);
             }
@@ -65,9 +65,9 @@
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
-                [self analyzePwdRecoveryRet:JSON
-                                    success:success
-                                    failure:failure];
+                [self analyzeValidCodeRet:JSON
+                                  success:success
+                                  failure:failure];
             }];
             [request setFailedBlock:^{
                 failure([request.error localizedDescription]);
@@ -81,9 +81,9 @@
     }else{
         [BBlock dispatchAfter:1 onMainThread:^{
             id JSON = [self dummy:@"GetVerifyCode"];
-            [self analyzePwdRecoveryRet:JSON
-                                success:success
-                                failure:failure];
+            [self analyzeValidCodeRet:JSON
+                              success:success
+                              failure:failure];
         }];
     }
 }
@@ -110,7 +110,7 @@
     }
 }
 + (void)pwdRecoveryWithLoginName: (NSString *)loginName
-                           phone: (NSString *)phone
+                          cnName: (NSString *)cnName
                          success: (void (^)())success
                          failure: (void (^)(NSString *errorMsg))failure
 {
@@ -120,7 +120,7 @@
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ACCOUNT_FINDPWD];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             [request setPostValue:loginName forKey:@"LoginName"];
-            [request setPostValue:phone forKey:@"Phone"];
+            [request setPostValue:cnName forKey:@"CnName"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
@@ -245,6 +245,7 @@
             [request setPostValue:phone forKey:@"Phone"];
             [request setPostValue:phone forKey:@"LoginName"];
             [request setPostValue:password forKey:@"Pwd"];
+            [request setPostValue:phone forKey:@"Name"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
@@ -289,11 +290,12 @@
                 User *u = [[User alloc] initWithUserId:userId
                                              loginName:userName
                                                   name:[resp getStringValueForKey:@"Name" defaultValue:userName]
-                                                 phone:[resp getStringValueForKey:@"Phone" defaultValue:@""]
-                                                 email:[resp getStringValueForKey:@"Email" defaultValue:@""]
-                                                remark:[resp getStringValueForKey:@"Remark" defaultValue:@""]
-                                                gender:[resp getBoolValueForKey:@"Gender" defaultValue:YES]
-                                              birthday:[resp getStringValueForKey:@"Birthday" defaultValue:@"1900-1-1"]];
+                                                 phone:@""
+                                                 email:@""
+                                                remark:@""
+                                                gender:YES
+                                              birthday:@""
+                                                  guid:@""];
                 success(u);
                 [u release];
             }else{
@@ -342,6 +344,76 @@
     }
 }
 
+#pragma mark - User Info
++ (void)analyzeUserInfoRet:(id)JSON
+                   success:(void (^)(User *user))success
+                   failure:(void (^)(NSString *))failure
+{
+    if (JSON == [NSNull null] || JSON == nil) {
+        failure(@"无法连接服务器。");
+    }else{
+        NSDictionary *meta= [JSON objectForKey:@"Meta"];
+        
+        if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"GetUserInfoById"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
+            NSDictionary *resp = [JSON objectForKey:@"Response"];
+            if(resp != nil && (NSNull *)resp != [NSNull null]) {
+                NSString *userId = [NSString stringWithFormat:@"%d", [[resp objectForKey:@"RegistUserId"] intValue]];
+                NSString *userName = [resp getStringValueForKey:@"LoginName" defaultValue:@""];
+                User *u = [[User alloc] initWithUserId:userId
+                                             loginName:userName
+                                                  name:[resp getStringValueForKey:@"Name" defaultValue:userName]
+                                                 phone:[resp getStringValueForKey:@"Phone" defaultValue:@""]
+                                                 email:[resp getStringValueForKey:@"Email" defaultValue:@""]
+                                                remark:[resp getStringValueForKey:@"Remark" defaultValue:@""]
+                                                gender:[resp getBoolValueForKey:@"Gender" defaultValue:YES]
+                                              birthday:[resp getStringValueForKey:@"Birthday" defaultValue:@"1900-1-1"]
+                                                  guid:nil];
+                success(u);
+                [u release];
+            }else{
+                failure([meta getStringValueForKey:@"Message" defaultValue:@"用户登录失败，服务器端返回错误。"]);
+            }
+        }else{
+            failure([meta getStringValueForKey:@"Message" defaultValue:@"服务器返回数据错误。"]);
+        }
+    }
+}
+
++ (void)userInfoWithId: (NSString *)userId
+               success: (void (^)(User *user))success
+               failure: (void (^)(NSString *errorMsg))failure
+{
+    if(IS_DEPLOYED()){
+        if([AppContext get].online)
+        {
+            NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ACCOUNT_GET];
+            __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+            [request setPostValue:userId forKey:@"UserId"];
+            setRequestAuth(request);
+            [request setCompletionBlock:^{
+                id JSON = [[request responseString] objectFromJSONString];
+                [self analyzeUserInfoRet:JSON
+                                 success:success
+                                 failure:failure];
+            }];
+            [request setFailedBlock:^{
+                failure([request.error localizedDescription]);
+            }];
+            [request startAsynchronous];
+        }
+        else
+        {
+            failure(@"当前网络不可用，且没有本地数据。");
+        }
+    }else{
+        [BBlock dispatchAfter:1 onMainThread:^{
+            id JSON = [self dummy:@"UserLogin"];
+            [self analyzeUserInfoRet:JSON
+                             success:success
+                             failure:failure];
+        }];
+    }
+}
 #pragma mark - Edit User
 + (void)analyzeEditUserRet: (id)JSON
                    success: (void (^)())success
