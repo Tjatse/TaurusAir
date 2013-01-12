@@ -563,7 +563,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 - (void)loginCancel
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_CANCEL" object:nil];
-	[ALToastView toastPinInView:self.view withText:@"登录后才能“预定机票”。"
+	[ALToastView toastPinInView:self.view withText:@"登录后才能“预订机票”。"
 				andBottomOffset:44.0f
 						andType:ERROR];
 }
