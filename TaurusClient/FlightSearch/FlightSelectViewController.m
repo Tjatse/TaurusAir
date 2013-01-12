@@ -30,6 +30,7 @@
 #import "FlightSearchHelper.h"
 #import "LoginViewController.h"
 #import "AirplaneTypeHelper.h"
+#import "OrderHelper.h"
 
 NSArray* timeFilters()
 {
@@ -109,6 +110,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)performPay;
 - (void)showLoginViewController;
+
+- (void)loginCancel;
 - (void)loginSuccess;
 
 @end
@@ -434,8 +437,12 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
                                              andTapCallback:^(id control, UIEvent *event) {
                                                  [self showLoginViewController];
                                              }];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(loginCancel)
+													 name:@"LOGIN_CANCEL"
+												   object:nil];
 		
-        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“预定机票”。" andBottomOffset: 120 andType: ERROR];
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(loginSuccess)
 													 name:@"LOGIN_SUC"
@@ -499,8 +506,16 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		
 	} else if (self.viewType == kFlightSelectViewTypeSingle) {
 		// 单程，预订
-		
+		[OrderHelper perform];
 	}
+}
+
+- (void)loginCancel
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_CANCEL" object:nil];
+	[ALToastView toastPinInView:self.view withText:@"登录后才能“预定机票”。"
+				andBottomOffset:44.0f
+						andType:ERROR];
 }
 
 - (void)loginSuccess

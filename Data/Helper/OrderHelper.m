@@ -154,15 +154,15 @@
 
 #pragma mark - place order
 
-+ (void)performPlaceOrder:(NSArray*)twoCharCodes					// TwoCharCode
-andDepartureThreeCharCode:(NSArray*)departureThreeCharCodes			// ThreeCharCode
-  andArrivalThreeCharCode:(NSArray*)arrivalThreeCharCodes			// arrivalThreeCharCodes
-			andFlightInfo:(NSArray*)flightInfos						// NSDictionary
-				 andCabin:(NSArray*)cabins							// NSDictionary
-			 andTravelers:(NSArray *)travelers
-			 andContactor:(NSDictionary*)contactor
-				  success:(void (^)(NSDictionary *))success
-				  failure:(void (^)(NSString *))failure
++ (void)performPlaceOrderWithTwoCharCodes:(NSArray*)twoCharCodes					// TwoCharCode
+				andDepartureThreeCharCode:(NSArray*)departureThreeCharCodes			// ThreeCharCode
+				  andArrivalThreeCharCode:(NSArray*)arrivalThreeCharCodes			// arrivalThreeCharCodes
+							andFlightInfo:(NSArray*)flightInfos						// NSDictionary
+								 andCabin:(NSArray*)cabins							// NSDictionary
+							 andTravelers:(NSArray *)travelers
+							 andContactor:(NSDictionary*)contactor
+								  success:(void (^)(NSDictionary *))success
+								  failure:(void (^)(NSString *))failure
 {
 	NSParameterAssert(success != nil);
 	NSParameterAssert(failure != nil);
