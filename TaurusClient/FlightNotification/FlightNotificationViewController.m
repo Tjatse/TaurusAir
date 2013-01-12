@@ -52,7 +52,7 @@
 	
 	self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
 																			   andTapCallback:^(id control, UIEvent *event) {
-																				   [self dismissModalViewControllerAnimated:YES];
+																				   [self.navigationController dismissModalViewControllerAnimated:YES];
 																			   }];
 
 	[self startWatchDog];

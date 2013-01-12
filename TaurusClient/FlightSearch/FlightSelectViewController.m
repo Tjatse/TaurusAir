@@ -7,20 +7,27 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "FlightSelectViewController.h"
 #import "JSONKit.h"
 #import "NSDateAdditions.h"
 #import "UIViewAdditions.h"
 #import "UIView+Hierarchy.h"
-#import "City.h"
 #import "UIBGNavigationController.h"
 #import "UIBarButtonItem+ButtonMaker.h"
 #import "NSDictionaryAdditions.h"
+#import "FSConfig.h"
+#import "MBProgressHUD.h"
+#import "ALToastView.h"
+#import "NSObject+RefTag.h"
+
+#import "AppConfig.h"
+#import "City.h"
 #import "AirportSearchHelper.h"
 #import "TwoCharCode.h"
 #import "ThreeCharCode.h"
 #import "FlightSelectSortMainViewController.h"
-#import "FSConfig.h"
+#import "FlightSelectViewController.h"
+#import "FlightSearchHelper.h"
+#import "LoginViewController.h"
 
 NSArray* timeFilters()
 {
@@ -63,19 +70,44 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 }
 
 @interface FlightSelectViewController ()
+{
+	NSDictionary*	_selectedPayCabin;
+}
 
-@property (nonatomic, retain) NSMutableDictionary*		jsonContent;
-@property (nonatomic, assign) BOOL						isTimeDesc;
-@property (nonatomic, assign) BOOL						isPriceDesc;
-@property (nonatomic, assign) BOOL						isSortByPrice;
-@property (nonatomic, retain) IBOutlet UIButton*		sortByPriceBtn;
-@property (nonatomic, retain) IBOutlet UIButton*		sortByTimeBtn;
+@property (nonatomic, retain) NSMutableDictionary*			jsonContent;
+@property (nonatomic, assign) BOOL							isTimeDesc;
+@property (nonatomic, assign) BOOL							isPriceDesc;
+@property (nonatomic, assign) BOOL							isSortByPrice;
+@property (nonatomic, retain) IBOutlet UIButton*			sortByPriceBtn;
+@property (nonatomic, retain) IBOutlet UIButton*			sortByTimeBtn;
+@property (nonatomic, retain) IBOutlet UIButton*			prevDate;
+@property (nonatomic, retain) IBOutlet UIButton*			selectDate;
+@property (nonatomic, retain) IBOutlet UIButton*			nextDate;
 
-- (void)onFlightGroupTap:(UIGestureRecognizer*)sender;
+@property (nonatomic, retain) IBOutlet UILabel*				dateLabel;
+@property (nonatomic, retain) IBOutlet UILabel*				cityFromToLabel;
+@property (nonatomic, retain) IBOutlet UILabel*				ticketCountLabel;
+@property (nonatomic, retain) IBOutlet UITableView*			ticketResultsVw;
+@property (nonatomic, retain) IBOutlet UIImageView*			timeSortImgVw;
+@property (nonatomic, retain) IBOutlet UIImageView*			priceSortImgVw;
+
+@property (nonatomic, retain) IBOutlet UIView*				selectDateParentVw;
+@property (nonatomic, retain) IBOutlet UIView*				selectDateContainerVw;
+@property (nonatomic, retain) IBOutlet UIDatePicker*		selectDatePicker;
+
+- (void)onFlightGroupTap:(UIButton*)sender;
 - (void)onSectionPayButtonTap:(UIButton*)sender;
 - (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo;
 - (UIView*)generateCabinView:(NSDictionary*)cabin;
 - (void)performFlightInfosSort;
+
+- (void)displaySearchResultToView;
+- (IBAction)onSelectDateCompleteButtonTap:(id)sender;
+- (IBAction)onSelectDateCancelButtonTap:(id)sender;
+
+- (void)performPay;
+- (void)showLoginViewController;
+- (void)loginSuccess;
 
 @end
 
@@ -104,6 +136,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.sortByPriceBtn = nil;
 	self.sortByTimeBtn = nil;
 	
+	self.prevDate = nil;
+	self.selectDate = nil;
+	self.nextDate = nil;
+	
+	self.selectDateParentVw = nil;
+	self.selectDateContainerVw = nil;
+	self.selectDatePicker = nil;
+	
 	[super dealloc];
 }
 
@@ -114,31 +154,36 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 			 andDepartureDate:(NSDate*)aDepartureDate
 				andReturnDate:(NSDate*)aReturnDate
 {
-	// TODO: test data
-	NSString* path = [[NSBundle mainBundle] pathForResource:@"RunAvCommand" ofType:@"js"];
-	NSString* content = [NSString stringWithContentsOfFile:path
-												  encoding:NSUTF8StringEncoding
-													 error:nil];
+	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:navVC.topViewController.view animated:YES];
+	hud.labelText = @"正在查询";
 	
-	NSMutableDictionary* jsonContent = [[content mutableObjectFromJSONString] objectForKey:@"Response"];
-	
-	float delayInSeconds = 0.1f;
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-		FlightSelectViewController* vc = [[FlightSelectViewController alloc] initWithViewType:aViewType
-																			 andDepartureCity:aDepartureCity
-																			   andArrivalCity:aArrivalCity
-																			 andDepartureDate:aDepartureDate
-																				andReturnDate:aReturnDate
-																			   andJsonContent:jsonContent];
-		
-//		[navVC pushViewController:vc animated:YES];
-		
-		UIBGNavigationController* newNavVC = [[[UIBGNavigationController alloc] initWithRootViewController:vc] autorelease];
-		[navVC presentModalViewController:newNavVC animated:YES];
-		
-		SAFE_RELEASE(vc);
-	});
+	[FlightSearchHelper
+	 performFlightSearchWithDepartureCity:aDepartureCity
+	 andArrivalCity:aArrivalCity
+	 andDepartureDate:aDepartureDate
+	 andSuccess:^(NSMutableDictionary *respObj) {
+		 [MBProgressHUD hideHUDForView:navVC.topViewController.view
+							  animated:YES];
+		 
+		 FlightSelectViewController* vc = [[FlightSelectViewController alloc] initWithViewType:aViewType
+																			  andDepartureCity:aDepartureCity
+																				andArrivalCity:aArrivalCity
+																			  andDepartureDate:aDepartureDate
+																				 andReturnDate:aReturnDate
+																				andJsonContent:respObj];
+		 
+		 //		[navVC pushViewController:vc animated:YES];
+		 
+		 UIBGNavigationController* newNavVC = [[[UIBGNavigationController alloc] initWithRootViewController:vc] autorelease];
+		 [navVC presentModalViewController:newNavVC animated:YES];
+		 
+		 SAFE_RELEASE(vc);
+	 }
+	 andFailure:^(NSString *errorMsg) {
+		 [MBProgressHUD hideHUDForView:navVC.topViewController.view
+							  animated:YES];
+		 
+	 }];
 }
 
 - (id)initWithViewType:(FlightSelectViewType)aViewType
@@ -171,7 +216,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -179,51 +223,106 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	[self displaySearchResultToView];
 	
-	// init controls
-	self.dateLabel.text = [self.departureDate stringWithFormat:[NSDate dateFormatString]];
-	self.cityFromToLabel.text = [NSString stringWithFormat:@"%@-%@"
-								 , self.departureCity.cityName
-								 , self.arrivalCity.cityName];
+	[self.view addSubview:self.selectDateParentVw];
+	self.selectDateParentVw.hidden = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	
-	int resultCount = [[self.jsonContent objectForKey:@"FlightsInfo"] count];
-	self.ticketCountLabel.text = [NSString stringWithFormat:@"共%d条", resultCount];
-	
-	// title
-	switch (self.viewType) {
-		case kFlightSelectViewTypeSingle:
-			self.title = @"单程航班";
-			break;
-			
-		case kFlightSelectViewTypeDeparture:
-			self.title = @"往返去程";
-			break;
-			
-		default:
-			self.title = @"往返回程";
-			break;
+	if (self.viewType == kFlightSelectViewTypeDeparture) {
+		self.prevDate.hidden = YES;
+		self.nextDate.hidden = YES;
+		self.selectDate.hidden = YES;
+		self.ticketResultsVw.height = self.view.height - self.ticketResultsVw.top;
+	} else {
 	}
-	
-	// sortByPrice
-	self.isSortByPrice = [FSConfig readBoolWithKey:@"sortByPrice" defaultValue:NO];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - actions
 
+- (void)onSelectDateCompleteButtonTap:(id)sender
+{
+	self.departureDate = self.selectDatePicker.date;
+	
+	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	hud.labelText = @"正在查询";
+	
+	[FlightSearchHelper
+	 performFlightSearchWithDepartureCity:self.departureCity
+	 andArrivalCity:self.arrivalCity
+	 andDepartureDate:self.departureDate
+	 andSuccess:^(NSMutableDictionary *respObj) {
+		 [MBProgressHUD hideHUDForView:self.view
+							  animated:YES];
+		 
+		 [self displaySearchResultToView];
+	 }
+	 andFailure:^(NSString *errorMsg) {
+		 [MBProgressHUD hideHUDForView:self.view
+							  animated:YES];
+	 }];
+
+	self.selectDateParentVw.hidden = YES;
+}
+
+- (void)onSelectDateCancelButtonTap:(id)sender
+{
+	self.selectDateParentVw.hidden = YES;
+}
+
 - (void)onNextDateButtonTap:(id)sender
 {
+	self.departureDate = [self.departureDate dateAfterDay:1];
 	
+	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	hud.labelText = @"正在查询";
+	
+	[FlightSearchHelper
+	 performFlightSearchWithDepartureCity:self.departureCity
+	 andArrivalCity:self.arrivalCity
+	 andDepartureDate:self.departureDate
+	 andSuccess:^(NSMutableDictionary *respObj) {
+		 [MBProgressHUD hideHUDForView:self.view
+							  animated:YES];
+		 
+		 [self displaySearchResultToView];
+	 }
+	 andFailure:^(NSString *errorMsg) {
+		 [MBProgressHUD hideHUDForView:self.view
+							  animated:YES];
+	 }];
 }
 
 - (void)onPrevDateButtonTap:(id)sender
 {
+	self.departureDate = [self.departureDate dateAfterDay:-1];
 	
+	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	hud.labelText = @"正在查询";
+	
+	[FlightSearchHelper
+	 performFlightSearchWithDepartureCity:self.departureCity
+	 andArrivalCity:self.arrivalCity
+	 andDepartureDate:self.departureDate
+	 andSuccess:^(NSMutableDictionary *respObj) {
+		 [MBProgressHUD hideHUDForView:self.view
+							  animated:YES];
+		 
+		 [self displaySearchResultToView];
+	 }
+	 andFailure:^(NSString *errorMsg) {
+		 [MBProgressHUD hideHUDForView:self.view
+							  animated:YES];
+	 }];
 }
 
 - (void)onPriceSortButtonTap:(id)sender
@@ -259,7 +358,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)onSelectDateButtonTap:(id)sender
 {
-	
+	self.selectDateParentVw.frame = self.view.bounds;
+	self.selectDateParentVw.hidden = NO;
 }
 
 - (void)onSortButtonTap:(id)sender
@@ -302,15 +402,36 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)onSectionPayButtonTap:(UIButton*)sender
 {
-	// TODO: pay
+	_selectedPayCabin = sender.strongRefTag;
+	
+	// pay
+	
+	if (![[AppConfig get] isLogon]){
+        [self showLoginViewController];
+        self.navigationItem.rightBarButtonItem =
+        [UIBarButtonItem generateNormalStyleButtonWithTitle:@"登录"
+                                             andTapCallback:^(id control, UIEvent *event) {
+                                                 [self showLoginViewController];
+                                             }];
+		
+        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“预定机票”。" andBottomOffset: 120 andType: ERROR];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(loginSuccess)
+													 name:@"LOGIN_SUC"
+												   object:nil];
+	} else {
+		[self performPay];
+	}
 }
 
 #pragma mark - gesture
 
-- (void)onFlightGroupTap:(UIGestureRecognizer *)sender
+- (void)onFlightGroupTap:(UIButton*)sender
 {
-	UIView* senderVw = sender.view;
-	int section = senderVw.tag - 9900;
+	UIView* senderVw = sender;
+//	int section = senderVw.tag - 9900;
+	
+	int section = [senderVw.strongRefTag intValue];
 
 	NSMutableDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
 	
@@ -326,15 +447,72 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	for (int n = 0; n < rowsCount; ++n)
 		[rows addObject:[NSIndexPath indexPathForRow:n inSection:section]];
 	
-	if (isSelected)
-		[self.ticketResultsVw insertRowsAtIndexPaths:rows
-									withRowAnimation:UITableViewRowAnimationLeft];
-	else
-		[self.ticketResultsVw deleteRowsAtIndexPaths:rows
-									withRowAnimation:UITableViewRowAnimationRight];
+//	if (isSelected)
+//		[self.ticketResultsVw insertRowsAtIndexPaths:rows
+//									withRowAnimation:UITableViewRowAnimationFade];
+//	else
+//		[self.ticketResultsVw deleteRowsAtIndexPaths:rows
+//									withRowAnimation:UITableViewRowAnimationFade];
+	
+//	[self.ticketResultsVw reloadSections:[NSIndexSet indexSetWithIndex:section]
+//						withRowAnimation:UITableViewRowAnimationFade];
+	
+	[self.ticketResultsVw reloadData];
 }
 
 #pragma mark - core methods
+
+- (void)performPay
+{
+	
+}
+
+- (void)loginSuccess
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_SUC" object:nil];
+    [self performPay];
+}
+
+- (void)showLoginViewController
+{
+	LoginViewController *vc = [[LoginViewController alloc] init];
+	UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
+	[self.navigationController presentModalViewController:nav animated:YES];
+	[vc release];
+	[nav release];
+}
+	
+- (void)displaySearchResultToView
+{
+	// init controls
+	self.dateLabel.text = [self.departureDate stringWithFormat:[NSDate dateFormatString]];
+	self.cityFromToLabel.text = [NSString stringWithFormat:@"%@-%@"
+								 , self.departureCity.cityName
+								 , self.arrivalCity.cityName];
+	
+	int resultCount = [[self.jsonContent objectForKey:@"FlightsInfo"] count];
+	self.ticketCountLabel.text = [NSString stringWithFormat:@"共%d条", resultCount];
+	
+	// title
+	switch (self.viewType) {
+		case kFlightSelectViewTypeSingle:
+			self.title = @"单程航班";
+			break;
+			
+		case kFlightSelectViewTypeDeparture:
+			self.title = @"往返去程";
+			break;
+			
+		default:
+			self.title = @"往返回程";
+			break;
+	}
+	
+	// sortByPrice
+	self.isSortByPrice = [FSConfig readBoolWithKey:@"sortByPrice" defaultValue:NO];
+	
+	[self.ticketResultsVw reloadData];
+}
 
 - (void)performFlightInfosSort
 {
@@ -428,15 +606,16 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 {
 	UIView* result = [[NSBundle mainBundle] loadNibNamed:@"FlightSelectCells" owner:nil options:nil][0];
 	
-	result.tag = section + 9900;
+//	result.tag = section + 9900;
+	result.strongRefTag = @(section);
 	
-	UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-																				 action:@selector(onFlightGroupTap:)];
-	
-	tapGesture.numberOfTapsRequired = 1;
-	tapGesture.numberOfTouchesRequired = 1;
-	[result addGestureRecognizer:tapGesture];
-	SAFE_RELEASE(tapGesture);
+//	UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+//																				 action:@selector(onFlightGroupTap:)];
+//	
+//	tapGesture.numberOfTapsRequired = 1;
+//	tapGesture.numberOfTouchesRequired = 1;
+//	[result addGestureRecognizer:tapGesture];
+//	SAFE_RELEASE(tapGesture);
 	
 	// item info
 	// 根据价格选取最优的机票
@@ -454,7 +633,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	UILabel* discountLabel = (UILabel*)[result viewWithTag:106];
 	UIButton* payButton = (UIButton*)[result viewWithTag:107];
 	
-	payButton.tag = section + 9900;
+	UIButton* sectionButton = (UIButton*)[result viewWithTag:120];
+	sectionButton.strongRefTag = @(section);
+	[sectionButton addTarget:self
+					  action:@selector(onFlightGroupTap:)
+			forControlEvents:UIControlEventTouchUpInside];
+	
+//	payButton.tag = section + 9900;
+	payButton.strongRefTag = optimalCabin;
 	[payButton addTarget:self
 				  action:@selector(onSectionPayButtonTap:)
 		forControlEvents:UIControlEventTouchUpInside];
@@ -536,7 +722,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	int cabin1Index = row * 2;
 	NSDictionary* cabin1 = [cabinInfos objectAtIndex:cabin1Index];
 	UIView* cabin1Vw = [self generateCabinView:cabin1];
-	cabin1Vw.tag = 9900;
+//	cabin1Vw.tag = 9900;
+	cabin1Vw.strongRefTag = @9900;
+	
+	UIButton* cabin1PayBtn = (UIButton*)[cabin1Vw viewWithTag:200];
+	cabin1PayBtn.strongRefTag = cabin1;
+	[cabin1PayBtn addTarget:self
+					 action:@selector(onSectionPayButtonTap:)
+		   forControlEvents:UIControlEventTouchUpInside];
 	
 	[result addSubview:cabin1Vw];
 	
@@ -544,9 +737,17 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	if (cabin2Index < cabinInfos.count) {
 		NSDictionary* cabin2 = [cabinInfos objectAtIndex:cabin2Index];
 		UIView* cabin2Vw = [self generateCabinView:cabin2];
-		cabin2Vw.tag = 9901;
+//		cabin2Vw.tag = 9901;
+		cabin2Vw.strongRefTag = @9901;
 		
 		cabin2Vw.left = cabin1Vw.width;
+
+		UIButton* cabin2PayBtn = (UIButton*)[cabin2Vw viewWithTag:200];
+		cabin2PayBtn.strongRefTag = cabin2;
+		[cabin2PayBtn addTarget:self
+						 action:@selector(onSectionPayButtonTap:)
+			   forControlEvents:UIControlEventTouchUpInside];
+
 		[result addSubview:cabin2Vw];
 	}
 	

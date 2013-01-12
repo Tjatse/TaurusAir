@@ -141,19 +141,31 @@
 		
 		UIViewController* parentVC = self.parentViewController;
 		
-		CABasicAnimation* scaleAni = [CABasicAnimation animationWithKeyPath:@"transform"];
-		scaleAni.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.6f, 0.6f, 1)];
-		scaleAni.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1, 1, 1)];
-		scaleAni.removedOnCompletion = YES;
+		if (parentVC == nil)
+			parentVC = self.presentingViewController;
+		
+		CABasicAnimation* scaleAni1 = [CABasicAnimation animationWithKeyPath:@"transform"];
+		scaleAni1.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.8f, 0.8f, 1)];
+		scaleAni1.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1)];
+		scaleAni1.removedOnCompletion = YES;
+		scaleAni1.duration = 0.35f;
+		
+		CABasicAnimation* scaleAni2 = [CABasicAnimation animationWithKeyPath:@"transform"];
+		scaleAni2.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1)];
+		scaleAni2.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1, 1, 1)];
+		scaleAni2.removedOnCompletion = YES;
+		scaleAni2.beginTime = 0.35f;
+		scaleAni2.duration = 0.35f;
 		
 		CABasicAnimation* opacityAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
 		opacityAni.fromValue = [NSNumber numberWithFloat:0.5f];
 		opacityAni.toValue = [NSNumber numberWithFloat:1.0f];
 		opacityAni.removedOnCompletion = YES;
+		opacityAni.duration = 0.7f;
 		
 		CAAnimationGroup* groupAni = [CAAnimationGroup animation];
-		groupAni.animations = [NSArray arrayWithObjects:scaleAni, opacityAni, nil];
-		groupAni.duration = 0.3f;
+		groupAni.animations = [NSArray arrayWithObjects:scaleAni1, scaleAni2, opacityAni, nil];
+		groupAni.duration = 0.7f;
 		groupAni.removedOnCompletion = YES;
 		groupAni.fillMode = kCAFillModeForwards;
 		

@@ -271,6 +271,11 @@
 		3E7B2BC916774685008789BE /* nav_19.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B6A16774685008789BE /* nav_19.png */; };
 		3E7B2BCA16774685008789BE /* nav_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B6B16774685008789BE /* nav_19@2x.png */; };
 		3E7BFA77167AD19A00DAB1AC /* FlightSearchCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */; };
+		3E7EC65916A0E08000682741 /* FlightSearchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC65816A0E08000682741 /* FlightSearchHelper.m */; };
+		3E7EC65B16A0E2E500682741 /* AppDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC65A16A0E2E500682741 /* AppDefines.m */; };
+		3E7EC66816A0F00100682741 /* NSObject+RefTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC66716A0F00100682741 /* NSObject+RefTag.m */; };
+		3E7EC66A16A10A5200682741 /* PlaceOrder.js in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC66916A10A5200682741 /* PlaceOrder.js */; };
+		3E7EC66C16A10BC500682741 /* CreatePayUrl.js in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC66B16A10BC500682741 /* CreatePayUrl.js */; };
 		3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04991689827200DE9546 /* UIColor+Additions.m */; };
 		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
@@ -732,6 +737,13 @@
 		3E7B2B6A16774685008789BE /* nav_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_19.png; sourceTree = "<group>"; };
 		3E7B2B6B16774685008789BE /* nav_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_19@2x.png"; sourceTree = "<group>"; };
 		3E7BFA76167AD19A00DAB1AC /* FlightSearchCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlightSearchCells.xib; path = FlightSearch/FlightSearchCells.xib; sourceTree = "<group>"; };
+		3E7EC65716A0E08000682741 /* FlightSearchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightSearchHelper.h; sourceTree = "<group>"; };
+		3E7EC65816A0E08000682741 /* FlightSearchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightSearchHelper.m; sourceTree = "<group>"; };
+		3E7EC65A16A0E2E500682741 /* AppDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDefines.m; sourceTree = "<group>"; };
+		3E7EC66616A0F00100682741 /* NSObject+RefTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RefTag.h"; sourceTree = "<group>"; };
+		3E7EC66716A0F00100682741 /* NSObject+RefTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RefTag.m"; sourceTree = "<group>"; };
+		3E7EC66916A10A5200682741 /* PlaceOrder.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = PlaceOrder.js; path = TestData/PlaceOrder.js; sourceTree = "<group>"; };
+		3E7EC66B16A10BC500682741 /* CreatePayUrl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = CreatePayUrl.js; path = TestData/CreatePayUrl.js; sourceTree = "<group>"; };
 		3EDF04981689827200DE9546 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EDF04991689827200DE9546 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EDF049C16898A8100DE9546 /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CitySelectViewController.h; path = FlightSearch/CitySelectViewController.h; sourceTree = "<group>"; };
@@ -953,6 +965,8 @@
 				9294FD6D169FEEE000B75AE5 /* Contacters.json */,
 				9294FD6F169FF5D300B75AE5 /* PassengerOperate.json */,
 				9294FD71169FF5F300B75AE5 /* ContacterOperate.json */,
+				3E7EC66916A10A5200682741 /* PlaceOrder.js */,
+				3E7EC66B16A10BC500682741 /* CreatePayUrl.js */,
 			);
 			name = TestData;
 			sourceTree = "<group>";
@@ -960,12 +974,8 @@
 		3E51616D1675D0F700D2DC78 = {
 			isa = PBXGroup;
 			children = (
-				3E751E2B168962E8006FCA04 /* CHCSVParser */,
+				3E7EC64B16A0DDB100682741 /* ThirdPartySDK */,
 				927B7A5C1679EC220003FC13 /* Data */,
-				3E5161BF1675D1F000D2DC78 /* FelixSDK */,
-				3E5161991675D1F000D2DC78 /* BBlock */,
-				3E5161BC1675D1F000D2DC78 /* CMPopTipView */,
-				3E5162621675D1F000D2DC78 /* SDWebImage */,
 				3E5161821675D0F700D2DC78 /* TaurusClient */,
 				3E51617B1675D0F700D2DC78 /* Frameworks */,
 				3E5161791675D0F700D2DC78 /* Products */,
@@ -1127,6 +1137,8 @@
 		3E5161CD1675D1F000D2DC78 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				3E7EC66616A0F00100682741 /* NSObject+RefTag.h */,
+				3E7EC66716A0F00100682741 /* NSObject+RefTag.m */,
 				3E30F205168DEE3A002C236B /* CAAnimation+AnimationBlock.h */,
 				3E30F206168DEE3A002C236B /* CAAnimation+AnimationBlock.m */,
 				3E5161CE1675D1F000D2DC78 /* GTMDefines.h */,
@@ -1636,6 +1648,18 @@
 			path = nav;
 			sourceTree = "<group>";
 		};
+		3E7EC64B16A0DDB100682741 /* ThirdPartySDK */ = {
+			isa = PBXGroup;
+			children = (
+				3E751E2B168962E8006FCA04 /* CHCSVParser */,
+				3E5161BF1675D1F000D2DC78 /* FelixSDK */,
+				3E5161991675D1F000D2DC78 /* BBlock */,
+				3E5161BC1675D1F000D2DC78 /* CMPopTipView */,
+				3E5162621675D1F000D2DC78 /* SDWebImage */,
+			);
+			name = ThirdPartySDK;
+			sourceTree = "<group>";
+		};
 		92094319168D48DD00929BFF /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1713,6 +1737,7 @@
 				92098F1C167A169600EF1F47 /* System */,
 				927B7A5E1679EC640003FC13 /* Utils */,
 				927B7A6C1679EF670003FC13 /* AppDefines.h */,
+				3E7EC65A16A0E2E500682741 /* AppDefines.m */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1733,6 +1758,8 @@
 			children = (
 				92B7808C168736E800A9DE32 /* UserHelper.h */,
 				92B7808D168736E800A9DE32 /* UserHelper.m */,
+				3E7EC65716A0E08000682741 /* FlightSearchHelper.h */,
+				3E7EC65816A0E08000682741 /* FlightSearchHelper.m */,
 				92033E421696BA3300BE2E27 /* OrderHelper.h */,
 				92033E431696BA3300BE2E27 /* OrderHelper.m */,
 				3E751E32168963FE006FCA04 /* CharCodeHelper.h */,
@@ -2127,6 +2154,11 @@
 				3E75C2CB1694624E00CDB92F /* CorpInfoViewController.m in Sources */,
 				92033E441696BA3300BE2E27 /* OrderHelper.m in Sources */,
 				9294FD6C169FD49700B75AE5 /* ContacterHelper.m in Sources */,
+				3E7EC65916A0E08000682741 /* FlightSearchHelper.m in Sources */,
+				3E7EC65B16A0E2E500682741 /* AppDefines.m in Sources */,
+				3E7EC66816A0F00100682741 /* NSObject+RefTag.m in Sources */,
+				3E7EC66A16A10A5200682741 /* PlaceOrder.js in Sources */,
+				3E7EC66C16A10BC500682741 /* CreatePayUrl.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
