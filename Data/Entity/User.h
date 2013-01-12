@@ -19,7 +19,8 @@
 @property (nonatomic, readwrite) BOOL       gender;
 @property (nonatomic, retain) NSString      *birthday;
 @property (nonatomic, retain) NSString      *guid;
+@property (nonatomic, retain) NSString      *userPwd;
 
-- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday guid:(NSString*)theGuid;
+- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName userPwd:(NSString*)theUserPwd name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday guid:(NSString*)theGuid;
 
 @end

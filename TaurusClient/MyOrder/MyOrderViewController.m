@@ -105,15 +105,15 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"获取中...";
-    [OrderHelper orderListWithId:[AppConfig get].currentUser.userId
-                         success:^(NSArray *orders) {
-                             [MBProgressHUD hideHUDForView:self.view animated:YES];
-                             [self renderViews:orders];
-                         }
-                         failure:^(NSString *errorMsg) {
-                             [MBProgressHUD hideHUDForView:self.view animated:YES];
-                             [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
-                         }];
+    [OrderHelper orderListWithUser:[AppConfig get].currentUser
+                           success:^(NSArray *orders) {
+                               [MBProgressHUD hideHUDForView:self.view animated:YES];
+                               [self renderViews:orders];
+                           }
+                           failure:^(NSString *errorMsg) {
+                               [MBProgressHUD hideHUDForView:self.view animated:YES];
+                               [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                           }];
 }
 
 - (void)renderViews:(NSArray *)orders
@@ -199,22 +199,22 @@
 {
     [self setRightButton:YES];
     
-    [OrderHelper orderListWithId:[AppConfig get].currentUser.userId
-                         success:^(NSArray *orders) {
-                             [_datas release], _datas = nil;
-                             _datas = [orders mutableCopy];
-                             [_clonedDatas release], _clonedDatas = nil;
-                             _clonedDatas = [_datas mutableCopy];
+    [OrderHelper orderListWithUser:[AppConfig get].currentUser
+                           success:^(NSArray *orders) {
+                               [_datas release], _datas = nil;
+                               _datas = [orders mutableCopy];
+                               [_clonedDatas release], _clonedDatas = nil;
+                               _clonedDatas = [_datas mutableCopy];
                              
-                             [self filterOrder:[NSNotification notificationWithName:@"ORDER_FILTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:0] forKey:@"selectedRow"]]];
+                               [self filterOrder:[NSNotification notificationWithName:@"ORDER_FILTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:0] forKey:@"selectedRow"]]];
                              
-                             [_tableView reloadData];
-                             [self setRightButton:NO];
-                         }
-                         failure:^(NSString *errorMsg) {
-                             [self setRightButton:NO];
-                             [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
-                         }];
+                               [_tableView reloadData];
+                               [self setRightButton:NO];
+                           }
+                           failure:^(NSString *errorMsg) {
+                               [self setRightButton:NO];
+                               [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                           }];
 }
 #pragma mark Filter
 - (void)setButtonState: (UIButton *)button andState:(BOOL)selected

@@ -97,7 +97,7 @@
     }else{
         NSDictionary *meta= [JSON objectForKey:@"Meta"];
         
-        if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"PasswordRecovery"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
+        if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"EditUserPwd"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
             BOOL resp = [JSON getBoolValueForKey:@"Response" defaultValue:false];
             if(resp) {
                 success();
@@ -289,13 +289,14 @@
                 NSString *userName = [resp getStringValueForKey:@"UserName" defaultValue:@""];
                 User *u = [[User alloc] initWithUserId:userId
                                              loginName:userName
+                                               userPwd:[resp getStringValueForKey:@"UserPwd" defaultValue:@""]
                                                   name:[resp getStringValueForKey:@"Name" defaultValue:userName]
                                                  phone:@""
                                                  email:@""
                                                 remark:@""
                                                 gender:YES
                                               birthday:@""
-                                                  guid:@""];
+                                                  guid:[resp getStringValueForKey:@"Guid" defaultValue:userName]];
                 success(u);
                 [u release];
             }else{
@@ -361,6 +362,7 @@
                 NSString *userName = [resp getStringValueForKey:@"LoginName" defaultValue:@""];
                 User *u = [[User alloc] initWithUserId:userId
                                              loginName:userName
+                                               userPwd:[resp getStringValueForKey:@"UserPwd" defaultValue:@""]
                                                   name:[resp getStringValueForKey:@"Name" defaultValue:userName]
                                                  phone:[resp getStringValueForKey:@"Phone" defaultValue:@""]
                                                  email:[resp getStringValueForKey:@"Email" defaultValue:@""]
@@ -452,15 +454,15 @@
             [request setPostValue:user.email forKey:@"Email"];
             [request setPostValue:user.remark forKey:@"Remark"];
             [request setPostValue:user.birthday forKey:@"Birthday"];
-            [request setPostValue:user.gender ? @"1":@"0" forKey:@"Gender"];
+            [request setPostValue:user.gender ? @"true":@"false" forKey:@"Gender"];
             [request setPostValue:user.userId forKey:@"RegistUserId"];
             
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
-                [self analyzeRegisterUserRet:JSON
-                                     success:success
-                                     failure:failure];
+                [self analyzeEditUserRet:JSON
+                                 success:success
+                                 failure:failure];
             }];
             [request setFailedBlock:^{
                 failure([request.error localizedDescription]);
@@ -492,12 +494,7 @@
         NSDictionary *meta= [JSON objectForKey:@"Meta"];
         
         if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"UserLoginOut"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
-            BOOL resp = [JSON getBoolValueForKey:@"Response" defaultValue:false];
-            if(resp) {
-                success();
-            }else{
-                failure([meta getStringValueForKey:@"Message" defaultValue:@"注销失败，服务器端返回错误。"]);
-            }
+            success();
         }else{
             failure([meta getStringValueForKey:@"Message" defaultValue:@"服务器返回数据错误。"]);
         }
@@ -516,9 +513,9 @@
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
-                [self analyzePwdRecoveryRet:JSON
-                                    success:success
-                                    failure:failure];
+                [self analyzeLogoutRet:JSON
+                               success:success
+                               failure:failure];
             }];
             [request setFailedBlock:^{
                 failure([request.error localizedDescription]);

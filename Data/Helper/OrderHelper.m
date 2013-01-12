@@ -17,6 +17,7 @@
 
 #import "ThreeCharCode.h"
 #import "TwoCharCode.h"
+#import "User.h"
 
 @interface OrderHelper(Private)
 + (id)dummy: (NSString *)key;
@@ -47,7 +48,7 @@
         if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"GetTicketOrdersByCondition"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
             NSArray *resp = [JSON objectForKey:@"Response"];
             if(resp) {
-                success(resp);
+                success((NSNull *)resp == [NSNull null] ? @[]:resp);
             }else{
                 failure([meta getStringValueForKey:@"Message" defaultValue:@"获取订单列表失败，服务器端返回错误。"]);
             }
@@ -56,16 +57,22 @@
         }
     }
 }
-+ (void)orderListWithId:(NSString *)userId
-                success:(void (^)(NSArray *orders))success
-                failure:(void (^)(NSString *errMsg))failure
++ (void)orderListWithUser:(User *)user
+                  success:(void (^)(NSArray *orders))success
+                  failure:(void (^)(NSString *errMsg))failure
 {
     if(IS_DEPLOYED()){
         if([AppContext get].online)
         {
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ORDER_LIST];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-            [request setPostValue:userId forKey:@"Tid"];
+            [request setPostValue:user.userId forKey:@"Tid"];
+            [request setPostValue:user.loginName forKey:@"UserName"];
+            [request setPostValue:user.guid forKey:@"Guid"];
+            [request setPostValue:user.userPwd forKey:@"UserPwd"];
+            
+            [request setPostValue:@"1" forKey:@"NowPage"];
+            [request setPostValue:@"10000" forKey:@"PerPageCount"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
