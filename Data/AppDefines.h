@@ -43,6 +43,9 @@ typedef enum {
 #define TRAVELER_PSG_OPR    @"Interfaces/OperatePassenger.ashx"
 #define TRAVELER_CTC_OPR    @"Interfaces/OperateContactor.ashx"
 
+// flight search
+extern NSString* const		kFlightSearchURL;
+
 #define setRequestAuth(request) [request setPostValue:CLIENT_ID forKey:@"ClientId"];[request setPostValue:SAFE_CODE forKey:@"safeCode"];
 
 #endif // __TC_CONFIG_H
