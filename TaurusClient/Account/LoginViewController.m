@@ -62,6 +62,7 @@
     self.navigationItem.leftBarButtonItem =
     [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
                                        andTapCallback:^(id control, UIEvent *event) {
+										   [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_CANCEL" object:nil];
                                            [self.navigationController dismissModalViewControllerAnimated:YES];
                                        }];
     

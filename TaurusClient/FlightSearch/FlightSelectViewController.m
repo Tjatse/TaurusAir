@@ -29,6 +29,8 @@
 #import "FlightSelectViewController.h"
 #import "FlightSearchHelper.h"
 #import "LoginViewController.h"
+#import "AirplaneTypeHelper.h"
+#import "OrderHelper.h"
 
 NSArray* timeFilters()
 {
@@ -108,6 +110,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)performPay;
 - (void)showLoginViewController;
+
+- (void)loginCancel;
 - (void)loginSuccess;
 
 @end
@@ -425,7 +429,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	_selectedPayCabin = sender.strongRefTag;
 	
 	// pay
-	
 	if (![[AppConfig get] isLogon]){
         [self showLoginViewController];
         self.navigationItem.rightBarButtonItem =
@@ -433,8 +436,12 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
                                              andTapCallback:^(id control, UIEvent *event) {
                                                  [self showLoginViewController];
                                              }];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(loginCancel)
+													 name:@"LOGIN_CANCEL"
+												   object:nil];
 		
-        [ALToastView toastPinInView:self.view withText:@"登录后才能访问“预定机票”。" andBottomOffset: 120 andType: ERROR];
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(loginSuccess)
 													 name:@"LOGIN_SUC"
@@ -498,8 +505,16 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		
 	} else if (self.viewType == kFlightSelectViewTypeSingle) {
 		// 单程，预订
-		
+		[OrderHelper perform];
 	}
+}
+
+- (void)loginCancel
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_CANCEL" object:nil];
+	[ALToastView toastPinInView:self.view withText:@"登录后才能“预定机票”。"
+				andBottomOffset:44.0f
+						andType:ERROR];
 }
 
 - (void)loginSuccess
@@ -668,14 +683,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	UILabel* discountLabel = (UILabel*)[result viewWithTag:106];
 	UIButton* payButton = (UIButton*)[result viewWithTag:107];
 	
-	UIButton* sectionButton = (UIButton*)[result viewWithTag:120];
-	sectionButton.strongRefTag = @(section);
-	[sectionButton addTarget:self
+	UIButton* sectionTapButton = (UIButton*)[result viewWithTag:120];
+	sectionTapButton.strongRefTag = @(section);
+	[sectionTapButton addTarget:self
 					  action:@selector(onFlightGroupTap:)
 			forControlEvents:UIControlEventTouchUpInside];
 	
 //	payButton.tag = section + 9900;
-	payButton.strongRefTag = optimalCabin;
+	payButton.strongRefTag = @[flightInfo, optimalCabin];
 	[payButton addTarget:self
 				  action:@selector(onSectionPayButtonTap:)
 		forControlEvents:UIControlEventTouchUpInside];
@@ -698,7 +713,13 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	airportLabel.text = [NSString stringWithFormat:@"%@-%@", self.departureCity.airportAbbrName, self.arrivalCity.airportAbbrName];
 	
 	//
-	airplaneTypeLabel.text = [flightInfo getStringValueForKey:@"Plane" defaultValue:nil];
+	NSString* airplaneTypeStr = [flightInfo getStringValueForKey:@"Plane" defaultValue:nil];
+	NSDictionary* airplaneTypes = [[AirplaneTypeHelper sharedHelper] allAirplaneType];
+	AirplaneType* airplaneType = [airplaneTypes objectForKey:airplaneTypeStr];
+	
+	airplaneTypeLabel.text = [NSString stringWithFormat:@"%@%@"
+							  , airplaneType == nil ? @"中型机" : airplaneType.friendlyPlaneType
+							  , [flightInfo getStringValueForKey:@"Plane" defaultValue:nil]];
 	
 	//
 	priceLabel.text = [NSString stringWithFormat:@"￥%d", [optimalCabin getIntValueForKey:@"PayPrice" defaultValue:0]];
@@ -763,7 +784,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	cabin1Vw.strongRefTag = @9900;
 	
 	UIButton* cabin1PayBtn = (UIButton*)[cabin1Vw viewWithTag:200];
-	cabin1PayBtn.strongRefTag = cabin1;
+	cabin1PayBtn.strongRefTag = @[flightInfo, cabin1];
 	[cabin1PayBtn addTarget:self
 					 action:@selector(onSectionPayButtonTap:)
 		   forControlEvents:UIControlEventTouchUpInside];
@@ -780,7 +801,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		cabin2Vw.left = cabin1Vw.width;
 
 		UIButton* cabin2PayBtn = (UIButton*)[cabin2Vw viewWithTag:200];
-		cabin2PayBtn.strongRefTag = cabin2;
+		cabin2PayBtn.strongRefTag = @[flightInfo, cabin2];
 		[cabin2PayBtn addTarget:self
 						 action:@selector(onSectionPayButtonTap:)
 			   forControlEvents:UIControlEventTouchUpInside];
