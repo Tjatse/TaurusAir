@@ -8,4 +8,5 @@
 
 #import  "AppDefines.h"
 
-NSString* const kFlightSearchURL =		@"Interfaces/RunAvCommand.ashx";
+NSString* const kFlightSearchURL			= @"Interfaces/RunAvCommand.ashx";
+NSString* const	kFlightPlaceOrderURL		= @"Interfaces/Order.ashx";

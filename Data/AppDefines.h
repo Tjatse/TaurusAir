@@ -19,7 +19,7 @@ typedef enum {
 #define SCREEN_RECT             [[UIScreen mainScreen] bounds]
 #define STATUSBAR_FRAME         [[UIApplication sharedApplication] statusBarFrame]
 #define NAVBAR_HEIGHT           44
-#define SANDBOX                 @"Development" // Production or Development
+#define SANDBOX                 @"Production" // Production or Development
 #define IS_DEPLOYED()           ([SANDBOX isEqualToString:@"Production"])
 
 // uris
@@ -45,6 +45,7 @@ typedef enum {
 
 // flight search
 extern NSString* const		kFlightSearchURL;
+extern NSString* const		kFlightPlaceOrderURL;
 
 #define setRequestAuth(request) [request setPostValue:CLIENT_ID forKey:@"ClientId"];[request setPostValue:SAFE_CODE forKey:@"safeCode"];
 

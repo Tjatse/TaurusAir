@@ -274,6 +274,8 @@
 		3E7EC65916A0E08000682741 /* FlightSearchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC65816A0E08000682741 /* FlightSearchHelper.m */; };
 		3E7EC65B16A0E2E500682741 /* AppDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC65A16A0E2E500682741 /* AppDefines.m */; };
 		3E7EC66816A0F00100682741 /* NSObject+RefTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC66716A0F00100682741 /* NSObject+RefTag.m */; };
+		3E7EC66A16A10A5200682741 /* PlaceOrder.js in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC66916A10A5200682741 /* PlaceOrder.js */; };
+		3E7EC66C16A10BC500682741 /* CreatePayUrl.js in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EC66B16A10BC500682741 /* CreatePayUrl.js */; };
 		3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04991689827200DE9546 /* UIColor+Additions.m */; };
 		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
@@ -740,6 +742,8 @@
 		3E7EC65A16A0E2E500682741 /* AppDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDefines.m; sourceTree = "<group>"; };
 		3E7EC66616A0F00100682741 /* NSObject+RefTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RefTag.h"; sourceTree = "<group>"; };
 		3E7EC66716A0F00100682741 /* NSObject+RefTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RefTag.m"; sourceTree = "<group>"; };
+		3E7EC66916A10A5200682741 /* PlaceOrder.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = PlaceOrder.js; path = TestData/PlaceOrder.js; sourceTree = "<group>"; };
+		3E7EC66B16A10BC500682741 /* CreatePayUrl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = CreatePayUrl.js; path = TestData/CreatePayUrl.js; sourceTree = "<group>"; };
 		3EDF04981689827200DE9546 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EDF04991689827200DE9546 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EDF049C16898A8100DE9546 /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CitySelectViewController.h; path = FlightSearch/CitySelectViewController.h; sourceTree = "<group>"; };
@@ -961,6 +965,8 @@
 				9294FD6D169FEEE000B75AE5 /* Contacters.json */,
 				9294FD6F169FF5D300B75AE5 /* PassengerOperate.json */,
 				9294FD71169FF5F300B75AE5 /* ContacterOperate.json */,
+				3E7EC66916A10A5200682741 /* PlaceOrder.js */,
+				3E7EC66B16A10BC500682741 /* CreatePayUrl.js */,
 			);
 			name = TestData;
 			sourceTree = "<group>";
@@ -2151,6 +2157,8 @@
 				3E7EC65916A0E08000682741 /* FlightSearchHelper.m in Sources */,
 				3E7EC65B16A0E2E500682741 /* AppDefines.m in Sources */,
 				3E7EC66816A0F00100682741 /* NSObject+RefTag.m in Sources */,
+				3E7EC66A16A10A5200682741 /* PlaceOrder.js in Sources */,
+				3E7EC66C16A10BC500682741 /* CreatePayUrl.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

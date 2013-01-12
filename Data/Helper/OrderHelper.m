@@ -15,6 +15,10 @@
 #import "NSDictionaryAdditions.h"
 #import "BBlock.h"
 
+#import "ThreeCharCode.h"
+#import "TwoCharCode.h"
+#import "NSDictionaryAdditions.h"
+
 @interface OrderHelper(Private)
 + (id)dummy: (NSString *)key;
 @end
@@ -148,4 +152,80 @@
         }];
     }
 }
+
+#pragma mark - place order
+
++ (void)performPlaceOrder:(NSArray*)twoCharCodes		// TwoCharCode
+		 andThreeCharCode:(NSArray*)threeCharCodes		// ThreeCharCode
+				 andCabin:(NSArray*)cabins				// NSDictionary
+			  andDateTime:(NSArray*)departureTimes		// NSDate
+				  andUser:(User *)user
+				  success:(void (^)(NSDictionary *))success
+				  failure:(void (^)(NSString *))failure
+{
+	NSParameterAssert(success != nil);
+	NSParameterAssert(failure != nil);
+	
+    if (IS_DEPLOYED()) {
+        if ([AppContext get].online) {
+            NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, kFlightPlaceOrderURL];
+            __block ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+            
+//			格式：二字码_航班号_舱位_出发三字码_出发时间_到达三字码_到达时间^二字码_航班号_舱位_出发三字码_出发时间_到达三字码_到达时间
+//			如：CZ_CZ1234_Y_PEK_2012-12-25 11:00_SHA_2012-12-25 14:25^CZ_CZ1234_Y_PEK_2012-12-25 11:00_SHA_2012-12-25 14:25
+
+			NSMutableString* flight = [NSMutableString string];
+			
+			for (int count = twoCharCodes.count, n = 0
+				 ; n < count
+				 ; ++n) {
+				
+				if ([flight length] != 0) {
+					[flight appendString:@"^"];
+				}
+				
+				
+				TwoCharCode* twoCharCode = twoCharCodes[n];
+				ThreeCharCode* threeCharCode = threeCharCodes[n];
+				NSDictionary* cabin = cabins[n];
+				NSDate* departureTime = departureTimes[n];
+				
+//				[flight appendString:@"%@_%@_%@_%@_%@_%@_%@"
+//				 , two];
+			}
+			
+//			[request setPostValue:aDepartureCity.charCode forKey:@"FromSzm"];
+//            [request setPostValue:aArrivalCity.charCode forKey:@"ToSzm"];
+//            [request setPostValue:[NSString stringWithFormat:@"%d", (int)aDepartureDate.timeIntervalSince1970]
+//						   forKey:@"LeaveDate"];
+//            
+//			setRequestAuth(request);
+//            
+//			[request setCompletionBlock:^{
+//                id jsonObj = [[request responseString] mutableObjectFromJSONString];
+//                success(jsonObj);
+//            }];
+//			
+//            [request setFailedBlock:^{
+//                failure([request.error localizedDescription]);
+//            }];
+//			
+//            [request startAsynchronous];
+        } else {
+            failure(@"当前网络不可用，且没有本地数据。");
+        }
+    } else {
+        [BBlock dispatchAfter:0.2f onMainThread:^{
+			NSString* path = [[NSBundle mainBundle] pathForResource:@"PlaceOrder" ofType:@"js"];
+			NSString* content = [NSString stringWithContentsOfFile:path
+														  encoding:NSUTF8StringEncoding
+															 error:nil];
+			
+			NSMutableDictionary* jsonContent = [[content mutableObjectFromJSONString] objectForKey:@"Response"];
+			
+			success(jsonContent);
+        }];
+    }
+}
+
 @end

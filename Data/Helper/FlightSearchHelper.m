@@ -36,7 +36,7 @@
             
 			[request setPostValue:aDepartureCity.charCode forKey:@"FromSzm"];
             [request setPostValue:aArrivalCity.charCode forKey:@"ToSzm"];
-            [request setPostValue:[NSString stringWithFormat:@"%d", (int)aDepartureDate.timeIntervalSince1970]
+            [request setPostValue:[NSString stringWithFormat:@"%@", [aDepartureDate stringWithFormat:[NSDate timestampFormatString]]]
 						   forKey:@"LeaveDate"];
             
 			setRequestAuth(request);
