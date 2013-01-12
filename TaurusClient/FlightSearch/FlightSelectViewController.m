@@ -38,7 +38,7 @@ NSArray* timeFilters()
 	static NSArray* arr = nil;
 	
 	if (arr == nil) {
-		arr = [@[@"不限", @"上午", @"下午", @"晚上"] retain];
+		arr = [@[@"不限", @"上午(00:00~12:00)", @"下午(12:00~18:00)", @"晚上(18:00~24:00)"] retain];
 	}
 		
 	return arr;

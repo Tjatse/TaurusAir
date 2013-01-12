@@ -187,9 +187,9 @@
 				 ; n < count
 				 ; ++n) {
 				
-				for (int travelersCount = travelers.count, m = 0
-					 ; m < travelersCount
-					 ; ++m) {
+//				for (int travelersCount = travelers.count, m = 0
+//					 ; m < travelersCount
+//					 ; ++m) {
 
 					if ([flightStr length] != 0) {
 						[flightStr appendString:@"^"];
@@ -215,15 +215,15 @@
 					 , [flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]
 					 , toThreeCharCode
 					 , [flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""]];
-				}
+//				}
 			}
 			
 			// Traveler
 			// 乘客
 			NSMutableString* travelerStr = [NSMutableString string];
-			for (int flightCount = flightInfos.count, m = 0
-				 ; m < flightCount
-				 ; ++m) {
+//			for (int flightCount = flightInfos.count, m = 0
+//				 ; m < flightCount
+//				 ; ++m) {
 				
 				for (int count = travelers.count, n = 0
 					 ; n < count
@@ -249,7 +249,7 @@
 					
 					[travelerStr appendFormat:@"%@_%@_%@", name, travelerType, chinaId];
 				}
-			}
+//			}
 			
 			// 联系人姓名 ContactorName
 			NSString* contactorName = [contactor getStringValueForKey:@"Name" defaultValue:@""];
