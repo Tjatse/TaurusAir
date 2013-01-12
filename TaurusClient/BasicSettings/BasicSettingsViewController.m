@@ -59,7 +59,7 @@
 	
 	self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
 																			   andTapCallback:^(id control, UIEvent *event) {
-																				   [self dismissModalViewControllerAnimated:YES];
+																				   [self.navigationController dismissModalViewControllerAnimated:YES];
 																			   }];
 	
 	self.departureCell = [[NSBundle mainBundle] loadNibNamed:@"BasicSettingsCells" owner:0 options:0][0];

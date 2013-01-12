@@ -70,6 +70,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 @property (nonatomic, assign) BOOL						isSortByPrice;
 @property (nonatomic, retain) IBOutlet UIButton*		sortByPriceBtn;
 @property (nonatomic, retain) IBOutlet UIButton*		sortByTimeBtn;
+@property (nonatomic, retain) IBOutlet UIButton*		prevDate;
+@property (nonatomic, retain) IBOutlet UIButton*		selectDate;
+@property (nonatomic, retain) IBOutlet UIButton*		nextDate;
 
 - (void)onFlightGroupTap:(UIGestureRecognizer*)sender;
 - (void)onSectionPayButtonTap:(UIButton*)sender;
@@ -103,6 +106,10 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	
 	self.sortByPriceBtn = nil;
 	self.sortByTimeBtn = nil;
+	
+	self.prevDate = nil;
+	self.selectDate = nil;
+	self.nextDate = nil;
 	
 	[super dealloc];
 }
@@ -171,7 +178,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -208,10 +214,22 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.isSortByPrice = [FSConfig readBoolWithKey:@"sortByPrice" defaultValue:NO];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	if (self.viewType == kFlightSelectViewTypeDeparture) {
+		self.prevDate.hidden = YES;
+		self.nextDate.hidden = YES;
+		self.selectDate.hidden = YES;
+		self.ticketResultsVw.height = self.view.height - self.ticketResultsVw.top;
+	} else {
+	}
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - actions

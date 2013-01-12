@@ -175,7 +175,7 @@
                           }
                           [[AppConfig get] saveState];
                           [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGIN_SUC" object:nil];
-                          [self dismissModalViewControllerAnimated:YES];
+                          [self.navigationController dismissModalViewControllerAnimated:YES];
                           
                       }
                       failure:^(NSString *errorMsg) {

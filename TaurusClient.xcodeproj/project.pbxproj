@@ -960,12 +960,8 @@
 		3E51616D1675D0F700D2DC78 = {
 			isa = PBXGroup;
 			children = (
-				3E751E2B168962E8006FCA04 /* CHCSVParser */,
+				3E7EC64B16A0DDB100682741 /* ThirdPartySDK */,
 				927B7A5C1679EC220003FC13 /* Data */,
-				3E5161BF1675D1F000D2DC78 /* FelixSDK */,
-				3E5161991675D1F000D2DC78 /* BBlock */,
-				3E5161BC1675D1F000D2DC78 /* CMPopTipView */,
-				3E5162621675D1F000D2DC78 /* SDWebImage */,
 				3E5161821675D0F700D2DC78 /* TaurusClient */,
 				3E51617B1675D0F700D2DC78 /* Frameworks */,
 				3E5161791675D0F700D2DC78 /* Products */,
@@ -1634,6 +1630,18 @@
 				3E7B2B6B16774685008789BE /* nav_19@2x.png */,
 			);
 			path = nav;
+			sourceTree = "<group>";
+		};
+		3E7EC64B16A0DDB100682741 /* ThirdPartySDK */ = {
+			isa = PBXGroup;
+			children = (
+				3E751E2B168962E8006FCA04 /* CHCSVParser */,
+				3E5161BF1675D1F000D2DC78 /* FelixSDK */,
+				3E5161991675D1F000D2DC78 /* BBlock */,
+				3E5161BC1675D1F000D2DC78 /* CMPopTipView */,
+				3E5162621675D1F000D2DC78 /* SDWebImage */,
+			);
+			name = ThirdPartySDK;
 			sourceTree = "<group>";
 		};
 		92094319168D48DD00929BFF /* TableViewCell */ = {

@@ -407,6 +407,30 @@
 					<int key="connectionID">32</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">nextDate</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="955431161"/>
+					</object>
+					<int key="connectionID">33</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">prevDate</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="632394426"/>
+					</object>
+					<int key="connectionID">34</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">selectDate</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="846839359"/>
+					</object>
+					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">onTimeSortButtonTap:</string>
 						<reference key="source" ref="302146284"/>
@@ -612,7 +636,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">32</int>
+			<int key="maxID">35</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -656,7 +680,10 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="cityFromToLabel">UILabel</string>
 						<string key="dateLabel">UILabel</string>
+						<string key="nextDate">UIButton</string>
+						<string key="prevDate">UIButton</string>
 						<string key="priceSortImgVw">UIImageView</string>
+						<string key="selectDate">UIButton</string>
 						<string key="sortByPriceBtn">UIButton</string>
 						<string key="sortByTimeBtn">UIButton</string>
 						<string key="ticketCountLabel">UILabel</string>
@@ -672,9 +699,21 @@
 							<string key="name">dateLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="nextDate">
+							<string key="name">nextDate</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="prevDate">
+							<string key="name">prevDate</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="priceSortImgVw">
 							<string key="name">priceSortImgVw</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="selectDate">
+							<string key="name">selectDate</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="sortByPriceBtn">
 							<string key="name">sortByPriceBtn</string>
