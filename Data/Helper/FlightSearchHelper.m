@@ -42,8 +42,13 @@
 			setRequestAuth(request);
             
 			[request setCompletionBlock:^{
-                id jsonObj = [[request responseString] mutableObjectFromJSONString];
-                success(jsonObj);
+				NSString* respString = [request responseString];
+                NSMutableDictionary* jsonObj = [respString mutableObjectFromJSONString];
+				
+				if (![[jsonObj valueForKeyPath:@"Meta.Status"] isEqualToString:@"ok"])
+					failure([jsonObj valueForKeyPath:@"Meta.Message"]);
+				else
+					success(jsonObj);
             }];
 			
             [request setFailedBlock:^{

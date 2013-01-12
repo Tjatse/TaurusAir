@@ -71,7 +71,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 @interface FlightSelectViewController ()
 {
-	NSDictionary*	_selectedPayCabin;
+	NSDictionary*					_selectedPayCabin;
 }
 
 @property (nonatomic, retain) NSMutableDictionary*			jsonContent;
@@ -144,6 +144,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.selectDateContainerVw = nil;
 	self.selectDatePicker = nil;
 	
+	self.parentVC = nil;
+	
 	[super dealloc];
 }
 
@@ -171,8 +173,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 																			  andDepartureDate:aDepartureDate
 																				 andReturnDate:aReturnDate
 																				andJsonContent:respObj];
-		 
-		 //		[navVC pushViewController:vc animated:YES];
 		 
 		 UIBGNavigationController* newNavVC = [[[UIBGNavigationController alloc] initWithRootViewController:vc] autorelease];
 		 [navVC presentModalViewController:newNavVC animated:YES];
@@ -233,7 +233,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 {
 	[super viewWillAppear:animated];
 	
-	if (self.viewType == kFlightSelectViewTypeDeparture) {
+	if (self.viewType != kFlightSelectViewTypeSingle) {
 		self.prevDate.hidden = YES;
 		self.nextDate.hidden = YES;
 		self.selectDate.hidden = YES;
@@ -464,7 +464,22 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)performPay
 {
-	
+	// 如果当前是往返模式，且父容器为空
+	if (self.viewType == kFlightSelectViewTypeDeparture) {
+		// 请求返回的机票
+		[[self class] performQueryWithNavVC:self.navigationController
+								andViewType:kFlightSelectViewTypeReturn
+						   andDepartureCity:self.arrivalCity
+							 andArrivalCity:self.departureCity
+						   andDepartureDate:self.returnDate
+							  andReturnDate:nil];
+	} else if (self.viewType == kFlightSelectViewTypeReturn) {
+		// 回程，预订
+		
+	} else if (self.viewType == kFlightSelectViewTypeSingle) {
+		// 单程，预订
+		
+	}
 }
 
 - (void)loginSuccess
