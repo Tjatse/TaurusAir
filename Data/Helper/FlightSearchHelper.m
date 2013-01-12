@@ -45,8 +45,8 @@
 				NSString* respString = [request responseString];
                 NSMutableDictionary* jsonObj = [respString mutableObjectFromJSONString];
 				
-				if (![[jsonObj valueForKeyPath:@"Meta.Status"] isEqualToString:@"ok"])
-					failure([jsonObj valueForKeyPath:@"Meta.Message"]);
+				if (![[jsonObj getStringValueForKeyPath:@"Meta.Status" defaultValue:@""] isEqualToString:@"ok"])
+					failure([jsonObj getStringValueForKeyPath:@"Meta.Message" defaultValue:@"查询失败。"]);
 				else
 					success(jsonObj);
             }];

@@ -18,6 +18,7 @@
 #import "MBProgressHUD.h"
 #import "ALToastView.h"
 #import "NSObject+RefTag.h"
+#import "ALToastView.h"
 
 #import "AppConfig.h"
 #import "City.h"
@@ -183,6 +184,10 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		 [MBProgressHUD hideHUDForView:navVC.topViewController.view
 							  animated:YES];
 		 
+		 [ALToastView toastInView:navVC.topViewController.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 }
 
@@ -269,6 +274,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
+
+		 [ALToastView toastInView:self.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 
 	self.selectDateParentVw.hidden = YES;
@@ -299,6 +309,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
+
+		 [ALToastView toastInView:self.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 }
 
@@ -322,6 +337,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
+
+		 [ALToastView toastInView:self.view
+						 withText:errorMsg
+				  andBottomOffset:44.0f
+						  andType:ERROR];
 	 }];
 }
 

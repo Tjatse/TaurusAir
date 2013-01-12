@@ -195,7 +195,7 @@
 
 - (IBAction)onPerformSingleFlightSearchButtonTap:(id)sender
 {
-	// TODO: 检查正确性
+	// 检查正确性
 	[FlightSelectViewController performQueryWithNavVC:self.navigationController
 										  andViewType:kFlightSelectViewTypeSingle
 									 andDepartureCity:self.departureCity
@@ -206,7 +206,7 @@
 
 - (IBAction)onPerformDoubleFlightSearchButtonTap:(id)sender
 {
-	// TODO: 检查正确性
+	// 检查正确性
 	[FlightSelectViewController performQueryWithNavVC:self.navigationController
 										  andViewType:kFlightSelectViewTypeDeparture
 									 andDepartureCity:self.departureCity

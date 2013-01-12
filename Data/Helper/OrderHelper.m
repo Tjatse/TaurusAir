@@ -264,8 +264,8 @@ andDepartureThreeCharCode:(NSArray*)departureThreeCharCodes			// ThreeCharCode
 			[request setCompletionBlock:^{
                 id jsonObj = [[request responseString] mutableObjectFromJSONString];
 				
- 				if (![[jsonObj valueForKeyPath:@"Meta.Status"] isEqualToString:@"ok"])
-					failure([jsonObj valueForKeyPath:@"Meta.Message"]);
+ 				if (![[jsonObj getStringValueForKeyPath:@"Meta.Status" defaultValue:@""] isEqualToString:@"ok"])
+					failure([jsonObj getStringValueForKeyPath:@"Meta.Message" defaultValue:@"订单失败。"]);
 				else
 					success(jsonObj);
             }];
@@ -318,8 +318,8 @@ andDepartureThreeCharCode:(NSArray*)departureThreeCharCodes			// ThreeCharCode
 			[request setCompletionBlock:^{
                 id jsonObj = [[request responseString] mutableObjectFromJSONString];
 				
-				if (![[jsonObj valueForKeyPath:@"Meta.Status"] isEqualToString:@"ok"])
-					failure([jsonObj valueForKeyPath:@"Meta.Message"]);
+				if (![[jsonObj getStringValueForKeyPath:@"Meta.Status" defaultValue:@""] isEqualToString:@"ok"])
+					failure([jsonObj getStringValueForKeyPath:@"Meta.Message" defaultValue:@"支付失败。"]);
 				else
 					success(jsonObj);
             }];
