@@ -19,7 +19,7 @@ typedef enum {
 #define SCREEN_RECT             [[UIScreen mainScreen] bounds]
 #define STATUSBAR_FRAME         [[UIApplication sharedApplication] statusBarFrame]
 #define NAVBAR_HEIGHT           44
-#define SANDBOX                 @"Development" // Production or Development
+#define SANDBOX                 @"Production" // Production or Development
 #define IS_DEPLOYED()           ([SANDBOX isEqualToString:@"Production"])
 
 // uris
@@ -33,6 +33,7 @@ typedef enum {
 #define ACCOUNT_LOGOUT      @"Interfaces/UserLoginOut.ashx"
 #define ACCOUNT_UPDPWD      @"Interfaces/EditUserPwd.ashx"
 #define ACCOUNT_FINDPWD     @"Interfaces/PasswordRecovery.ashx"
+#define ACCOUNT_VERIFY_CODE @"Interfaces/GetVerifyCode.ashx"
 // order.
 #define ORDER_LIST          @"Interfaces/GetTicketOrdersByCondition.ashx"
 #define ORDER_DETAIL        @"Interfaces/GetTicketOrderDetailById.ashx"
