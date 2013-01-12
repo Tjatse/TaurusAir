@@ -173,10 +173,13 @@
                           }
                           [[AppConfig get] saveState];
                           NSString *guid = [[NSString alloc] initWithString:user.guid];
+                          NSString *pwd = [[NSString alloc] initWithString:user.userPwd];
                           [UserHelper userInfoWithId:user.userId
                                              success:^(User *u) {
                                                  [u setGuid: guid];
+                                                 [u setUserPwd:pwd];
                                                  [guid release];
+                                                 [pwd release];
                                                  [[AppConfig get] setCurrentUser:u];
                                                  [[AppConfig get] saveState];
                                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -185,6 +188,7 @@
                                              }
                                              failure:^(NSString *errorMsg) {
                                                  [guid release];
+                                                 [pwd release];
                                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
                                                  [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
                                              }];

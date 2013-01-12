@@ -213,7 +213,9 @@
                 break;
             case 2:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Phone"]];
+                StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
+                [inputCell.textField setKeyboardType:UIKeyboardTypePhonePad];
+                [inputCell setStringValue:[_detail objectForKey:@"Phone"]];
             }
                 break;
             case 3:{
@@ -221,7 +223,7 @@
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell.textField setKeyboardType:UIKeyboardTypeEmailAddress];
                 NSString *email = [_detail objectForKey:@"Email"];
-                [inputCell setStringValue:[_detail objectForKey:(NSNull *)email == [NSNull null] ? @"":email]];
+                [inputCell setStringValue:(NSNull *)email == [NSNull null] ? @"":email];
             }
                 break;
             case 4:{

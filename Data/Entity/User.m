@@ -18,12 +18,13 @@
 @synthesize gender = _gender;
 @synthesize birthday = _birthday;
 @synthesize guid = _guid;
+@synthesize userPwd = _userPwd;
 
 //===========================================================
 // - (id)initWith:
 //
 //===========================================================
-- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday guid:(NSString*)theGuid
+- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName userPwd:(NSString*)theUserPwd name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday guid:(NSString*)theGuid
 {
     self = [super init];
     if (self) {
@@ -36,6 +37,7 @@
         _gender = flag;
         _birthday = [theBirthday retain];
         _guid = [theGuid retain];
+        _userPwd = [theUserPwd retain];
     }
     return self;
 }
@@ -50,6 +52,7 @@
     [_remark release], _remark = nil;
     [_birthday release], _birthday = nil;
     [_guid release], _guid = nil;
+    [_userPwd release], _userPwd = nil;
     [super dealloc];
 }
 
@@ -68,6 +71,7 @@
     [encoder encodeBool:self.gender forKey:@"gender"];
     [encoder encodeObject:self.birthday forKey:@"birthday"];
     [encoder encodeObject:self.guid forKey:@"guid"];
+    [encoder encodeObject:self.userPwd forKey:@"userPwd"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -83,6 +87,7 @@
         self.gender = [decoder decodeBoolForKey:@"gender"];
         self.birthday = [decoder decodeObjectForKey:@"birthday"];
         self.guid = [decoder decodeObjectForKey:@"guid"];
+        self.userPwd = [decoder decodeObjectForKey:@"userPwd"];
     }
     return self;
 }
@@ -100,6 +105,7 @@
     [theCopy setGender:self.gender];
     [theCopy setBirthday:[[self.birthday copy] autorelease]];
     [theCopy setGuid:[[self.guid copy] autorelease]];
+    [theCopy setUserPwd:[[self.userPwd copy] autorelease]];
     
     return theCopy;
 }

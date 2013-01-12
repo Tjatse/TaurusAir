@@ -267,9 +267,9 @@
     int row = [_tableView indexPathForCell:cell].row;
     
     if(row == 5){
-        BOOL gender = YES; // female
+        BOOL gender = NO; // female
         if([value isEqualToString:@"男"]){
-            gender = NO; // male
+            gender = YES; // male
         }
         _user.gender = gender;
     }
