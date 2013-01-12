@@ -158,7 +158,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 				andReturnDate:(NSDate*)aReturnDate
 {
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:navVC.topViewController.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:aDepartureCity
@@ -259,7 +259,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.departureDate = self.selectDatePicker.date;
 	
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:self.departureCity
@@ -294,7 +294,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.departureDate = [self.departureDate dateAfterDay:1];
 	
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:self.departureCity
@@ -322,7 +322,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.departureDate = [self.departureDate dateAfterDay:-1];
 	
 	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"正在查询";
+	hud.labelText = @"正在查询...";
 	
 	[FlightSearchHelper
 	 performFlightSearchWithDepartureCity:self.departureCity
@@ -568,9 +568,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 			else
 				return payPrice1 - payPrice2;
 		} else {
-			// TODO: 时间
-			NSString* leaveTime1 = [info1 getStringValueForKey:@"LeaveTime" defaultValue:nil];
-			NSString* leaveTime2 = [info2 getStringValueForKey:@"LeaveTime" defaultValue:nil];
+			// 时间
+			NSDate* leaveTime1 = [NSDate dateFromString:[info1 getStringValueForKey:@"LeaveTime" defaultValue:nil]];
+			NSDate* leaveTime2 = [NSDate dateFromString:[info2 getStringValueForKey:@"LeaveTime" defaultValue:nil]];
 			
 			if (self.isTimeDesc)
 				return [leaveTime2 compare:leaveTime1];
@@ -681,8 +681,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		forControlEvents:UIControlEventTouchUpInside];
 
 	//
-	takeOffTimeLabel.text = [flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""];
-	landingTimeLabel.text = [flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""];
+	NSDate* leaveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]];
+	NSDate* arriveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""]];
+	
+	takeOffTimeLabel.text = [leaveTime stringWithFormat:@"hh:mm"];
+	landingTimeLabel.text = [arriveTime stringWithFormat:@"hh:mm"];
 	
 	//
 	NSString* twoCharcodeStr = [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""];
@@ -726,7 +729,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString* cellId = @"cellId";
-	
 	UITableViewCell* result = [tableView dequeueReusableCellWithIdentifier:cellId];
 	
 	if (result != nil) {
