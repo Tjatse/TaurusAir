@@ -429,7 +429,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	_selectedPayCabin = sender.strongRefTag;
 	
 	// pay
-	
 	if (![[AppConfig get] isLogon]){
         [self showLoginViewController];
         self.navigationItem.rightBarButtonItem =
@@ -684,14 +683,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	UILabel* discountLabel = (UILabel*)[result viewWithTag:106];
 	UIButton* payButton = (UIButton*)[result viewWithTag:107];
 	
-	UIButton* sectionButton = (UIButton*)[result viewWithTag:120];
-	sectionButton.strongRefTag = @(section);
-	[sectionButton addTarget:self
+	UIButton* sectionTapButton = (UIButton*)[result viewWithTag:120];
+	sectionTapButton.strongRefTag = @(section);
+	[sectionTapButton addTarget:self
 					  action:@selector(onFlightGroupTap:)
 			forControlEvents:UIControlEventTouchUpInside];
 	
 //	payButton.tag = section + 9900;
-	payButton.strongRefTag = optimalCabin;
+	payButton.strongRefTag = @[flightInfo, optimalCabin];
 	[payButton addTarget:self
 				  action:@selector(onSectionPayButtonTap:)
 		forControlEvents:UIControlEventTouchUpInside];
@@ -785,7 +784,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	cabin1Vw.strongRefTag = @9900;
 	
 	UIButton* cabin1PayBtn = (UIButton*)[cabin1Vw viewWithTag:200];
-	cabin1PayBtn.strongRefTag = cabin1;
+	cabin1PayBtn.strongRefTag = @[flightInfo, cabin1];
 	[cabin1PayBtn addTarget:self
 					 action:@selector(onSectionPayButtonTap:)
 		   forControlEvents:UIControlEventTouchUpInside];
@@ -802,7 +801,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		cabin2Vw.left = cabin1Vw.width;
 
 		UIButton* cabin2PayBtn = (UIButton*)[cabin2Vw viewWithTag:200];
-		cabin2PayBtn.strongRefTag = cabin2;
+		cabin2PayBtn.strongRefTag = @[flightInfo, cabin2];
 		[cabin2PayBtn addTarget:self
 						 action:@selector(onSectionPayButtonTap:)
 			   forControlEvents:UIControlEventTouchUpInside];

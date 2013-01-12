@@ -154,15 +154,12 @@
 
 #pragma mark - place order
 
-+ (void)performPlaceOrderWithTwoCharCodes:(NSArray*)twoCharCodes					// TwoCharCode
-				andDepartureThreeCharCode:(NSArray*)departureThreeCharCodes			// ThreeCharCode
-				  andArrivalThreeCharCode:(NSArray*)arrivalThreeCharCodes			// arrivalThreeCharCodes
-							andFlightInfo:(NSArray*)flightInfos						// NSDictionary
-								 andCabin:(NSArray*)cabins							// NSDictionary
-							 andTravelers:(NSArray *)travelers
-							 andContactor:(NSDictionary*)contactor
-								  success:(void (^)(NSDictionary *))success
-								  failure:(void (^)(NSString *))failure
++ (void)performPlaceOrderWithFlightInfo:(NSArray*)flightInfos						// NSDictionary
+							   andCabin:(NSArray*)cabins							// NSDictionary
+						   andTravelers:(NSArray *)travelers
+						   andContactor:(NSDictionary*)contactor
+								success:(void (^)(NSDictionary *))success
+								failure:(void (^)(NSString *))failure
 {
 	NSParameterAssert(success != nil);
 	NSParameterAssert(failure != nil);
@@ -175,34 +172,37 @@
             // flight
 			NSMutableString* flightStr = [NSMutableString string];
 			
-			for (int travelersCount = travelers.count, m = 0
-				 ; m < travelersCount
-				 ; ++m) {
+			for (int count = flightInfos.count, n = 0
+				 ; n < count
+				 ; ++n) {
+				
+				for (int travelersCount = travelers.count, m = 0
+					 ; m < travelersCount
+					 ; ++m) {
 
-				for (int count = twoCharCodes.count, n = 0
-					 ; n < count
-					 ; ++n) {
-					
 					if ([flightStr length] != 0) {
 						[flightStr appendString:@"^"];
 					}
 					
 					NSDictionary* flightInfo = flightInfos[n];
-					TwoCharCode* twoCharCode = twoCharCodes[n];
-					ThreeCharCode* departureThreeCharCode = departureThreeCharCodes[n];
-					ThreeCharCode* arrivalThreeCharCode = arrivalThreeCharCodes[n];
+					NSString* twoCharCode = [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""];
+					NSString* fromToCode = [flightInfo getStringValueForKey:@"FromTo" defaultValue:@""];
+					
+					NSString* fromThreeCharCode = [fromToCode substringToIndex:3];
+					NSString* toThreeCharCode = [fromToCode substringFromIndex:3];
+					
 					NSDictionary* cabin = cabins[n];
 					
 					// 格式：二字码_航班号_舱位_出发三字码_出发时间_到达三字码_到达时间^二字码_航班号_舱位_出发三字码_出发时间_到达三字码_到达时间
 					// 如：CZ_CZ1234_Y_PEK_2012-12-25 11:00_SHA_2012-12-25 14:25^CZ_CZ1234_Y_PEK_2012-12-25 11:00_SHA_2012-12-25 14:25
 					
 					[flightStr appendFormat:@"%@_%@_%@_%@_%@_%@_%@"
-					 , twoCharCode.charCode
+					 , twoCharCode
 					 , [flightInfo getStringValueForKey:@"FlightNum" defaultValue:@""]
 					 , [cabin getStringValueForKey:@"CabinName" defaultValue:@""]
-					 , departureThreeCharCode.charCode
+					 , fromThreeCharCode
 					 , [flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]
-					 , arrivalThreeCharCode.charCode
+					 , toThreeCharCode
 					 , [flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""]];
 				}
 			}
@@ -210,7 +210,7 @@
 			// Traveler
 			// 乘客
 			NSMutableString* travelerStr = [NSMutableString string];
-			for (int flightCount = twoCharCodes.count, m = 0
+			for (int flightCount = flightInfos.count, m = 0
 				 ; m < flightCount
 				 ; ++m) {
 				
