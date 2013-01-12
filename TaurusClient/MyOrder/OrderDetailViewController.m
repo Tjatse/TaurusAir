@@ -77,9 +77,10 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"获取中...";
-    NSString *orderId = [NSString stringWithFormat:@"%d",[[_orderListItem objectForKey:@"OrderId"] intValue]];
+    
+    NSString *orderId = [NSString stringWithFormat:@"%d",[[_orderListItem objectForKey:@"Tid"] intValue]];
     [OrderHelper orderDetailWithId:orderId
-                            userId:[AppConfig get].currentUser.userId
+                            user:[AppConfig get].currentUser
                            success:^(NSDictionary *order) {
                                _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
                                
@@ -240,19 +241,25 @@
                 }
                     break;
                 case 1:{
-                    _contactorPhone = [[_detail objectForKey:@"ContactorPhone"] retain];
-                    [cell.detailTextLabel setText:[NSString stringWithFormat:@"%@(%@)",
-                                                   [_detail objectForKey:@"ContactorName"],
-                                                   _contactorPhone]];
-                    if(_contactorPhone){
-                        [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+                    NSString *cp = [_detail objectForKey:@"ContactorPhone"];
+                    if((NSNull *)cp == [NSNull null]){
+                        [cell.detailTextLabel setText:@"-"];
+                    }else{
+                        _contactorPhone = [cp retain];
+                        [cell.detailTextLabel setText:[NSString stringWithFormat:@"%@(%@)",
+                                                       [_detail objectForKey:@"ContactorName"],
+                                                       _contactorPhone]];
+                        if(_contactorPhone){
+                            [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+                        }
                     }
                 }
                     break;
                 case 2:{
                     [cell.detailTextLabel setFont:[UIFont systemFontOfSize:12]];
                     [cell.detailTextLabel setNumberOfLines:0];
-                    [cell.detailTextLabel setText:[_detail objectForKey:@"SendAddress"]];
+                    NSString *address = [_detail objectForKey:@"SendAddress"];
+                    [cell.detailTextLabel setText:(NSNull *)address == [NSNull null] ? @"-":address];
                 }
                     break;
                 default:

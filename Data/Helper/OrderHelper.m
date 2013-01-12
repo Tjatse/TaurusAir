@@ -67,7 +67,7 @@
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ORDER_LIST];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             [request setPostValue:user.userId forKey:@"Tid"];
-            [request setPostValue:user.loginName forKey:@"UserName"];
+            [request setPostValue:user.name forKey:@"UserName"];
             [request setPostValue:user.guid forKey:@"Guid"];
             [request setPostValue:user.userPwd forKey:@"UserPwd"];
             
@@ -121,18 +121,21 @@
         }
     }
 }
-+ (void)orderDetailWithId:(NSString *)orderId
-                   userId: (NSString *)userId
-                  success:(void (^)(NSDictionary *order))success
-                  failure:(void (^)(NSString *))failure
++ (void)orderDetailWithId: (NSString *)orderId
+                     user: (User *)user
+                  success: (void (^)(NSDictionary *order))success
+                  failure: (void (^)(NSString *errorMsg))failure
 {
     if(IS_DEPLOYED()){
         if([AppContext get].online)
         {
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ORDER_DETAIL];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-            [request setPostValue:userId forKey:@"Tid"];
+            [request setPostValue:user.userId forKey:@"Tid"];
             [request setPostValue:orderId forKey:@"OrderId"];
+            [request setPostValue:user.name forKey:@"UserName"];
+            [request setPostValue:user.guid forKey:@"Guid"];
+            [request setPostValue:user.userPwd forKey:@"UserPwd"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
                 id JSON = [[request responseString] objectFromJSONString];
