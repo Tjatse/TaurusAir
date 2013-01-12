@@ -20,6 +20,7 @@
 #import "NSObject+RefTag.h"
 #import "ALToastView.h"
 
+#import "AppContext.h"
 #import "AppConfig.h"
 #import "City.h"
 #import "AirportSearchHelper.h"
@@ -521,13 +522,29 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		, @"Email": @"sdfsdf@com.com"};
 		
 		[OrderHelper
-		 performPlaceOrderWithFlightInfo:@[self.selectedPayInfos[0]]
+		 performPlaceOrderWithUser:[AppConfig get].currentUser
+		 andFlightInfo:@[self.selectedPayInfos[0]]
 		 andCabin:@[self.selectedPayInfos[1]]
 		 andTravelers:passangers
 		 andContactor:contactor
 		 success:^(NSDictionary * respObj) {
-			 [MBProgressHUD hideHUDForView:self.view
-								  animated:YES];
+			 [OrderHelper performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+														  andPlaceOrderJson:respObj
+												   success:^(NSDictionary * payUrlRespObj) {
+													   [MBProgressHUD hideHUDForView:self.view
+																			animated:YES];
+													   
+													   NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+												   }
+												   failure:^(NSString * errorMsg) {
+													   [MBProgressHUD hideHUDForView:self.view
+																			animated:YES];
+													   
+													   [ALToastView toastInView:self.view
+																	   withText:errorMsg
+																andBottomOffset:44.0f
+																		andType:ERROR];
+												   }];
 			 
 			 NSLog(@"respOcj: %@", respObj);
 		 }
