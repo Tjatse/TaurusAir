@@ -174,10 +174,13 @@
                           [[AppConfig get] saveState];
                           NSString *guid = [[NSString alloc] initWithString:user.guid];
                           NSString *pwd = [[NSString alloc] initWithString:user.userPwd];
+                          NSString *userName = [[NSString alloc] initWithString:user.userName];
                           [UserHelper userInfoWithId:user.userId
                                              success:^(User *u) {
                                                  [u setGuid: guid];
                                                  [u setUserPwd:pwd];
+                                                 [u setUserName:userName];
+                                                 [userName release];
                                                  [guid release];
                                                  [pwd release];
                                                  [[AppConfig get] setCurrentUser:u];

@@ -197,7 +197,7 @@
             User *u = [AppConfig get].currentUser;
             [request setPostValue:u.guid forKey:@"Guid"];
             [request setPostValue:u.userId forKey:@"Tid"];
-            [request setPostValue:u.loginName forKey:@"UserName"];
+            [request setPostValue:u.userName forKey:@"UserName"];
             [request setPostValue:[NSString stringWithFormat:@"%d", operateType] forKey:@"Operate"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
@@ -267,7 +267,7 @@
             }
             User *u = [AppConfig get].currentUser;
             [request setPostValue:u.userId forKey:@"Tid"];
-            [request setPostValue:u.loginName forKey:@"UserName"];
+            [request setPostValue:u.userName forKey:@"UserName"];
             [request setPostValue:u.guid forKey:@"Guid"];
             [request setPostValue:[NSString stringWithFormat:@"%d", operateType] forKey:@"Operate"];
             setRequestAuth(request);

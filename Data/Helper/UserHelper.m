@@ -288,6 +288,7 @@
                 NSString *userId = [NSString stringWithFormat:@"%d", [[resp objectForKey:@"Tid"] intValue]];
                 NSString *userName = [resp getStringValueForKey:@"UserName" defaultValue:@""];
                 User *u = [[User alloc] initWithUserId:userId
+                                              userName:userName
                                              loginName:userName
                                                userPwd:[resp getStringValueForKey:@"UserPwd" defaultValue:@""]
                                                   name:[resp getStringValueForKey:@"Name" defaultValue:userName]
@@ -361,6 +362,7 @@
                 NSString *userId = [NSString stringWithFormat:@"%d", [[resp objectForKey:@"RegistUserId"] intValue]];
                 NSString *userName = [resp getStringValueForKey:@"LoginName" defaultValue:@""];
                 User *u = [[User alloc] initWithUserId:userId
+                                              userName:userName
                                              loginName:userName
                                                userPwd:[resp getStringValueForKey:@"UserPwd" defaultValue:@""]
                                                   name:[resp getStringValueForKey:@"Name" defaultValue:userName]

@@ -11,6 +11,7 @@
 @interface User : NSObject<NSCoding>
 
 @property (nonatomic, retain) NSString      *userId;
+@property (nonatomic, retain) NSString      *userName;
 @property (nonatomic, retain) NSString      *loginName;
 @property (nonatomic, retain) NSString      *name;
 @property (nonatomic, retain) NSString      *phone;
@@ -21,6 +22,6 @@
 @property (nonatomic, retain) NSString      *guid;
 @property (nonatomic, retain) NSString      *userPwd;
 
-- (id)initWithUserId:(NSString*)theUserId loginName:(NSString*)theLoginName userPwd:(NSString*)theUserPwd name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday guid:(NSString*)theGuid;
+- (id)initWithUserId:(NSString*)theUserId userName:(NSString*)theUserName loginName:(NSString*)theLoginName userPwd:(NSString*)theUserPwd name:(NSString*)theName phone:(NSString*)thePhone email:(NSString*)theEmail remark:(NSString*)theRemark gender:(BOOL)flag birthday:(NSString*)theBirthday guid:(NSString*)theGuid;
 
 @end

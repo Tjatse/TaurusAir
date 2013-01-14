@@ -317,6 +317,8 @@
 		921EE0D9168F37A900676D7C /* CreateTravelerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921EE0D7168F37A800676D7C /* CreateTravelerViewController.m */; };
 		921EE0DA168F37A900676D7C /* CreateTravelerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921EE0D8168F37A900676D7C /* CreateTravelerViewController.xib */; };
 		927B7A611679EC940003FC13 /* StateBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 927B7A601679EC940003FC13 /* StateBase.m */; };
+		927E9FC616A2C3140047A0E1 /* ContacterSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E9FC416A2C3140047A0E1 /* ContacterSelectViewController.m */; };
+		927E9FC716A2C3140047A0E1 /* ContacterSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 927E9FC516A2C3140047A0E1 /* ContacterSelectViewController.xib */; };
 		9294FD66169FCE7600B75AE5 /* OrderDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = 9294FD65169FCE7600B75AE5 /* OrderDetail.json */; };
 		9294FD69169FD3D600B75AE5 /* Passengers.json in Resources */ = {isa = PBXBuildFile; fileRef = 9294FD68169FD3D600B75AE5 /* Passengers.json */; };
 		9294FD6C169FD49700B75AE5 /* ContacterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9294FD6B169FD49700B75AE5 /* ContacterHelper.m */; };
@@ -325,6 +327,7 @@
 		9294FD72169FF5F300B75AE5 /* ContacterOperate.json in Resources */ = {isa = PBXBuildFile; fileRef = 9294FD71169FF5F300B75AE5 /* ContacterOperate.json */; };
 		9294FD7D16A1145600B75AE5 /* btn-vcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 9294FD7B16A1145600B75AE5 /* btn-vcode.png */; };
 		9294FD7E16A1145600B75AE5 /* btn-vcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9294FD7C16A1145600B75AE5 /* btn-vcode@2x.png */; };
+		9294FDA316A1AE3100B75AE5 /* CRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9294FDA216A1AE3100B75AE5 /* CRTableViewCell.m */; };
 		92B7806D1687116C00A9DE32 /* ForgotPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7806C1687116C00A9DE32 /* ForgotPwdViewController.m */; };
 		92B7807D1687254000A9DE32 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7807C1687254000A9DE32 /* RegisterViewController.m */; };
 		92B7808E168736E800A9DE32 /* UserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7808D168736E800A9DE32 /* UserHelper.m */; };
@@ -823,6 +826,9 @@
 		927B7A5F1679EC940003FC13 /* StateBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateBase.h; sourceTree = "<group>"; };
 		927B7A601679EC940003FC13 /* StateBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateBase.m; sourceTree = "<group>"; };
 		927B7A6C1679EF670003FC13 /* AppDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDefines.h; sourceTree = "<group>"; };
+		927E9FC316A2C3140047A0E1 /* ContacterSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContacterSelectViewController.h; path = Contacter/ContacterSelectViewController.h; sourceTree = "<group>"; };
+		927E9FC416A2C3140047A0E1 /* ContacterSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContacterSelectViewController.m; path = Contacter/ContacterSelectViewController.m; sourceTree = "<group>"; };
+		927E9FC516A2C3140047A0E1 /* ContacterSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContacterSelectViewController.xib; path = Contacter/ContacterSelectViewController.xib; sourceTree = "<group>"; };
 		9294FD65169FCE7600B75AE5 /* OrderDetail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OrderDetail.json; path = TestData/OrderDetail.json; sourceTree = "<group>"; };
 		9294FD68169FD3D600B75AE5 /* Passengers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Passengers.json; path = TestData/Passengers.json; sourceTree = "<group>"; };
 		9294FD6A169FD49700B75AE5 /* ContacterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContacterHelper.h; sourceTree = "<group>"; };
@@ -832,6 +838,8 @@
 		9294FD71169FF5F300B75AE5 /* ContacterOperate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = ContacterOperate.json; path = TestData/ContacterOperate.json; sourceTree = "<group>"; };
 		9294FD7B16A1145600B75AE5 /* btn-vcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-vcode.png"; sourceTree = "<group>"; };
 		9294FD7C16A1145600B75AE5 /* btn-vcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-vcode@2x.png"; sourceTree = "<group>"; };
+		9294FDA116A1AE3100B75AE5 /* CRTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRTableViewCell.h; sourceTree = "<group>"; };
+		9294FDA216A1AE3100B75AE5 /* CRTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRTableViewCell.m; sourceTree = "<group>"; };
 		92B7806B1687116C00A9DE32 /* ForgotPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPwdViewController.h; sourceTree = "<group>"; };
 		92B7806C1687116C00A9DE32 /* ForgotPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPwdViewController.m; sourceTree = "<group>"; };
 		92B7807B1687254000A9DE32 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
@@ -975,6 +983,9 @@
 				921EE0D6168F37A800676D7C /* CreateTravelerViewController.h */,
 				921EE0D7168F37A800676D7C /* CreateTravelerViewController.m */,
 				921EE0D8168F37A900676D7C /* CreateTravelerViewController.xib */,
+				927E9FC316A2C3140047A0E1 /* ContacterSelectViewController.h */,
+				927E9FC416A2C3140047A0E1 /* ContacterSelectViewController.m */,
+				927E9FC516A2C3140047A0E1 /* ContacterSelectViewController.xib */,
 			);
 			name = Contacter;
 			sourceTree = "<group>";
@@ -1702,6 +1713,8 @@
 		92094319168D48DD00929BFF /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				9294FDA116A1AE3100B75AE5 /* CRTableViewCell.h */,
+				9294FDA216A1AE3100B75AE5 /* CRTableViewCell.m */,
 				9209431D168D4DE300929BFF /* DateInputTableViewCell.h */,
 				9209431E168D4DE300929BFF /* DateInputTableViewCell.m */,
 				9209431F168D4DE300929BFF /* IntegerInputTableViewCell.h */,
@@ -2047,6 +2060,7 @@
 				3E7EC69516A151BE00682741 /* order_departure_btn_bg@2x.png in Resources */,
 				3E7EC69616A151BE00682741 /* order_return_btn_bg.png in Resources */,
 				3E7EC69716A151BE00682741 /* order_return_btn_bg@2x.png in Resources */,
+				927E9FC716A2C3140047A0E1 /* ContacterSelectViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2213,6 +2227,8 @@
 				3E7EC68016A1288900682741 /* AirplaneTypeHelper.m in Sources */,
 				3E7EC68616A12B4400682741 /* AirplaneType.m in Sources */,
 				3E7EC68A16A14F8700682741 /* PrepareOrderViewController.m in Sources */,
+				9294FDA316A1AE3100B75AE5 /* CRTableViewCell.m in Sources */,
+				927E9FC616A2C3140047A0E1 /* ContacterSelectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

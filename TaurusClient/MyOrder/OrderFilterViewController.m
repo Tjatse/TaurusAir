@@ -11,6 +11,7 @@
 #import "UIBarButtonItem+Blocks.h"
 #import "AppDefines.h"
 #import "BBlock.h"
+#import "CRTableViewCell.h"
 
 @interface OrderFilterViewController ()
 
@@ -53,7 +54,7 @@
                                        }];
     
     self.navigationItem.rightBarButtonItem =
-    [UIBarButtonItem generateNormalStyleButtonWithTitle:@"确定"
+    [UIBarButtonItem generateNormalStyleButtonWithTitle:@"完成"
                                        andTapCallback:^(id control, UIEvent *event) {
                                            [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_FILTER" object:nil userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", _selectedRow] forKey:@"selectedRow"]];
                                            [self.navigationController dismissModalViewControllerAnimated:YES];
@@ -79,19 +80,17 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identify = @"Cell";
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    static NSString *identify = @"CRCell";
+    CRTableViewCell *cell = (CRTableViewCell *)[tableView dequeueReusableCellWithIdentifier:identify];
     if(cell == nil){
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify]
+        cell = [[[CRTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify]
                 autorelease];
     }
     [cell setNeedsDisplay];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    if(indexPath.row == _selectedRow){
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }else{
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+    
+    cell.isSelected = indexPath.row == _selectedRow;
+    
     [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
     [cell.textLabel setText:_datas[indexPath.row]];
     
@@ -99,16 +98,16 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
     if(_selectedRow == indexPath.row){
         return;
     }
-    UITableViewCell *oldCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0]];
-    oldCell.accessoryType = UITableViewCellAccessoryNone;
+    CRTableViewCell *oldCell = (CRTableViewCell *)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0]];
+    oldCell.isSelected = NO;
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    CRTableViewCell *cell = (CRTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.isSelected = YES;
     _selectedRow = indexPath.row;
-    [cell setSelected:NO];
 }
 
 @end

@@ -67,7 +67,7 @@
             NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ORDER_LIST];
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             [request setPostValue:user.userId forKey:@"Tid"];
-            [request setPostValue:user.name forKey:@"UserName"];
+            [request setPostValue:user.userName forKey:@"UserName"];
             [request setPostValue:user.guid forKey:@"Guid"];
             [request setPostValue:user.userPwd forKey:@"UserPwd"];
             
@@ -133,7 +133,7 @@
             __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             [request setPostValue:user.userId forKey:@"Tid"];
             [request setPostValue:orderId forKey:@"OrderId"];
-            [request setPostValue:user.name forKey:@"UserName"];
+            [request setPostValue:user.userName forKey:@"UserName"];
             [request setPostValue:user.guid forKey:@"Guid"];
             [request setPostValue:user.userPwd forKey:@"UserPwd"];
             setRequestAuth(request);
@@ -271,7 +271,7 @@
             [request setPostValue:passengerRemark forKey:@"PassengerRemark"];
             
 			[request setPostValue:user.userId forKey:@"Tid"];
-            [request setPostValue:user.name forKey:@"UserName"];
+            [request setPostValue:user.userName forKey:@"UserName"];
             [request setPostValue:user.guid forKey:@"Guid"];
             [request setPostValue:user.userPwd forKey:@"UserPwd"];
 			
@@ -331,7 +331,7 @@
             [request setPostValue:payPlat forKey:@"PayPlat"];
             
 			[request setPostValue:user.userId forKey:@"Tid"];
-            [request setPostValue:user.name forKey:@"UserName"];
+            [request setPostValue:user.userName forKey:@"UserName"];
             [request setPostValue:user.guid forKey:@"Guid"];
             [request setPostValue:user.userPwd forKey:@"UserPwd"];
 			
