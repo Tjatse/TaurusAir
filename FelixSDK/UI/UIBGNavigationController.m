@@ -88,47 +88,47 @@
 	if (animated) {
 		[super presentModalViewController:vc animated:YES];
 		
-		CABasicAnimation* scaleAni = [CABasicAnimation animationWithKeyPath:@"transform"];
-		scaleAni.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-		scaleAni.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.6f, 0.6f, 1)];
-		scaleAni.removedOnCompletion = YES;
-		
-		CABasicAnimation* opacityAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
-		opacityAni.fromValue = [NSNumber numberWithFloat:1.0f];
-		opacityAni.toValue = [NSNumber numberWithFloat:0.5f];
-		opacityAni.removedOnCompletion = YES;
-		
-		CAAnimationGroup* groupAni = [CAAnimationGroup animation];
-		groupAni.animations = [NSArray arrayWithObjects:scaleAni, opacityAni, nil];
-		groupAni.duration = 0.7f;
-		groupAni.removedOnCompletion = YES;
-		groupAni.fillMode = kCAFillModeForwards;
-		
-		//	[groupAni setAnimationDidStartBlock:nil
-		//			   andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
-		//				   if (finished) {
-		//					   [fromNC.view removeFromSuperview];
-		//					   fromNC.view.layer.opacity = 1.0f;
-		//				   } else {
-		//				   }
-		//			   }];
-		
-		[self.view.layer addAnimation:groupAni forKey:@"sink"];
-		
-		CAKeyframeAnimation* appearMoveAni = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-		appearMoveAni.duration = 0.6f;
-		CGMutablePathRef path = CGPathCreateMutable();
-		CGPathMoveToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 1.5f);
-		CGPathAddLineToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 0.5f - vc.view.height * 0.05f);
-		CGPathAddLineToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 0.5f);
-		
-		appearMoveAni.removedOnCompletion = YES;
-		appearMoveAni.path = path;
-		appearMoveAni.fillMode = kCAFillModeForwards;
-		
-		CGPathRelease(path);
-		
-		[vc.view.layer addAnimation:appearMoveAni forKey:@"blowup"];
+//		CABasicAnimation* scaleAni = [CABasicAnimation animationWithKeyPath:@"transform"];
+//		scaleAni.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+//		scaleAni.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.6f, 0.6f, 1)];
+//		scaleAni.removedOnCompletion = YES;
+//		
+//		CABasicAnimation* opacityAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//		opacityAni.fromValue = [NSNumber numberWithFloat:1.0f];
+//		opacityAni.toValue = [NSNumber numberWithFloat:0.5f];
+//		opacityAni.removedOnCompletion = YES;
+//		
+//		CAAnimationGroup* groupAni = [CAAnimationGroup animation];
+//		groupAni.animations = [NSArray arrayWithObjects:scaleAni, opacityAni, nil];
+//		groupAni.duration = 0.7f;
+//		groupAni.removedOnCompletion = YES;
+//		groupAni.fillMode = kCAFillModeForwards;
+//		
+//		//	[groupAni setAnimationDidStartBlock:nil
+//		//			   andAnimationDidStopBlock:^(CAAnimation *anim, BOOL finished) {
+//		//				   if (finished) {
+//		//					   [fromNC.view removeFromSuperview];
+//		//					   fromNC.view.layer.opacity = 1.0f;
+//		//				   } else {
+//		//				   }
+//		//			   }];
+//		
+//		[self.view.layer addAnimation:groupAni forKey:@"sink"];
+//		
+//		CAKeyframeAnimation* appearMoveAni = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+//		appearMoveAni.duration = 0.6f;
+//		CGMutablePathRef path = CGPathCreateMutable();
+//		CGPathMoveToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 1.5f);
+//		CGPathAddLineToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 0.5f - vc.view.height * 0.05f);
+//		CGPathAddLineToPoint(path, NULL, vc.view.width / 2.0f, vc.view.height * 0.5f);
+//		
+//		appearMoveAni.removedOnCompletion = YES;
+//		appearMoveAni.path = path;
+//		appearMoveAni.fillMode = kCAFillModeForwards;
+//		
+//		CGPathRelease(path);
+//		
+//		[vc.view.layer addAnimation:appearMoveAni forKey:@"blowup"];
 	} else {
 		[super presentModalViewController:vc animated:NO];
 	}
@@ -139,37 +139,37 @@
 	if (animated) {
 		[super dismissModalViewControllerAnimated:YES];
 		
-		UIViewController* parentVC = self.parentViewController;
-		
-		if (parentVC == nil)
-			parentVC = self.presentingViewController;
-		
-		CABasicAnimation* scaleAni1 = [CABasicAnimation animationWithKeyPath:@"transform"];
-		scaleAni1.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.8f, 0.8f, 1)];
-		scaleAni1.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1)];
-		scaleAni1.removedOnCompletion = YES;
-		scaleAni1.duration = 0.35f;
-		
-		CABasicAnimation* scaleAni2 = [CABasicAnimation animationWithKeyPath:@"transform"];
-		scaleAni2.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1)];
-		scaleAni2.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1, 1, 1)];
-		scaleAni2.removedOnCompletion = YES;
-		scaleAni2.beginTime = 0.35f;
-		scaleAni2.duration = 0.35f;
-		
-		CABasicAnimation* opacityAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
-		opacityAni.fromValue = [NSNumber numberWithFloat:0.5f];
-		opacityAni.toValue = [NSNumber numberWithFloat:1.0f];
-		opacityAni.removedOnCompletion = YES;
-		opacityAni.duration = 0.7f;
-		
-		CAAnimationGroup* groupAni = [CAAnimationGroup animation];
-		groupAni.animations = [NSArray arrayWithObjects:scaleAni1, scaleAni2, opacityAni, nil];
-		groupAni.duration = 0.7f;
-		groupAni.removedOnCompletion = YES;
-		groupAni.fillMode = kCAFillModeForwards;
-		
-		[parentVC.view.layer addAnimation:groupAni forKey:@"sink"];
+//		UIViewController* parentVC = self.parentViewController;
+//		
+//		if (parentVC == nil)
+//			parentVC = self.presentingViewController;
+//		
+//		CABasicAnimation* scaleAni1 = [CABasicAnimation animationWithKeyPath:@"transform"];
+//		scaleAni1.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.8f, 0.8f, 1)];
+//		scaleAni1.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1)];
+//		scaleAni1.removedOnCompletion = YES;
+//		scaleAni1.duration = 0.35f;
+//		
+//		CABasicAnimation* scaleAni2 = [CABasicAnimation animationWithKeyPath:@"transform"];
+//		scaleAni2.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1)];
+//		scaleAni2.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1, 1, 1)];
+//		scaleAni2.removedOnCompletion = YES;
+//		scaleAni2.beginTime = 0.35f;
+//		scaleAni2.duration = 0.35f;
+//		
+//		CABasicAnimation* opacityAni = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//		opacityAni.fromValue = [NSNumber numberWithFloat:0.5f];
+//		opacityAni.toValue = [NSNumber numberWithFloat:1.0f];
+//		opacityAni.removedOnCompletion = YES;
+//		opacityAni.duration = 0.7f;
+//		
+//		CAAnimationGroup* groupAni = [CAAnimationGroup animation];
+//		groupAni.animations = [NSArray arrayWithObjects:scaleAni1, scaleAni2, opacityAni, nil];
+//		groupAni.duration = 0.7f;
+//		groupAni.removedOnCompletion = YES;
+//		groupAni.fillMode = kCAFillModeForwards;
+//		
+//		[parentVC.view.layer addAnimation:groupAni forKey:@"sink"];
 	} else {
 		[super dismissModalViewControllerAnimated:NO];
 	}

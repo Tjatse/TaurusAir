@@ -6,33 +6,446 @@
 //  Copyright (c) 2013年 Taurus. All rights reserved.
 //
 
-#import "PrepareOrderViewController.h"
+#import "NSDictionaryAdditions.h"
+#import "NSDateAdditions.h"
+#import "UIControl+BBlock.h"
+#import "BBlock.h"
+#import "MBProgressHUD.h"
+#import "ALToastView.h"
+#import "UIBarButtonItem+ButtonMaker.h"
 
-@interface PrepareOrderViewController ()
+#import "AppContext.h"
+#import "AppConfig.h"
+#import "PrepareOrderViewController.h"
+#import "FlightSelectViewController.h"
+#import "OrderFlightDetailViewController.h"
+#import "ThreeCharCode.h"
+#import "OrderHelper.h"
+#import "TwoCharCode.h"
+#import "CharCodeHelper.h"
+#import "AirportSearchHelper.h"
+#import "ContacterSelectViewController.h"
+#import "UIBGNavigationController.h"
+#import "InputSendAddressViewController.h"
+
+@interface PrepareOrderViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, retain) IBOutlet UITableView*			orderFormVw;
+@property (nonatomic, retain) IBOutlet UILabel*				priceCountLabel;
+@property (nonatomic, assign) FlightSelectViewController*	parentVC;
+@property (nonatomic, retain) NSDictionary*					passangers;
+@property (nonatomic, retain) NSDictionary*					contacter;
+
+- (IBAction)onPlaceOrderButtonTap:(id)sender;
 
 @end
 
 @implementation PrepareOrderViewController
 
+- (void)dealloc
+{
+	self.orderFormVw = nil;
+	self.priceCountLabel = nil;
+	self.parentVC = nil;
+	self.passangers = nil;
+	self.contacter = nil;
+	self.sendAddress = nil;
+	
+	[super dealloc];
+}
+
+- (id)initWithFlightSelectVC:(FlightSelectViewController *)aParentVC
+{
+	if (self = [super init]) {
+		self.parentVC = aParentVC;
+	}
+	
+	return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:@"PrepareOrderViewController" bundle:nil];
     if (self) {
-        // Custom initialization
+		self.passangers = [NSMutableDictionary dictionary];
+		self.contacter = [NSMutableDictionary dictionary];
     }
+	
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+	
+	self.title = @"机票预订";
+	self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
+																			   andTapCallback:^(id control, UIEvent *event) {
+																				   [self dismissModalViewControllerAnimated:YES];
+																			   }];
+	
+	self.orderFormVw.allowsSelectionDuringEditing = YES;
+	self.orderFormVw.editing = YES;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - core methods
+
+- (void)setSendAddress:(NSString *)sendAddress
+{
+	[sendAddress retain];
+	[_sendAddress release];
+	_sendAddress = sendAddress;
+	
+	[self.orderFormVw reloadData];
+}
+
+- (void)parseFlightInfoCell:(UITableViewCell*)cell andFlightSelectVC:(FlightSelectViewController*)flightSelectVC
+{
+	// @[flightInfo, cabin1]
+	NSDictionary* flightInfo = flightSelectVC.selectedPayInfos[0];
+	NSDictionary* cabinInfo = flightSelectVC.selectedPayInfos[1];
+	
+	UIImageView* departureOrReturnImgVw = (UIImageView*)[cell viewWithTag:100];
+	UILabel* departureOrReturnLabel = (UILabel*)[cell viewWithTag:101];
+	UILabel* dateLabel = (UILabel*)[cell viewWithTag:102];
+	UILabel* twoCharLabel = (UILabel*)[cell viewWithTag:103];
+	UILabel* purePriceLabel = (UILabel*)[cell viewWithTag:104];
+	UILabel* otherPriceLabel = (UILabel*)[cell viewWithTag:105];
+	UILabel* durationTimeLabel = (UILabel*)[cell viewWithTag:106];
+	UILabel* departureAirportLabel = (UILabel*)[cell viewWithTag:107];
+	UILabel* arrivalAirportLabel = (UILabel*)[cell viewWithTag:108];
+	UIButton* viewAirplaneDetailBtn = (UIButton*)[cell viewWithTag:109];
+	UIButton* viewReturnTicketDetailBtn = (UIButton*)[cell viewWithTag:110];
+	
+	// departureOrReturnImgVw
+	if (flightSelectVC.viewType == kFlightSelectViewTypeReturn) {
+		departureOrReturnImgVw.image = [UIImage imageNamed:@"order_return_btn_bg.png"];
+		departureOrReturnLabel.text = @"返程";
+	}
+	
+	NSDate* leaveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]];
+	NSDate* arriveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""]];
+
+	// dateLabel
+	dateLabel.text = [leaveTime stringWithFormat:@"yyyy-MM-dd"];
+	
+	// twoCharLabel
+	NSString* twoCharcodeStr = [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""];
+	NSString* flightNumStr = [flightInfo getStringValueForKey:@"FlightNum" defaultValue:@""];
+	TwoCharCode* twoCharcode = [AirportSearchHelper queryWithTwoCharCodeString:twoCharcodeStr];
+	
+	twoCharLabel.text = [NSString stringWithFormat:@"%@%@", twoCharcode.corpAbbrName, flightNumStr];
+
+	// purePriceLabel
+	float purePrice = [cabinInfo getFloatValueForKey:@"DiscountPrice" defaultValue:0]
+	- [cabinInfo getFloatValueForKey:@"CommissionPrice" defaultValue:0];
+	
+	purePriceLabel.text = [NSString stringWithFormat:@"￥%.2f", purePrice];
+	
+	// otherPrice
+	float otherPrice = [flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
+	+ [flightInfo getFloatValueForKey:@"FuelCosts" defaultValue:0];
+	
+	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f", otherPrice];
+	
+	// durationTimeLabel
+	durationTimeLabel.text = [NSString stringWithFormat:@"%@      -      %@"
+							  , [leaveTime stringWithFormat:@"hh:mm"]
+							  , [arriveTime stringWithFormat:@"hh:mm"]];
+	
+	// departureAirportLabel
+	NSDictionary* threeCodes = [CharCodeHelper allThreeCharCodesDictionary];
+
+	NSString *fromTo = [flightInfo getStringValueForKey:@"FromTo" defaultValue:@""];
+    ThreeCharCode *from = [threeCodes objectForKey:[fromTo substringToIndex:3]];
+    ThreeCharCode *to = [threeCodes objectForKey:[fromTo substringFromIndex:3]];
+	NSString* airportTower = [flightInfo getStringValueForKey:@"AirportTower" defaultValue:@""];
+	NSString* fromAirportTower = [airportTower substringToIndex:[airportTower rangeOfString:@" "].location];
+	NSString* toAirportTower = [airportTower substringFromIndex:[airportTower rangeOfString:@" "].location];
+	NSString* fromAirportFullName = [NSString stringWithFormat:@"%@ %@"
+									 , from.airportAbbrName
+									 , fromAirportTower];
+	
+	departureAirportLabel.text = fromAirportFullName;
+	
+	// arrivalAirportLabel
+	NSString* toAirportFullName = [NSString stringWithFormat:@"%@ %@"
+								   , to.airportAbbrName
+								   , toAirportTower];
+	arrivalAirportLabel.text = toAirportFullName;
+	
+	// viewAirplaneDetailBtn
+	[viewAirplaneDetailBtn
+	 addActionForControlEvents:UIControlEventTouchUpInside
+	 withBlock:^(id control, UIEvent *event) {
+		 // @[@"航空公司", @"航班", @"舱位", @"出发机场", @"出发时间", @"到达机场", @"到达时间"]]
+		 OrderFlightDetailViewController* vc = [[OrderFlightDetailViewController alloc] init];
+		 
+		 vc.detail = @[
+		 twoCharcode.corpAbbrName
+		 , flightNumStr
+		 , [cabinInfo getStringValueForKey:@"CabinName" defaultValue:@""]
+		 , fromAirportFullName
+		 , [leaveTime stringWithFormat:@"yyyy-MM-dd hh:mm"]
+		 , toAirportFullName
+		 , [arriveTime stringWithFormat:@"yyyy-MM-dd hh:mm"]
+		 ];
+		 
+		 [self.navigationController pushViewController:vc animated:YES];
+		 SAFE_RELEASE(vc);
+	 }];
+	
+	// viewReturnTicketDetailBtn
+	[viewReturnTicketDetailBtn
+	 addActionForControlEvents:UIControlEventTouchUpInside
+	 withBlock:^(id control, UIEvent *event) {
+		 MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		 hud.labelText = @"正在查询...";
+		 
+		 [OrderHelper performGetCabinRemark:[AppConfig get].currentUser
+							  andFlightInfo:flightInfo
+								   andCabin:cabinInfo
+									success:^(NSDictionary * jsonObj) {
+										[MBProgressHUD hideHUDForView:self.view
+															 animated:YES];
+										
+										NSString* response = [jsonObj getStringValueForKey:@"Response"
+																			  defaultValue:@""];
+										
+										if (response.length == 0)
+											response = @"暂无信息。";
+										
+										UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil
+																							message:response
+																						   delegate:nil
+																				  cancelButtonTitle:@"我知道了"
+																				  otherButtonTitles:nil];
+										
+										[alertView show];
+										SAFE_RELEASE(alertView);
+									}
+									failure:^(NSString *errorMsg) {
+										[MBProgressHUD hideHUDForView:self.view
+															 animated:YES];
+										
+										[ALToastView toastInView:self.view
+														withText:errorMsg
+												 andBottomOffset:44.0f
+														 andType:ERROR];
+									}];
+	 }];
+}
+
+#pragma mark - actions
+
+- (IBAction)onPlaceOrderButtonTap:(id)sender
+{
+	
+}
+
+#pragma mark - tableview delegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	if (self.parentVC.viewType == kFlightSelectViewTypeReturn)
+		return 5;
+	else
+		return 4;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	if (self.parentVC.viewType == kFlightSelectViewTypeReturn) {
+		if (section == 0)
+			return 1;
+		else if (section == 1)
+			return 1;
+		else if (section == 2)
+			return 1 + (self.passangers.count);
+		else if (section == 3)
+			return 1;
+		else
+			return 1;
+	} else {
+		if (section == 0)
+			return 1;
+		else if (section == 1)
+			return 1 + (self.passangers.count);
+		else if (section == 2)
+			return 1;
+		else
+			return 1;
+	}
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	int section = indexPath.section;
+	
+	if (self.parentVC.viewType == kFlightSelectViewTypeReturn) {
+		if (section == 0)
+			return 182;
+		else if (section == 1)
+			return 182;
+		else if (section == 2)
+			return 44;
+		else if (section == 3)
+			return 44;
+		else
+			return 44;
+	} else {
+		if (section == 0)
+			return 182;
+		else if (section == 1)
+			return 44;
+		else if (section == 2)
+			return 44;
+		else
+			return 44;
+	}
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	int offset = self.parentVC.viewType == kFlightSelectViewTypeReturn ? -1 : 0;
+	section = section + offset;
+	
+	if (section == 1) {
+		return @"乘客";
+	} else if (section == 2) {
+		return @"联系人";
+	} else if (section == 3) {
+		return @"报销凭证";
+	}
+	
+	return nil;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	int offset = self.parentVC.viewType == kFlightSelectViewTypeReturn ? -1 : 0;
+	int section = indexPath.section + offset;
+	UITableViewCell* cell;
+	
+	if (section == -1) {
+		cell = [[NSBundle mainBundle] loadNibNamed:@"PrepareOrderCells" owner:nil options:nil][0];
+		[self parseFlightInfoCell:cell andFlightSelectVC:self.parentVC.parentVC];
+	} else if (section == 0) {
+		cell = [[NSBundle mainBundle] loadNibNamed:@"PrepareOrderCells" owner:nil options:nil][0];
+		[self parseFlightInfoCell:cell andFlightSelectVC:self.parentVC];
+	} else if (section == 1) {
+		if (indexPath.row == 0)
+			cell = [[NSBundle mainBundle] loadNibNamed:@"PrepareOrderCells" owner:nil options:nil][1];
+		else {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
+			NSArray* values = [self.passangers allValues];
+			NSDictionary* dic = [values objectAtIndex:indexPath.row - 1];
+			
+//			NSLog(@"dic%@", dic);
+			
+			NSString* name = [dic getStringValueForKey:@"Name" defaultValue:nil];
+			cell.textLabel.text = name;
+		}
+	} else if (section == 2) {
+		if (self.contacter.count == 0) {
+			cell = [[NSBundle mainBundle] loadNibNamed:@"PrepareOrderCells" owner:nil options:nil][2];
+		} else {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
+			
+			NSString* name = [[self.contacter allValues][0] getStringValueForKey:@"Name" defaultValue:nil];
+			cell.textLabel.text = name;
+		}
+	} else {
+		if (self.sendAddress.length > 0) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
+			cell.textLabel.text = self.sendAddress;
+		} else {
+			cell = [[NSBundle mainBundle] loadNibNamed:@"PrepareOrderCells" owner:nil options:nil][3];
+		}
+	}
+	
+	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	int offset = self.parentVC.viewType == kFlightSelectViewTypeReturn ? -1 : 0;
+	int section = indexPath.section + offset;
+
+	if (section == 1) {
+		ContacterSelectViewController *vc = [[ContacterSelectViewController alloc] initWithSelectType:SelectTypePassenger
+																				   defaultSeletedData:self.passangers];
+		
+		[vc setCompletionBlock:^(NSDictionary *selectedPersons) {
+			self.passangers = selectedPersons;
+			[self.orderFormVw reloadData];
+		}];
+		
+		UIBGNavigationController *nv = [[UIBGNavigationController alloc] initWithRootViewController:vc];
+		[vc release];
+		[self presentModalViewController:nv animated:YES];
+		[nv release];
+	} else if (section == 2) {
+		ContacterSelectViewController *vc = [[ContacterSelectViewController alloc] initWithSelectType:SelectTypeContacter
+																				   defaultSeletedData:self.contacter];
+		
+		[vc setCompletionBlock:^(NSDictionary *selectedPersons) {
+			self.contacter = selectedPersons;
+			[self.orderFormVw reloadData];
+		}];
+		
+		UIBGNavigationController *nv = [[UIBGNavigationController alloc] initWithRootViewController:vc];
+		[vc release];
+		[self presentModalViewController:nv animated:YES];
+		[nv release];
+	} else if (section == 3) {
+		InputSendAddressViewController* vc = [[InputSendAddressViewController alloc] init];
+		vc.sendAddress = self.sendAddress;
+		
+		UIBGNavigationController *nv = [[UIBGNavigationController alloc] initWithRootViewController:vc];
+		[vc release];
+		[self presentModalViewController:nv animated:YES];
+		[nv release];
+	}
+	
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	int offset = self.parentVC.viewType == kFlightSelectViewTypeReturn ? -1 : 0;
+	int section = indexPath.section + offset;
+	
+	if (section == 1) {
+		if (indexPath.row != 0)
+			return UITableViewCellEditingStyleDelete;
+	} else if (section == 2) {
+		if (self.contacter.count != 0)
+			return UITableViewCellEditingStyleDelete;
+	}
+	
+	return UITableViewCellEditingStyleNone;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	int offset = self.parentVC.viewType == kFlightSelectViewTypeReturn ? -1 : 0;
+	int section = indexPath.section + offset;
+	
+	if (section == 1) {
+		if (indexPath.row != 0)
+			return NO;
+	} else if (section == 2) {
+		if (self.contacter.count != 0)
+			return NO;
+	}
+	
+	return NO;
 }
 
 @end

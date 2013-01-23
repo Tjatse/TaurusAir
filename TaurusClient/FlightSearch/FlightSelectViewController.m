@@ -21,6 +21,7 @@
 #import "ALToastView.h"
 
 #import "AppContext.h"
+#import "AppDelegate.h"
 #import "AppConfig.h"
 #import "City.h"
 #import "AirportSearchHelper.h"
@@ -30,6 +31,7 @@
 #import "FlightSelectViewController.h"
 #import "FlightSearchHelper.h"
 #import "LoginViewController.h"
+#import "PrepareOrderViewController.h"
 #import "AirplaneTypeHelper.h"
 #import "OrderHelper.h"
 
@@ -505,6 +507,13 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 								andParentVC:self];
 	} else if (self.viewType == kFlightSelectViewTypeReturn) {
 		// 回程，预订
+		PrepareOrderViewController* prepareVC = [[PrepareOrderViewController alloc] initWithFlightSelectVC:self];
+		UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:prepareVC];
+		[self presentModalViewController:navVC animated:YES];
+		SAFE_RELEASE(prepareVC);
+		SAFE_RELEASE(navVC);
+		
+		return;
 		
 		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"正在提交订单...";
@@ -567,6 +576,13 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 							  andType:ERROR];
 		 }];
 	} else if (self.viewType == kFlightSelectViewTypeSingle) {
+		PrepareOrderViewController* prepareVC = [[PrepareOrderViewController alloc] initWithFlightSelectVC:self];
+		UIBGNavigationController* navVC = [[UIBGNavigationController alloc] initWithRootViewController:prepareVC];
+		[self presentModalViewController:navVC animated:YES];
+		SAFE_RELEASE(prepareVC);
+		SAFE_RELEASE(navVC);
+		
+		return;
 		// 单程，预订
 		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"正在提交订单...";

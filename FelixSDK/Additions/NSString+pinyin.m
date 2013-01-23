@@ -5881,7 +5881,11 @@ char pinyinFirstLetter(unsigned short hanzi)
 	for (int count = [string length], n = 0; n < count; ++n) {
 		@autoreleasepool {
 			NSString* subStr = [string substringWithRange:NSMakeRange(n, 1)];
-			[result appendString:[NSString pinyinFromChiniseString:subStr]];
+			NSString* pinyin = [NSString pinyinFromChiniseString:subStr];
+//			NSLog(@"string%@, pinyin:%@ len:%d", subStr, pinyin, pinyin.length);
+			
+			if (pinyin.length > 0)
+				[result appendString:[pinyin substringWithRange:NSMakeRange(0, 1)]];
 		}
 	}
 	

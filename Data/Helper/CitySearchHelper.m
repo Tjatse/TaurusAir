@@ -22,7 +22,31 @@
 	@synchronized (self) {
 		if (result == nil) {
 			result = [[NSMutableArray array] retain];
-			NSArray* cityNames = @[@"北京", @"上海", @"杭州", @"深圳"];
+			NSArray* cityNames = @[@"北京",
+			@"上海",
+			@"广州",
+			@"昆明",
+			@"杭州",
+			@"西安",
+			@"成都",
+			@"南京",
+			@"深圳",
+			@"长沙",
+			@"重庆",
+			@"乌鲁木齐",
+			@"沈阳",
+			@"三亚",
+			@"海口",
+			@"青岛",
+			@"大连",
+			@"长春",
+			@"郑州",
+			@"济南",
+			@"哈尔滨",
+			@"天津",
+			@"厦门",
+			@"太原"
+];
 			
 			for (NSString* cityName in cityNames)
 				[result addObject:[self queryCityWithCityName:cityName]];

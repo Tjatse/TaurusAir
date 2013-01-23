@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class FlightSelectViewController;
+
 @interface PrepareOrderViewController : UIViewController
+
+@property (nonatomic, retain) NSString*		sendAddress;
+
+- (id)initWithFlightSelectVC:(FlightSelectViewController*)aParentVC;
 
 @end

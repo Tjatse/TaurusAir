@@ -110,8 +110,6 @@
 		3E5162B81675D1F000D2DC78 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162281675D1F000D2DC78 /* GDataXMLNode.m */; };
 		3E5162B91675D1F000D2DC78 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E51622B1675D1F000D2DC78 /* JSONKit.m */; };
 		3E5162BA1675D1F000D2DC78 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E51622E1675D1F000D2DC78 /* MBProgressHUD.m */; };
-		3E5162BB1675D1F000D2DC78 /* FSNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162311675D1F000D2DC78 /* FSNotification.m */; };
-		3E5162BC1675D1F000D2DC78 /* NSObject(notification).m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162341675D1F000D2DC78 /* NSObject(notification).m */; };
 		3E5162BD1675D1F000D2DC78 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5162371675D1F000D2DC78 /* Reachability.m */; };
 		3E5162BE1675D1F000D2DC78 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E51623A1675D1F000D2DC78 /* SBJSON.m */; };
 		3E5162BF1675D1F000D2DC78 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E51623C1675D1F000D2DC78 /* SBJsonBase.m */; };
@@ -285,6 +283,9 @@
 		3E7EC69516A151BE00682741 /* order_departure_btn_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7EC68F16A151BE00682741 /* order_departure_btn_bg@2x.png */; };
 		3E7EC69616A151BE00682741 /* order_return_btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7EC69016A151BE00682741 /* order_return_btn_bg.png */; };
 		3E7EC69716A151BE00682741 /* order_return_btn_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7EC69116A151BE00682741 /* order_return_btn_bg@2x.png */; };
+		3E8D79AF16AF5E3E006597B6 /* PrepareOrderCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E8D79AE16AF5E3E006597B6 /* PrepareOrderCells.xib */; };
+		3E8D79BE16AFDBF3006597B6 /* InputSendAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D79BC16AFDBEF006597B6 /* InputSendAddressViewController.m */; };
+		3E8D79BF16AFDBF3006597B6 /* InputSendAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E8D79BD16AFDBF1006597B6 /* InputSendAddressViewController.xib */; };
 		3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04991689827200DE9546 /* UIColor+Additions.m */; };
 		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
@@ -540,11 +541,6 @@
 		3E51622B1675D1F000D2DC78 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		3E51622D1675D1F000D2DC78 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3E51622E1675D1F000D2DC78 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		3E5162301675D1F000D2DC78 /* FSNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSNotification.h; sourceTree = "<group>"; };
-		3E5162311675D1F000D2DC78 /* FSNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSNotification.m; sourceTree = "<group>"; };
-		3E5162321675D1F000D2DC78 /* msgforOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msgforOC.h; sourceTree = "<group>"; };
-		3E5162331675D1F000D2DC78 /* NSObject(notification).h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject(notification).h"; sourceTree = "<group>"; };
-		3E5162341675D1F000D2DC78 /* NSObject(notification).m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject(notification).m"; sourceTree = "<group>"; };
 		3E5162361675D1F000D2DC78 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		3E5162371675D1F000D2DC78 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		3E5162391675D1F000D2DC78 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
@@ -772,6 +768,10 @@
 		3E7EC68F16A151BE00682741 /* order_departure_btn_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_departure_btn_bg@2x.png"; sourceTree = "<group>"; };
 		3E7EC69016A151BE00682741 /* order_return_btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = order_return_btn_bg.png; sourceTree = "<group>"; };
 		3E7EC69116A151BE00682741 /* order_return_btn_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_return_btn_bg@2x.png"; sourceTree = "<group>"; };
+		3E8D79AE16AF5E3E006597B6 /* PrepareOrderCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PrepareOrderCells.xib; path = MyOrder/PrepareOrderCells.xib; sourceTree = "<group>"; };
+		3E8D79BB16AFDBEE006597B6 /* InputSendAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputSendAddressViewController.h; path = MyOrder/InputSendAddressViewController.h; sourceTree = "<group>"; };
+		3E8D79BC16AFDBEF006597B6 /* InputSendAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputSendAddressViewController.m; path = MyOrder/InputSendAddressViewController.m; sourceTree = "<group>"; };
+		3E8D79BD16AFDBF1006597B6 /* InputSendAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InputSendAddressViewController.xib; path = MyOrder/InputSendAddressViewController.xib; sourceTree = "<group>"; };
 		3EDF04981689827200DE9546 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EDF04991689827200DE9546 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EDF049C16898A8100DE9546 /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CitySelectViewController.h; path = FlightSearch/CitySelectViewController.h; sourceTree = "<group>"; };
@@ -948,6 +948,10 @@
 				3E7EC68716A14F8700682741 /* PrepareOrderViewController.h */,
 				3E7EC68816A14F8700682741 /* PrepareOrderViewController.m */,
 				3E7EC68916A14F8700682741 /* PrepareOrderViewController.xib */,
+				3E8D79AE16AF5E3E006597B6 /* PrepareOrderCells.xib */,
+				3E8D79BB16AFDBEE006597B6 /* InputSendAddressViewController.h */,
+				3E8D79BC16AFDBEF006597B6 /* InputSendAddressViewController.m */,
+				3E8D79BD16AFDBF1006597B6 /* InputSendAddressViewController.xib */,
 			);
 			name = MyOrder;
 			sourceTree = "<group>";
@@ -1145,7 +1149,6 @@
 				3E5162261675D1F000D2DC78 /* GDataXML */,
 				3E5162291675D1F000D2DC78 /* JSONKit */,
 				3E51622C1675D1F000D2DC78 /* MBProgressHUD */,
-				3E51622F1675D1F000D2DC78 /* Process */,
 				3E5162351675D1F000D2DC78 /* Reachability */,
 				3E5162381675D1F000D2DC78 /* sbjson */,
 				3E5162411675D1F000D2DC78 /* Tool */,
@@ -1324,18 +1327,6 @@
 				3E51622E1675D1F000D2DC78 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
-			sourceTree = "<group>";
-		};
-		3E51622F1675D1F000D2DC78 /* Process */ = {
-			isa = PBXGroup;
-			children = (
-				3E5162301675D1F000D2DC78 /* FSNotification.h */,
-				3E5162311675D1F000D2DC78 /* FSNotification.m */,
-				3E5162321675D1F000D2DC78 /* msgforOC.h */,
-				3E5162331675D1F000D2DC78 /* NSObject(notification).h */,
-				3E5162341675D1F000D2DC78 /* NSObject(notification).m */,
-			);
-			path = Process;
 			sourceTree = "<group>";
 		};
 		3E5162351675D1F000D2DC78 /* Reachability */ = {
@@ -2061,6 +2052,8 @@
 				3E7EC69616A151BE00682741 /* order_return_btn_bg.png in Resources */,
 				3E7EC69716A151BE00682741 /* order_return_btn_bg@2x.png in Resources */,
 				927E9FC716A2C3140047A0E1 /* ContacterSelectViewController.xib in Resources */,
+				3E8D79AF16AF5E3E006597B6 /* PrepareOrderCells.xib in Resources */,
+				3E8D79BF16AFDBF3006597B6 /* InputSendAddressViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2133,8 +2126,6 @@
 				3E5162B81675D1F000D2DC78 /* GDataXMLNode.m in Sources */,
 				3E5162B91675D1F000D2DC78 /* JSONKit.m in Sources */,
 				3E5162BA1675D1F000D2DC78 /* MBProgressHUD.m in Sources */,
-				3E5162BB1675D1F000D2DC78 /* FSNotification.m in Sources */,
-				3E5162BC1675D1F000D2DC78 /* NSObject(notification).m in Sources */,
 				3E5162BD1675D1F000D2DC78 /* Reachability.m in Sources */,
 				3E5162BE1675D1F000D2DC78 /* SBJSON.m in Sources */,
 				3E5162BF1675D1F000D2DC78 /* SBJsonBase.m in Sources */,
@@ -2229,6 +2220,7 @@
 				3E7EC68A16A14F8700682741 /* PrepareOrderViewController.m in Sources */,
 				9294FDA316A1AE3100B75AE5 /* CRTableViewCell.m in Sources */,
 				927E9FC616A2C3140047A0E1 /* ContacterSelectViewController.m in Sources */,
+				3E8D79BE16AFDBF3006597B6 /* InputSendAddressViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

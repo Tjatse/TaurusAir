@@ -278,6 +278,8 @@ static NSOperationQueue *sharedQueue = nil;
 
 - (id)initWithURL:(NSURL *)newURL
 {
+	NSLog(@"url:%@", newURL);
+	
 	self = [self init];
 	[self setRequestMethod:@"GET"];
 

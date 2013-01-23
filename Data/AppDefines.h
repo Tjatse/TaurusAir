@@ -49,8 +49,11 @@ typedef enum {
 extern NSString* const		kFlightSearchURL;
 extern NSString* const		kFlightPlaceOrderURL;
 extern NSString* const		kOrderCreatePayUrl;
+extern NSString* const		kCabinRemarkURL;
 
-#define setRequestAuth(request) [request setPostValue:CLIENT_ID forKey:@"ClientId"];[request setPostValue:SAFE_CODE forKey:@"safeCode"];
+#define setRequestAuth(request) \
+		[request setPostValue:CLIENT_ID forKey:@"ClientId"]; \
+		[request setPostValue:SAFE_CODE forKey:@"safeCode"];
 
 #endif // __TC_CONFIG_H
 

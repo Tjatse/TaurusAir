@@ -164,6 +164,41 @@
 
 #pragma mark - place order
 
++ (void)performGetCabinRemark:(User*)user
+				andFlightInfo:(NSDictionary*)flightInfo
+					 andCabin:(NSDictionary*)cabin
+					  success:(void (^)(NSDictionary *))success
+					  failure:(void (^)(NSString *))failure
+{
+	if ([AppContext get].online) {
+		NSString *url = [NSString stringWithFormat:@"%@/%@"
+						 , REACHABLE_HOST
+						 , [NSString stringWithFormat:kCabinRemarkURL
+							, [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""]
+							, [cabin getStringValueForKey:@"CabinName" defaultValue:@""]]];
+		__block ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+		
+		setRequestAuth(request);
+		
+		[request setCompletionBlock:^{
+			id jsonObj = [[request responseString] mutableObjectFromJSONString];
+			
+			if (![[jsonObj getStringValueForKeyPath:@"Meta.Status" defaultValue:@""] isEqualToString:@"ok"])
+				failure([jsonObj getStringValueForKeyPath:@"Meta.Message" defaultValue:@"查询失败。"]);
+			else
+				success(jsonObj);
+		}];
+		
+		[request setFailedBlock:^{
+			failure([request.error localizedDescription]);
+		}];
+		
+		[request startAsynchronous];
+	} else {
+		failure(@"当前网络不可用，且没有本地数据。");
+	}
+}
+
 + (void)performPlaceOrderWithUser:(User*)user
 					andFlightInfo:(NSArray*)flightInfos						// NSDictionary
 						 andCabin:(NSArray*)cabins							// NSDictionary

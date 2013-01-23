@@ -22,6 +22,13 @@
                   success: (void (^)(NSDictionary *order))success
                   failure: (void (^)(NSString *errorMsg))failure;
 
+// GetCabinRemark
++ (void)performGetCabinRemark:(User*)user
+				andFlightInfo:(NSDictionary*)flightInfo
+					 andCabin:(NSDictionary*)cabin
+					  success:(void (^)(NSDictionary *))success
+					  failure:(void (^)(NSString *))failure;
+
 // place order
 + (void)performPlaceOrderWithUser:(User*)user
 					andFlightInfo:(NSArray*)flightInfos						// NSDictionary

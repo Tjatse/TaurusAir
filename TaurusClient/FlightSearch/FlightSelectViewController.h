@@ -56,6 +56,7 @@ extern NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType);
 
 @property (nonatomic, assign) FlightSelectViewController*	parentVC;
 
+// @[flightInfo, cabin1]
 @property (nonatomic, retain) NSArray*						selectedPayInfos;
 
 + (void)performQueryWithNavVC:(UINavigationController*)navVC

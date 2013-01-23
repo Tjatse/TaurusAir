@@ -93,6 +93,7 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
 	// TODO: 航班提醒处理
+	NSLog(@"df");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
