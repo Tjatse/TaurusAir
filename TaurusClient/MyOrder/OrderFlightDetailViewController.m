@@ -19,6 +19,7 @@
 @implementation OrderFlightDetailViewController
 @synthesize detail = _detail;
 @synthesize tableView = _tableView;
+@synthesize showHomeButton = _showHomeButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,11 +54,14 @@
                                        andTapCallback:^(id control, UIEvent *event) {
                                            [self.navigationController popViewControllerAnimated:YES];
                                        }];
+    
+    if(_showHomeButton){
     self.navigationItem.rightBarButtonItem =
     [UIBarButtonItem generateNormalStyleButtonWithTitle:@"订单"
                                        andTapCallback:^(id control, UIEvent *event) {
                                            [self.navigationController dismissModalViewControllerAnimated:YES];
                                        }];
+    }
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
 }

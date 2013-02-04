@@ -120,6 +120,7 @@
 - (void)renderViews:(NSArray *)orders
 {
     _datas = [orders mutableCopy];
+    _clonedDatas = [_datas mutableCopy];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterOrder:) name:@"ORDER_FILTER" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderReresh:) name:@"ORDER_REFRESH" object:nil];
@@ -135,38 +136,47 @@
         }
     }
     
-    buttonSortTime = [[self generateSortButton:CGRectMake(10, 5, 87, 31)
+    CGRect f = CGRectMake(0, 0, SCREEN_RECT.size.width, 44);
+    UIView *container = [[UIView alloc] initWithFrame:f];
+    UIImageView *headerBg = [[UIImageView alloc] initWithFrame:f];
+    [headerBg setImage:[UIImage imageNamed:@"header-bar.png"]];
+    [container addSubview:headerBg];
+    [headerBg release];
+    
+    buttonSortTime = [[self generateSortButton:CGRectMake(10, 6, 87, 31)
                                          title:@"时间"
                                      highlight:NO
                                       needSort:YES
                                            tag:TAG_SORT_TIME] retain];
-    [self.view addSubview:buttonSortTime];
+    [container addSubview:buttonSortTime];
     
-    buttonSortPrice = [[self generateSortButton:CGRectMake((SCREEN_RECT.size.width - 87)/2, 5, 87, 31)
+    buttonSortPrice = [[self generateSortButton:CGRectMake((SCREEN_RECT.size.width - 87)/2, 6, 87, 31)
                                           title:@"航班"
                                       highlight:NO
                                        needSort:YES
                                             tag:TAG_SORT_PRICE] retain];
-    [self.view addSubview:buttonSortPrice];
+    [container addSubview:buttonSortPrice];
     
-    buttonFilter = [[self generateSortButton:CGRectMake(SCREEN_RECT.size.width - 96, 5, 87, 31)
+    buttonFilter = [[self generateSortButton:CGRectMake(SCREEN_RECT.size.width - 96, 6, 87, 31)
                                        title:@"筛选"
                                    highlight:NO
                                     needSort:NO
                                          tag:TAG_FILTER] retain];
-    [self.view addSubview:buttonFilter];
+    [container addSubview:buttonFilter];
     
     _sortImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sort_icon.png"]];
     [_sortImageView setFrame:CGRectMake(80, 14, 8, 11)];
-    [self.view addSubview:_sortImageView];
-    [self.view bringSubviewToFront:_sortImageView];
+    [container addSubview:_sortImageView];
+    [container bringSubviewToFront:_sortImageView];
     
-    _clonedDatas = [_datas mutableCopy];
+    [self.view addSubview:container];
+    [container release];
     
     // init tableview.
-    _tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 40, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height - 90) style:UITableViewStyleGrouped];
+    CGRect tf = CGRectMake(0, 42, SCREEN_RECT.size.width, SCREEN_RECT.size.height - NAVBAR_HEIGHT - STATUSBAR_FRAME.size.height - 92);
+    _tableView = [[UITableView alloc] initWithFrame: tf style:UITableViewStylePlain];
     [_tableView setDelegate:self];
-    [_tableView setBackgroundColor:[UIColor clearColor]];
+    [_tableView setBackgroundColor:[UIColor whiteColor]];
     [_tableView setBackgroundView:nil];
     [_tableView setDataSource:self];
     [_tableView setScrollEnabled:YES];
@@ -353,11 +363,11 @@
 #pragma mark -TableView
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 1.0;
+    return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 1.0;
+    return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -376,7 +386,6 @@
                 autorelease];
     }
     [cell setNeedsDisplay];
-    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     NSDictionary *data = [_datas objectAtIndex:indexPath.row];
     UILabel *labelTime = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 150, 20)];
@@ -401,8 +410,8 @@
     [cell addSubview:labelFromTo];
     [labelFromTo release];
         
-    UILabel *labelFlight = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 150, 0, 80, 44)];
-    [labelFlight setFont:[UIFont systemFontOfSize:14]];
+    UILabel *labelFlight = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 170, 0, 80, 44)];
+    [labelFlight setFont:[UIFont boldSystemFontOfSize:14]];
     [labelFlight setTextColor:[UIColor blackColor]];
     [labelFlight setText:[data objectForKey:@"Flight"]];
     [labelFlight setBackgroundColor:[UIColor clearColor]];

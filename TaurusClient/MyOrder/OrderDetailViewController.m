@@ -21,6 +21,8 @@
 #import "OrderHelper.h"
 #import "AppConfig.h"
 #import "ALToastView.h"
+#import "NSDateAdditions.h"
+#import "NSDictionaryAdditions.h"
 
 @interface OrderDetailViewController ()
 
@@ -82,6 +84,7 @@
     [OrderHelper orderDetailWithId:orderId
                             user:[AppConfig get].currentUser
                            success:^(NSDictionary *order) {
+                               NSLog(@"%@", order);
                                _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
                                
                                _detail = [order mutableCopy];
@@ -166,6 +169,9 @@
 #pragma mark -TableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(indexPath.section == 1){
+        return 182;
+    }
     return 44;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -181,93 +187,84 @@
     static NSString *identify = @"Cell";
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if(cell == nil){
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify]
+        if(indexPath.section == 1){
+            cell = [[NSBundle mainBundle] loadNibNamed:@"PrepareOrderCells" owner:nil options:nil][0];
+        }else{
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify]
                 autorelease];
+        }
     }
     [cell setNeedsDisplay];
     [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-    [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-    [cell.textLabel setText:_datas[indexPath.section][indexPath.row]];
     
-    [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
-    
-    switch (indexPath.section) {
-        case 0:{
-            switch (indexPath.row) {
-                case 0:{
-                    OrderState *state = [_orderStates objectForKey:[[_detail objectForKey:@"State"] stringValue]];
-                    [cell.detailTextLabel setText:(state?state.title:@"未知")];
+    if(indexPath.section == 1){
+        [self parseFlightInfoCell:cell];
+    }else{
+        [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
+        [cell.textLabel setText:_datas[indexPath.section][indexPath.row]];
+        
+        [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
+        
+        switch (indexPath.section) {
+            case 0:{
+                switch (indexPath.row) {
+                    case 0:{
+                        OrderState *state = [_orderStates objectForKey:[[_detail objectForKey:@"State"] stringValue]];
+                        [cell.detailTextLabel setText:(state?state.title:@"未知")];
+                    }
+                        break;
+                    case 1:{
+                        [cell.detailTextLabel setText:[[_detail objectForKey:@"Tid"] stringValue]];
+                    }
+                        break;
+                    case 2:{
+                        [cell.detailTextLabel setText:[_detail objectForKey:@"BookTime"]];
+                    }
+                        break;
+                    default:
+                        break;
                 }
-                    break;
-                case 1:{
-                    [cell.detailTextLabel setText:[[_detail objectForKey:@"Tid"] stringValue]];
-                }
-                    break;
-                case 2:{
-                    [cell.detailTextLabel setText:[_detail objectForKey:@"BookTime"]];
-                }
-                    break;
-                default:
-                    break;
+            }    
+                break;
+            case 1:{
+                // ignore flight info.
             }
-        }    
-            break;
-        case 1:{
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-            NSString *flight = [_detail objectForKey:@"Flight"];
-            NSArray *fs = [flight componentsSeparatedByString:@"_"];
-            TwoCharCode *tcc = [_twoCodes objectForKey:fs[0]];
-            NSString *corp = tcc ? tcc.corpAbbrName:@"";
-            NSString *flt = fs[1];
-            NSString *pos = fs[2];
-            ThreeCharCode *fromTCC = [_threeCodes objectForKey:fs[3]];
-            NSString *from = fromTCC ? fromTCC.cityName:@"";
-            NSString *start = fs[4];
-            ThreeCharCode *toTCC = [_threeCodes objectForKey:fs[5]];
-            NSString *to = toTCC ? toTCC.cityName:@"";
-            NSString *end = fs[6];
-            
-            _flight = [@[corp, flt, pos, from, start, to, end] retain];
-            
-            [cell.detailTextLabel setText: [NSString stringWithFormat:@"%@ %@", corp, fs[1]]];
-        }
-            break;
-        case 2:{
-            switch (indexPath.row) {
-                case 0:{
-                    [cell.detailTextLabel setText:[_detail objectForKey:@"Traveler"]];
-                }
-                    break;
-                case 1:{
-                    NSString *cp = [_detail objectForKey:@"ContactorPhone"];
-                    if((NSNull *)cp == [NSNull null]){
-                        [cell.detailTextLabel setText:@"-"];
-                    }else{
-                        _contactorPhone = [cp retain];
-                        [cell.detailTextLabel setText:[NSString stringWithFormat:@"%@(%@)",
-                                                       [_detail objectForKey:@"ContactorName"],
-                                                       _contactorPhone]];
-                        if(_contactorPhone){
-                            [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+                break;
+            case 2:{
+                switch (indexPath.row) {
+                    case 0:{
+                        [cell.detailTextLabel setText:[_detail objectForKey:@"Traveler"]];
+                    }
+                        break;
+                    case 1:{
+                        NSString *cp = [_detail objectForKey:@"ContactorPhone"];
+                        if((NSNull *)cp == [NSNull null]){
+                            [cell.detailTextLabel setText:@"-"];
+                        }else{
+                            _contactorPhone = [cp retain];
+                            [cell.detailTextLabel setText:[NSString stringWithFormat:@"%@(%@)",
+                                                           [_detail objectForKey:@"ContactorName"],
+                                                           _contactorPhone]];
+                            if(_contactorPhone){
+                                [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+                            }
                         }
                     }
+                        break;
+                    case 2:{
+                        [cell.detailTextLabel setFont:[UIFont systemFontOfSize:12]];
+                        [cell.detailTextLabel setNumberOfLines:0];
+                        NSString *address = [_detail objectForKey:@"SendAddress"];
+                        [cell.detailTextLabel setText:(NSNull *)address == [NSNull null] ? @"-":address];
+                    }
+                        break;
+                    default:
+                        break;
                 }
-                    break;
-                case 2:{
-                    [cell.detailTextLabel setFont:[UIFont systemFontOfSize:12]];
-                    [cell.detailTextLabel setNumberOfLines:0];
-                    NSString *address = [_detail objectForKey:@"SendAddress"];
-                    [cell.detailTextLabel setText:(NSNull *)address == [NSNull null] ? @"-":address];
-                }
-                    break;
-                default:
-                    break;
+                break;
+            default:
+                break;
             }
-            break;
-        default:
-            break;
         }
     }
     
@@ -278,10 +275,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if(indexPath.section == 1){
-        OrderFlightDetailViewController *vc = [[OrderFlightDetailViewController alloc] init];
-        vc.detail = _flight;
-        [self.navigationController pushViewController:vc animated:YES];
-        [vc release];
+        
     }else if(indexPath.section == 2){
         if(indexPath.row == 1 && _contactorPhone){
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:[NSString stringWithFormat: @"拨打 %@", _contactorPhone] otherButtonTitles:nil, nil];
@@ -289,6 +283,91 @@
             [sheet release];
         }
     }
+}
+#pragma mark - Flight Information
+
+- (void)parseFlightInfoCell:(UITableViewCell*)cell
+{
+    if(_detail == nil || (NSNull *)_detail == [NSNull null] || [_detail count] == 0){
+        return;
+    }
+    
+    NSString *flight = [_detail objectForKey:@"Flight"];
+    NSArray *fs = [flight componentsSeparatedByString:@"_"];
+    TwoCharCode *tcc = [_twoCodes objectForKey:fs[0]];
+    NSString *corp = tcc ? tcc.corpAbbrName:@"";
+    NSString *flt = fs[1];
+    NSString *pos = fs[2];
+    ThreeCharCode *fromTCC = [_threeCodes objectForKey:fs[3]];
+    NSString *from = fromTCC ? fromTCC.cityName:@"";
+    NSString *start = fs[4];
+    ThreeCharCode *toTCC = [_threeCodes objectForKey:fs[5]];
+    NSString *to = toTCC ? toTCC.cityName:@"";
+    NSString *end = fs[6];
+    
+    _flight = [@[corp, flt, pos, from, start, to, end] retain];
+	
+	UIImageView* departureOrReturnImgVw = (UIImageView*)[cell viewWithTag:100];
+	UILabel* departureOrReturnLabel = (UILabel*)[cell viewWithTag:101];
+	UILabel* dateLabel = (UILabel*)[cell viewWithTag:102];
+	UILabel* twoCharLabel = (UILabel*)[cell viewWithTag:103];
+	UILabel* purePriceLabel = (UILabel*)[cell viewWithTag:104];
+	UILabel* otherPriceLabel = (UILabel*)[cell viewWithTag:105];
+	UILabel* durationTimeLabel = (UILabel*)[cell viewWithTag:106];
+	UILabel* departureAirportLabel = (UILabel*)[cell viewWithTag:107];
+	UILabel* arrivalAirportLabel = (UILabel*)[cell viewWithTag:108];
+	UIButton* viewAirplaneDetailBtn = (UIButton*)[cell viewWithTag:109];
+	UIButton* viewReturnTicketDetailBtn = (UIButton*)[cell viewWithTag:110];
+	
+    /*
+	// departureOrReturnImgVw
+	if (flightSelectVC.viewType == kFlightSelectViewTypeReturn) {
+		departureOrReturnImgVw.image = [UIImage imageNamed:@"order_return_btn_bg.png"];
+		departureOrReturnLabel.text = @"返程";
+	}*/
+	
+	// twoCharLabel
+	twoCharLabel.text = [NSString stringWithFormat:@"%@%@", corp, flt];
+    
+	// purePriceLabel
+	float purePrice = [_detail getFloatValueForKey:@"Fare" defaultValue:0];
+	
+	purePriceLabel.text = [NSString stringWithFormat:@"￥%.2f", purePrice];
+	
+	// otherPrice
+	float airportPrice = [_detail getFloatValueForKey:@"Airport" defaultValue:0];
+	float fuelPrice = [_detail getFloatValueForKey:@"Fuel" defaultValue:0];
+	
+	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f/%.2f", airportPrice, fuelPrice];
+	
+	// durationTimeLabel
+	durationTimeLabel.text = [NSString stringWithFormat:@"%@     -     %@"
+							  , [start substringFromIndex:[start rangeOfString:@" "].location]
+							  , [end substringFromIndex:[end rangeOfString:@" "].location]];
+	
+	// departureAirportLabel
+	departureAirportLabel.text = from;
+	
+	// arrivalAirportLabel
+	arrivalAirportLabel.text = to;
+	
+	// viewAirplaneDetailBtn
+	[viewAirplaneDetailBtn
+	 addActionForControlEvents:UIControlEventTouchUpInside
+	 withBlock:^(id control, UIEvent *event) {
+         OrderFlightDetailViewController *vc = [[OrderFlightDetailViewController alloc] init];
+         vc.detail = _flight;
+         vc.showHomeButton = YES;
+         [self.navigationController pushViewController:vc animated:YES];
+         [vc release];
+	 }];
+	
+	// viewReturnTicketDetailBtn
+	[viewReturnTicketDetailBtn
+	 addActionForControlEvents:UIControlEventTouchUpInside
+	 withBlock:^(id control, UIEvent *event) {
+         
+	 }];
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {

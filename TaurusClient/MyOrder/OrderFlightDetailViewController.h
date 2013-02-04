@@ -11,6 +11,7 @@
 @interface OrderFlightDetailViewController : UIViewController{
     NSArray     *_datas;
 }
+@property   (nonatomic, readwrite) BOOL                 showHomeButton;
 @property   (nonatomic, retain) NSArray                 *detail;
 @property   (nonatomic, retain) IBOutlet UITableView    *tableView;
 @end

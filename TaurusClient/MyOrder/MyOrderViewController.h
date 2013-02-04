@@ -12,7 +12,7 @@ typedef enum{
     TIME = 1
 } ORDER_SORT;
 
-@interface MyOrderViewController: UIViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>{
+@interface MyOrderViewController: UIViewController<UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate>{
     UITableView     *_tableView;
     BOOL            _asc;
     ORDER_SORT      _sort;
