@@ -148,10 +148,14 @@
 	purePriceLabel.text = [NSString stringWithFormat:@"￥%.2f", purePrice];
 	
 	// otherPrice
-	float otherPrice = [flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
-	+ [flightInfo getFloatValueForKey:@"FuelCosts" defaultValue:0];
+//	float otherPrice = [flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
+//	+ [flightInfo getFloatValueForKey:@"FuelCosts" defaultValue:0];
+//	
+//	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f", otherPrice];
 	
-	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f", otherPrice];
+	otherPriceLabel.text = [NSString stringWithFormat:@"￥%d/%d"
+							, (int)[flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
+							, (int)[flightInfo getFloatValueForKey:@"FuelCosts" defaultValue:0]];
 	
 	// durationTimeLabel
 	durationTimeLabel.text = [NSString stringWithFormat:@"%@      -      %@"

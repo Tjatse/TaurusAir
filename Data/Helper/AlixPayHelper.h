@@ -10,4 +10,6 @@
 
 @interface AlixPayHelper : NSObject
 
+//+ (void)performAlixPay
+
 @end
