@@ -98,21 +98,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 @property (nonatomic, retain) IBOutlet UIView*				selectDateContainerVw;
 @property (nonatomic, retain) IBOutlet UIDatePicker*		selectDatePicker;
 
-- (void)onFlightGroupTap:(UIButton*)sender;
-- (void)onSectionPayButtonTap:(UIButton*)sender;
-- (NSDictionary*)queryOptimalCabinInfo:(NSDictionary*)flightInfo;
-- (UIView*)generateCabinView:(NSDictionary*)cabin;
-- (void)performFlightInfosSort;
-
-- (void)displaySearchResultToView;
 - (IBAction)onSelectDateCompleteButtonTap:(id)sender;
 - (IBAction)onSelectDateCancelButtonTap:(id)sender;
-
-- (void)performPay;
-- (void)showLoginViewController;
-
-- (void)loginCancel;
-- (void)loginSuccess;
 
 @end
 
@@ -240,6 +227,14 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	
 	[self.view addSubview:self.selectDateParentVw];
 	self.selectDateParentVw.hidden = YES;
+	
+	// 默认排序顺序
+	if (self.isSortByPrice) {
+		self.sortByTimeBtn.selected = NO;
+		self.sortByPriceBtn.selected = YES;
+		self.timeSortImgVw.hidden = YES;
+		self.priceSortImgVw.hidden = NO;
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated

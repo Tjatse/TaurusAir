@@ -317,7 +317,8 @@
 			setRequestAuth(request);
             
 			[request setCompletionBlock:^{
-                id jsonObj = [[request responseString] mutableObjectFromJSONString];
+				NSString* respStr = [request responseString];
+                id jsonObj = [respStr mutableObjectFromJSONString];
 				
  				if (![[jsonObj getStringValueForKeyPath:@"Meta.Status" defaultValue:@""] isEqualToString:@"ok"])
 					failure([jsonObj getStringValueForKeyPath:@"Meta.Message" defaultValue:@"订单失败。"]);
@@ -363,10 +364,10 @@
 //			OrderId	Y	订单Id
 //			PayPlat	Y	支付平台  如2表示支付宝
 			
-			NSString* orderId = [placeOrderJson getStringValueForKey:@"Response" defaultValue:@""];
+			int orderId = [placeOrderJson getIntValueForKey:@"Response" defaultValue:0];
             NSString* payPlat = @"2";
 			
-			[request setPostValue:orderId forKey:@"OrderId"];
+			[request setPostValue:@(orderId) forKey:@"OrderId"];
             [request setPostValue:payPlat forKey:@"PayPlat"];
             
 			[request setPostValue:user.userId forKey:@"Tid"];
