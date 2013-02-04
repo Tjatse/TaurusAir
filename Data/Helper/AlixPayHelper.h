@@ -10,6 +10,9 @@
 
 @interface AlixPayHelper : NSObject
 
-//+ (void)performAlixPay
++ (void)performAlixPayWithOrderId:(NSString*)orderId
+				   andProductName:(NSString*)productName
+				   andProductDesc:(NSString*)productDesc
+				  andProductPrice:(float)productPrice;
 
 @end

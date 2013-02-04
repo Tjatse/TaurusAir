@@ -51,6 +51,10 @@ extern NSString* const		kFlightPlaceOrderURL;
 extern NSString* const		kOrderCreatePayUrl;
 extern NSString* const		kCabinRemarkURL;
 
+// alixpay
+extern NSString* const		kAlixPayPartnerId;
+extern NSString* const		kAlixPaySellerId;
+
 #define setRequestAuth(request) \
 		[request setPostValue:CLIENT_ID forKey:@"ClientId"]; \
 		[request setPostValue:SAFE_CODE forKey:@"safeCode"];
