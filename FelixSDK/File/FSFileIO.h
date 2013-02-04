@@ -16,7 +16,7 @@
 +(NSInteger)readAll:(NSString*)fileFullPath withBuf:(NSData*)data;
 //+ public int readAll(String fileFullPath，byte[] pBuf)。
 //类方法，把该文件全部读取出来。参数fileFullPath表示文件路径，pBuf表示存储数据的字节数组。返回读取的大小。
-+(BOOL)write:read:(NSString*)fileFullPath withBuf:(NSData*)data atPos:(NSInteger)pos withSize:(NSInteger)size withSkip:(NSInteger)skip;
++(BOOL)write:(NSString*)fileFullPath withBuf:(NSData*)data atPos:(NSInteger)pos withSize:(NSInteger)size withSkip:(NSInteger)skip;
 //public boolean write(String fileFullPath, byte[] pBuf, int pos, int size, int skip)。
 //写文件，如果该文件不存在，这创建路径和文件，支持多目录的创建。
 //fileFullPath为文件的路径，pBuf表示需要写文件的数据。Pos表示从pBuf处多少字节开始。
