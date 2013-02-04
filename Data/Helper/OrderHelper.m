@@ -365,6 +365,10 @@
 //			PayPlat	Y	支付平台  如2表示支付宝
 			
 			int orderId = [placeOrderJson getIntValueForKey:@"Response" defaultValue:0];
+			
+			// TODO:
+			orderId = 6817511;
+			
             NSString* payPlat = @"2";
 			
 			[request setPostValue:@(orderId) forKey:@"OrderId"];
@@ -408,29 +412,18 @@
     }
 }
 
-+ (void)performOrderWithPassangers:(NSDictionary*)passangers
-					  andContactor:(NSDictionary*)contactor
++ (void)performOrderWithPassangers:(NSDictionary*)orgPassangers
+					  andContactor:(NSDictionary*)orgContactor
 					andSendAddress:(NSString*)sendAddress
 	 andFlightSelectViewController:(FlightSelectViewController*)vc
 						 andInView:(UIView*)inView
 {
+	NSArray* passangers = [orgPassangers allValues];
+	NSDictionary* contactor = orgContactor;
+	
 	if (vc.viewType == kFlightSelectViewTypeReturn) {
 		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:inView animated:YES];
 		hud.labelText = @"正在提交订单...";
-		
-		// FIXME: 模拟乘客
-		NSArray* passangers = @[
-						  @{@"Name": @"张三"
-		  , @"TravelerType": @"1"
-		  , @"ChinaId": @"413024198309141234"}
-		, @{@"Name": @"李四"
-	  , @"TravelerType": @"1"
-	  , @"ChinaId": @"413024198309141234"}
-		];
-		
-		NSDictionary* contactor = @{@"Name" : @"张三"
-							  , @"Phone" : @"13800138000"
-							  , @"Email": @"sdfsdf@com.com"};
 		
 		[OrderHelper
 		 performPlaceOrderWithUser:[AppConfig get].currentUser
@@ -479,20 +472,6 @@
 		// 单程，预订
 		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:inView animated:YES];
 		hud.labelText = @"正在提交订单...";
-		
-		// FIXME: 模拟乘客
-		NSArray* passangers = @[
-						  @{@"Name": @"张三"
-		  , @"TravelerType": @"1"
-		  , @"ChinaId": @"413024198309141234"}
-		, @{@"Name": @"李四"
-	  , @"TravelerType": @"1"
-	  , @"ChinaId": @"413024198309141234"}
-		];
-		
-		NSDictionary* contactor = @{@"Name" : @"张三"
-							  , @"Phone" : @"13800138000"
-							  , @"Email": @"sdfsdf@com.com"};
 		
 		[OrderHelper
 		 performPlaceOrderWithUser:[AppConfig get].currentUser
