@@ -12,6 +12,7 @@
 @class TwoCharCode;
 @class ContacterHelper;
 @class User;
+@class FlightSelectViewController;
 
 @interface OrderHelper : NSObject
 + (void)orderListWithUser: (User *)user
@@ -43,5 +44,12 @@
 					   andPlaceOrderJson:(NSDictionary*)placeOrderJson
 					success:(void (^)(NSDictionary *))success
 					failure:(void (^)(NSString *))failure;
+
+// order
++ (void)performOrderWithPassangers:(NSDictionary*)passangers
+					  andContactor:(NSDictionary*)contactor
+					andSendAddress:(NSString*)sendAddress
+	 andFlightSelectViewController:(FlightSelectViewController*)vc
+						 andInView:(UIView*)inView;;
 
 @end

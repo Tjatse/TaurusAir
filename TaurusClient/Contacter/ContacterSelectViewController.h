@@ -14,7 +14,7 @@ typedef enum {
     SelectTypePassenger = 1
 }SelectType;
 
-typedef void (^SelectBlock)(NSDictionary *selectedPersons);
+typedef void (^SelectBlock)(NSMutableDictionary *selectedPersons);
 
 @interface ContacterSelectViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, CMPopTipViewDelegate>{
     NSArray                 *_datas;

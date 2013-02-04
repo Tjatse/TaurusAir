@@ -286,6 +286,12 @@
 		3E8D79AF16AF5E3E006597B6 /* PrepareOrderCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E8D79AE16AF5E3E006597B6 /* PrepareOrderCells.xib */; };
 		3E8D79BE16AFDBF3006597B6 /* InputSendAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8D79BC16AFDBEF006597B6 /* InputSendAddressViewController.m */; };
 		3E8D79BF16AFDBF3006597B6 /* InputSendAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E8D79BD16AFDBF1006597B6 /* InputSendAddressViewController.xib */; };
+		3EC3AC9C16BFE50800A177DC /* AlixPay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3AC9916BFE50800A177DC /* AlixPay.m */; };
+		3EC3AC9D16BFE50800A177DC /* AlixPayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3AC9A16BFE50800A177DC /* AlixPayOrder.m */; };
+		3EC3AC9E16BFE50800A177DC /* AlixPayResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3AC9B16BFE50800A177DC /* AlixPayResult.m */; };
+		3EC3ACA416BFE92900A177DC /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3ACA116BFE92900A177DC /* NSObject+SBJSON.m */; };
+		3EC3ACA516BFE92900A177DC /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3ACA316BFE92900A177DC /* NSString+SBJSON.m */; };
+		3EC3ACA816BFED5D00A177DC /* AlixPayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3ACA716BFED5D00A177DC /* AlixPayHelper.m */; };
 		3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04991689827200DE9546 /* UIColor+Additions.m */; };
 		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
@@ -774,6 +780,19 @@
 		3E8D79BB16AFDBEE006597B6 /* InputSendAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputSendAddressViewController.h; path = MyOrder/InputSendAddressViewController.h; sourceTree = "<group>"; };
 		3E8D79BC16AFDBEF006597B6 /* InputSendAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputSendAddressViewController.m; path = MyOrder/InputSendAddressViewController.m; sourceTree = "<group>"; };
 		3E8D79BD16AFDBF1006597B6 /* InputSendAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InputSendAddressViewController.xib; path = MyOrder/InputSendAddressViewController.xib; sourceTree = "<group>"; };
+		3EC3AC9516BFE50800A177DC /* AlixPay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixPay.h; sourceTree = "<group>"; };
+		3EC3AC9616BFE50800A177DC /* AlixPayOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixPayOrder.h; sourceTree = "<group>"; };
+		3EC3AC9716BFE50800A177DC /* AlixPayResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixPayResult.h; sourceTree = "<group>"; };
+		3EC3AC9916BFE50800A177DC /* AlixPay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlixPay.m; sourceTree = "<group>"; };
+		3EC3AC9A16BFE50800A177DC /* AlixPayOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlixPayOrder.m; sourceTree = "<group>"; };
+		3EC3AC9B16BFE50800A177DC /* AlixPayResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlixPayResult.m; sourceTree = "<group>"; };
+		3EC3AC9F16BFE92900A177DC /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		3EC3ACA016BFE92900A177DC /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		3EC3ACA116BFE92900A177DC /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		3EC3ACA216BFE92900A177DC /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		3EC3ACA316BFE92900A177DC /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		3EC3ACA616BFED5D00A177DC /* AlixPayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixPayHelper.h; sourceTree = "<group>"; };
+		3EC3ACA716BFED5D00A177DC /* AlixPayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlixPayHelper.m; sourceTree = "<group>"; };
 		3EDF04981689827200DE9546 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EDF04991689827200DE9546 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EDF049C16898A8100DE9546 /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CitySelectViewController.h; path = FlightSearch/CitySelectViewController.h; sourceTree = "<group>"; };
@@ -1345,6 +1364,11 @@
 		3E5162381675D1F000D2DC78 /* sbjson */ = {
 			isa = PBXGroup;
 			children = (
+				3EC3AC9F16BFE92900A177DC /* JSON.h */,
+				3EC3ACA016BFE92900A177DC /* NSObject+SBJSON.h */,
+				3EC3ACA116BFE92900A177DC /* NSObject+SBJSON.m */,
+				3EC3ACA216BFE92900A177DC /* NSString+SBJSON.h */,
+				3EC3ACA316BFE92900A177DC /* NSString+SBJSON.m */,
 				3E5162391675D1F000D2DC78 /* SBJSON.h */,
 				3E51623A1675D1F000D2DC78 /* SBJSON.m */,
 				3E51623B1675D1F000D2DC78 /* SBJsonBase.h */,
@@ -1696,6 +1720,7 @@
 		3E7EC64B16A0DDB100682741 /* ThirdPartySDK */ = {
 			isa = PBXGroup;
 			children = (
+				3EC3AC9316BFE50800A177DC /* AlixPay */,
 				3E751E2B168962E8006FCA04 /* CHCSVParser */,
 				3E5161BF1675D1F000D2DC78 /* FelixSDK */,
 				3E5161991675D1F000D2DC78 /* BBlock */,
@@ -1703,6 +1728,35 @@
 				3E5162621675D1F000D2DC78 /* SDWebImage */,
 			);
 			name = ThirdPartySDK;
+			sourceTree = "<group>";
+		};
+		3EC3AC9316BFE50800A177DC /* AlixPay */ = {
+			isa = PBXGroup;
+			children = (
+				3EC3AC9416BFE50800A177DC /* include */,
+				3EC3AC9816BFE50800A177DC /* src */,
+			);
+			path = AlixPay;
+			sourceTree = "<group>";
+		};
+		3EC3AC9416BFE50800A177DC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3EC3AC9516BFE50800A177DC /* AlixPay.h */,
+				3EC3AC9616BFE50800A177DC /* AlixPayOrder.h */,
+				3EC3AC9716BFE50800A177DC /* AlixPayResult.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		3EC3AC9816BFE50800A177DC /* src */ = {
+			isa = PBXGroup;
+			children = (
+				3EC3AC9916BFE50800A177DC /* AlixPay.m */,
+				3EC3AC9A16BFE50800A177DC /* AlixPayOrder.m */,
+				3EC3AC9B16BFE50800A177DC /* AlixPayResult.m */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		92094319168D48DD00929BFF /* TableViewCell */ = {
@@ -1823,6 +1877,8 @@
 				3E75C2C11694590D00CDB92F /* TicketOrderHelper.m */,
 				9294FD6A169FD49700B75AE5 /* ContacterHelper.h */,
 				9294FD6B169FD49700B75AE5 /* ContacterHelper.m */,
+				3EC3ACA616BFED5D00A177DC /* AlixPayHelper.h */,
+				3EC3ACA716BFED5D00A177DC /* AlixPayHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -2229,6 +2285,12 @@
 				9294FDA316A1AE3100B75AE5 /* CRTableViewCell.m in Sources */,
 				927E9FC616A2C3140047A0E1 /* ContacterSelectViewController.m in Sources */,
 				3E8D79BE16AFDBF3006597B6 /* InputSendAddressViewController.m in Sources */,
+				3EC3AC9C16BFE50800A177DC /* AlixPay.m in Sources */,
+				3EC3AC9D16BFE50800A177DC /* AlixPayOrder.m in Sources */,
+				3EC3AC9E16BFE50800A177DC /* AlixPayResult.m in Sources */,
+				3EC3ACA416BFE92900A177DC /* NSObject+SBJSON.m in Sources */,
+				3EC3ACA516BFE92900A177DC /* NSString+SBJSON.m in Sources */,
+				3EC3ACA816BFED5D00A177DC /* AlixPayHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

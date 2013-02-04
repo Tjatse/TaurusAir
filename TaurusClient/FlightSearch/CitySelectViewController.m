@@ -166,7 +166,8 @@
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	[self.navigationController dismissModalViewControllerAnimated:YES];
+	
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView

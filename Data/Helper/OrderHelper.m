@@ -9,12 +9,16 @@
 #import "OrderHelper.h"
 #import "AppContext.h"
 #import "AppDefines.h"
+#import "AppConfig.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "JSONKit.h"
 #import "NSDictionaryAdditions.h"
 #import "BBlock.h"
+#import "MBProgressHUD.h"
+#import "ALToastView.h"
 
+#import "FlightSelectViewController.h"
 #import "ThreeCharCode.h"
 #import "TwoCharCode.h"
 #import "User.h"
@@ -313,7 +317,8 @@
 			setRequestAuth(request);
             
 			[request setCompletionBlock:^{
-                id jsonObj = [[request responseString] mutableObjectFromJSONString];
+				NSString* respStr = [request responseString];
+                id jsonObj = [respStr mutableObjectFromJSONString];
 				
  				if (![[jsonObj getStringValueForKeyPath:@"Meta.Status" defaultValue:@""] isEqualToString:@"ok"])
 					failure([jsonObj getStringValueForKeyPath:@"Meta.Message" defaultValue:@"订单失败。"]);
@@ -359,10 +364,14 @@
 //			OrderId	Y	订单Id
 //			PayPlat	Y	支付平台  如2表示支付宝
 			
-			NSString* orderId = [placeOrderJson getStringValueForKey:@"Response" defaultValue:@""];
+			int orderId = [placeOrderJson getIntValueForKey:@"Response" defaultValue:0];
+			
+			// TODO:
+			orderId = 6817511;
+			
             NSString* payPlat = @"2";
 			
-			[request setPostValue:orderId forKey:@"OrderId"];
+			[request setPostValue:@(orderId) forKey:@"OrderId"];
             [request setPostValue:payPlat forKey:@"PayPlat"];
             
 			[request setPostValue:user.userId forKey:@"Tid"];
@@ -401,6 +410,113 @@
 			success(jsonContent);
         }];
     }
+}
+
++ (void)performOrderWithPassangers:(NSDictionary*)orgPassangers
+					  andContactor:(NSDictionary*)orgContactor
+					andSendAddress:(NSString*)sendAddress
+	 andFlightSelectViewController:(FlightSelectViewController*)vc
+						 andInView:(UIView*)inView
+{
+	NSArray* passangers = [orgPassangers allValues];
+	NSDictionary* contactor = orgContactor;
+	
+	if (vc.viewType == kFlightSelectViewTypeReturn) {
+		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:inView animated:YES];
+		hud.labelText = @"正在提交订单...";
+		
+		[OrderHelper
+		 performPlaceOrderWithUser:[AppConfig get].currentUser
+		 andFlightInfo:@[vc.parentVC.selectedPayInfos[0], vc.selectedPayInfos[0]]
+		 andCabin:@[vc.parentVC.selectedPayInfos[1], vc.selectedPayInfos[1]]
+		 andTravelers:passangers
+		 andContactor:contactor
+		 success:^(NSDictionary * respObj) {
+			 [OrderHelper
+			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+			  andPlaceOrderJson:respObj
+			  success:^(NSDictionary * payUrlRespObj) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+				  
+				  [ALToastView toastPinInView:inView withText:@"预订成功。"
+							  andBottomOffset:44.0f
+									  andType:ERROR];
+				  
+				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+			  }
+			  failure:^(NSString * errorMsg) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  [ALToastView toastInView:inView
+								  withText:errorMsg
+						   andBottomOffset:44.0f
+								   andType:ERROR];
+			  }];
+			 
+			 NSLog(@"respOcj: %@", respObj);
+		 }
+		 failure:^(NSString * errorMsg) {
+			 [MBProgressHUD hideHUDForView:inView
+								  animated:YES];
+			 
+			 [ALToastView toastInView:inView
+							 withText:errorMsg
+					  andBottomOffset:44.0f
+							  andType:ERROR];
+		 }];
+	} else if (vc.viewType == kFlightSelectViewTypeSingle) {
+		// 单程，预订
+		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:inView animated:YES];
+		hud.labelText = @"正在提交订单...";
+		
+		[OrderHelper
+		 performPlaceOrderWithUser:[AppConfig get].currentUser
+		 andFlightInfo:@[vc.selectedPayInfos[0]]
+		 andCabin:@[vc.selectedPayInfos[1]]
+		 andTravelers:passangers
+		 andContactor:contactor
+		 success:^(NSDictionary * respObj) {
+			 [OrderHelper
+			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+			  andPlaceOrderJson:respObj
+			  success:^(NSDictionary * payUrlRespObj) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+				  
+				  [ALToastView toastPinInView:inView withText:@"预订成功。"
+							  andBottomOffset:44.0f
+									  andType:ERROR];
+				  
+				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+			  }
+			  failure:^(NSString * errorMsg) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  [ALToastView toastInView:inView
+								  withText:errorMsg
+						   andBottomOffset:44.0f
+								   andType:ERROR];
+			  }];
+			 
+			 NSLog(@"respOcj: %@", respObj);
+		 }
+		 failure:^(NSString * errorMsg) {
+			 [MBProgressHUD hideHUDForView:inView
+								  animated:YES];
+			 
+			 [ALToastView toastInView:inView
+							 withText:errorMsg
+					  andBottomOffset:44.0f
+							  andType:ERROR];
+		 }];
+	}
 }
 
 @end

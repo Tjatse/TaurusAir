@@ -55,6 +55,7 @@
 		
 		// is first run
 		if ([FSConfig readBoolWithKey:@"isFirstRun" defaultValue:YES]) {
+			[FSConfig setBoolValue:NO withKey:@"isFirstRun"];
 			[self initSettings];
 		}
 	}

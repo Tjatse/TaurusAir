@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2007-2009 Stig Brautaset. All rights reserved.
+ Copyright (C) 2009 Stig Brautaset. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -28,48 +28,41 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SBJsonParser.h"
-#import "SBJsonWriter.h"
+
 
 /**
- @brief Facade for SBJsonWriter/SBJsonParser.
-
- Requests are forwarded to instances of SBJsonWriter and SBJsonParser.
+ @brief Adds JSON generation to Foundation classes
+ 
+ This is a category on NSObject that adds methods for returning JSON representations
+ of standard objects to the objects themselves. This means you can call the
+ -JSONRepresentation method on an NSArray object and it'll do what you want.
  */
-@interface SBJSON : SBJsonBase <SBJsonParser, SBJsonWriter> {
+@interface NSObject (NSObject_SBJSON)
 
-@private    
-    SBJsonParser *jsonParser;
-    SBJsonWriter *jsonWriter;
-}
+/**
+ @brief Returns a string containing the receiver encoded as a JSON fragment.
+ 
+ This method is added as a category on NSObject but is only actually
+ supported for the following objects:
+ @li NSDictionary
+ @li NSArray
+ @li NSString
+ @li NSNumber (also used for booleans)
+ @li NSNull 
+ 
+ @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
+ */
+- (NSString *)JSONFragment;
 
+/**
+ @brief Returns a string containing the receiver encoded in JSON.
 
-/// Return the fragment represented by the given string
-- (id)fragmentWithString:(NSString*)jsonrep
-                   error:(NSError**)error;
-
-/// Return the object represented by the given string
-- (id)objectWithString:(NSString*)jsonrep
-                 error:(NSError**)error;
-
-/// Parse the string and return the represented object (or scalar)
-- (id)objectWithString:(id)value
-           allowScalar:(BOOL)x
-    			 error:(NSError**)error;
-
-
-/// Return JSON representation of an array  or dictionary
-- (NSString*)stringWithObject:(id)value
-                        error:(NSError**)error;
-
-/// Return JSON representation of any legal JSON value
-- (NSString*)stringWithFragment:(id)value
-                          error:(NSError**)error;
-
-/// Return JSON representation (or fragment) for the given object
-- (NSString*)stringWithObject:(id)value
-                  allowScalar:(BOOL)x
-    					error:(NSError**)error;
-
+ This method is added as a category on NSObject but is only actually
+ supported for the following objects:
+ @li NSDictionary
+ @li NSArray
+ */
+- (NSString *)JSONRepresentation;
 
 @end
+

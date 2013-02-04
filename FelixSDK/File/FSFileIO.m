@@ -29,7 +29,7 @@
 	return [data length];
 }
 
-+(BOOL)write:read:(NSString*)fileFullPath withBuf:(NSData*)data atPos:(NSInteger)pos withSize:(NSInteger)size withSkip:(NSInteger)skip
++(BOOL)write:(NSString*)fileFullPath withBuf:(NSData*)data atPos:(NSInteger)pos withSize:(NSInteger)size withSkip:(NSInteger)skip
 {
 	NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath:fileFullPath];
 	NSInteger num = pos+skip;

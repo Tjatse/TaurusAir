@@ -33,8 +33,8 @@
 @property (nonatomic, retain) IBOutlet UITableView*			orderFormVw;
 @property (nonatomic, retain) IBOutlet UILabel*				priceCountLabel;
 @property (nonatomic, assign) FlightSelectViewController*	parentVC;
-@property (nonatomic, retain) NSDictionary*					passangers;
-@property (nonatomic, retain) NSDictionary*					contacter;
+@property (nonatomic, retain) NSMutableDictionary*			passangers;
+@property (nonatomic, retain) NSMutableDictionary*			contacter;
 
 - (IBAction)onPlaceOrderButtonTap:(id)sender;
 
@@ -148,10 +148,14 @@
 	purePriceLabel.text = [NSString stringWithFormat:@"￥%.2f", purePrice];
 	
 	// otherPrice
-	float otherPrice = [flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
-	+ [flightInfo getFloatValueForKey:@"FuelCosts" defaultValue:0];
+//	float otherPrice = [flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
+//	+ [flightInfo getFloatValueForKey:@"FuelCosts" defaultValue:0];
+//	
+//	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f", otherPrice];
 	
-	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f", otherPrice];
+	otherPriceLabel.text = [NSString stringWithFormat:@"￥%d/%d"
+							, (int)[flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
+							, (int)[flightInfo getFloatValueForKey:@"FuelCosts" defaultValue:0]];
 	
 	// durationTimeLabel
 	durationTimeLabel.text = [NSString stringWithFormat:@"%@      -      %@"
@@ -245,7 +249,26 @@
 
 - (IBAction)onPlaceOrderButtonTap:(id)sender
 {
+	// 检查联系人是否为空
+	if (self.passangers.count == 0 || self.contacter.count == 0) {
+		UIAlertView* alertVw = [[UIAlertView alloc] initWithTitle:nil
+														  message:@"请选择联系人与乘客。"
+														 delegate:nil
+												cancelButtonTitle:@"我知道了"
+												otherButtonTitles:nil];
+		
+		[alertVw show];
+		SAFE_RELEASE(alertVw);
+		
+		return;
+	}
 	
+	// 订购
+	[OrderHelper performOrderWithPassangers:self.passangers
+							   andContactor:self.contacter
+							 andSendAddress:self.sendAddress
+			  andFlightSelectViewController:self.parentVC
+								  andInView:self.view];
 }
 
 #pragma mark - tableview delegate
@@ -381,7 +404,7 @@
 		ContacterSelectViewController *vc = [[ContacterSelectViewController alloc] initWithSelectType:SelectTypePassenger
 																				   defaultSeletedData:self.passangers];
 		
-		[vc setCompletionBlock:^(NSDictionary *selectedPersons) {
+		[vc setCompletionBlock:^(NSMutableDictionary *selectedPersons) {
 			self.passangers = selectedPersons;
 			[self.orderFormVw reloadData];
 		}];
@@ -394,7 +417,7 @@
 		ContacterSelectViewController *vc = [[ContacterSelectViewController alloc] initWithSelectType:SelectTypeContacter
 																				   defaultSeletedData:self.contacter];
 		
-		[vc setCompletionBlock:^(NSDictionary *selectedPersons) {
+		[vc setCompletionBlock:^(NSMutableDictionary *selectedPersons) {
 			self.contacter = selectedPersons;
 			[self.orderFormVw reloadData];
 		}];
@@ -404,7 +427,7 @@
 		[self presentModalViewController:nv animated:YES];
 		[nv release];
 	} else if (section == 3) {
-		InputSendAddressViewController* vc = [[InputSendAddressViewController alloc] init];
+		InputSendAddressViewController* vc = [[InputSendAddressViewController alloc] initWithParentVC:self];
 		vc.sendAddress = self.sendAddress;
 		
 		UIBGNavigationController *nv = [[UIBGNavigationController alloc] initWithRootViewController:vc];
@@ -430,6 +453,26 @@
 	}
 	
 	return UITableViewCellEditingStyleNone;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (indexPath.section == 1) {
+		// 删除乘客
+		int index = indexPath.row - 1;
+		NSArray* keys = [self.passangers allKeys];
+		NSString* key = keys[index];
+		
+		[self.passangers removeObjectForKey:key];
+		[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	} else if (indexPath.section == 2) {
+		// 删除联系人
+//		int index = indexPath.row;
+		
+		self.contacter = [NSMutableDictionary dictionary];
+//		[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+		[tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
