@@ -307,8 +307,8 @@
     
     _flight = [@[corp, flt, pos, from, start, to, end] retain];
 	
-	UIImageView* departureOrReturnImgVw = (UIImageView*)[cell viewWithTag:100];
-	UILabel* departureOrReturnLabel = (UILabel*)[cell viewWithTag:101];
+	//UIImageView* departureOrReturnImgVw = (UIImageView*)[cell viewWithTag:100];
+	//UILabel* departureOrReturnLabel = (UILabel*)[cell viewWithTag:101];
 	UILabel* dateLabel = (UILabel*)[cell viewWithTag:102];
 	UILabel* twoCharLabel = (UILabel*)[cell viewWithTag:103];
 	UILabel* purePriceLabel = (UILabel*)[cell viewWithTag:104];
@@ -340,10 +340,13 @@
 	
 	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f/%.2f", airportPrice, fuelPrice];
 	
+    dateLabel.text = [start substringToIndex:[start rangeOfString:@" "].location];
 	// durationTimeLabel
-	durationTimeLabel.text = [NSString stringWithFormat:@"%@     -     %@"
-							  , [start substringFromIndex:[start rangeOfString:@" "].location]
-							  , [end substringFromIndex:[end rangeOfString:@" "].location]];
+    NSArray *startDates = [start componentsSeparatedByString:@" "];
+    NSArray *endDates = [end componentsSeparatedByString:@" "];
+	durationTimeLabel.text = [NSString stringWithFormat:@"%@     -       %@"
+							  , [startDates objectAtIndex:[startDates count] - 1]
+							  , [endDates objectAtIndex:[endDates count] - 1]];
 	
 	// departureAirportLabel
 	departureAirportLabel.text = from;
