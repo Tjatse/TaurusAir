@@ -291,6 +291,7 @@
 		3EC3AC9E16BFE50800A177DC /* AlixPayResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3AC9B16BFE50800A177DC /* AlixPayResult.m */; };
 		3EC3ACA416BFE92900A177DC /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3ACA116BFE92900A177DC /* NSObject+SBJSON.m */; };
 		3EC3ACA516BFE92900A177DC /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3ACA316BFE92900A177DC /* NSString+SBJSON.m */; };
+		3EC3ACA816BFED5D00A177DC /* AlixPayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3ACA716BFED5D00A177DC /* AlixPayHelper.m */; };
 		3EDF049A1689827200DE9546 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF04991689827200DE9546 /* UIColor+Additions.m */; };
 		3EDF049F16898A8100DE9546 /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDF049D16898A8100DE9546 /* CitySelectViewController.m */; };
 		3EDF04A016898A8100DE9546 /* CitySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EDF049E16898A8100DE9546 /* CitySelectViewController.xib */; };
@@ -788,6 +789,8 @@
 		3EC3ACA116BFE92900A177DC /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
 		3EC3ACA216BFE92900A177DC /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
 		3EC3ACA316BFE92900A177DC /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		3EC3ACA616BFED5D00A177DC /* AlixPayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlixPayHelper.h; sourceTree = "<group>"; };
+		3EC3ACA716BFED5D00A177DC /* AlixPayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlixPayHelper.m; sourceTree = "<group>"; };
 		3EDF04981689827200DE9546 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		3EDF04991689827200DE9546 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		3EDF049C16898A8100DE9546 /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CitySelectViewController.h; path = FlightSearch/CitySelectViewController.h; sourceTree = "<group>"; };
@@ -1870,6 +1873,8 @@
 				3E75C2C11694590D00CDB92F /* TicketOrderHelper.m */,
 				9294FD6A169FD49700B75AE5 /* ContacterHelper.h */,
 				9294FD6B169FD49700B75AE5 /* ContacterHelper.m */,
+				3EC3ACA616BFED5D00A177DC /* AlixPayHelper.h */,
+				3EC3ACA716BFED5D00A177DC /* AlixPayHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -2277,6 +2282,7 @@
 				3EC3AC9E16BFE50800A177DC /* AlixPayResult.m in Sources */,
 				3EC3ACA416BFE92900A177DC /* NSObject+SBJSON.m in Sources */,
 				3EC3ACA516BFE92900A177DC /* NSString+SBJSON.m in Sources */,
+				3EC3ACA816BFED5D00A177DC /* AlixPayHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
