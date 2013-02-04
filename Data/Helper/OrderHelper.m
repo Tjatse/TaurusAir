@@ -9,12 +9,16 @@
 #import "OrderHelper.h"
 #import "AppContext.h"
 #import "AppDefines.h"
+#import "AppConfig.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "JSONKit.h"
 #import "NSDictionaryAdditions.h"
 #import "BBlock.h"
+#import "MBProgressHUD.h"
+#import "ALToastView.h"
 
+#import "FlightSelectViewController.h"
 #import "ThreeCharCode.h"
 #import "TwoCharCode.h"
 #import "User.h"
@@ -401,6 +405,138 @@
 			success(jsonContent);
         }];
     }
+}
+
++ (void)performOrderWithPassangers:(NSDictionary*)passangers
+					  andContactor:(NSDictionary*)contactor
+					andSendAddress:(NSString*)sendAddress
+	 andFlightSelectViewController:(FlightSelectViewController*)vc
+						 andInView:(UIView*)inView
+{
+	if (vc.viewType == kFlightSelectViewTypeReturn) {
+		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:inView animated:YES];
+		hud.labelText = @"正在提交订单...";
+		
+		// FIXME: 模拟乘客
+		NSArray* passangers = @[
+						  @{@"Name": @"张三"
+		  , @"TravelerType": @"1"
+		  , @"ChinaId": @"413024198309141234"}
+		, @{@"Name": @"李四"
+	  , @"TravelerType": @"1"
+	  , @"ChinaId": @"413024198309141234"}
+		];
+		
+		NSDictionary* contactor = @{@"Name" : @"张三"
+							  , @"Phone" : @"13800138000"
+							  , @"Email": @"sdfsdf@com.com"};
+		
+		[OrderHelper
+		 performPlaceOrderWithUser:[AppConfig get].currentUser
+		 andFlightInfo:@[vc.parentVC.selectedPayInfos[0], vc.selectedPayInfos[0]]
+		 andCabin:@[vc.parentVC.selectedPayInfos[1], vc.selectedPayInfos[1]]
+		 andTravelers:passangers
+		 andContactor:contactor
+		 success:^(NSDictionary * respObj) {
+			 [OrderHelper
+			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+			  andPlaceOrderJson:respObj
+			  success:^(NSDictionary * payUrlRespObj) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+				  
+				  [ALToastView toastPinInView:inView withText:@"预订成功。"
+							  andBottomOffset:44.0f
+									  andType:ERROR];
+				  
+				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+			  }
+			  failure:^(NSString * errorMsg) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  [ALToastView toastInView:inView
+								  withText:errorMsg
+						   andBottomOffset:44.0f
+								   andType:ERROR];
+			  }];
+			 
+			 NSLog(@"respOcj: %@", respObj);
+		 }
+		 failure:^(NSString * errorMsg) {
+			 [MBProgressHUD hideHUDForView:inView
+								  animated:YES];
+			 
+			 [ALToastView toastInView:inView
+							 withText:errorMsg
+					  andBottomOffset:44.0f
+							  andType:ERROR];
+		 }];
+	} else if (vc.viewType == kFlightSelectViewTypeSingle) {
+		// 单程，预订
+		MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:inView animated:YES];
+		hud.labelText = @"正在提交订单...";
+		
+		// FIXME: 模拟乘客
+		NSArray* passangers = @[
+						  @{@"Name": @"张三"
+		  , @"TravelerType": @"1"
+		  , @"ChinaId": @"413024198309141234"}
+		, @{@"Name": @"李四"
+	  , @"TravelerType": @"1"
+	  , @"ChinaId": @"413024198309141234"}
+		];
+		
+		NSDictionary* contactor = @{@"Name" : @"张三"
+							  , @"Phone" : @"13800138000"
+							  , @"Email": @"sdfsdf@com.com"};
+		
+		[OrderHelper
+		 performPlaceOrderWithUser:[AppConfig get].currentUser
+		 andFlightInfo:@[vc.selectedPayInfos[0]]
+		 andCabin:@[vc.selectedPayInfos[1]]
+		 andTravelers:passangers
+		 andContactor:contactor
+		 success:^(NSDictionary * respObj) {
+			 [OrderHelper
+			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
+			  andPlaceOrderJson:respObj
+			  success:^(NSDictionary * payUrlRespObj) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+				  
+				  [ALToastView toastPinInView:inView withText:@"预订成功。"
+							  andBottomOffset:44.0f
+									  andType:ERROR];
+				  
+				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+			  }
+			  failure:^(NSString * errorMsg) {
+				  [MBProgressHUD hideHUDForView:inView
+									   animated:YES];
+				  
+				  [ALToastView toastInView:inView
+								  withText:errorMsg
+						   andBottomOffset:44.0f
+								   andType:ERROR];
+			  }];
+			 
+			 NSLog(@"respOcj: %@", respObj);
+		 }
+		 failure:^(NSString * errorMsg) {
+			 [MBProgressHUD hideHUDForView:inView
+								  animated:YES];
+			 
+			 [ALToastView toastInView:inView
+							 withText:errorMsg
+					  andBottomOffset:44.0f
+							  andType:ERROR];
+		 }];
+	}
 }
 
 @end

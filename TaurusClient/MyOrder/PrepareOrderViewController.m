@@ -259,7 +259,12 @@
 		return;
 	}
 	
-	
+	// 订购
+	[OrderHelper performOrderWithPassangers:self.passangers
+							   andContactor:self.contacter
+							 andSendAddress:self.sendAddress
+			  andFlightSelectViewController:self.parentVC
+								  andInView:self.view];
 }
 
 #pragma mark - tableview delegate
