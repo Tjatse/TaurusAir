@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef enum {
+    OrderStatusPayAndCancel = 0,
+    OrderStatusRollback = 1,
+    OrderStatusOther = 2
+}OrderStatus;
 @interface OrderDetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 {
     NSArray         *_datas;
@@ -17,10 +21,14 @@
     NSDictionary    *_twoCodes;
     NSArray         *_flight;
     NSString        *_contactorPhone;
+    BOOL            _hasReturn;
+    CGSize          _size;
+    OrderStatus     _status;
 }
 
 @property   (nonatomic, retain) IBOutlet UITableView    *tableView;
 @property   (nonatomic, retain) IBOutlet UIView         *viewBottom;
 @property   (nonatomic, retain) NSDictionary            *orderListItem;
+@property   (nonatomic, retain) NSMutableArray          *passengers;
 
 @end

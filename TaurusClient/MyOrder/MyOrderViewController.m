@@ -388,36 +388,29 @@
     [cell setNeedsDisplay];
     
     NSDictionary *data = [_datas objectAtIndex:indexPath.row];
-    UILabel *labelTime = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 150, 20)];
-    [labelTime setFont:[UIFont systemFontOfSize:12]];
-    [labelTime setTextColor:[UIColor darkGrayColor]];
-    [labelTime setBackgroundColor:[UIColor clearColor]];
-    NSArray *times = [[data objectForKey:@"FlightLeaveTime"] componentsSeparatedByString:@","];
-    [labelTime setText: times[0]];
-    [cell addSubview:labelTime];
-    [labelTime release];
     
-    NSString *fromTo = [data objectForKey:@"FromTo"];
-    ThreeCharCode *from = [_threeCodes objectForKey:[fromTo substringToIndex:3]];
-    ThreeCharCode *to = [_threeCodes objectForKey:[fromTo substringFromIndex:3]];
+    NSArray *times = [[data objectForKey:@"FlightLeaveTime"] componentsSeparatedByString:@"/"];
+    NSArray *fromTos = [[data objectForKey:@"FromTo"] componentsSeparatedByString:@"-"];
+    NSArray *flights = [[data objectForKey:@"Flight"] componentsSeparatedByString:@"-"];
     
-    UILabel *labelFromTo = [[UILabel alloc] initWithFrame:CGRectMake(20, 18, 150, 24)];
-    [labelFromTo setFont:[UIFont boldSystemFontOfSize:14]];
-    [labelFromTo setBackgroundColor:[UIColor clearColor]];
-    [labelFromTo setText:[NSString stringWithFormat:@"%@-%@",
-                          from == nil ? @"未知":from.cityName,
-                          to == nil ? @"未知":to.cityName]];
-    [cell addSubview:labelFromTo];
-    [labelFromTo release];
-        
-    UILabel *labelFlight = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 170, 0, 80, 44)];
-    [labelFlight setFont:[UIFont boldSystemFontOfSize:14]];
-    [labelFlight setTextColor:[UIColor blackColor]];
-    [labelFlight setText:[data objectForKey:@"Flight"]];
-    [labelFlight setBackgroundColor:[UIColor clearColor]];
-    [cell addSubview:labelFlight];
-    [labelFlight release];
+    BOOL twice = [times count] == 2 && [fromTos count] == 2 && [flights count] == 2;
+    [self generateCellItems:cell
+               withTimeRect:CGRectMake(10, 0, 150, 20)
+                   theTimes:times
+            theTimeFontSize:12
+              andFromToRect:CGRectMake(26, 18, 150, 24)
+                 theFromTos:fromTos
+          theFromToFontSize:14
+              andFlightRect:CGRectMake(SCREEN_RECT.size.width - 170, 0, 80, 44)
+                 theFlights:flights
+          theFlightFontSize:14
+                  hasReturn:twice];
     
+    UIImageView *icon = [[UIImageView alloc] initWithImage:
+                         [UIImage imageNamed:[NSString stringWithFormat:@"airplane-take-off%@.png", twice?@"-reback":@""]]];
+    [icon setFrame:CGRectMake(10, 25, 13, 13)];
+    [cell addSubview:icon];
+    [icon release];
     
     OrderState *state = [_orderStates objectForKey:[NSString stringWithFormat:@"%@", [data objectForKey:@"State"]]];
     UILabel *labelState = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 70, 0, 60, 44)];
@@ -432,6 +425,57 @@
     [labelState release];
     
     return cell;
+}
+- (void)generateCellItems: (UITableViewCell *)cell
+             withTimeRect: (CGRect)timeRect
+                 theTimes: (NSArray *)times
+          theTimeFontSize: (CGFloat)timeFontSize
+            andFromToRect: (CGRect)fromToRect
+               theFromTos: (NSArray *)fromTos
+        theFromToFontSize: (CGFloat)fromToFontSize
+            andFlightRect: (CGRect)flightRect
+               theFlights: (NSArray *)flights
+        theFlightFontSize: (CGFloat)flightFontSize
+                hasReturn: (BOOL)hasReturn
+{
+    UILabel *labelTime = [self generateLabel:timeRect
+                                withFontSize:[UIFont systemFontOfSize:timeFontSize]
+                                    andColor:[UIColor darkGrayColor]];
+    
+    NSString *time = times[0];
+    [labelTime setText: [time substringToIndex:[time rangeOfString:@","].location - 1]];
+    [cell addSubview:labelTime];
+    
+    NSString *fromTo = fromTos[0];
+    ThreeCharCode *from = [_threeCodes objectForKey:[fromTo substringToIndex:3]];
+    ThreeCharCode *to = [_threeCodes objectForKey:[fromTo substringFromIndex:3]];
+    
+    UILabel *labelFromTo = [self generateLabel:fromToRect
+                                  withFontSize:[UIFont boldSystemFontOfSize:fromToFontSize]
+                                      andColor:[UIColor blackColor]];
+    
+    [labelFromTo setText:[NSString stringWithFormat:@"%@-%@",
+                          from == nil ? @"未知":from.cityName,
+                          to == nil ? @"未知":to.cityName]];
+    [cell addSubview:labelFromTo];
+    
+    NSString *flight = flights[0];
+    UILabel *labelFlight = [self generateLabel:flightRect
+                                  withFontSize:[UIFont boldSystemFontOfSize:flightFontSize]
+                                      andColor:[UIColor blackColor]];
+    
+    [labelFlight setText:flight];
+    [cell addSubview:labelFlight];
+}
+- (UILabel *)generateLabel: (CGRect)frame
+              withFontSize: (UIFont *)font
+                  andColor: (UIColor *)color
+{
+    UILabel *labelTime = [[[UILabel alloc] initWithFrame:frame] autorelease];
+    [labelTime setFont:font];
+    [labelTime setTextColor:color];
+    [labelTime setBackgroundColor:[UIColor clearColor]];
+    return labelTime;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
