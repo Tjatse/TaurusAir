@@ -24,7 +24,7 @@
 	 *由于demo的局限性，本demo中的公私钥存放在AlixPayDemo-Info.plist中,外部商户可以存放在服务端或本地其他地方。
 	 */
 	//将商品信息赋予AlixPayOrder的成员变量
-	AlixPayOrder *order = [[AlixPayOrder alloc] init];
+	AlixPayOrder *order = [[[AlixPayOrder alloc] init] autorelease];
 	order.partner = kAlixPayPartnerId;
 	order.seller = kAlixPaySellerId;
 	order.tradeNO = orderId; //订单ID（由商家自行制定）
@@ -34,7 +34,7 @@
 	order.notifyURL =  @"http://www.xxx.com"; //回调URL
 	
 	//应用注册scheme,在AlixPayDemo-Info.plist定义URL types,用于安全支付成功后重新唤起商户应用
-	NSString *appScheme = @"AlixPayDemo";
+	NSString *appScheme = @"TaurusClient";
 	
 	//将商品信息拼接成字符串
 	NSString *orderSpec = [order description];
@@ -67,9 +67,7 @@
         else if (ret == kSPErrorSignError) {
             NSLog(@"签名错误！");
         }
-		
 	}
-
 }
 
 @end
