@@ -6,11 +6,25 @@
 //  Copyright (c) 2013年 Taurus. All rights reserved.
 //
 
+#import "NSDictionaryAdditions.h"
+#import "NSDateAdditions.h"
+
 #import "AlixPayHelper.h"
 #import "AlixPayOrder.h"
 #import "AppDefines.h"
 #import "DataSigner.h"
 #import "AlixPay.h"
+#import "FlightSelectViewController.h"
+#import "TicketOrderHelper.h"
+#import "CharCodeHelper.h"
+#import "ThreeCharCode.h"
+#import "TwoCharCode.h"
+#import "TicketOrder.h"
+
+static NSString*						gOrderIdStr;
+static FlightSelectViewController*		gVC;
+static NSDictionary*					gPassangers;
+static NSDictionary*					gContactor;
 
 @implementation AlixPayHelper
 
@@ -18,7 +32,23 @@
 				   andProductName:(NSString*)productName
 				   andProductDesc:(NSString*)productDesc
 				  andProductPrice:(float)productPrice
+					andPassangers:(NSDictionary*)passangers
+					 andContactor:(NSDictionary*)contactor
+	andFlightSelectViewController:(FlightSelectViewController*)vc
 {
+	SAFE_RELEASE(gOrderIdStr);
+	gOrderIdStr = [orderId retain];
+	gVC = vc;
+	
+	SAFE_RELEASE(gPassangers);
+	gPassangers = [passangers retain];
+	
+	SAFE_RELEASE(gContactor);
+	gContactor = [contactor retain];
+	
+	// FIXME: productPrice
+	productPrice = 0.01f;
+	
 	/*
 	 *生成订单信息及签名
 	 *由于demo的局限性，本demo中的公私钥存放在AlixPayDemo-Info.plist中,外部商户可以存放在服务端或本地其他地方。
@@ -41,7 +71,7 @@
 	NSLog(@"orderSpec = %@",orderSpec);
 	
 	//获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
-	id<DataSigner> signer = CreateRSADataSigner([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA private key"]);
+	id<DataSigner> signer = CreateRSADataSigner(kAlixPayRSASafeCode);
 	NSString *signedString = [signer signString:orderSpec];
 	
 	//将签名成功字符串格式化为订单字符串,请严格按照该格式
@@ -68,6 +98,71 @@
             NSLog(@"签名错误！");
         }
 	}
+}
+
++ (void)alixPayCallback:(BOOL)success
+{
+	if (success) {
+		[self processAlixPayCallbackWithVC:gVC];
+		
+		if (gVC.viewType == kFlightSelectViewTypeReturn) {
+			[self processAlixPayCallbackWithVC:gVC.parentVC];
+		}
+	}
+}
+
++ (void)processAlixPayCallbackWithVC:(FlightSelectViewController*)vc
+{
+//	@synthesize fromCity;
+//	@synthesize toCity;
+//	@synthesize customerName;
+//	@synthesize departureTime;
+//	@synthesize flightNumber;
+//	@synthesize orderId;
+	
+	NSDictionary* flightInfo = vc.selectedPayInfos[0];
+//	NSDictionary* cabinInfo = vc.selectedPayInfos[1];
+
+	// from to
+	NSDictionary* threeCodes = [CharCodeHelper allThreeCharCodesDictionary];
+	
+	NSString *fromTo = [flightInfo getStringValueForKey:@"FromTo" defaultValue:@""];
+    ThreeCharCode *from = [threeCodes objectForKey:[fromTo substringToIndex:3]];
+    ThreeCharCode *to = [threeCodes objectForKey:[fromTo substringFromIndex:3]];
+	NSString* airportTower = [flightInfo getStringValueForKey:@"AirportTower" defaultValue:@""];
+	NSString* fromAirportTower = [airportTower substringToIndex:[airportTower rangeOfString:@" "].location];
+	NSString* toAirportTower = [airportTower substringFromIndex:[airportTower rangeOfString:@" "].location];
+	NSString* fromAirportFullName = [NSString stringWithFormat:@"%@ %@"
+									 , from.airportAbbrName
+									 , fromAirportTower];
+
+	NSString* toAirportFullName = [NSString stringWithFormat:@"%@ %@"
+								   , to.airportAbbrName
+								   , toAirportTower];
+
+	// customerName
+	NSMutableString* customerName = [NSMutableString string];
+	NSArray* allPassangers = [gPassangers allValues];
+	for (NSDictionary* passanger in allPassangers) {
+		if (customerName.length > 0)
+			[customerName appendString:@" "];
+		
+		[customerName appendString:passanger[@"Name"]];
+	}
+	
+	// departure time
+	NSDate* leaveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]];
+	NSString* flightNumStr = [flightInfo getStringValueForKey:@"FlightNum" defaultValue:@""];
+
+	TicketOrder* ticketOrder = [[TicketOrder alloc] initWithFromCityFullName:fromAirportFullName
+															  toCityFullName:toAirportFullName
+																customerName:customerName
+															   departureTime:leaveTime
+																flightNumber:flightNumStr
+																	 orderId:gOrderIdStr];
+		
+	[[TicketOrderHelper sharedHelper] pushTicketOrder:ticketOrder];
+	SAFE_RELEASE(ticketOrder);
 }
 
 @end

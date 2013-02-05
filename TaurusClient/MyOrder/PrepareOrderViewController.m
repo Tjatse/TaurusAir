@@ -30,6 +30,9 @@
 #import "CRUDViewController.h"
 
 @interface PrepareOrderViewController () <UITableViewDataSource, UITableViewDelegate>
+{
+	float _totalPrice;
+}
 
 @property (nonatomic, retain) IBOutlet UITableView*			orderFormVw;
 @property (nonatomic, retain) IBOutlet UILabel*				priceCountLabel;
@@ -59,6 +62,14 @@
 {
 	if (self = [super init]) {
 		self.parentVC = aParentVC;
+		
+		NSDictionary* cabinInfo = aParentVC.selectedPayInfos[1];
+		_totalPrice = [cabinInfo getFloatValueForKey:@"PayPrice" defaultValue:0];
+		
+		if (aParentVC.viewType == kFlightSelectViewTypeReturn) {
+			cabinInfo = aParentVC.parentVC.selectedPayInfos[1];
+			_totalPrice += [cabinInfo getFloatValueForKey:@"PayPrice" defaultValue:0];
+		}
 	}
 	
 	return self;
@@ -240,7 +251,10 @@
 							   andContactor:self.contacter
 							 andSendAddress:self.sendAddress
 			  andFlightSelectViewController:self.parentVC
-								  andInView:self.view];
+								  andInView:self.view
+								   andPrice:_totalPrice
+							 andProductName:@"机票"
+							 andProductDesc:@"机票"];
 }
 
 #pragma mark - tableview delegate

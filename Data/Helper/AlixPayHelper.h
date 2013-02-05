@@ -8,11 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+@class FlightSelectViewController;
+
 @interface AlixPayHelper : NSObject
 
 + (void)performAlixPayWithOrderId:(NSString*)orderId
 				   andProductName:(NSString*)productName
 				   andProductDesc:(NSString*)productDesc
-				  andProductPrice:(float)productPrice;
+				  andProductPrice:(float)productPrice
+					andPassangers:(NSDictionary*)passangers
+					 andContactor:(NSDictionary*)contactor
+	andFlightSelectViewController:(FlightSelectViewController*)vc;
+
++ (void)alixPayCallback:(BOOL)success;
 
 @end

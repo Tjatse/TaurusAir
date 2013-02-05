@@ -54,6 +54,8 @@ extern NSString* const		kCabinRemarkURL;
 // alixpay
 extern NSString* const		kAlixPayPartnerId;
 extern NSString* const		kAlixPaySellerId;
+extern NSString* const		kAlixPayRSASafeCode;
+extern NSString* const		kAlixPayRSAPublicKey;
 
 #define setRequestAuth(request) \
 		[request setPostValue:CLIENT_ID forKey:@"ClientId"]; \

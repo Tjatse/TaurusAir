@@ -2631,6 +2631,8 @@
 		3E5161971675D0F700D2DC78 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Fu (26M626H856)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Fu (26M626H856)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TaurusClient/TaurusClient-Prefix.pch";
 				INFOPLIST_FILE = "TaurusClient/TaurusClient-Info.plist";
@@ -2640,6 +2642,8 @@
 					"\"$(SRCROOT)/AlixPay\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "32DC2AF4-6B50-4494-BB43-A5014D05B4FC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32DC2AF4-6B50-4494-BB43-A5014D05B4FC";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2647,6 +2651,8 @@
 		3E5161981675D0F700D2DC78 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bing Fu (26M626H856)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bing Fu (26M626H856)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TaurusClient/TaurusClient-Prefix.pch";
 				INFOPLIST_FILE = "TaurusClient/TaurusClient-Info.plist";
@@ -2656,6 +2662,8 @@
 					"\"$(SRCROOT)/AlixPay\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "32DC2AF4-6B50-4494-BB43-A5014D05B4FC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32DC2AF4-6B50-4494-BB43-A5014D05B4FC";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

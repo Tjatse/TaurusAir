@@ -50,6 +50,10 @@
 					  andContactor:(NSDictionary*)contactor
 					andSendAddress:(NSString*)sendAddress
 	 andFlightSelectViewController:(FlightSelectViewController*)vc
-						 andInView:(UIView*)inView;;
+						 andInView:(UIView*)inView
+						  andPrice:(float)price
+					andProductName:(NSString*)productName
+					andProductDesc:(NSString*)productDesc;
+
 
 @end

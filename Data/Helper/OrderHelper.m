@@ -17,11 +17,14 @@
 #import "BBlock.h"
 #import "MBProgressHUD.h"
 #import "ALToastView.h"
+#import "AlixPayHelper.h"
 
 #import "FlightSelectViewController.h"
 #import "ThreeCharCode.h"
 #import "TwoCharCode.h"
 #import "User.h"
+
+static int gOrderId;
 
 @interface OrderHelper(Private)
 + (id)dummy: (NSString *)key;
@@ -367,7 +370,8 @@
 			int orderId = [placeOrderJson getIntValueForKey:@"Response" defaultValue:0];
 			
 			// TODO:
-			orderId = 6817511;
+			orderId = 6819410;
+			gOrderId = orderId;
 			
             NSString* payPlat = @"2";
 			
@@ -417,6 +421,9 @@
 					andSendAddress:(NSString*)sendAddress
 	 andFlightSelectViewController:(FlightSelectViewController*)vc
 						 andInView:(UIView*)inView
+						  andPrice:(float)price
+					andProductName:(NSString*)productName
+					andProductDesc:(NSString*)productDesc
 {
 	NSArray* passangers = [orgPassangers allValues];
 	NSDictionary* contactor = orgContactor;
@@ -441,9 +448,16 @@
 				  
 				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
 				  
-				  [ALToastView toastPinInView:inView withText:@"预订成功。"
-							  andBottomOffset:44.0f
-									  andType:ERROR];
+//				  [ALToastView toastPinInView:inView withText:@"预订成功。"
+//							  andBottomOffset:44.0f
+//									  andType:ERROR];
+				  [AlixPayHelper performAlixPayWithOrderId:[NSString stringWithFormat:@"%d", gOrderId]
+											andProductName:productName
+											andProductDesc:productDesc
+										   andProductPrice:price
+											 andPassangers:orgPassangers
+											  andContactor:orgContactor
+							 andFlightSelectViewController:vc];
 				  
 				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
 			  }
@@ -487,11 +501,23 @@
 				  [MBProgressHUD hideHUDForView:inView
 									   animated:YES];
 				  
+//				  NSString* url = payUrlRespObj[@"Response"];
+
 				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
 				  
-				  [ALToastView toastPinInView:inView withText:@"预订成功。"
-							  andBottomOffset:44.0f
-									  andType:ERROR];
+//				  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+				  
+				  [AlixPayHelper performAlixPayWithOrderId:[NSString stringWithFormat:@"%d", gOrderId]
+											andProductName:productName
+											andProductDesc:productDesc
+										   andProductPrice:price
+											 andPassangers:orgPassangers
+											  andContactor:orgContactor
+							 andFlightSelectViewController:vc];
+				  
+//				  [ALToastView toastPinInView:inView withText:@"预订成功。"
+//							  andBottomOffset:44.0f
+//									  andType:ERROR];
 				  
 				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
 			  }
