@@ -336,6 +336,8 @@
 		9219BF9916C0AE34003053F0 /* group-header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9219BF9516C0AE34003053F0 /* group-header@2x.png */; };
 		9219BF9E16C0B38F003053F0 /* CRUDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9219BF9C16C0B38F003053F0 /* CRUDViewController.m */; };
 		9219BF9F16C0B38F003053F0 /* CRUDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9219BF9D16C0B38F003053F0 /* CRUDViewController.xib */; };
+		9219BFA616C0DA24003053F0 /* airplane-take-off-reback@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9219BFA416C0DA24003053F0 /* airplane-take-off-reback@2x.png */; };
+		9219BFA716C0DA24003053F0 /* airplane-take-off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9219BFA516C0DA24003053F0 /* airplane-take-off@2x.png */; };
 		921A02AC167ACA64005726AB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921A02AB167ACA64005726AB /* LoginViewController.m */; };
 		921E5E4E16BF6916006D0237 /* header-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 921E5E4C16BF6916006D0237 /* header-bar.png */; };
 		921E5E4F16BF6916006D0237 /* header-bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 921E5E4D16BF6916006D0237 /* header-bar@2x.png */; };
@@ -956,6 +958,8 @@
 		9219BF9B16C0B38F003053F0 /* CRUDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRUDViewController.h; path = MyOrder/CRUDViewController.h; sourceTree = "<group>"; };
 		9219BF9C16C0B38F003053F0 /* CRUDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRUDViewController.m; path = MyOrder/CRUDViewController.m; sourceTree = "<group>"; };
 		9219BF9D16C0B38F003053F0 /* CRUDViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CRUDViewController.xib; path = MyOrder/CRUDViewController.xib; sourceTree = "<group>"; };
+		9219BFA416C0DA24003053F0 /* airplane-take-off-reback@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplane-take-off-reback@2x.png"; sourceTree = "<group>"; };
+		9219BFA516C0DA24003053F0 /* airplane-take-off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplane-take-off@2x.png"; sourceTree = "<group>"; };
 		921A02AA167ACA64005726AB /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		921A02AB167ACA64005726AB /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		921E5E4C16BF6916006D0237 /* header-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header-bar.png"; sourceTree = "<group>"; };
@@ -2126,6 +2130,8 @@
 		92B780971687FD3100A9DE32 /* order */ = {
 			isa = PBXGroup;
 			children = (
+				9219BFA416C0DA24003053F0 /* airplane-take-off-reback@2x.png */,
+				9219BFA516C0DA24003053F0 /* airplane-take-off@2x.png */,
 				9219BF9216C0AE34003053F0 /* arrow-gray.png */,
 				9219BF9316C0AE34003053F0 /* arrow-gray@2x.png */,
 				9219BF9416C0AE34003053F0 /* group-header.png */,
@@ -2367,6 +2373,8 @@
 				9219BF9816C0AE34003053F0 /* group-header.png in Resources */,
 				9219BF9916C0AE34003053F0 /* group-header@2x.png in Resources */,
 				9219BF9F16C0B38F003053F0 /* CRUDViewController.xib in Resources */,
+				9219BFA616C0DA24003053F0 /* airplane-take-off-reback@2x.png in Resources */,
+				9219BFA716C0DA24003053F0 /* airplane-take-off@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

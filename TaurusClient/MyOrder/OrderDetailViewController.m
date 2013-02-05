@@ -24,6 +24,7 @@
 #import "NSDateAdditions.h"
 #import "NSDictionaryAdditions.h"
 #import "CRUDViewController.h"
+#import "AppContext.h"
 
 @interface OrderDetailViewController ()
 
@@ -80,15 +81,57 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"获取中...";
+    _size = CGSizeZero;
+    _status = OrderStatusOther;
     
     NSString *orderId = [NSString stringWithFormat:@"%d",[[_orderListItem objectForKey:@"Tid"] intValue]];
     [OrderHelper orderDetailWithId:orderId
                             user:[AppConfig get].currentUser
                            success:^(NSDictionary *order) {
                                NSLog(@"%@", order);
-                               _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
+                               _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
                                
                                _detail = [order mutableCopy];
+                               
+                               NSString *flightInfo = [_detail objectForKey:@"Flight"];
+                               int c = [[flightInfo componentsSeparatedByString:@"^"] count];
+                               _hasReturn = c == 2;
+                               
+                               NSString *psg = [_detail objectForKey:@"Traveler"];
+                               if(psg != nil && (NSNull *)psg != [NSNull null]){
+                                   NSArray *ts = [psg componentsSeparatedByString:@"^"];
+                                   
+                                   [_passengers release], _passengers = nil;
+                                   _passengers = [[NSMutableArray alloc] initWithCapacity:0];
+                                   for(NSString *t in ts){
+                                       NSArray *ps = [t componentsSeparatedByString:@"_"];
+                                       if([ps count] == 3){
+                                           [_passengers addObject:@{@"name":ps[0],@"type":ps[1],@"chinaId":ps[2]}];
+                                       }
+                                   }
+                               }
+                               
+                               NSString *sendAddress = [_detail getStringValueForKey:@"SendAddress" defaultValue:@""];
+                               
+                               CGSize textSize = {200,1000};
+                               _size = [sendAddress sizeWithFont:[UIFont systemFontOfSize:14]
+                                               constrainedToSize:textSize
+                                                   lineBreakMode:UILineBreakModeWordWrap];
+                               _size.height = _size.height+10;
+                               if (_size.height < 44) {
+                                   _size.height = 44;
+                               }
+                               
+                               int orderType = [_detail getIntValueForKey:@"OrderType" defaultValue:-1];
+                               int state = [_detail getIntValueForKey:@"State" defaultValue:-1];
+                               
+                               if(orderType == 1 && state == 1010){
+                                   _status = OrderStatusPayAndCancel;
+                               }else if(orderType == 1 && (state == 1200 || state == 1210 || state == 1260)){
+                                   _status = OrderStatusRollback;
+                               }else{
+                                   _status = OrderStatusOther;
+                               }
                                
                                [self initComponents];
                                [_tableView reloadData];
@@ -107,7 +150,11 @@
 }
 #pragma mark -Init components
 - (void)initComponents
-{   
+{
+    if(_status != OrderStatusPayAndCancel){
+    
+        return;
+    }
     UILabel *labelPriceInfo = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 100, 36)];
     [labelPriceInfo setText:@"订单金额："];
     [labelPriceInfo setTextColor:[UIColor whiteColor]];
@@ -131,64 +178,61 @@
     [_viewBottom addSubview:imageViewLine];
     [imageViewLine release];
     
-    NSNumber *state = [_detail objectForKey:@"State"];
-    if([state isEqualToNumber:[NSNumber numberWithInt:1200]] ||
-       [state isEqualToNumber:[NSNumber numberWithInt:1210]] ||
-       [state isEqualToNumber:[NSNumber numberWithInt:1260]]){
-        UIButton *buttonCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-        [buttonCancel setFrame:CGRectMake(SCREEN_RECT.size.width - 80, 0, 80, 36)];
-        [buttonCancel setTitle:@"申请退票" forState:UIControlStateNormal];
-        [buttonCancel.titleLabel setFont:[UIFont systemFontOfSize:14]];
-        [buttonCancel.titleLabel setTextColor:[UIColor whiteColor]];
-        [buttonCancel setShowsTouchWhenHighlighted:YES];
-        [buttonCancel addTarget:self action:@selector(cancelTicket:) forControlEvents:UIControlEventTouchUpInside];
-        [_viewBottom addSubview:buttonCancel];
-    }else{
-        UILabel *labelCancel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_RECT.size.width - 80, 0, 80, 36)];
-        [labelCancel setText:@"申请退票"];
-        [labelCancel setTextAlignment:UITextAlignmentCenter];
-        [labelCancel setTextColor:[UIColor grayColor]];
-        [labelCancel setBackgroundColor:[UIColor clearColor]];
-        [labelCancel setFont:[UIFont systemFontOfSize:14]];
-        [_viewBottom addSubview:labelCancel];
-        [labelCancel release];
-    }
-}
-- (void)cancelTicket:(UIButton *)button
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的订单将被取消，确定继续？" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:@"确定", nil];
-    [alert show];
-    [alert release];
-}
-// TODO: cancel order.
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 1){
-        NSLog(@"%d", buttonIndex);
-    }
+    UIButton *buttonPlay = [UIButton buttonWithType:UIButtonTypeCustom];
+    [buttonPlay setFrame:CGRectMake(SCREEN_RECT.size.width - 80, 0, 80, 36)];
+    [buttonPlay setTitle:@"支付" forState:UIControlStateNormal];
+    [buttonPlay.titleLabel setFont:[UIFont systemFontOfSize:14]];
+    [buttonPlay.titleLabel setTextColor:[UIColor whiteColor]];
+    [buttonPlay setShowsTouchWhenHighlighted:YES];
+    [buttonPlay addTarget:self action:@selector(pay:) forControlEvents:UIControlEventTouchUpInside];
+    [_viewBottom addSubview:buttonPlay];
 }
 #pragma mark -TableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section == 1){
+    if(indexPath.section == 1 || (_hasReturn && indexPath.section == 2)){
         return 182;
+    }
+    else if(((_hasReturn && indexPath.section == 3) || (!_hasReturn && indexPath.section == 2)) && indexPath.row == 0){
+        if(_passengers == nil || [_passengers count] == 0){
+            return 44;
+        }else{
+            return 44 * [_passengers count];
+        }
+    }else if(((_hasReturn && indexPath.section == 3) || (!_hasReturn && indexPath.section == 2)) && indexPath.row == 2){
+        return _size.height < 44 ? 44: _size.height;
     }
     return 44;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_datas[section] count];
+    int index = section;
+    if(!_hasReturn && section == 2){
+        index ++;
+    }else if((_hasReturn && section == 4) || (!_hasReturn && section == 3)){
+        return 0;
+    }
+    return [_datas[index] count];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [_datas count];
+    int c = [_datas count] - (_hasReturn ? 0 : 1);
+    return (c < 0 ? 0:c) + (_status != OrderStatusOther ? 1:0);
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{    
+    if((_hasReturn && section == 4) || (!_hasReturn && section == 3)){
+        return 54;
+    }else{
+        return 0;
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identify = @"Cell";
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if(cell == nil){
-        if(indexPath.section == 1){
+        if(indexPath.section == 1 || (_hasReturn && indexPath.section == 2)){
             cell = [[NSBundle mainBundle] loadNibNamed:@"PrepareOrderCells" owner:nil options:nil][0];
         }else{
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identify]
@@ -198,86 +242,145 @@
     [cell setNeedsDisplay];
     [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
     
-    if(indexPath.section == 1){
-        [self parseFlightInfoCell:cell];
+    if(indexPath.section == 1 || (_hasReturn && indexPath.section == 2)){
+        cell.clipsToBounds = YES;
+        [self parseFlightInfoCell:cell andIndexPath:indexPath];
     }else{
+        
+        int index = indexPath.section;
+        if(!_hasReturn && index == 2){
+            index ++;
+        }
+
+        int r = indexPath.row;
         [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-        [cell.textLabel setText:_datas[indexPath.section][indexPath.row]];
+        [cell.textLabel setText:_datas[index][r]];
         
         [cell.detailTextLabel setFont:[UIFont systemFontOfSize:14]];
         
-        switch (indexPath.section) {
-            case 0:{
-                switch (indexPath.row) {
-                    case 0:{
-                        OrderState *state = [_orderStates objectForKey:[[_detail objectForKey:@"State"] stringValue]];
-                        [cell.detailTextLabel setText:(state?state.title:@"未知")];
-                    }
-                        break;
-                    case 1:{
-                        [cell.detailTextLabel setText:[[_detail objectForKey:@"Tid"] stringValue]];
-                    }
-                        break;
-                    case 2:{
-                        [cell.detailTextLabel setText:[_detail objectForKey:@"BookTime"]];
-                    }
-                        break;
-                    default:
-                        break;
+        if (index == 0) {
+            switch (r) {
+                case 0:{
+                    OrderState *state = [_orderStates objectForKey:[[_detail objectForKey:@"State"] stringValue]];
+                    [cell.detailTextLabel setText:(state?state.title:@"未知")];
                 }
-            }    
-                break;
-            case 1:{
-                // ignore flight info.
+                    break;
+                case 1:{
+                    [cell.detailTextLabel setText:[[_detail objectForKey:@"Tid"] stringValue]];
+                }
+                    break;
+                case 2:{
+                    [cell.detailTextLabel setText:[_detail objectForKey:@"BookTime"]];
+                }
+                    break;
+                default:
+                    break;
             }
-                break;
-            case 2:{
-                switch (indexPath.row) {
-                    case 0:{
-                        [cell.detailTextLabel setText:[_detail objectForKey:@"Traveler"]];
-                    }
-                        break;
-                    case 1:{
-                        NSString *cp = [_detail objectForKey:@"ContactorPhone"];
-                        if((NSNull *)cp == [NSNull null]){
-                            [cell.detailTextLabel setText:@"-"];
-                        }else{
-                            _contactorPhone = [cp retain];
-                            [cell.detailTextLabel setText:[NSString stringWithFormat:@"%@(%@)",
-                                                           [_detail objectForKey:@"ContactorName"],
-                                                           _contactorPhone]];
-                            if(_contactorPhone){
-                                [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+        }else if(index == 3){
+            switch (indexPath.row) {
+                case 0:{
+                    int l = 0;
+                    if(_passengers == nil || (l = [_passengers count]) == 0){
+                        [cell.detailTextLabel setText:@"-"];
+                    }else{
+                        int offset = 0;
+                        UIImage *lineImg = [UIImage imageNamed:@"gray-point.png"];
+                        for(NSDictionary *p in _passengers){
+                            UIView *ctn = [[UIView alloc] initWithFrame:CGRectMake(100, offset * 44, 210, 44)];
+                            
+                            int t = [[p objectForKey:@"type"] intValue];
+                            NSString *tn = @"成人";
+                            if(t == 2){
+                                tn = @"儿童";
                             }
+
+                            UILabel *labelName = [self generateLabel:CGRectMake(0, 0, 100, 26)
+                                                        withFontSize:14
+                                                            andColor:cell.detailTextLabel.textColor];
+                            [labelName setText:[NSString stringWithFormat:@"%@, %@", [p objectForKey:@"name"], tn]];
+                            [ctn addSubview:labelName];
+                                                        
+                            UILabel *labelChinaId = [self generateLabel:CGRectMake(0, 20, 200, 24)
+                                                        withFontSize:12
+                                                            andColor:cell.detailTextLabel.textColor];
+                            [labelChinaId setText:[p objectForKey:@"chinaId"]];
+                            [ctn addSubview:labelChinaId];
+                            
+                            if(offset != l - 1){
+                                UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, ctn.frame.size.height - 1, ctn.frame.size.width, 1)];
+                                [imgView setImage:[lineImg stretchableImageWithLeftCapWidth:0 topCapHeight:0]];
+                                [ctn addSubview:imgView];
+                                [imgView release];
+                            }
+                            
+                            [cell addSubview:ctn];
+                            [ctn release];
+                            offset++;
                         }
                     }
-                        break;
-                    case 2:{
-                        [cell.detailTextLabel setFont:[UIFont systemFontOfSize:12]];
-                        [cell.detailTextLabel setNumberOfLines:0];
-                        NSString *address = [_detail objectForKey:@"SendAddress"];
-                        [cell.detailTextLabel setText:(NSNull *)address == [NSNull null] ? @"-":address];
-                    }
-                        break;
-                    default:
-                        break;
                 }
-                break;
-            default:
-                break;
+                    break;
+                case 1:{
+                    _contactorPhone = [[_detail getStringValueForKey:@"ContactorPhone" defaultValue:@""] retain];
+                    NSString *cn = [_detail objectForKey:@"ContactorName"];
+                    
+                    UIView *ctn = [[UIView alloc] initWithFrame:CGRectMake(100, 0, 210, 44)];
+                    
+                    UILabel *labelName = [self generateLabel:CGRectMake(0, 0, 100, 26)
+                                                withFontSize:14
+                                                    andColor:cell.detailTextLabel.textColor];
+                    [labelName setText:cn];
+                    [ctn addSubview:labelName];
+                    
+                    UILabel *labelPhone = [self generateLabel:CGRectMake(0, 20, 200, 24)
+                                                   withFontSize:12
+                                                       andColor:cell.detailTextLabel.textColor];
+                    [labelPhone setText:_contactorPhone];
+                    [ctn addSubview:labelPhone];
+                    
+                    [cell addSubview:ctn];
+                    [ctn release];
+                    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                }
+                    break;
+                case 2:{
+                    UILabel *labelAddr = [self generateLabel:CGRectMake(100, 0, 200, _size.height)
+                                                withFontSize:14
+                                                    andColor:cell.detailTextLabel.textColor];
+                    [labelAddr setNumberOfLines:0];
+                    [labelAddr setLineBreakMode:UILineBreakModeWordWrap];
+                    NSString *address = [_detail objectForKey:@"SendAddress"];
+                    [labelAddr setText:(NSNull *)address == [NSNull null] ? @"-":address];
+                    [cell addSubview:labelAddr];
+                }
+                    break;
+                default:
+                    break;
             }
         }
     }
     
     return cell;
 }
+
+- (UILabel *)generateLabel: (CGRect)frame
+              withFontSize: (float)fontSize
+                  andColor: (UIColor *)color
+{
+    UILabel *labelTime = [[[UILabel alloc] initWithFrame:frame] autorelease];
+    [labelTime setFont:[UIFont systemFontOfSize:fontSize]];
+    [labelTime setTextColor:color];
+    [labelTime setBackgroundColor:[UIColor clearColor]];
+    return labelTime;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if(indexPath.section == 1){
         
-    }else if(indexPath.section == 2){
+    }else if((!_hasReturn && indexPath.section == 2) || (_hasReturn && indexPath.section == 3)){
         if(indexPath.row == 1 && _contactorPhone){
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:[NSString stringWithFormat: @"拨打 %@", _contactorPhone] otherButtonTitles:nil, nil];
             [sheet showInView:self.view];
@@ -285,15 +388,39 @@
         }
     }
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if((_hasReturn && section == 4) || (!_hasReturn && section == 3)){
+        UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 64)] autorelease];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageNamed:@"fs_btn.png"] forState:UIControlStateNormal];
+        NSString *title = @"取消订单";
+        if(_status == OrderStatusPayAndCancel){
+            title = @"取消订单";
+        }else if(_status == OrderStatusRollback){
+            title = @"申请退票";
+        }
+        [button setTitle: title forState:UIControlStateNormal];
+        CGFloat x = (tableView.frame.size.width - 278)/2;
+        [button setFrame:CGRectMake(x, 5, 278, 45)];
+        [button addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:button];
+        
+        return view;
+    }
+    return nil;
+}
 #pragma mark - Flight Information
 
-- (void)parseFlightInfoCell:(UITableViewCell*)cell
+- (void)parseFlightInfoCell:(UITableViewCell*)cell andIndexPath: (NSIndexPath *)indexPath
 {
     if(_detail == nil || (NSNull *)_detail == [NSNull null] || [_detail count] == 0){
         return;
     }
-    
-    NSString *flight = [_detail objectForKey:@"Flight"];
+    NSArray *flights = [[_detail objectForKey:@"Flight"] componentsSeparatedByString:@"^"];
+    NSString *flight = [flights objectAtIndex:indexPath.section - 1];
     NSArray *fs = [flight componentsSeparatedByString:@"_"];
     TwoCharCode *tcc = [_twoCodes objectForKey:fs[0]];
     NSString *corp = tcc ? tcc.corpAbbrName:@"";
@@ -309,8 +436,6 @@
     _flight = [@[corp, flt, pos, from, start, to, end] retain];
 	
 	UIImageView* bgImgVw = (UIImageView*)[cell viewWithTag:99];
-	//UIImageView* departureOrReturnImgVw = (UIImageView*)[cell viewWithTag:100];
-	//UILabel* departureOrReturnLabel = (UILabel*)[cell viewWithTag:101];
 	UILabel* dateLabel = (UILabel*)[cell viewWithTag:102];
 	UILabel* twoCharLabel = (UILabel*)[cell viewWithTag:103];
 	UILabel* purePriceLabel = (UILabel*)[cell viewWithTag:104];
@@ -324,12 +449,15 @@
     UIImage *ghImg = [UIImage imageNamed:@"group-header.png"];
     [bgImgVw setFrame:CGRectMake(0, 0, 300, 63)];
     [bgImgVw setImage:[ghImg stretchableImageWithLeftCapWidth:50 topCapHeight:5]];
-    /*
-	// departureOrReturnImgVw
-	if (flightSelectVC.viewType == kFlightSelectViewTypeReturn) {
-		departureOrReturnImgVw.image = [UIImage imageNamed:@"order_return_btn_bg.png"];
-		departureOrReturnLabel.text = @"返程";
-	}*/
+    
+    
+    if(indexPath.section == 2){
+        // departureOrReturnImgVw
+        UIImageView* departureOrReturnImgVw = (UIImageView*)[cell viewWithTag:100];
+        UILabel* departureOrReturnLabel = (UILabel*)[cell viewWithTag:101];
+        departureOrReturnImgVw.image = [UIImage imageNamed:@"order_return_btn_bg.png"];
+        departureOrReturnLabel.text = @"返程";
+    }
 	
 	// twoCharLabel
 	twoCharLabel.text = [NSString stringWithFormat:@"%@%@", corp, flt];
@@ -386,8 +514,39 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 0){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", _contactorPhone]]];
+        if(actionSheet.tag == 100){
+            if(buttonIndex == 0){
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.dimBackground = YES;
+                if(_status == OrderStatusPayAndCancel){
+                    // cancel ticket.
+                    hud.labelText = @"取消中...";
+                }else if(_status == OrderStatusRollback){
+                    // cancel ticket.
+                    hud.labelText = @"退票中...";
+                    
+                }
+            }
+        }else if(actionSheet.tag == 101){
+            // TODO: Play
+            NSLog(@"%@", _detail);
+        }else{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", _contactorPhone]]];
+        }
     }
 }
+- (void)cancel:(UIButton *)button{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"关        闭" destructiveButtonTitle: button.titleLabel.text otherButtonTitles:nil, nil];
+    actionSheet.tag = 100;
+    [actionSheet showFromTabBar:[AppContext get].navController.tabBar];
+    [actionSheet release];
+}
 
+- (void)pay:(UIButton *)button
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"关        闭" destructiveButtonTitle: @"支付订单" otherButtonTitles:nil, nil];
+    actionSheet.tag = 101;
+    [actionSheet showFromTabBar:[AppContext get].navController.tabBar];
+    [actionSheet release];
+}
 @end
