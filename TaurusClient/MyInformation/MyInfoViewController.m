@@ -41,6 +41,9 @@
 - (void)dealloc
 {
     [_tableView release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_SUC" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"INFO_OPERATION" object:nil];
+
     [super dealloc];
 }
 
@@ -63,12 +66,6 @@
     }else{
         [self initComponent];
     }
-}
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGIN_SUC" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"INFO_OPERATION" object:nil];
 }
 
 - (void)didReceiveMemoryWarning

@@ -28,6 +28,25 @@ static NSDictionary*					gContactor;
 
 @implementation AlixPayHelper
 
+/*
+ *随机生成15位订单号,外部商户根据自己情况生成订单号
+ */
++ (NSString *)generateTradeNO
+{
+	const int N = 15;
+	
+	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
+	srand(time(0));
+	for (int i = 0; i < N; i++)
+	{
+		unsigned index = rand() % [sourceString length];
+		NSString *s = [sourceString substringWithRange:NSMakeRange(index, 1)];
+		[result appendString:s];
+	}
+	return result;
+}
+
 + (void)performAlixPayWithOrderId:(NSString*)orderId
 				   andProductName:(NSString*)productName
 				   andProductDesc:(NSString*)productDesc
@@ -57,7 +76,7 @@ static NSDictionary*					gContactor;
 	AlixPayOrder *order = [[[AlixPayOrder alloc] init] autorelease];
 	order.partner = kAlixPayPartnerId;
 	order.seller = kAlixPaySellerId;
-	order.tradeNO = orderId; //订单ID（由商家自行制定）
+	order.tradeNO = [self generateTradeNO]; //orderId; //订单ID（由商家自行制定）
 	order.productName = productName; //商品标题
 	order.productDescription = productDesc; //商品描述
 	order.amount = [NSString stringWithFormat:@"%.2f", productPrice]; //商品价格
@@ -163,6 +182,10 @@ static NSDictionary*					gContactor;
 		
 	[[TicketOrderHelper sharedHelper] pushTicketOrder:ticketOrder];
 	SAFE_RELEASE(ticketOrder);
+	
+	// 发送通知
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ALIXPAY_CALLBACK_SUCCESS" object:nil];
 }
 
 @end

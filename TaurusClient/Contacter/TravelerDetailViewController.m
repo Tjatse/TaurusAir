@@ -35,6 +35,10 @@
     [_datas release];
     [_tableView release];
     [_detail release];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_CONTACTER" object:nil];
+
     [super dealloc];
 }
 
@@ -74,12 +78,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTraveler:) name:@"REFRESH_TRAVELER" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacter:) name:@"REFRESH_CONTACTER" object:nil];
 }
-- (void)viewDidUnload
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_TRAVELER" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_CONTACTER" object:nil];
-    [super viewDidUnload];
-}
+
 - (void)refreshTraveler:(NSNotification *)notification
 {
     NSDictionary *_traveler = [[notification userInfo] objectForKey:@"TRAVELER"];

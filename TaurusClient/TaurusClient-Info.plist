@@ -40,7 +40,11 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>TaurusClient</string>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>TaurusClient</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
