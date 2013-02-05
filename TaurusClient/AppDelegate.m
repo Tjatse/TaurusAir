@@ -12,6 +12,8 @@
 #import "FSConfig.h"
 #import "AppEngine.h"
 #import "AlixPay.h"
+#import "AlixPayHelper.h"
+#import "AppDefines.h"
 #import "DataVerifier.h"
 
 @interface AppDelegate ()
@@ -95,6 +97,8 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
 	// TODO: 航班提醒处理
+	[[UIApplication sharedApplication] cancelLocalNotification:notification];
+	
 	NSLog(@"df");
 }
 
@@ -114,15 +118,17 @@
 			/*
 			 *用公钥验证签名
 			 */
-			id<DataVerifier> verifier = CreateRSADataVerifier([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA public key"]);
+			id<DataVerifier> verifier = CreateRSADataVerifier(kAlixPayRSAPublicKey);
 			if ([verifier verifyString:result.resultString withSign:result.signString]) {
 				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
-																	 message:result.statusMessage
+																	 message:@"支付成功。" //result.statusMessage
 																	delegate:nil
 														   cancelButtonTitle:@"确定"
 														   otherButtonTitles:nil];
 				[alertView show];
 				[alertView release];
+				
+				[AlixPayHelper alixPayCallback:YES];
 			}//验签错误
 			else {
 				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"

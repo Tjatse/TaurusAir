@@ -11,25 +11,27 @@
 
 @implementation TicketOrder
 
-@synthesize fromCity;
-@synthesize toCity;
+@synthesize fromCityFullName;
+@synthesize toCityFullName;
 @synthesize customerName;
 @synthesize departureTime;
 @synthesize flightNumber;
+@synthesize orderId;
 
 //===========================================================
 // - (id)initWith:
 //
 //===========================================================
-- (id)initWithFromCity:(ThreeCharCode*)aFromCity toCity:(ThreeCharCode*)aToCity customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime flightNumber:(NSString*)aFlightNumber
+- (id)initWithFromCityFullName:(NSString*)aFromCityFullName toCityFullName:(NSString*)aToCityFullName customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime flightNumber:(NSString*)aFlightNumber orderId:(NSString*)anOrderId
 {
     self = [super init];
     if (self) {
-        self.fromCity = aFromCity;
-        self.toCity = aToCity;
+        self.fromCityFullName = aFromCityFullName;
+        self.toCityFullName = aToCityFullName;
         self.customerName = aCustomerName;
         self.departureTime = aDepartureTime;
         self.flightNumber = aFlightNumber;
+        self.orderId = anOrderId;
     }
     return self;
 }
@@ -40,14 +42,16 @@
 //===========================================================
 - (void)dealloc
 {
-    self.fromCity = nil;
-    self.toCity = nil;
+    self.fromCityFullName = nil;
+    self.toCityFullName = nil;
     self.customerName = nil;
     self.departureTime = nil;
     self.flightNumber = nil;
+    self.orderId = nil;
 	
     [super dealloc];
 }
+
 
 
 @end

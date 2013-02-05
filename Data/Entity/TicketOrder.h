@@ -12,10 +12,10 @@
 
 @interface TicketOrder : NSObject
 
-@property (nonatomic, retain) ThreeCharCode *fromCity;
-@property (nonatomic, retain) ThreeCharCode *toCity;
+@property (nonatomic, retain) NSString *fromCityFullName;
+@property (nonatomic, retain) NSString *toCityFullName;
 @property (nonatomic, retain) NSString *customerName;
 @property (nonatomic, retain) NSDate *departureTime;
 @property (nonatomic, retain) NSString *flightNumber;
-- (id)initWithFromCity:(ThreeCharCode*)aFromCity toCity:(ThreeCharCode*)aToCity customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime flightNumber:(NSString*)aFlightNumber;
-@end
+@property (nonatomic, retain) NSString *orderId;
+- (id)initWithFromCityFullName:(NSString*)aFromCityFullName toCityFullName:(NSString*)aToCityFullName customerName:(NSString*)aCustomerName departureTime:(NSDate*)aDepartureTime flightNumber:(NSString*)aFlightNumber orderId:(NSString*)anOrderId;@end

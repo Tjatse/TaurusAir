@@ -454,7 +454,10 @@ static int gOrderId;
 				  [AlixPayHelper performAlixPayWithOrderId:[NSString stringWithFormat:@"%d", gOrderId]
 											andProductName:productName
 											andProductDesc:productDesc
-										   andProductPrice:price];
+										   andProductPrice:price
+											 andPassangers:orgPassangers
+											  andContactor:orgContactor
+							 andFlightSelectViewController:vc];
 				  
 				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
 			  }
@@ -507,7 +510,10 @@ static int gOrderId;
 				  [AlixPayHelper performAlixPayWithOrderId:[NSString stringWithFormat:@"%d", gOrderId]
 											andProductName:productName
 											andProductDesc:productDesc
-										   andProductPrice:price];
+										   andProductPrice:price
+											 andPassangers:orgPassangers
+											  andContactor:orgContactor
+							 andFlightSelectViewController:vc];
 				  
 //				  [ALToastView toastPinInView:inView withText:@"预订成功。"
 //							  andBottomOffset:44.0f

@@ -128,8 +128,8 @@
 	TicketOrder* ticketOrder = [TicketOrderHelper sharedHelper].allTicketOrders[indexPath.row];
 	flightNumberLabel.text = ticketOrder.flightNumber;
 	cityFromToLabel.text = [NSString stringWithFormat:@"%@ - %@"
-							, ticketOrder.fromCity.cityName
-							, ticketOrder.toCity.cityName];
+							, ticketOrder.fromCityFullName
+							, ticketOrder.toCityFullName];
 	departureTimeLabel.text = [NSDate stringFromDate:ticketOrder.departureTime withFormat:[NSDate timestampFormatString]];
 	customerLabel.text = ticketOrder.customerName;
 	

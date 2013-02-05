@@ -41,26 +41,26 @@
 {
 	if (self = [super init]) {
 		self.allTicketOrders = [NSMutableArray array];
-		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
-																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
-															customerName:@"张三"
-														   departureTime:[NSDate dateWithTimeIntervalSinceNow:1 * 60 * 60]
-															flightNumber:@"CA7878"] autorelease]];
-		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
-																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
-															customerName:@"李四"
-														   departureTime:[NSDate dateWithTimeIntervalSinceNow:2 * 60 * 60 + 5]
-															flightNumber:@"CA7878"] autorelease]];
-		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
-																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
-															customerName:@"王二麻子"
-														   departureTime:[NSDate dateWithTimeIntervalSinceNow:3 * 60 * 60]
-															flightNumber:@"CA7878"] autorelease]];
-		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
-																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
-															customerName:@"小熊"
-														   departureTime:[NSDate dateWithTimeIntervalSinceNow:4 * 60 * 60]
-															flightNumber:@"CA7878"] autorelease]];
+//		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
+//																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
+//															customerName:@"张三"
+//														   departureTime:[NSDate dateWithTimeIntervalSinceNow:1 * 60 * 60]
+//															flightNumber:@"CA7878"] autorelease]];
+//		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
+//																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
+//															customerName:@"李四"
+//														   departureTime:[NSDate dateWithTimeIntervalSinceNow:2 * 60 * 60 + 5]
+//															flightNumber:@"CA7878"] autorelease]];
+//		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
+//																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
+//															customerName:@"王二麻子"
+//														   departureTime:[NSDate dateWithTimeIntervalSinceNow:3 * 60 * 60]
+//															flightNumber:@"CA7878"] autorelease]];
+//		[self pushTicketOrder:[[[TicketOrder alloc] initWithFromCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"PEK"]
+//																  toCity:[[CharCodeHelper allThreeCharCodesDictionary] objectForKey:@"SHA"]
+//															customerName:@"小熊"
+//														   departureTime:[NSDate dateWithTimeIntervalSinceNow:4 * 60 * 60]
+//															flightNumber:@"CA7878"] autorelease]];
 
 	}
 	
@@ -83,8 +83,8 @@
 		if (alarm) {
 			NSString* alarmBody = [NSString stringWithFormat:@"%@，%@-%@，%@起飞，该出发了。"
 								   , ticket.flightNumber
-								   , ticket.fromCity.cityName
-								   , ticket.toCity.cityName
+								   , ticket.fromCityFullName
+								   , ticket.toCityFullName
 								   , [ticket.departureTime stringWithFormat:[NSDate timestampFormatString]]];
 			
 			alarm.fireDate = twoHoursBefore;
