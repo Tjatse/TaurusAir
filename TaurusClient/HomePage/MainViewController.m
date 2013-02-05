@@ -17,6 +17,7 @@
 #import "ALToastView.h"
 #import "AppDefines.h"
 #import "UIApplicationAdditions.h"
+#import "AppDelegate.h"
 
 @interface MainViewController ()
 
@@ -173,11 +174,12 @@
 - (void)alipayCallbackSuccess
 {
 	[self.navigationController popToRootViewControllerAnimated:YES];
+	[__APP_NAVVC__.topViewController dismissModalViewControllerAnimated:YES];
 	[self onMyOrderButtonTap:nil];
 	
 	[ALToastView toastInView:[UIApplication mainWindow]
 					withText:@"支付成功。"
-			 andBottomOffset:208 andType:INFOMATION];
+			 andBottomOffset:84 andType:INFOMATION];
 }
 
 @end

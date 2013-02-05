@@ -59,6 +59,9 @@ extern NSString* const		kAlixPaySellerId;
 extern NSString* const		kAlixPayRSASafeCode;
 extern NSString* const		kAlixPayRSAPublicKey;
 
+// feedback
+extern NSString* const		kFeedbackURL;
+
 #define setRequestAuth(request) \
 		[request setPostValue:CLIENT_ID forKey:@"ClientId"]; \
 		[request setPostValue:SAFE_CODE forKey:@"safeCode"];
