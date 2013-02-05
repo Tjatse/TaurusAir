@@ -38,6 +38,7 @@ typedef enum {
 // order.
 #define ORDER_LIST          @"Interfaces/GetTicketOrdersByCondition.ashx"
 #define ORDER_DETAIL        @"Interfaces/GetTicketOrderDetailById.ashx"
+#define ORDER_CANCEL        @"Interfaces/CancelOrder.ashx"
 
 // traveler.
 #define TRAVELER_PASSENGERS @"Interfaces/GetPassengers.ashx"

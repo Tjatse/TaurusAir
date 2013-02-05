@@ -209,6 +209,13 @@
 }
 - (void)orderReresh:(NSNotification *)notification
 {
+    NSDictionary *userInfo = [notification userInfo];
+    if(userInfo != nil && [userInfo count] > 0){
+        NSString *msg = [userInfo objectForKey:@"MSG"];
+        if(msg != nil && (NSNull *)msg != [NSNull null]){
+            [ALToastView toastInView:self.view withText:msg andBottomOffset:44 andType:INFOMATION];
+        }
+    }
     [self refresh];
 }
 - (void)refresh

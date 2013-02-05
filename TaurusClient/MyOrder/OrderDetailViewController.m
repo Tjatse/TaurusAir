@@ -55,6 +55,7 @@
     [_flight release];
     [_contactorPhone release];
     [_orderListItem release];
+    [_passengers release];
     [super dealloc];
 }
 
@@ -88,7 +89,6 @@
     [OrderHelper orderDetailWithId:orderId
                             user:[AppConfig get].currentUser
                            success:^(NSDictionary *order) {
-                               NSLog(@"%@", order);
                                _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
                                
                                _detail = [order mutableCopy];
@@ -152,7 +152,10 @@
 - (void)initComponents
 {
     if(_status != OrderStatusPayAndCancel){
-    
+        [_viewBottom setHidden:YES];
+        CGRect f = _tableView.frame;
+        f.size.height = f.size.height + 36;
+        [_tableView setFrame:f];
         return;
     }
     UILabel *labelPriceInfo = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 100, 36)];
@@ -511,30 +514,6 @@
 
 	 }];
 }
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 0){
-        if(actionSheet.tag == 100){
-            if(buttonIndex == 0){
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                hud.dimBackground = YES;
-                if(_status == OrderStatusPayAndCancel){
-                    // cancel ticket.
-                    hud.labelText = @"取消中...";
-                }else if(_status == OrderStatusRollback){
-                    // cancel ticket.
-                    hud.labelText = @"退票中...";
-                    
-                }
-            }
-        }else if(actionSheet.tag == 101){
-            // TODO: Play
-            NSLog(@"%@", _detail);
-        }else{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", _contactorPhone]]];
-        }
-    }
-}
 - (void)cancel:(UIButton *)button{
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"关        闭" destructiveButtonTitle: button.titleLabel.text otherButtonTitles:nil, nil];
     actionSheet.tag = 100;
@@ -548,5 +527,40 @@
     actionSheet.tag = 101;
     [actionSheet showFromTabBar:[AppContext get].navController.tabBar];
     [actionSheet release];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0){
+        if(actionSheet.tag == 100){
+            if(buttonIndex == 0){
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.dimBackground = YES;
+                if(_status == OrderStatusPayAndCancel){
+                    // cancel ticket.
+                    hud.labelText = @"取消中...";
+                    [OrderHelper cancelWithId:[_detail getStringValueForKey:@"orderId" defaultValue:@""]
+                                         user:[AppConfig get].currentUser
+                                      success:^() {
+                                          [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                          [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil userInfo:[NSDictionary dictionaryWithObject:@"订单已取消。" forKey:@"MSG"]];
+                                          [self.navigationController popViewControllerAnimated:YES];
+                                      }
+                                      failure:^(NSString *errorMsg) {
+                                          [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                          [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                      }];
+                }else if(_status == OrderStatusRollback){
+                    // cancel ticket.
+                    hud.labelText = @"退票中...";
+                    
+                }
+            }
+        }else if(actionSheet.tag == 101){
+            // TODO: Play
+            NSLog(@"%@", _detail);
+        }else{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", _contactorPhone]]];
+        }
+    }
 }
 @end

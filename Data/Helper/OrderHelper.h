@@ -22,6 +22,10 @@
                      user: (User *)user
                   success: (void (^)(NSDictionary *order))success
                   failure: (void (^)(NSString *errorMsg))failure;
++ (void)cancelWithId: (NSString *)orderId
+                user: (User *)user
+             success: (void (^)())success
+             failure: (void (^)(NSString *errorMsg))failure;
 
 // GetCabinRemark
 + (void)performGetCabinRemark:(User*)user
