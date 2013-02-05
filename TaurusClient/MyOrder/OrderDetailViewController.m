@@ -23,6 +23,7 @@
 #import "ALToastView.h"
 #import "NSDateAdditions.h"
 #import "NSDictionaryAdditions.h"
+#import "CRUDViewController.h"
 
 @interface OrderDetailViewController ()
 
@@ -307,6 +308,7 @@
     
     _flight = [@[corp, flt, pos, from, start, to, end] retain];
 	
+	UIImageView* bgImgVw = (UIImageView*)[cell viewWithTag:99];
 	//UIImageView* departureOrReturnImgVw = (UIImageView*)[cell viewWithTag:100];
 	//UILabel* departureOrReturnLabel = (UILabel*)[cell viewWithTag:101];
 	UILabel* dateLabel = (UILabel*)[cell viewWithTag:102];
@@ -319,6 +321,9 @@
 	UIButton* viewAirplaneDetailBtn = (UIButton*)[cell viewWithTag:109];
 	UIButton* viewReturnTicketDetailBtn = (UIButton*)[cell viewWithTag:110];
 	
+    UIImage *ghImg = [UIImage imageNamed:@"group-header.png"];
+    [bgImgVw setFrame:CGRectMake(0, 0, 300, 63)];
+    [bgImgVw setImage:[ghImg stretchableImageWithLeftCapWidth:50 topCapHeight:5]];
     /*
 	// departureOrReturnImgVw
 	if (flightSelectVC.viewType == kFlightSelectViewTypeReturn) {
@@ -330,23 +335,24 @@
 	twoCharLabel.text = [NSString stringWithFormat:@"%@%@", corp, flt];
     
 	// purePriceLabel
-	float purePrice = [_detail getFloatValueForKey:@"Fare" defaultValue:0];
+	int purePrice = [_detail getFloatValueForKey:@"Fare" defaultValue:0];
 	
-	purePriceLabel.text = [NSString stringWithFormat:@"￥%.2f", purePrice];
+	purePriceLabel.text = [NSString stringWithFormat:@"￥%d", purePrice];
 	
 	// otherPrice
-	float airportPrice = [_detail getFloatValueForKey:@"Airport" defaultValue:0];
-	float fuelPrice = [_detail getFloatValueForKey:@"Fuel" defaultValue:0];
+	int airportPrice = [_detail getFloatValueForKey:@"Airport" defaultValue:0];
+	int fuelPrice = [_detail getFloatValueForKey:@"Fuel" defaultValue:0];
 	
-	otherPriceLabel.text = [NSString stringWithFormat:@"￥%.2f/%.2f", airportPrice, fuelPrice];
+	otherPriceLabel.text = [NSString stringWithFormat:@"￥%d/%d", airportPrice, fuelPrice];
 	
-    dateLabel.text = [start substringToIndex:[start rangeOfString:@" "].location];
 	// durationTimeLabel
     NSArray *startDates = [start componentsSeparatedByString:@" "];
     NSArray *endDates = [end componentsSeparatedByString:@" "];
 	durationTimeLabel.text = [NSString stringWithFormat:@"%@     -       %@"
 							  , [startDates objectAtIndex:[startDates count] - 1]
 							  , [endDates objectAtIndex:[endDates count] - 1]];
+    
+    dateLabel.text = [startDates objectAtIndex:0];
 	
 	// departureAirportLabel
 	departureAirportLabel.text = from;
@@ -369,7 +375,12 @@
 	[viewReturnTicketDetailBtn
 	 addActionForControlEvents:UIControlEventTouchUpInside
 	 withBlock:^(id control, UIEvent *event) {
-         
+         CRUDViewController *vc = [[CRUDViewController alloc] init];
+         vc.cabin = pos;
+         vc.ezm = fs[0];
+         [self.navigationController pushViewController:vc animated:YES];
+         [vc release];
+
 	 }];
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
