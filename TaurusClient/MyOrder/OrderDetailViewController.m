@@ -57,6 +57,9 @@
     [_contactorPhone release];
     [_orderListItem release];
     [_passengers release];
+	
+	self.payButtonTapBlock = nil;
+	
     [super dealloc];
 }
 
@@ -567,8 +570,11 @@
                                   }];
             }
         }else if(actionSheet.tag == 101){
-            // TODO: Play
+//            // TODO: Play
             NSLog(@"%@", _detail);
+			
+			if (self.payButtonTapBlock != nil)
+				self.payButtonTapBlock();
         }else{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", _contactorPhone]]];
         }

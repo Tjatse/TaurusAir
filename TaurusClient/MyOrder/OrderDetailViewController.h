@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef void (^OnPayButtonTapBlock)();
+
 typedef enum {
     OrderStatusPayAndCancel = 0,
     OrderStatusRollback = 1,
@@ -30,5 +33,7 @@ typedef enum {
 @property   (nonatomic, retain) IBOutlet UIView         *viewBottom;
 @property   (nonatomic, retain) NSDictionary            *orderListItem;
 @property   (nonatomic, retain) NSMutableArray          *passengers;
+
+@property (nonatomic, copy) OnPayButtonTapBlock			payButtonTapBlock;
 
 @end

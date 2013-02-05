@@ -16,6 +16,7 @@
 
 #import "AppContext.h"
 #import "AppConfig.h"
+#import "AlixPayHelper.h"
 #import "PrepareOrderViewController.h"
 #import "FlightSelectViewController.h"
 #import "OrderFlightDetailViewController.h"
@@ -28,6 +29,7 @@
 #import "UIBGNavigationController.h"
 #import "InputSendAddressViewController.h"
 #import "CRUDViewController.h"
+#import "OrderDetailViewController.h"
 
 @interface PrepareOrderViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -250,15 +252,71 @@
 //
 //	return;
 //
-	// 订购
-	[OrderHelper performOrderWithPassangers:self.passangers
-							   andContactor:self.contacter
-							 andSendAddress:self.sendAddress
-			  andFlightSelectViewController:self.parentVC
-								  andInView:self.view
-								   andPrice:_totalPrice
-							 andProductName:@"机票"
-							 andProductDesc:@"机票"];
+//	// 订购
+//	[OrderHelper performOrderWithPassangers:self.passangers
+//							   andContactor:self.contacter
+//							 andSendAddress:self.sendAddress
+//			  andFlightSelectViewController:self.parentVC
+//								  andInView:self.view
+//								   andPrice:_totalPrice
+//							 andProductName:@"机票"
+//							 andProductDesc:@"机票"];
+	
+	FlightSelectViewController* vc = self.parentVC;
+	NSArray* flightInfos = vc.viewType == kFlightSelectViewTypeReturn
+	? @[vc.parentVC.selectedPayInfos[0], vc.selectedPayInfos[0]]
+	: @[vc.selectedPayInfos[0]];
+	
+	NSArray* cabinInfo = vc.viewType == kFlightSelectViewTypeReturn
+	? @[vc.parentVC.selectedPayInfos[1], vc.selectedPayInfos[1]]
+	: @[vc.selectedPayInfos[1]];
+	
+	MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	hud.labelText = @"正在提交订单...";
+	
+	[OrderHelper performPlaceOrderWithUser:[AppConfig get].currentUser
+							 andFlightInfo:flightInfos
+								  andCabin:cabinInfo
+							  andTravelers:[self.passangers allValues]
+							  andContactor:self.contacter
+								   success:^(NSDictionary * respObj) {
+									   [MBProgressHUD hideHUDForView:self.view
+															animated:YES];
+									   
+									   int orderId = [respObj getIntValueForKey:@"Response" defaultValue:0];
+									   
+									   // TODO:
+									   orderId = 6820843;
+									   
+									   [self dismissModalViewControllerAnimated:NO];
+									   
+									   OrderDetailViewController *vc = [[OrderDetailViewController alloc] init];
+									   [vc setOrderListItem:@{@"Tid":[NSString stringWithFormat:@"%d", orderId]}];
+									   
+									   [vc setPayButtonTapBlock:^{
+										   [AlixPayHelper performAlixPayWithOrderId:[NSString stringWithFormat:@"%d", orderId]
+																	 andProductName:@"机票"
+																	 andProductDesc:@"机票"
+																	andProductPrice:_totalPrice
+																	  andPassangers:self.passangers
+																	   andContactor:self.contacter
+													  andFlightSelectViewController:self.parentVC];
+									   }];
+									   
+									   UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
+									   [self.parentVC presentModalViewController:nav animated:YES];
+									   [vc release];
+									   [nav release];
+								   }
+								   failure:^(NSString * errorMsg) {
+									   [MBProgressHUD hideHUDForView:self.view
+															animated:YES];
+									   
+									   [ALToastView toastInView:self.view
+													   withText:errorMsg
+												andBottomOffset:44.0f
+														andType:ERROR];
+								   }];
 }
 
 #pragma mark - tableview delegate
