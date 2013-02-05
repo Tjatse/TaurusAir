@@ -25,8 +25,8 @@
 
 // GetCabinRemark
 + (void)performGetCabinRemark:(User*)user
-				andFlightInfo:(NSDictionary*)flightInfo
-					 andCabin:(NSDictionary*)cabin
+                       andEzm:(NSString*)ezm
+					 andCabin:(NSString*)cabin
 					  success:(void (^)(NSDictionary *))success
 					  failure:(void (^)(NSString *))failure;
 

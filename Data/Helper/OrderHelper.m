@@ -169,8 +169,8 @@
 #pragma mark - place order
 
 + (void)performGetCabinRemark:(User*)user
-				andFlightInfo:(NSDictionary*)flightInfo
-					 andCabin:(NSDictionary*)cabin
+                       andEzm:(NSString*)ezm
+					 andCabin:(NSString*)cabin
 					  success:(void (^)(NSDictionary *))success
 					  failure:(void (^)(NSString *))failure
 {
@@ -178,8 +178,8 @@
 		NSString *url = [NSString stringWithFormat:@"%@/%@"
 						 , REACHABLE_HOST
 						 , [NSString stringWithFormat:kCabinRemarkURL
-							, [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""]
-							, [cabin getStringValueForKey:@"CabinName" defaultValue:@""]]];
+							, ezm
+							, cabin]];
 		__block ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
 		
 		setRequestAuth(request);

@@ -27,6 +27,7 @@
 #import "ContacterSelectViewController.h"
 #import "UIBGNavigationController.h"
 #import "InputSendAddressViewController.h"
+#import "CRUDViewController.h"
 
 @interface PrepareOrderViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -208,40 +209,11 @@
 	[viewReturnTicketDetailBtn
 	 addActionForControlEvents:UIControlEventTouchUpInside
 	 withBlock:^(id control, UIEvent *event) {
-		 MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		 hud.labelText = @"正在查询...";
-		 
-		 [OrderHelper performGetCabinRemark:[AppConfig get].currentUser
-							  andFlightInfo:flightInfo
-								   andCabin:cabinInfo
-									success:^(NSDictionary * jsonObj) {
-										[MBProgressHUD hideHUDForView:self.view
-															 animated:YES];
-										
-										NSString* response = [jsonObj getStringValueForKey:@"Response"
-																			  defaultValue:@""];
-										
-										if (response.length == 0)
-											response = @"暂无信息。";
-										
-										UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil
-																							message:response
-																						   delegate:nil
-																				  cancelButtonTitle:@"我知道了"
-																				  otherButtonTitles:nil];
-										
-										[alertView show];
-										SAFE_RELEASE(alertView);
-									}
-									failure:^(NSString *errorMsg) {
-										[MBProgressHUD hideHUDForView:self.view
-															 animated:YES];
-										
-										[ALToastView toastInView:self.view
-														withText:errorMsg
-												 andBottomOffset:44.0f
-														 andType:ERROR];
-									}];
+         CRUDViewController *vc = [[CRUDViewController alloc] init];
+         vc.cabin = [cabinInfo getStringValueForKey:@"CabinName" defaultValue:@""];
+         vc.ezm = [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""];
+         [self.navigationController pushViewController:vc animated:YES];
+         [vc release];
 	 }];
 }
 
