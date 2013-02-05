@@ -25,6 +25,7 @@
 #import "NSDictionaryAdditions.h"
 #import "CRUDViewController.h"
 #import "AppContext.h"
+#import "OrderRefundViewController.h"
 
 @interface OrderDetailViewController ()
 
@@ -62,6 +63,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refundComplete:) name:@"ORDER_REFUND" object:nil];
     // Do any additional setup after loading the view from its nib.
     [self setTitle:@"订单详情"];
     [self.view setBackgroundColor:[UIColor clearColor]];
@@ -77,6 +79,7 @@
     self.navigationItem.leftBarButtonItem =
     [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
                                        andTapCallback:^(id control, UIEvent *event) {
+                                           [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ORDER_REFUND" object:nil];
                                            [self.navigationController dismissModalViewControllerAnimated:YES];
                                        }];
     
@@ -141,6 +144,13 @@
                                [MBProgressHUD hideHUDForView:self.view animated:YES];
                                [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
                            }];
+}
+- (void)refundComplete: (NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ORDER_REFUND" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil userInfo:[NSDictionary dictionaryWithObject:@"退票已完成。" forKey:@"MSG"]];
+
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -515,10 +525,17 @@
 	 }];
 }
 - (void)cancel:(UIButton *)button{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"关        闭" destructiveButtonTitle: button.titleLabel.text otherButtonTitles:nil, nil];
-    actionSheet.tag = 100;
-    [actionSheet showFromTabBar:[AppContext get].navController.tabBar];
-    [actionSheet release];
+    if(_status == OrderStatusRollback){
+        OrderRefundViewController *vc = [[OrderRefundViewController alloc] init];
+        [vc setDetail:_detail];
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc release];
+    }else{
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"关        闭" destructiveButtonTitle: button.titleLabel.text otherButtonTitles:nil, nil];
+        actionSheet.tag = 100;
+        [actionSheet showFromTabBar:[AppContext get].navController.tabBar];
+        [actionSheet release];
+    }
 }
 
 - (void)pay:(UIButton *)button
@@ -532,28 +549,22 @@
 {
     if(buttonIndex == 0){
         if(actionSheet.tag == 100){
-            if(buttonIndex == 0){
+            if(_status == OrderStatusPayAndCancel){
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 hud.dimBackground = YES;
-                if(_status == OrderStatusPayAndCancel){
-                    // cancel ticket.
-                    hud.labelText = @"取消中...";
-                    [OrderHelper cancelWithId:[_detail getStringValueForKey:@"orderId" defaultValue:@""]
-                                         user:[AppConfig get].currentUser
-                                      success:^() {
-                                          [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-                                          [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil userInfo:[NSDictionary dictionaryWithObject:@"订单已取消。" forKey:@"MSG"]];
-                                          [self.navigationController popViewControllerAnimated:YES];
-                                      }
-                                      failure:^(NSString *errorMsg) {
-                                          [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-                                          [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
-                                      }];
-                }else if(_status == OrderStatusRollback){
-                    // cancel ticket.
-                    hud.labelText = @"退票中...";
-                    
-                }
+                // cancel ticket.
+                hud.labelText = @"取消中...";
+                [OrderHelper cancelWithId:[_detail getStringValueForKey:@"Tid" defaultValue:@""]
+                                     user:[AppConfig get].currentUser
+                                  success:^() {
+                                      [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                      [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil userInfo:[NSDictionary dictionaryWithObject:@"订单已取消。" forKey:@"MSG"]];
+                                      [self.navigationController popViewControllerAnimated:YES];
+                                  }
+                                  failure:^(NSString *errorMsg) {
+                                      [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                                      [ALToastView toastInView:self.view withText:errorMsg andBottomOffset:44 andType:ERROR];
+                                  }];
             }
         }else if(actionSheet.tag == 101){
             // TODO: Play

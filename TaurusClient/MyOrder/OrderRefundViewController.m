@@ -1,18 +1,18 @@
 //
-//  OrderRollbackViewController.m
+//  OrderRefundViewController.m
 //  TaurusClient
 //
 //  Created by Tjatse on 13-2-5.
 //  Copyright (c) 2013年 Taurus. All rights reserved.
 //
 
-#import "OrderRollbackViewController.h"
+#import "OrderRefundViewController.h"
 
-@interface OrderRollbackViewController ()
+@interface OrderRefundViewController ()
 
 @end
 
-@implementation OrderRollbackViewController
+@implementation OrderRefundViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +27,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
 }
 
 - (void)didReceiveMemoryWarning

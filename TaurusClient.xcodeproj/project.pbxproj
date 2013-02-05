@@ -369,8 +369,8 @@
 		92B780E7168B057700A9DE32 /* OrderFlightDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780E5168B057600A9DE32 /* OrderFlightDetailViewController.xib */; };
 		92B780EB168B059D00A9DE32 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B780E9168B059C00A9DE32 /* OrderDetailViewController.m */; };
 		92B780EC168B059D00A9DE32 /* OrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92B780EA168B059D00A9DE32 /* OrderDetailViewController.xib */; };
-		92C2F5E516C103D500E37569 /* OrderRollbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C2F5E316C103D500E37569 /* OrderRollbackViewController.m */; };
-		92C2F5E616C103D500E37569 /* OrderRollbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92C2F5E416C103D500E37569 /* OrderRollbackViewController.xib */; };
+		92C2F5EF16C10CD400E37569 /* OrderRefundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C2F5ED16C10CD400E37569 /* OrderRefundViewController.m */; };
+		92C2F5F016C10CD400E37569 /* OrderRefundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92C2F5EE16C10CD400E37569 /* OrderRefundViewController.xib */; };
 		92EEEFE816905EA90046C20E /* avatar-female.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE416905EA90046C20E /* avatar-female.png */; };
 		92EEEFE916905EA90046C20E /* avatar-female@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE516905EA90046C20E /* avatar-female@2x.png */; };
 		92EEEFEA16905EA90046C20E /* avatar-male.png in Resources */ = {isa = PBXBuildFile; fileRef = 92EEEFE616905EA90046C20E /* avatar-male.png */; };
@@ -1007,9 +1007,9 @@
 		92B780E8168B059C00A9DE32 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderDetailViewController.h; path = MyOrder/OrderDetailViewController.h; sourceTree = "<group>"; };
 		92B780E9168B059C00A9DE32 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderDetailViewController.m; path = MyOrder/OrderDetailViewController.m; sourceTree = "<group>"; };
 		92B780EA168B059D00A9DE32 /* OrderDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderDetailViewController.xib; path = MyOrder/OrderDetailViewController.xib; sourceTree = "<group>"; };
-		92C2F5E216C103D500E37569 /* OrderRollbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderRollbackViewController.h; path = MyOrder/OrderRollbackViewController.h; sourceTree = "<group>"; };
-		92C2F5E316C103D500E37569 /* OrderRollbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderRollbackViewController.m; path = MyOrder/OrderRollbackViewController.m; sourceTree = "<group>"; };
-		92C2F5E416C103D500E37569 /* OrderRollbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderRollbackViewController.xib; path = MyOrder/OrderRollbackViewController.xib; sourceTree = "<group>"; };
+		92C2F5EC16C10CD400E37569 /* OrderRefundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderRefundViewController.h; path = MyOrder/OrderRefundViewController.h; sourceTree = "<group>"; };
+		92C2F5ED16C10CD400E37569 /* OrderRefundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderRefundViewController.m; path = MyOrder/OrderRefundViewController.m; sourceTree = "<group>"; };
+		92C2F5EE16C10CD400E37569 /* OrderRefundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OrderRefundViewController.xib; path = MyOrder/OrderRefundViewController.xib; sourceTree = "<group>"; };
 		92EEEFE416905EA90046C20E /* avatar-female.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-female.png"; sourceTree = "<group>"; };
 		92EEEFE516905EA90046C20E /* avatar-female@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-female@2x.png"; sourceTree = "<group>"; };
 		92EEEFE616905EA90046C20E /* avatar-male.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-male.png"; sourceTree = "<group>"; };
@@ -1106,9 +1106,9 @@
 				9219BF9B16C0B38F003053F0 /* CRUDViewController.h */,
 				9219BF9C16C0B38F003053F0 /* CRUDViewController.m */,
 				9219BF9D16C0B38F003053F0 /* CRUDViewController.xib */,
-				92C2F5E216C103D500E37569 /* OrderRollbackViewController.h */,
-				92C2F5E316C103D500E37569 /* OrderRollbackViewController.m */,
-				92C2F5E416C103D500E37569 /* OrderRollbackViewController.xib */,
+				92C2F5EC16C10CD400E37569 /* OrderRefundViewController.h */,
+				92C2F5ED16C10CD400E37569 /* OrderRefundViewController.m */,
+				92C2F5EE16C10CD400E37569 /* OrderRefundViewController.xib */,
 			);
 			name = MyOrder;
 			sourceTree = "<group>";
@@ -2383,7 +2383,7 @@
 				9219BF9F16C0B38F003053F0 /* CRUDViewController.xib in Resources */,
 				9219BFA616C0DA24003053F0 /* airplane-take-off-reback@2x.png in Resources */,
 				9219BFA716C0DA24003053F0 /* airplane-take-off@2x.png in Resources */,
-				92C2F5E616C103D500E37569 /* OrderRollbackViewController.xib in Resources */,
+				92C2F5F016C10CD400E37569 /* OrderRefundViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2566,7 +2566,7 @@
 				3EC3AD0E16BFF5F000A177DC /* RSADataSigner.m in Sources */,
 				3EC3AD0F16BFF5F000A177DC /* RSADataVerifier.m in Sources */,
 				9219BF9E16C0B38F003053F0 /* CRUDViewController.m in Sources */,
-				92C2F5E516C103D500E37569 /* OrderRollbackViewController.m in Sources */,
+				92C2F5EF16C10CD400E37569 /* OrderRefundViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

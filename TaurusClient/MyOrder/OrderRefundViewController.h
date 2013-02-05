@@ -1,5 +1,5 @@
 //
-//  OrderRollbackViewController.h
+//  OrderRefundViewController.h
 //  TaurusClient
 //
 //  Created by Tjatse on 13-2-5.
@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OrderRollbackViewController : UIViewController
+@interface OrderRefundViewController : UIViewController
+@property (nonatomic, retain) NSDictionary *detail;
 
 @end
