@@ -234,6 +234,76 @@ static int gOrderId;
     }
 }
 
+#pragma mark - Refund
+
++ (void)analyzeOrderRefundRet: (id)JSON
+                      success: (void (^)())success
+                      failure: (void (^)(NSString *errorMsg))failure;
+{
+    if (JSON == [NSNull null] || JSON == nil) {
+        failure(@"无法连接服务器。");
+    }else{
+        NSDictionary *meta= [JSON objectForKey:@"Meta"];
+        
+        if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"ApplyRefund"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
+            NSDictionary *resp = [JSON objectForKey:@"Response"];
+            if(resp) {
+                success();
+            }else{
+                failure([meta getStringValueForKey:@"Message" defaultValue:@"退票失败，服务器端返回错误。"]);
+            }
+        }else{
+            failure([meta getStringValueForKey:@"Message" defaultValue:@"服务器返回数据错误。"]);
+        }
+    }
+}
+
++ (void)refundWithId: (NSString *)orderId
+  passengerAndFlight: (NSString *)passengerAndFlight
+       refundResonse: (NSString *)refundResonse
+                user: (User *)user
+             success: (void (^)())success
+             failure: (void (^)(NSString *errorMsg))failure
+{
+    if(IS_DEPLOYED()){
+        if([AppContext get].online)
+        {
+            NSString *url = [NSString stringWithFormat:@"%@/%@", REACHABLE_HOST, ORDER_REFUND];
+            __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+            [request setPostValue:user.userId forKey:@"Tid"];
+            [request setPostValue:orderId forKey:@"OrderId"];
+            [request setPostValue:passengerAndFlight forKey:@"PassengerAndFlight"];
+            [request setPostValue:refundResonse forKey:@"RefundResonse"];
+            [request setPostValue:user.userName forKey:@"UserName"];
+            [request setPostValue:user.guid forKey:@"Guid"];
+            [request setPostValue:user.userPwd forKey:@"UserPwd"];
+            setRequestAuth(request);
+            [request setCompletionBlock:^{
+                id JSON = [[request responseString] objectFromJSONString];
+                [self analyzeOrderRefundRet:JSON
+                                    success:success
+                                    failure:failure];
+            }];
+            [request setFailedBlock:^{
+                failure([request.error localizedDescription]);
+            }];
+            [request startAsynchronous];
+        }
+        else
+        {
+            failure(@"当前网络不可用，且没有本地数据。");
+        }
+    }else{
+        [BBlock dispatchAfter:1 onMainThread:^{
+            id JSON = [self dummy:@"OrderRefund"];
+            [self analyzeOrderRefundRet:JSON
+                                success:success
+                                failure:failure];
+        }];
+    }
+}
+
+
 #pragma mark - place order
 
 + (void)performGetCabinRemark:(User*)user

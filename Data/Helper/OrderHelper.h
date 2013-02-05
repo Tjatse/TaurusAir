@@ -26,6 +26,12 @@
                 user: (User *)user
              success: (void (^)())success
              failure: (void (^)(NSString *errorMsg))failure;
++ (void)refundWithId: (NSString *)orderId
+  passengerAndFlight: (NSString *)passengerAndFlight
+       refundResonse: (NSString *)refundResonse
+                user: (User *)user
+             success: (void (^)())success
+             failure: (void (^)(NSString *errorMsg))failure;
 
 // GetCabinRemark
 + (void)performGetCabinRemark:(User*)user

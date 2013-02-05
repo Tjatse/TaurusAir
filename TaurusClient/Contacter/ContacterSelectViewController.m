@@ -200,9 +200,9 @@
         _roundRectButtonPopTipView = [[[CMPopTipView alloc] initWithMessage:content] autorelease];
         _roundRectButtonPopTipView.delegate = self;
         _roundRectButtonPopTipView.textAlignment = UITextAlignmentLeft;
-        _roundRectButtonPopTipView.backgroundColor = [UIColor darkGrayColor];
+        _roundRectButtonPopTipView.backgroundColor = [UIColor whiteColor];
         _roundRectButtonPopTipView.borderColor = [UIColor grayColor];
-        _roundRectButtonPopTipView.textColor = [UIColor whiteColor];
+        _roundRectButtonPopTipView.textColor = [UIColor blackColor];
         _roundRectButtonPopTipView.dismissTapAnywhere = YES;
         
         [_roundRectButtonPopTipView presentPointingAtView:button inView:self.view animated:YES];

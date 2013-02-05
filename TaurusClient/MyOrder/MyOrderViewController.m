@@ -165,7 +165,7 @@
     [container addSubview:buttonFilter];
     
     _sortImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sort_icon.png"]];
-    [_sortImageView setFrame:CGRectMake(80, 14, 8, 11)];
+    [_sortImageView setFrame:CGRectMake(80, 15, 8, 11)];
     [container addSubview:_sortImageView];
     [container bringSubviewToFront:_sortImageView];
     
@@ -244,9 +244,9 @@
 {
     [button setBackgroundImage:[UIImage imageNamed:(selected ? @"sort_btn_focus_bg.png":@"sort_btn_bg.png")] forState:UIControlStateNormal];
     if(button == buttonSortTime && selected){
-        [_sortImageView setFrame:CGRectMake(80, 14, 8, 11)];
+        [_sortImageView setFrame:CGRectMake(80, 15, 8, 11)];
     }else if(button == buttonSortPrice && selected){
-        [_sortImageView setFrame:CGRectMake((SCREEN_RECT.size.width - 86)/2 + 70, 14, 8, 11)];
+        [_sortImageView setFrame:CGRectMake((SCREEN_RECT.size.width - 86)/2 + 70, 15, 8, 11)];
     }else if(button == buttonFilter && selected){
         return;
     }
