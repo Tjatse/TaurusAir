@@ -367,7 +367,7 @@
 			int orderId = [placeOrderJson getIntValueForKey:@"Response" defaultValue:0];
 			
 			// TODO:
-			orderId = 6817511;
+			orderId = 6819410;
 			
             NSString* payPlat = @"2";
 			
@@ -487,11 +487,15 @@
 				  [MBProgressHUD hideHUDForView:inView
 									   animated:YES];
 				  
-				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+				  NSString* url = payUrlRespObj[@"Response"];
+
+				  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 				  
-				  [ALToastView toastPinInView:inView withText:@"预订成功。"
-							  andBottomOffset:44.0f
-									  andType:ERROR];
+//				  NSLog(@"payUrlRespObj: %@", payUrlRespObj);
+//				  
+//				  [ALToastView toastPinInView:inView withText:@"预订成功。"
+//							  andBottomOffset:44.0f
+//									  andType:ERROR];
 				  
 				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
 			  }

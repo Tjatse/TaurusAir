@@ -41,7 +41,7 @@
 	NSLog(@"orderSpec = %@",orderSpec);
 	
 	//获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
-	id<DataSigner> signer = CreateRSADataSigner([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA private key"]);
+	id<DataSigner> signer = CreateRSADataSigner(kAlixPayRSASafeCode);
 	NSString *signedString = [signer signString:orderSpec];
 	
 	//将签名成功字符串格式化为订单字符串,请严格按照该格式

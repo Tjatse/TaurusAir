@@ -16,5 +16,6 @@ NSString* const	kFlightPlaceOrderURL		= @"Interfaces/Order.ashx";
 NSString* const	kOrderCreatePayUrl			= @"Interfaces/CreatePayUrl.ashx";
 NSString* const kCabinRemarkURL				= @"Interfaces/GetCabinRemark.ashx?ClientId=m_b2c_001&Ezm=%@&Cabin=%@";
 
-NSString* const kAlixPayPartnerId			= @"2088801237837760";
-NSString* const kAlixPaySellerId			= @"2088801237837760";
+NSString* const kAlixPayPartnerId			= @"2088201564809153"; //@"2088801237837760";
+NSString* const kAlixPaySellerId			= @"2088201564809153"; // @"2088801237837760";
+NSString* const	kAlixPayRSASafeCode			= @"zpdjh9ywq433ejjnkrbc5pys7ipkosnz";
