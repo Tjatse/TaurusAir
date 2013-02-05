@@ -80,7 +80,7 @@ static NSDictionary*					gContactor;
 	order.productName = productName; //商品标题
 	order.productDescription = productDesc; //商品描述
 	order.amount = [NSString stringWithFormat:@"%.2f", productPrice]; //商品价格
-	order.notifyURL =  @"http://www.xxx.com"; //回调URL
+	order.notifyURL =  @"http://www.5pnr.com/pay/AliPay/Return.aspx"; //回调URL
 	
 	//应用注册scheme,在AlixPayDemo-Info.plist定义URL types,用于安全支付成功后重新唤起商户应用
 	NSString *appScheme = @"TaurusClient";

@@ -246,6 +246,10 @@
 		return;
 	}
 	
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"ALIXPAY_CALLBACK_SUCCESS" object:nil];
+//
+//	return;
+//
 	// 订购
 	[OrderHelper performOrderWithPassangers:self.passangers
 							   andContactor:self.contacter
