@@ -120,13 +120,13 @@
 			 */
 			id<DataVerifier> verifier = CreateRSADataVerifier(kAlixPayRSAPublicKey);
 			if ([verifier verifyString:result.resultString withSign:result.signString]) {
-				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
-																	 message:@"支付成功。" //result.statusMessage
-																	delegate:nil
-														   cancelButtonTitle:@"确定"
-														   otherButtonTitles:nil];
-				[alertView show];
-				[alertView release];
+//				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+//																	 message:@"支付成功。" //result.statusMessage
+//																	delegate:nil
+//														   cancelButtonTitle:@"确定"
+//														   otherButtonTitles:nil];
+//				[alertView show];
+//				[alertView release];
 				
 				[AlixPayHelper alixPayCallback:YES];
 			}//验签错误

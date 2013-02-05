@@ -97,15 +97,11 @@
 }
 
 - (void)dealloc {
-    [_textView release];
-    [_cabin release];
-    [_ezm release];
+    self.textView = nil;
+	self.ezm = nil;
+	self.cabin = nil;
+	
     [super dealloc];
 }
-- (void)viewDidUnload {
-    [self setTextView:nil];
-    [self setEzm:nil];
-    [self setCabin:nil];
-    [super viewDidUnload];
-}
+
 @end

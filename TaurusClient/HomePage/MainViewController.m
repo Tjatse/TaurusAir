@@ -14,6 +14,9 @@
 #import "FeedbackViewController.h"
 #import "BasicSettingsViewController.h"
 #import "AboutViewController.h"
+#import "ALToastView.h"
+#import "AppDefines.h"
+#import "UIApplicationAdditions.h"
 
 @interface MainViewController ()
 
@@ -36,6 +39,9 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGOUT" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"ALIXPAY_CALLBACK_SUCCESS" object:nil];
+
 	self.navVC = nil;
 	
 	[super dealloc];
@@ -44,8 +50,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self) {		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetNav:) name:@"LOGOUT" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayCallbackSuccess) name:@"ALIXPAY_CALLBACK_SUCCESS" object:nil];
     }
     return self;
 }
@@ -138,14 +145,6 @@
 {
     [super viewDidLoad];
 	[self.navigationController setNavigationBarHidden:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetNav:) name:@"LOGOUT" object:nil];
-}
-
-- (void)viewDidUnload
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LOGOUT" object:nil];
-    [super viewDidUnload];
 }
 
 - (void)resetNav:(NSNotification *)notification
@@ -167,6 +166,18 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - core methods
+
+- (void)alipayCallbackSuccess
+{
+	[self.navigationController popToRootViewControllerAnimated:YES];
+	[self onMyOrderButtonTap:nil];
+	
+	[ALToastView toastInView:[UIApplication mainWindow]
+					withText:@"支付成功。"
+			 andBottomOffset:208 andType:INFOMATION];
 }
 
 @end

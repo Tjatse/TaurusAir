@@ -23,6 +23,9 @@
 #import "ContacterSelectViewController.h"
 
 @interface ContacterViewController ()
+{
+	BOOL		isNotificationsPushed_;
+}
 
 @end
 
@@ -45,6 +48,16 @@
     [buttonTravelers release];
     [_travelers release];
     [_contactors release];
+	
+	if (isNotificationsPushed_) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_TRAVELER" object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"DELETE_TRAVELER" object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_TRAVELER" object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_CONTACTER" object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"DELETE_CONTACTER" object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_CONTACTER" object:nil];
+	}
+	
     [super dealloc];
 }
 
@@ -94,16 +107,7 @@
     [vc release];
     [nav release];
 }
-- (void)viewDidUnload
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_TRAVELER" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DELETE_TRAVELER" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_TRAVELER" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"REFRESH_CONTACTER" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"DELETE_CONTACTER" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_CONTACTER" object:nil];
-    [super viewDidUnload];
-}
+
 #pragma mark - InitComponents
 - (void)initComponent
 {
@@ -145,6 +149,8 @@
     [self setRightButton:NO];
     
     // notifications.
+	isNotificationsPushed_ = YES;
+	
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTraveler:) name:@"REFRESH_TRAVELER" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteTraveler:) name:@"DELETE_TRAVELER" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTraveler:) name:@"ADD_TRAVELER" object:nil];

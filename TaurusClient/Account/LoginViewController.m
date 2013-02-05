@@ -43,6 +43,8 @@
 - (void)dealloc
 {
     [_tableView release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"ACCOUNT_OPERATION" object:nil];
+
     [super dealloc];
 }
 
@@ -71,11 +73,6 @@
     
     _rememberMe = [AppConfig get].rememberedName != nil;
     [self initComponent];
-}
-- (void)viewDidUnload
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ACCOUNT_OPERATION" object:nil];
-    [super viewDidUnload];
 }
 
 - (void)initComponent

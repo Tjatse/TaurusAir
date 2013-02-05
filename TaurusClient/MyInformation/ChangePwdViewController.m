@@ -214,10 +214,8 @@
 
 - (void)dealloc {
     [_tableView release];
+	_tableView = nil;
     [super dealloc];
 }
-- (void)viewDidUnload {
-    [self setTableView:nil];
-    [super viewDidUnload];
-}
+
 @end

@@ -458,8 +458,8 @@ static int gOrderId;
 											 andPassangers:orgPassangers
 											  andContactor:orgContactor
 							 andFlightSelectViewController:vc];
-				  
-				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+//				  
+//				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
 			  }
 			  failure:^(NSString * errorMsg) {
 				  [MBProgressHUD hideHUDForView:inView
@@ -518,8 +518,8 @@ static int gOrderId;
 //				  [ALToastView toastPinInView:inView withText:@"预订成功。"
 //							  andBottomOffset:44.0f
 //									  andType:ERROR];
-				  
-				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+//				  
+//				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
 			  }
 			  failure:^(NSString * errorMsg) {
 				  [MBProgressHUD hideHUDForView:inView
