@@ -173,8 +173,8 @@
 	
 	// durationTimeLabel
 	durationTimeLabel.text = [NSString stringWithFormat:@"%@      -      %@"
-							  , [leaveTime stringWithFormat:@"hh:mm"]
-							  , [arriveTime stringWithFormat:@"hh:mm"]];
+							  , [leaveTime stringWithFormat:@"HH:mm"]
+							  , [arriveTime stringWithFormat:@"HH:mm"]];
 	
 	// departureAirportLabel
 	NSDictionary* threeCodes = [CharCodeHelper allThreeCharCodesDictionary];
@@ -209,9 +209,9 @@
 		 , flightNumStr
 		 , [cabinInfo getStringValueForKey:@"CabinName" defaultValue:@""]
 		 , fromAirportFullName
-		 , [leaveTime stringWithFormat:@"yyyy-MM-dd hh:mm"]
+		 , [leaveTime stringWithFormat:@"yyyy-MM-dd HH:mm"]
 		 , toAirportFullName
-		 , [arriveTime stringWithFormat:@"yyyy-MM-dd hh:mm"]
+		 , [arriveTime stringWithFormat:@"yyyy-MM-dd HH:mm"]
 		 ];
 		 
 		 [self.navigationController pushViewController:vc animated:YES];

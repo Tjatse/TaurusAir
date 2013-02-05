@@ -51,7 +51,7 @@ NSArray* planeFilter()
 	static NSArray* arr = nil;
 	
 	if (arr == nil) {
-		arr = [@[@"不限", @"中型机", @"大型机"] retain];
+		arr = [@[@"不限", @"小型机", @"中型机", @"大型机"] retain];
 	}
 	
 	return arr;
@@ -78,9 +78,12 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 @interface FlightSelectViewController ()
 
 @property (nonatomic, retain) NSMutableDictionary*			jsonContent;
+@property (nonatomic, retain) NSMutableDictionary*			filterJsonContent;
 @property (nonatomic, assign) BOOL							isTimeDesc;
 @property (nonatomic, assign) BOOL							isPriceDesc;
 @property (nonatomic, assign) BOOL							isSortByPrice;
+
+@property (nonatomic, retain) IBOutlet UIButton*			filterBtn;
 @property (nonatomic, retain) IBOutlet UIButton*			sortByPriceBtn;
 @property (nonatomic, retain) IBOutlet UIButton*			sortByTimeBtn;
 @property (nonatomic, retain) IBOutlet UIButton*			prevDate;
@@ -122,9 +125,11 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	self.returnDate = nil;
 	
 	self.jsonContent = nil;
+	self.filterJsonContent = nil;
 	
 	self.corpFilter = nil;
 	
+	self.filterBtn = nil;
 	self.sortByPriceBtn = nil;
 	self.sortByTimeBtn = nil;
 	
@@ -255,6 +260,98 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark props
+
+- (void)setJsonContent:(NSMutableDictionary *)jsonContent
+{
+	[jsonContent retain];
+	[_jsonContent release];
+	_jsonContent = jsonContent;
+	
+	// 拷贝赋值
+	self.filterJsonContent = [[[NSMutableDictionary alloc] initWithDictionary:jsonContent copyItems:YES] autorelease];
+	[self.filterJsonContent setValue:[[[NSMutableArray alloc] initWithArray:[jsonContent valueForKey:@"FlightsInfo"] copyItems:YES] autorelease]
+							  forKey:@"FlightsInfo"];
+	
+	// 开始过滤
+	if (self.timeFilter != kFlightSelectTimeFilterTypeNone
+		|| self.planeFilter != kFlightSelectAirplaneFilterTypeNone
+		|| self.corpFilter != nil) {
+		
+		NSMutableArray* needToRemoveFlightInfos = [NSMutableArray array];
+		NSMutableArray* flightInfos = [self.filterJsonContent valueForKey:@"FlightsInfo"];
+
+		for (NSMutableDictionary* flightInfo in flightInfos) {
+			// 判断时间
+			if (self.timeFilter != kFlightSelectTimeFilterTypeNone) {
+				NSDate* leaveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]];
+				NSString* hhStr = [leaveTime stringWithFormat:@"HH"];
+				int hh = [hhStr intValue];
+				
+				if (
+					(self.timeFilter == kFlightSelectTimeFilterTypeMatin && (hh < 0 || hh > 12))
+					|| (self.timeFilter == kFlightSelectTimeFilterTypeApresMidi && (hh < 12 || hh > 18))
+					|| (self.timeFilter == kFlightSelectTimeFilterTypeLaNuit && (hh < 18 || hh > 24))
+					) {
+					
+					[needToRemoveFlightInfos addObject:flightInfo];
+				}
+			}
+			
+			// 判断机型
+			if (self.planeFilter != kFlightSelectAirplaneFilterTypeNone) {
+				NSString* airplaneTypeStr = [flightInfo getStringValueForKey:@"Plane" defaultValue:nil];
+				NSDictionary* airplaneTypes = [[AirplaneTypeHelper sharedHelper] allAirplaneType];
+				AirplaneType* airplaneType = [airplaneTypes objectForKey:airplaneTypeStr];
+				
+				if (
+					(self.planeFilter != airplaneType.friendlyPlaneFilterType)
+					) {
+						
+					if (![needToRemoveFlightInfos containsObject:flightInfo])
+						[needToRemoveFlightInfos addObject:flightInfo];
+				}
+			}
+			
+			// 判断航空公司
+			if (self.corpFilter != nil) {
+				NSString* ezm = [flightInfo getStringValueForKey:@"Ezm" defaultValue:nil];
+				
+				if (![self.corpFilter.charCode isEqualToString:ezm]) {
+					
+					if (![needToRemoveFlightInfos containsObject:flightInfo])
+						[needToRemoveFlightInfos addObject:flightInfo];
+				}
+			}
+		}
+		
+		for (NSMutableDictionary* flightInfo in needToRemoveFlightInfos) {
+			[flightInfos removeObject:flightInfo];
+		}
+	}
+}
+
+- (void)setTimeFilter:(FlightSelectTimeFilterType)timeFilter
+{
+	_timeFilter = timeFilter;
+	[self performFlightInfosFilter];
+}
+
+- (void)setPlaneFilter:(FlightSelectPlaneFilterType)planeFilter
+{
+	_planeFilter = planeFilter;
+	[self performFlightInfosFilter];
+}
+
+- (void)setCorpFilter:(TwoCharCode *)corpFilter
+{
+	[corpFilter retain];
+	[_corpFilter release];
+	_corpFilter = corpFilter;
+	
+	[self performFlightInfosFilter];
+}
+
 #pragma mark - actions
 
 - (void)onSelectDateCompleteButtonTap:(id)sender
@@ -269,6 +366,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andArrivalCity:self.arrivalCity
 	 andDepartureDate:self.departureDate
 	 andSuccess:^(NSMutableDictionary *respObj) {
+		 self.jsonContent = respObj;
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
 		 
@@ -304,6 +402,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andArrivalCity:self.arrivalCity
 	 andDepartureDate:self.departureDate
 	 andSuccess:^(NSMutableDictionary *respObj) {
+		 self.jsonContent = respObj;
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
 		 
@@ -332,6 +431,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	 andArrivalCity:self.arrivalCity
 	 andDepartureDate:self.departureDate
 	 andSuccess:^(NSMutableDictionary *respObj) {
+		 self.jsonContent = respObj;
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
 		 
@@ -459,7 +559,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	
 	int section = [senderVw.strongRefTag intValue];
 
-	NSMutableDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
+	NSMutableDictionary* flightInfo = [[self.filterJsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
 	
 	BOOL isSelected = [flightInfo getBoolValueForKey:@"isExpand" defaultValue:NO];
 	isSelected = !isSelected;
@@ -487,6 +587,17 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 }
 
 #pragma mark - core methods
+
+- (void)performFlightInfosFilter
+{
+	self.filterBtn.selected =
+	self.timeFilter != kFlightSelectTimeFilterTypeNone
+	|| self.planeFilter != kFlightSelectAirplaneFilterTypeNone
+	|| self.corpFilter != nil;
+	
+	self.jsonContent = self.jsonContent;
+	[self displaySearchResultToView];
+}
 
 - (void)performPay
 {
@@ -551,7 +662,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 								 , self.departureCity.cityName
 								 , self.arrivalCity.cityName];
 	
-	int resultCount = [[self.jsonContent objectForKey:@"FlightsInfo"] count];
+	int resultCount = [[self.filterJsonContent objectForKey:@"FlightsInfo"] count];
 	self.ticketCountLabel.text = [NSString stringWithFormat:@"共%d条", resultCount];
 	
 	// title
@@ -577,7 +688,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (void)performFlightInfosSort
 {
-	NSMutableArray* flightInfos = [self.jsonContent objectForKey:@"FlightsInfo"];
+	NSMutableArray* flightInfos = [self.filterJsonContent objectForKey:@"FlightsInfo"];
 	[flightInfos sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		NSMutableDictionary* info1 = (NSMutableDictionary*)obj1;
 		NSMutableDictionary* info2 = (NSMutableDictionary*)obj2;
@@ -654,7 +765,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	int result = [[self.jsonContent objectForKey:@"FlightsInfo"] count];
+	int result = [[self.filterJsonContent objectForKey:@"FlightsInfo"] count];
 	return result;
 }
 
@@ -680,7 +791,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	
 	// item info
 	// 根据价格选取最优的机票
-	NSArray* flightInfos = [self.jsonContent objectForKey:@"FlightsInfo"];
+	NSArray* flightInfos = [self.filterJsonContent objectForKey:@"FlightsInfo"];
 	NSDictionary* flightInfo = [flightInfos objectAtIndex:section];
 //	NSArray* cabinInfos = [flightInfo objectForKey:@"CabinInfo"];
 	NSDictionary* optimalCabin = [self queryOptimalCabinInfo:flightInfo];
@@ -714,8 +825,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	NSDate* leaveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]];
 	NSDate* arriveTime = [NSDate dateFromString:[flightInfo getStringValueForKey:@"ArriveTime" defaultValue:@""]];
 	
-	takeOffTimeLabel.text = [leaveTime stringWithFormat:@"hh:mm"];
-	landingTimeLabel.text = [arriveTime stringWithFormat:@"hh:mm"];
+	takeOffTimeLabel.text = [leaveTime stringWithFormat:@"HH:mm"];
+	landingTimeLabel.text = [arriveTime stringWithFormat:@"HH:mm"];
 	
 	//
 	NSString* twoCharcodeStr = [flightInfo getStringValueForKey:@"Ezm" defaultValue:@""];
@@ -749,7 +860,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
+	NSDictionary* flightInfo = [[self.filterJsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
 	BOOL isSelected = [flightInfo getBoolValueForKey:@"isExpand" defaultValue:NO];
 	
 	if (!isSelected)
@@ -780,7 +891,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	int section = indexPath.section;
 	int row = indexPath.row;
 	
-	NSDictionary* flightInfo = [[self.jsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
+	NSDictionary* flightInfo = [[self.filterJsonContent objectForKey:@"FlightsInfo"] objectAtIndex:section];
 	NSArray* cabinInfos = [flightInfo objectForKey:@"CabinInfo"];
 
 	// 判断是否第一行/最后一行，显示阴影

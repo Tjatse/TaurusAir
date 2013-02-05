@@ -76,4 +76,14 @@
 		return @"小型机";
 }
 
+- (FlightSelectPlaneFilterType)friendlyPlaneFilterType
+{
+	if ([self.planeType isEqualToString:@"1"])
+		return kFlightSelectAirplaneFilterTypeLarge;
+	else if ([self.planeType isEqualToString:@"2"])
+		return kFlightSelectAirplaneFilterTypeMedium;
+	else
+		return kFlightSelectAirplaneFilterTypeSmall;
+}
+
 @end

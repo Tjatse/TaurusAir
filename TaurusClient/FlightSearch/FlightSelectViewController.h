@@ -30,6 +30,7 @@ typedef enum tagFlightSelectTimeFilterType
 typedef enum tagFlightSelectAirplaneFilterType
 {
 	kFlightSelectAirplaneFilterTypeNone
+	, kFlightSelectAirplaneFilterTypeSmall
 	, kFlightSelectAirplaneFilterTypeMedium
 	, kFlightSelectAirplaneFilterTypeLarge
 } FlightSelectPlaneFilterType;

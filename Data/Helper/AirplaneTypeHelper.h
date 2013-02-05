@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AirplaneType.h"
+#import "FlightSelectViewController.h"
 
 @interface AirplaneTypeHelper : NSObject
 
@@ -21,5 +22,6 @@
 @interface AirplaneType (FriendlyPlaneType)
 
 @property (nonatomic, readonly) NSString*	friendlyPlaneType;
+@property (nonatomic, readonly) FlightSelectPlaneFilterType	friendlyPlaneFilterType;
 
 @end
