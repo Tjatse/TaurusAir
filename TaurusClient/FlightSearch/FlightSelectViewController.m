@@ -269,8 +269,10 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	_jsonContent = jsonContent;
 	
 	// 拷贝赋值
-	self.filterJsonContent = [[[NSMutableDictionary alloc] initWithDictionary:jsonContent copyItems:YES] autorelease];
-	[self.filterJsonContent setValue:[[[NSMutableArray alloc] initWithArray:[jsonContent valueForKey:@"FlightsInfo"] copyItems:YES] autorelease]
+	self.filterJsonContent = [[[NSMutableDictionary alloc] init] autorelease];
+	[self.filterJsonContent setDictionary:self.jsonContent];
+	
+	[self.filterJsonContent setValue:[[[NSMutableArray alloc] initWithArray:[jsonContent valueForKey:@"FlightsInfo"] copyItems:NO] autorelease]
 							  forKey:@"FlightsInfo"];
 	
 	// 开始过滤
@@ -329,6 +331,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 			[flightInfos removeObject:flightInfo];
 		}
 	}
+	
+	[self displaySearchResultToView];
+	[self performFlightInfosSort];
 }
 
 - (void)setTimeFilter:(FlightSelectTimeFilterType)timeFilter
@@ -369,8 +374,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		 self.jsonContent = respObj;
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
-		 
-		 [self displaySearchResultToView];
 	 }
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
@@ -405,8 +408,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		 self.jsonContent = respObj;
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
-		 
-		 [self displaySearchResultToView];
 	 }
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
@@ -434,8 +435,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		 self.jsonContent = respObj;
 		 [MBProgressHUD hideHUDForView:self.view
 							  animated:YES];
-		 
-		 [self displaySearchResultToView];
 	 }
 	 andFailure:^(NSString *errorMsg) {
 		 [MBProgressHUD hideHUDForView:self.view
@@ -596,7 +595,6 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	|| self.corpFilter != nil;
 	
 	self.jsonContent = self.jsonContent;
-	[self displaySearchResultToView];
 }
 
 - (void)performPay
