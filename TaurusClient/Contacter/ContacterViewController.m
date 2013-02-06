@@ -217,7 +217,7 @@
                                   }
                                   failure:^(NSString *errorMsg) {
                                       [self setRightButton:NO];
-                                      [ALToastView toastPinInView:self.view withText:errorMsg andBottomOffset: 208 andType: ERROR];
+                                      [ALToastView toastInView:self.view withText:errorMsg andBottomOffset: 208 andType: ERROR];
                                       _isLoading = NO;
                                   }];
 
