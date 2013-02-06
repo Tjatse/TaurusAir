@@ -27,6 +27,7 @@ typedef enum {
     BOOL            _hasReturn;
     CGSize          _size;
     OrderStatus     _status;
+    NSMutableDictionary  *_voidPassengers;
 }
 
 @property   (nonatomic, retain) IBOutlet UITableView    *tableView;

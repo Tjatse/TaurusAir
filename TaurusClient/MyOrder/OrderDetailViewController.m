@@ -57,7 +57,7 @@
     [_contactorPhone release];
     [_orderListItem release];
     [_passengers release];
-	
+	[_voidPassengers release];
 	self.payButtonTapBlock = nil;
 	
     [super dealloc];
@@ -113,6 +113,22 @@
                                        NSArray *ps = [t componentsSeparatedByString:@"_"];
                                        if([ps count] == 3){
                                            [_passengers addObject:@{@"name":ps[0],@"type":ps[1],@"chinaId":ps[2]}];
+                                       }
+                                   }
+                               }
+                               NSString *voidPsgs = [_detail getStringValueForKey:@"VoidPassengers" defaultValue:nil];
+                               if(voidPsgs != nil){
+                                   _voidPassengers = [[NSMutableDictionary alloc] initWithCapacity:0];
+                                   NSArray *vpsgs = [voidPsgs componentsSeparatedByString:@";"];
+                                   for(NSString *ps in vpsgs){
+                                       if(ps != nil && [ps length] > 0){
+                                           NSArray *nfs = [ps componentsSeparatedByString:@":"];
+                                           id existValue = [_voidPassengers objectForKey:nfs[0]];
+                                           if(existValue != nil && (NSNull *)existValue != [NSNull null]){
+                                               [_voidPassengers setValue:[NSString stringWithFormat:@"%@, %@",existValue,nfs[1]] forKey:nfs[0]];
+                                           }else{
+                                               [_voidPassengers setValue:nfs[1] forKey:nfs[0]];
+                                           }
                                        }
                                    }
                                }
@@ -309,11 +325,11 @@
                             if(t == 2){
                                 tn = @"儿童";
                             }
-
+                            NSString *name = [p objectForKey:@"name"];
                             UILabel *labelName = [self generateLabel:CGRectMake(0, 0, 100, 26)
                                                         withFontSize:14
                                                             andColor:cell.detailTextLabel.textColor];
-                            [labelName setText:[NSString stringWithFormat:@"%@, %@", [p objectForKey:@"name"], tn]];
+                            [labelName setText:[NSString stringWithFormat:@"%@, %@", name, tn]];
                             [ctn addSubview:labelName];
                                                         
                             UILabel *labelChinaId = [self generateLabel:CGRectMake(0, 20, 200, 24)
@@ -321,6 +337,16 @@
                                                             andColor:cell.detailTextLabel.textColor];
                             [labelChinaId setText:[p objectForKey:@"chinaId"]];
                             [ctn addSubview:labelChinaId];
+                            
+                            if(_voidPassengers != nil && [_voidPassengers count] > 0){
+                                NSString *flts = [_voidPassengers objectForKey:name];
+                                if(flts != nil && (NSNull *)flts != [NSNull null] && [flts length] > 0){
+                                    UILabel *labelRefund = [self generateLabel:CGRectMake(ctn.frame.size.width - 70, 0, 70, 44) withFontSize:10 andColor:[UIColor redColor]];
+                                    labelRefund.text = [NSString stringWithFormat:@"已退废：\n%@", flts];
+                                    [labelRefund setNumberOfLines:0];
+                                    [ctn addSubview:labelRefund];
+                                }
+                            }
                             
                             if(offset != l - 1){
                                 UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, ctn.frame.size.height - 1, ctn.frame.size.width, 1)];
