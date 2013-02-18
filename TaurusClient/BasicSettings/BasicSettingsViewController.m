@@ -47,8 +47,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
+	
     return self;
 }
 
@@ -178,6 +178,10 @@
 			[notificationSwitch addActionForControlEvents:UIControlEventValueChanged
 												withBlock:^(id control, UIEvent *event) {
 													[FSConfig setBoolValue:notificationSwitch.on withKey:@"flightNotification"];
+													
+													if (!notificationSwitch.on) {
+														[[UIApplication sharedApplication] cancelAllLocalNotifications];
+													}
 												}];
 			
 			return result;
@@ -198,6 +202,8 @@
 			vc.citySelectedBlock = ^(City* city) {
 				[FSConfig setValue:[city.threeCharCodes[0] charCode] withKey:@"defaultDepartureCity"];
 				[blockSelf.tableView reloadData];
+				
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"defaultDepartureCityChanged" object:nil];
 			};
 			
 			NSString* defaultThreeCharCode = [FSConfig readValueWithKey:@"defaultDepartureCity"];
@@ -221,6 +227,8 @@
 			vc.citySelectedBlock = ^(City* city) {
 				[FSConfig setValue:[city.threeCharCodes[0] charCode] withKey:@"defaultArrivalCity"];
 				[blockSelf.tableView reloadData];
+				
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"defaultArrivalCityChanged" object:nil];
 			};
 			
 			NSString* defaultThreeCharCode = [FSConfig readValueWithKey:@"defaultArrivalCity"];

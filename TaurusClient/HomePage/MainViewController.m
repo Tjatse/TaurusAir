@@ -62,7 +62,7 @@
 
 - (NavViewController *)navVC
 {
-	if (_navVC == nil){
+	if (_navVC == nil) {
 		_navVC = [[NavViewController alloc] init];
         [AppContext get].navController = _navVC;
     }
