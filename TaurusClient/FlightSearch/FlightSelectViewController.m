@@ -750,7 +750,10 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	UILabel* discountLabel = (UILabel*)[result viewWithTag:101];
 	UILabel* ticketCountLabel = (UILabel*)[result viewWithTag:102];
 	
-	priceLabel.text = [NSString stringWithFormat:@"￥%d", [cabin getIntValueForKey:@"PayPrice" defaultValue:0]];
+	float purePrice = [cabin getFloatValueForKey:@"DiscountPrice" defaultValue:0]
+	- [cabin getFloatValueForKey:@"CommissionPrice" defaultValue:0];
+
+	priceLabel.text = [NSString stringWithFormat:@"￥%d", (int)purePrice /*[cabin getIntValueForKey:@"PayPrice" defaultValue:0]*/];
 	discountLabel.text = [NSString stringWithFormat:@"%.1f折"
 						  , [cabin getFloatValueForKey:@"Discount" defaultValue:0] / 10.0f];
 	ticketCountLabel.text = [NSString stringWithFormat:@"%@张"
@@ -846,7 +849,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 							  , [flightInfo getStringValueForKey:@"Plane" defaultValue:nil]];
 	
 	//
-	priceLabel.text = [NSString stringWithFormat:@"￥%d", [optimalCabin getIntValueForKey:@"PayPrice" defaultValue:0]];
+	float purePrice = [optimalCabin getFloatValueForKey:@"DiscountPrice" defaultValue:0]
+	- [optimalCabin getFloatValueForKey:@"CommissionPrice" defaultValue:0];
+	priceLabel.text = [NSString stringWithFormat:@"￥%d", (int)purePrice/*[optimalCabin getIntValueForKey:@"PayPrice" defaultValue:0]*/];
 	
 	//
 	discountLabel.text = [NSString stringWithFormat:@"%.1f折 %@张"

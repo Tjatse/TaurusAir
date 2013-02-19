@@ -12,6 +12,7 @@
 #import "BBlock.h"
 #import "MBProgressHUD.h"
 #import "ALToastView.h"
+#import "CRTableViewCell.h"
 #import "UIBarButtonItem+ButtonMaker.h"
 
 #import "AppContext.h"
@@ -33,7 +34,8 @@
 
 @interface PrepareOrderViewController () <UITableViewDataSource, UITableViewDelegate>
 {
-	float _totalPrice;
+	float					_totalPrice;
+	CRTableViewCell*		_isSendAddressCell;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView*			orderFormVw;
@@ -56,6 +58,8 @@
 	self.passangers = nil;
 	self.contacter = nil;
 	self.sendAddress = nil;
+	
+	SAFE_RELEASE(_isSendAddressCell);
 	
 	[super dealloc];
 }
@@ -83,6 +87,10 @@
     if (self) {
 		self.passangers = [NSMutableDictionary dictionary];
 		self.contacter = [NSMutableDictionary dictionary];
+		
+		_isSendAddressCell = [[CRTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+		_isSendAddressCell.textLabel.text = @"报销凭证";
+		_isSendAddressCell.isSelected = NO;
     }
 	
     return self;
@@ -100,6 +108,8 @@
 	
 	self.orderFormVw.allowsSelectionDuringEditing = YES;
 	self.orderFormVw.editing = YES;
+	
+	self.priceCountLabel.text = [NSString stringWithFormat:@"￥%d", (int)_totalPrice];
 }
 
 - (void)didReceiveMemoryWarning
@@ -159,7 +169,7 @@
 	float purePrice = [cabinInfo getFloatValueForKey:@"DiscountPrice" defaultValue:0]
 	- [cabinInfo getFloatValueForKey:@"CommissionPrice" defaultValue:0];
 	
-	purePriceLabel.text = [NSString stringWithFormat:@"￥%.2f", purePrice];
+	purePriceLabel.text = [NSString stringWithFormat:@"￥%d", (int)purePrice];
 	
 	// otherPrice
 //	float otherPrice = [flightInfo getFloatValueForKey:@"ConsCosts" defaultValue:0]
@@ -286,7 +296,7 @@
 									   int orderId = [respObj getIntValueForKey:@"Response" defaultValue:0];
 									   
 									   // TODO:
-									   orderId = 6820843;
+									   //orderId = 6820843;
 									   
 									   [self dismissModalViewControllerAnimated:NO];
 									   
@@ -350,7 +360,7 @@
 		else if (section == 2)
 			return 1;
 		else
-			return 1;
+			return _isSendAddressCell.isSelected ? 2 : 1;
 	}
 }
 
@@ -432,6 +442,9 @@
 			cell.textLabel.text = name;
 		}
 	} else {
+		if (indexPath.row == 0)
+			return _isSendAddressCell;
+		
 		if (self.sendAddress.length > 0) {
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
 			cell.textLabel.text = self.sendAddress;
@@ -467,6 +480,11 @@
 		
 		[vc setCompletionBlock:^(NSMutableDictionary *selectedPersons) {
 			self.contacter = selectedPersons;
+			
+			// 判断sendAddress，填写联系人的Address字段
+			if (self.sendAddress.length == 0)
+				self.sendAddress = [[self.contacter allValues][0] getStringValueForKey:@"Address" defaultValue:@""];
+			
 			[self.orderFormVw reloadData];
 		}];
 		
@@ -475,13 +493,18 @@
 		[self presentModalViewController:nv animated:YES];
 		[nv release];
 	} else if (section == 3) {
-		InputSendAddressViewController* vc = [[InputSendAddressViewController alloc] initWithParentVC:self];
-		vc.sendAddress = self.sendAddress;
-		
-		UIBGNavigationController *nv = [[UIBGNavigationController alloc] initWithRootViewController:vc];
-		[vc release];
-		[self presentModalViewController:nv animated:YES];
-		[nv release];
+		if (indexPath.row == 0) {
+			_isSendAddressCell.isSelected = !_isSendAddressCell.isSelected;
+			[tableView reloadData];
+		} else {
+			InputSendAddressViewController* vc = [[InputSendAddressViewController alloc] initWithParentVC:self];
+			vc.sendAddress = self.sendAddress;
+			
+			UIBGNavigationController *nv = [[UIBGNavigationController alloc] initWithRootViewController:vc];
+			[vc release];
+			[self presentModalViewController:nv animated:YES];
+			[nv release];
+		}
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];

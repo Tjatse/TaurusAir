@@ -55,6 +55,8 @@
 	self.departureDate = nil;
 	self.returnDate = nil;
 	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[super dealloc];
 }
 
@@ -62,6 +64,15 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(defaultDepartureCityChanged:)
+													 name:@"defaultDepartureCityChanged"
+												   object:nil];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(defaultArrivalCityChanged:)
+													 name:@"defaultCityArrivalChanged"
+												   object:nil];
     }
     return self;
 }
@@ -78,11 +89,6 @@
 	self.doubleFlightParentView.top = 50;
 	
 	self.doubleFlightParentView.hidden = YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
 	
 	// 获取所在城市
 	NSString* city = [AppContext get].currentLocationCity;
@@ -103,9 +109,33 @@
 	self.arrivalCity = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultArrivalCityKey];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - notifications
+
+- (void)defaultDepartureCityChanged:(NSNotification*)notification
+{
+	NSString* defaultDepartureCityKey = [FSConfig readValueWithKey:@"defaultDepartureCity" defaultValue:@"PEK"];
+	self.departureCity = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultDepartureCityKey];
+	[self.singleFlightTableView reloadData];
+	[self.doubleFlightTableView reloadData];
+}
+
+- (void)defaultArrivalCityChanged:(NSNotification*)notification
+{
+	NSString* defaultArrivalCityKey = [FSConfig readValueWithKey:@"defaultArrivalCity" defaultValue:@"SHA"];
+	self.arrivalCity = [[CharCodeHelper allThreeCharCodesDictionary] objectForKey:defaultArrivalCityKey];
+
+	[self.singleFlightTableView reloadData];
+	[self.doubleFlightTableView reloadData];
 }
 
 #pragma mark - actions

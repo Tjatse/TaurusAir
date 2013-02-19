@@ -24,6 +24,7 @@
 			result = [[NSMutableArray array] retain];
 			NSArray* cityNames = @[@"北京",
 			@"上海",
+			@"武汉",
 			@"广州",
 			@"昆明",
 			@"杭州",

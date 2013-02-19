@@ -8,10 +8,12 @@
 
 #import "FlightSelectSortAirplaneViewController.h"
 #import "FlightSelectViewController.h"
+#import "CRTableViewCell.h"
 
 @interface FlightSelectSortAirplaneViewController ()
 
 @property (nonatomic, assign) FlightSelectViewController*	parentVC;
+@property (nonatomic, retain) IBOutlet UITableView*			tableView;
 
 @end
 
@@ -20,6 +22,7 @@
 - (void)dealloc
 {
 	self.parentVC = nil;
+	self.tableView = nil;
 	
 	[super dealloc];
 }
@@ -37,7 +40,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -45,13 +47,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
 	self.title = @"机型选择";
+	self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - tableview delegate
@@ -65,13 +68,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString* cellId = @"cellId";
-	UITableViewCell* result = [tableView dequeueReusableCellWithIdentifier:cellId];
+	CRTableViewCell* result = [tableView dequeueReusableCellWithIdentifier:cellId];
 	
 	if (result == nil) {
-		result = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
+		result = [[[CRTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
 	}
 	
 	result.textLabel.text = flightSelectPlaneFilterTypeName((FlightSelectPlaneFilterType)indexPath.row);
+	result.isSelected = indexPath.row == (int)self.parentVC.planeFilter;
 	
 	return result;
 }

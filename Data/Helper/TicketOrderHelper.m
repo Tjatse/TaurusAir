@@ -13,8 +13,6 @@
 #import "NSDateAdditions.h"
 #import "FSConfig.h"
 
-// TODO: TicketOrderHelper
-
 @implementation TicketOrderHelper
 
 + (TicketOrderHelper *)sharedHelper

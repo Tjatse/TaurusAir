@@ -505,7 +505,7 @@ static int gOrderId;
 			int orderId = [placeOrderJson getIntValueForKey:@"Response" defaultValue:0];
 			
 			// TODO:
-			orderId = 6820843;
+//			orderId = 6820843;
 			gOrderId = orderId;
 			
             NSString* payPlat = @"2";

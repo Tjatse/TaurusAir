@@ -54,6 +54,7 @@
     [super viewDidLoad];
     
 	self.title = @"航班筛选";
+	self.dataVw.backgroundColor = [UIColor clearColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
