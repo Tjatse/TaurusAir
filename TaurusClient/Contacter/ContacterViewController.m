@@ -394,7 +394,7 @@
     [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     
     if(indexPath.row == 0){
-        [cell.imageView setImage:[UIImage imageNamed:@"plus.png"]];
+        [cell.imageView setImage:[UIImage imageNamed:@"add.png"]];
     }else{
         [cell.textLabel setFont:[UIFont systemFontOfSize:16]];
         [cell.detailTextLabel setFont:[UIFont systemFontOfSize:12]];

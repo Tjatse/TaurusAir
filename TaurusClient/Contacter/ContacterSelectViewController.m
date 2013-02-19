@@ -17,6 +17,7 @@
 #import "ContacterHelper.h"
 #import "AppConfig.h"
 #import "MBProgressHUD.h"
+#import "CreateTravelerViewController.h"
 #import "NSDictionaryAdditions.h"
 
 @interface ContacterSelectViewController ()
@@ -58,12 +59,21 @@
     [_selectedPersons release];
     [_completionBlock release];
     [_roundRectButtonPopTipView release];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_CONTACTER" object:nil];
+
     [super dealloc];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ADD_CONTACTER" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDatas:) name:@"ADD_TRAVELER" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDatas:) name:@"ADD_CONTACTER" object:nil];
     
     NSString *name = _selectType == SelectTypeContacter ? @"联系人":@"乘客";
     [self setTitle:[NSString stringWithFormat:@"选取%@", name]];
@@ -79,6 +89,11 @@
     [_tableView setBackgroundView:nil];
     [_tableView setBackgroundColor:[UIColor clearColor]];
     
+    [self loadOnlineData];
+}
+
+- (void)loadOnlineData
+{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"加载中...";
     NSString *userId = [AppConfig get].currentUser.userId;
@@ -87,8 +102,6 @@
                                   success:^(NSArray *passengers) {
                                       if(passengers && [passengers count] > 0){
                                           [self wrapDatas:passengers];
-                                      }else{
-                                          [self showError:[NSString stringWithFormat:@"没有%@信息， 请在“常旅客”中添加。", name]];
                                       }
                                       [MBProgressHUD hideHUDForView:self.view animated:YES];
                                   }
@@ -101,8 +114,6 @@
                                   success:^(NSArray *passengers) {
                                       if(passengers && [passengers count] > 0){
                                           [self wrapDatas:passengers];
-                                      }else{
-                                          [self showError:[NSString stringWithFormat:@"没有%@信息， 请在“常旅客”中添加。", name]];
                                       }
                                       [MBProgressHUD hideHUDForView:self.view animated:YES];
                                   }
@@ -112,7 +123,10 @@
                                   }];
     }
 }
-
+- (void)reloadDatas:(NSNotification *)notification
+{
+    [self loadOnlineData];
+}
 - (void)showError:(NSString *)errMsg
 {
     [ALToastView toastPinInView:self.navigationController.view withText:errMsg andBottomOffset:44 andType:ERROR];
@@ -145,33 +159,55 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _datas == nil ? 0 : [_datas count];
+    return _datas == nil ? 1 : [_datas count] + 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identify = @"CRCell";
-    CRTableViewCell *cell = (CRTableViewCell *)[tableView dequeueReusableCellWithIdentifier:identify];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if(cell == nil){
-        cell = [[[CRTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify]
+        if(indexPath.row == 0){
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify] autorelease];
+        }else{
+            cell = [[[CRTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify]
                 autorelease];
+        }
     }
     [cell setNeedsDisplay];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     
-    BOOL selected = [self containsPerson:_datas[indexPath.row]];
-    cell.isSelected = selected;
-    if(selected && _selectType == SelectTypeContacter){
-        _selectedRow = indexPath.row;
+    if(indexPath.row == 0){
+        UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add.png"]];
+        [imgView setFrame:CGRectMake(20, 6, 30, 30)];
+        [cell addSubview:imgView];
+        [imgView release];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 200, 44)];
+        label.textColor = [UIColor blackColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.backgroundColor = [UIColor clearColor];
+        [label setText:@"立即添加"];
+        [cell addSubview:label];
+        [label release];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }else{
+        CRTableViewCell *crCell = (CRTableViewCell *)cell;
+        BOOL selected = [self containsPerson:_datas[indexPath.row - 1]];
+        crCell.isSelected = selected;
+        if(selected && _selectType == SelectTypeContacter){
+            _selectedRow = indexPath.row - 1;
+        }
+        
+        [crCell.textLabel setFont:[UIFont systemFontOfSize:14]];
+        [crCell.textLabel setText:[_datas[indexPath.row - 1] getStringValueForKey:@"Name" defaultValue:@""]];
+        
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        [infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
+        infoButton.tag = indexPath.row - 1;
+        crCell.accessoryView = infoButton;
     }
-    
-    [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-    [cell.textLabel setText:[_datas[indexPath.row] getStringValueForKey:@"Name" defaultValue:@""]];
-    
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    [infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
-    infoButton.tag = indexPath.row;
-    cell.accessoryView = infoButton;
-    
     return cell;
 }
 
@@ -222,34 +258,42 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CRTableViewCell *cell = (CRTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    
-    [cell setSelected:NO animated:YES];
-    if(_selectType == SelectTypePassenger){
-        NSDictionary *p = [_datas objectAtIndex:indexPath.row];
-        if(_selectedPersons == nil){
-            _selectedPersons = [[NSMutableDictionary alloc] initWithCapacity:0];
-        }
-        if(cell.isSelected){
-            cell.isSelected = NO;
-            [_selectedPersons removeObjectForKey:[p objectForKey:@"PassengerId"]];
-        }else{
-            cell.isSelected = YES;
-            [_selectedPersons setObject:p forKey:[p objectForKey:@"PassengerId"]];
-        }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if(indexPath.row == 0){
+        CreateTravelerViewController *vc = [[CreateTravelerViewController alloc] init];
+        vc.contacterType = _selectType == SelectTypePassenger ? TRAVELER : CONTACTER;
+        vc.fromTicketOrder = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        [vc release];
     }else{
-        if(cell.isSelected){
-            return;
-        }
-        CRTableViewCell *oldCell = (CRTableViewCell *)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0]];
-        oldCell.isSelected = NO;
-        
         CRTableViewCell *cell = (CRTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        cell.isSelected = YES;
-        _selectedRow = indexPath.row;
-        [_selectedPersons release], _selectedPersons = [[NSMutableDictionary alloc] initWithCapacity:0];
-        NSDictionary *p = [_datas objectAtIndex:_selectedRow];
-        [_selectedPersons setObject:p forKey:[p objectForKey:@"ContactorId"]];
+        
+        if(_selectType == SelectTypePassenger){
+            NSDictionary *p = [_datas objectAtIndex:indexPath.row - 1];
+            if(_selectedPersons == nil){
+                _selectedPersons = [[NSMutableDictionary alloc] initWithCapacity:0];
+            }
+            if(cell.isSelected){
+                cell.isSelected = NO;
+                [_selectedPersons removeObjectForKey:[p objectForKey:@"PassengerId"]];
+            }else{
+                cell.isSelected = YES;
+                [_selectedPersons setObject:p forKey:[p objectForKey:@"PassengerId"]];
+            }
+        }else{
+            if(cell.isSelected){
+                return;
+            }
+            CRTableViewCell *oldCell = (CRTableViewCell *)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow + 1 inSection:0]];
+            oldCell.isSelected = NO;
+            
+            CRTableViewCell *cell = (CRTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+            cell.isSelected = YES;
+            _selectedRow = indexPath.row - 1;
+            [_selectedPersons release], _selectedPersons = [[NSMutableDictionary alloc] initWithCapacity:0];
+            NSDictionary *p = [_datas objectAtIndex:_selectedRow];
+            [_selectedPersons setObject:p forKey:[p objectForKey:@"ContactorId"]];
+        }
     }
 }
 @end

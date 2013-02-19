@@ -22,6 +22,7 @@
 @synthesize detail = _detail;
 @synthesize tableView = _tableView;
 @synthesize contacterType = _contacterType;
+@synthesize fromTicketOrder = _fromTicketOrder;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -137,7 +138,11 @@
                                               [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                                               [_detail setValue:identification forKey:@"ContactorId"];
                                               [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CONTACTER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"CONTACTER"]];
-                                              [self.navigationController popToRootViewControllerAnimated:YES];
+                                              if(_fromTicketOrder){
+                                                  [self.navigationController popViewControllerAnimated:YES];
+                                              }else{
+                                                  [self.navigationController popToRootViewControllerAnimated:YES];
+                                              }
                                           }
                                           failure:^(NSString *errorMsg) {
                                               [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -150,7 +155,11 @@
                                               [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                                               [_detail setValue:identification forKey:@"PassengerId"];
                                               [[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_TRAVELER" object:nil userInfo:[NSDictionary dictionaryWithObject:_detail forKey:@"TRAVELER"]];
-                                              [self.navigationController popToRootViewControllerAnimated:YES];
+                                              if(_fromTicketOrder){
+                                                  [self.navigationController popViewControllerAnimated:YES];
+                                              }else{
+                                                  [self.navigationController popToRootViewControllerAnimated:YES];
+                                              }
                                           }
                                           failure:^(NSString *errorMsg) {
                                               [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -282,6 +291,7 @@
                 if((NSNull *)birthday == [NSNull null] || birthday == nil || [birthday length] == 0){
                     date = [NSDate date];
                 }else{
+                    birthday = [birthday componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]][0];
                     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
                     [formatter setDateFormat:@"yyyy-MM-dd"];
                     [dateCell setMaxDate:[NSDate date]];

@@ -301,8 +301,9 @@
                 if((NSNull *)birthday == [NSNull null] || birthday == nil || [birthday length] == 0){
                     date = [NSDate date];
                 }else{
+                    birthday = [birthday componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]][0];
                     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-                    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    [formatter setDateFormat:@"yyyy-MM-dd"];
                     [dateCell setMaxDate:[NSDate date]];
                     [dateCell setMinDate:[formatter dateFromString:@"1900-1-1"]];
                     

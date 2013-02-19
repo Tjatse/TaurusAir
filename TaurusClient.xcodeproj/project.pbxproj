@@ -191,8 +191,6 @@
 		3E7B2B7916774685008789BE /* title_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1416774685008789BE /* title_icon@2x.png */; };
 		3E7B2B7A16774685008789BE /* search_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1616774685008789BE /* search_icon.png */; };
 		3E7B2B7B16774685008789BE /* search_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1716774685008789BE /* search_icon@2x.png */; };
-		3E7B2B7C16774685008789BE /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1916774685008789BE /* plus.png */; };
-		3E7B2B7D16774685008789BE /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1A16774685008789BE /* plus@2x.png */; };
 		3E7B2B7E16774685008789BE /* bottom_btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1C16774685008789BE /* bottom_btn_bg.png */; };
 		3E7B2B7F16774685008789BE /* bottom_btn_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1D16774685008789BE /* bottom_btn_bg@2x.png */; };
 		3E7B2B8016774685008789BE /* bottom_btn_focus_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B2B1E16774685008789BE /* bottom_btn_focus_bg.png */; };
@@ -343,6 +341,7 @@
 		921E5E4F16BF6916006D0237 /* header-bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 921E5E4D16BF6916006D0237 /* header-bar@2x.png */; };
 		921EE0D9168F37A900676D7C /* CreateTravelerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921EE0D7168F37A800676D7C /* CreateTravelerViewController.m */; };
 		921EE0DA168F37A900676D7C /* CreateTravelerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921EE0D8168F37A900676D7C /* CreateTravelerViewController.xib */; };
+		92548FAB16D348B6008839C2 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92548FAA16D348B6008839C2 /* add@2x.png */; };
 		927B7A611679EC940003FC13 /* StateBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 927B7A601679EC940003FC13 /* StateBase.m */; };
 		927E9FC616A2C3140047A0E1 /* ContacterSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E9FC416A2C3140047A0E1 /* ContacterSelectViewController.m */; };
 		927E9FC716A2C3140047A0E1 /* ContacterSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 927E9FC516A2C3140047A0E1 /* ContacterSelectViewController.xib */; };
@@ -697,8 +696,6 @@
 		3E7B2B1416774685008789BE /* title_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "title_icon@2x.png"; sourceTree = "<group>"; };
 		3E7B2B1616774685008789BE /* search_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_icon.png; sourceTree = "<group>"; };
 		3E7B2B1716774685008789BE /* search_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_icon@2x.png"; sourceTree = "<group>"; };
-		3E7B2B1916774685008789BE /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
-		3E7B2B1A16774685008789BE /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
 		3E7B2B1C16774685008789BE /* bottom_btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_btn_bg.png; sourceTree = "<group>"; };
 		3E7B2B1D16774685008789BE /* bottom_btn_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom_btn_bg@2x.png"; sourceTree = "<group>"; };
 		3E7B2B1E16774685008789BE /* bottom_btn_focus_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_btn_focus_bg.png; sourceTree = "<group>"; };
@@ -969,6 +966,7 @@
 		921EE0D6168F37A800676D7C /* CreateTravelerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateTravelerViewController.h; path = Contacter/CreateTravelerViewController.h; sourceTree = "<group>"; };
 		921EE0D7168F37A800676D7C /* CreateTravelerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateTravelerViewController.m; path = Contacter/CreateTravelerViewController.m; sourceTree = "<group>"; };
 		921EE0D8168F37A900676D7C /* CreateTravelerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateTravelerViewController.xib; path = Contacter/CreateTravelerViewController.xib; sourceTree = "<group>"; };
+		92548FAA16D348B6008839C2 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		927B7A5F1679EC940003FC13 /* StateBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateBase.h; sourceTree = "<group>"; };
 		927B7A601679EC940003FC13 /* StateBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateBase.m; sourceTree = "<group>"; };
 		927B7A6C1679EF670003FC13 /* AppDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDefines.h; sourceTree = "<group>"; };
@@ -1732,8 +1730,7 @@
 		3E7B2B1816774685008789BE /* contacter */ = {
 			isa = PBXGroup;
 			children = (
-				3E7B2B1916774685008789BE /* plus.png */,
-				3E7B2B1A16774685008789BE /* plus@2x.png */,
+				92548FAA16D348B6008839C2 /* add@2x.png */,
 			);
 			path = contacter;
 			sourceTree = "<group>";
@@ -2229,8 +2226,6 @@
 				3E7B2B7916774685008789BE /* title_icon@2x.png in Resources */,
 				3E7B2B7A16774685008789BE /* search_icon.png in Resources */,
 				3E7B2B7B16774685008789BE /* search_icon@2x.png in Resources */,
-				3E7B2B7C16774685008789BE /* plus.png in Resources */,
-				3E7B2B7D16774685008789BE /* plus@2x.png in Resources */,
 				3E7B2B7E16774685008789BE /* bottom_btn_bg.png in Resources */,
 				3E7B2B7F16774685008789BE /* bottom_btn_bg@2x.png in Resources */,
 				3E7B2B8016774685008789BE /* bottom_btn_focus_bg.png in Resources */,
@@ -2384,6 +2379,7 @@
 				9219BFA616C0DA24003053F0 /* airplane-take-off-reback@2x.png in Resources */,
 				9219BFA716C0DA24003053F0 /* airplane-take-off@2x.png in Resources */,
 				92C2F5F016C10CD400E37569 /* OrderRefundViewController.xib in Resources */,
+				92548FAB16D348B6008839C2 /* add@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

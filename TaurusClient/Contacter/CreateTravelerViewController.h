@@ -21,5 +21,6 @@
 @property   (nonatomic, retain) NSMutableDictionary     *detail;
 @property   (nonatomic, retain) IBOutlet UITableView    *tableView;
 @property   (nonatomic, readwrite) CONTACTER_TYPE       contacterType;
+@property   (nonatomic, readwrite) BOOL                 fromTicketOrder;
 
 @end
