@@ -152,23 +152,28 @@
     switch (indexPath.row) {
         case 0:{
             [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
+            [cell.detailTextLabel setTextColor:[UIColor grayColor]];
             [cell.detailTextLabel setText:_user.userId];
         }
             break;
         case 1:{
             [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
+            [cell.detailTextLabel setTextColor:[UIColor grayColor]];
             [cell.detailTextLabel setText:_user.loginName];
         }
             break;
         case 2:{
             [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-            [(StringInputTableViewCell *)cell setStringValue:_user.name];
+            StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
+            [inputCell.textField setPlaceholder:@"您的姓名"];
+            [inputCell setStringValue:_user.name];
         }
             break;
         case 3:{
             [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
             StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
             [inputCell.textField setKeyboardType:UIKeyboardTypePhonePad];
+            [inputCell.textField setPlaceholder:@"手机号码"];
             [inputCell setStringValue:_user.phone];
         }
             break;
@@ -176,6 +181,7 @@
             [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
             StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
             [inputCell.textField setKeyboardType:UIKeyboardTypeEmailAddress];
+            [inputCell.textField setPlaceholder:@"Email地址"];
             [inputCell setStringValue:_user.email];
         }
             break;
@@ -189,17 +195,19 @@
         case 6:{
             DateInputTableViewCell *dateCell = (DateInputTableViewCell *)cell;
             
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-            [formatter setDateFormat:@"yyyy-MM-dd"];
-            [dateCell setMaxDate:[NSDate date]];
-            [dateCell setMinDate:[formatter dateFromString:@"1900-1-1"]];
-            
-            NSString *birthday = _user.birthday;
-            if((NSNull *)birthday == [NSNull null] || [birthday length] == 0){
-                birthday = @"1900-1-1";
+            NSDate *date = nil;
+            if((NSNull *)_user.birthday == [NSNull null] || _user.birthday == nil || [_user.birthday length] == 0){
+                date = [NSDate date];
+            }else{
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+                [formatter setDateFormat:@"yyyy-MM-dd"];
+                [dateCell setMaxDate:[NSDate date]];
+                [dateCell setMinDate:[formatter dateFromString:@"1900-1-1"]];
+                
+                date = [formatter dateFromString:_user.birthday];
+                [formatter release];
             }
-            NSDate *date=[formatter dateFromString:birthday];
-            [formatter release];
+            
             [dateCell setDateValue:date];
         }
             break;
@@ -207,7 +215,9 @@
             [cell.detailTextLabel setNumberOfLines:0];
             [cell.detailTextLabel setFont:[UIFont systemFontOfSize:12]];
             [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-            [(StringInputTableViewCell *)cell setStringValue:_user.remark];
+            StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
+            [inputCell.textField setPlaceholder:@"个人说明"];
+            [inputCell setStringValue:_user.remark];
         }
             break;
         default:

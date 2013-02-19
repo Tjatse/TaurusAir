@@ -148,6 +148,9 @@
                 break;
             case 4:{
                 [cell.detailTextLabel setNumberOfLines:0];
+                [cell.detailTextLabel setLineBreakMode:UILineBreakModeWordWrap];
+                [cell.detailTextLabel setMinimumFontSize:10];
+                [cell.detailTextLabel adjustsFontSizeToFitWidth];
                 NSString *address = [_detail objectForKey:@"Address"];
                 [cell.detailTextLabel setText:(NSNull *)address != [NSNull null] ? address: @"-"];
             }

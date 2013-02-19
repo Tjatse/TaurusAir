@@ -45,7 +45,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     if(_contacterType == CONTACTER){
-        _datas = [[NSArray alloc] initWithArray: @[@"姓       名(*)", @"手机号码", @"邮件地址", @"通信地址"]];
+        _datas = [[NSArray alloc] initWithArray: @[@"姓       名(*)", @"手机号码", @"邮箱地址", @"通信地址"]];
     }else{
         _datas = [[NSArray alloc] initWithArray: @[@"姓       名(*)", @"性       别", @"身份证号(*)", @"手机号码", @"生       日", @"类       型"]];
     }
@@ -54,7 +54,11 @@
     [_detail setObject:[NSNumber numberWithInt:1] forKey:@"Gender"];
     if(_contacterType == TRAVELER){
         [_detail setObject:[NSNumber numberWithInt:1] forKey:@"TravelerType"];
-        [_detail setObject:@"1900-1-1" forKey:@"Birthday"];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        [_detail setObject:[formatter stringFromDate:[NSDate date]] forKey:@"Birthday"];
+        [formatter release];
         
         [self setTitle:@"添加常旅客"];
     }else{
@@ -202,7 +206,9 @@
         switch (indexPath.row) {
             case 0:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Name"]];
+                StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
+                [inputCell setStringValue:[_detail objectForKey:@"Name"]];
+                [inputCell.textField setPlaceholder:@"您的姓名"];
             }
                 break;
             case 1:{
@@ -210,6 +216,7 @@
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell.textField setKeyboardType:UIKeyboardTypePhonePad];
                 NSString *phone = [_detail objectForKey:@"Phone"];
+                [inputCell.textField setPlaceholder:@"手机号码"];
                 [inputCell setStringValue: (NSNull *)phone != [NSNull null]?phone:@""];
             }
                 break;
@@ -218,6 +225,7 @@
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell.textField setKeyboardType:UIKeyboardTypeEmailAddress];
                 NSString *phone = [_detail objectForKey:@"Email"];
+                [inputCell.textField setPlaceholder:@"Email地址"];
                 [inputCell setStringValue: (NSNull *)phone != [NSNull null]?phone:@""];
             }
                 break;
@@ -225,6 +233,7 @@
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 NSString *address = [_detail objectForKey:@"Address"];
+                [inputCell.textField setPlaceholder:@"通信地址"];
                 [inputCell setStringValue: (NSNull *)address != [NSNull null]?address:@""];
             }
                 break;
@@ -235,7 +244,9 @@
         switch (indexPath.row) {
             case 0:{
                 [cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-                [(StringInputTableViewCell *)cell setStringValue:[_detail objectForKey:@"Name"]];
+                StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
+                [inputCell setStringValue:[_detail objectForKey:@"Name"]];
+                [inputCell.textField setPlaceholder:@"您的姓名"];
             }
                 break;
             case 1:{
@@ -251,6 +262,7 @@
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell setStringValue:[_detail objectForKey:@"ChinaId"]];
                 [inputCell.textField setKeyboardType:UIKeyboardTypeNumberPad];
+                [inputCell.textField setPlaceholder:@"身份证号码"];
             }
                 break;
             case 3:{
@@ -258,23 +270,26 @@
                 StringInputTableViewCell *inputCell = (StringInputTableViewCell *)cell;
                 [inputCell.textField setKeyboardType:UIKeyboardTypePhonePad];
                 NSString *phone = [_detail objectForKey:@"Phone"];
+                [inputCell.textField setPlaceholder:@"手机号码"];
                 [inputCell setStringValue: (NSNull *)phone != [NSNull null]?phone:@""];
             }
                 break;
             case 4:{
                 DateInputTableViewCell *dateCell = (DateInputTableViewCell *)cell;
                 
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-                [formatter setDateFormat:@"yyyy-MM-dd"];
-                [dateCell setMaxDate:[NSDate date]];
-                [dateCell setMinDate:[formatter dateFromString:@"1900-1-1"]];
-                
                 NSString *birthday = [_detail objectForKey:@"Birthday"];
-                if((NSNull *)birthday == [NSNull null]){
-                    birthday = @"1900-1-1";
+                NSDate *date = nil;
+                if((NSNull *)birthday == [NSNull null] || birthday == nil || [birthday length] == 0){
+                    date = [NSDate date];
+                }else{
+                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+                    [formatter setDateFormat:@"yyyy-MM-dd"];
+                    [dateCell setMaxDate:[NSDate date]];
+                    [dateCell setMinDate:[formatter dateFromString:@"1900-1-1"]];
+                    
+                    date = [formatter dateFromString:birthday];
+                    [formatter release];
                 }
-                NSDate *date=[formatter dateFromString:birthday];
-                [formatter release];
                 [dateCell setDateValue:date];
             }
                 break;

@@ -364,7 +364,7 @@
                     break;
                 case 1:{
                     _contactorPhone = [[_detail getStringValueForKey:@"ContactorPhone" defaultValue:@""] retain];
-                    NSString *cn = [_detail objectForKey:@"ContactorName"];
+                    NSString *cn = [_detail getStringValueForKey:@"ContactorName" defaultValue:@""];
                     
                     UIView *ctn = [[UIView alloc] initWithFrame:CGRectMake(100, 0, 210, 44)];
                     
@@ -419,11 +419,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if(indexPath.section == 1){
-        
-    }else if((!_hasReturn && indexPath.section == 2) || (_hasReturn && indexPath.section == 3)){
-        if(indexPath.row == 1 && _contactorPhone){
+    if((!_hasReturn && indexPath.section == 2) || (_hasReturn && indexPath.section == 3)){
+        if(indexPath.row == 1 && _contactorPhone && [_contactorPhone length] > 0){
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:[NSString stringWithFormat: @"拨打 %@", _contactorPhone] otherButtonTitles:nil, nil];
             [sheet showInView:self.view];
             [sheet release];
