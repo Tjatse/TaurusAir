@@ -246,14 +246,16 @@
 {
 	// 检查联系人是否为空
 	if (self.passangers.count == 0 || self.contacter.count == 0) {
-		UIAlertView* alertVw = [[UIAlertView alloc] initWithTitle:nil
-														  message:@"请选择联系人与乘客。"
-														 delegate:nil
-												cancelButtonTitle:@"我知道了"
-												otherButtonTitles:nil];
+//		UIAlertView* alertVw = [[UIAlertView alloc] initWithTitle:nil
+//														  message:@"请选择联系人与乘客。"
+//														 delegate:nil
+//												cancelButtonTitle:@"我知道了"
+//												otherButtonTitles:nil];
 		
-		[alertVw show];
-		SAFE_RELEASE(alertVw);
+		[ALToastView toastInView:self.view withText:@"请选择联系人与乘客。" andBottomOffset:44 andType:ERROR];
+		
+//		[alertVw show];
+//		SAFE_RELEASE(alertVw);
 		
 		return;
 	}
