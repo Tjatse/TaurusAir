@@ -450,7 +450,7 @@
                                     andColor:[UIColor darkGrayColor]];
     
     NSString *time = times[0];
-    [labelTime setText: [time substringToIndex:[time rangeOfString:@","].location - 1]];
+    [labelTime setText: [time substringToIndex:[time rangeOfString:@","].location]];
     [cell addSubview:labelTime];
     
     NSString *fromTo = fromTos[0];

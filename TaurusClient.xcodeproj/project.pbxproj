@@ -169,8 +169,6 @@
 		3E75C2BC16944FE200CDB92F /* FlightNotificationCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2BB16944FE200CDB92F /* FlightNotificationCells.xib */; };
 		3E75C2BF169452DF00CDB92F /* TicketOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2BE169452DF00CDB92F /* TicketOrder.m */; };
 		3E75C2C21694590D00CDB92F /* TicketOrderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2C11694590D00CDB92F /* TicketOrderHelper.m */; };
-		3E75C2C6169461A700CDB92F /* SoftVersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2C4169461A700CDB92F /* SoftVersonViewController.m */; };
-		3E75C2C7169461A700CDB92F /* SoftVersonViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2C5169461A700CDB92F /* SoftVersonViewController.xib */; };
 		3E75C2CB1694624E00CDB92F /* CorpInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E75C2C91694624D00CDB92F /* CorpInfoViewController.m */; };
 		3E75C2CC1694624E00CDB92F /* CorpInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E75C2CA1694624E00CDB92F /* CorpInfoViewController.xib */; };
 		3E7B2AF616772A0B008789BE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7B2AF416772A0B008789BE /* MainViewController.m */; };
@@ -342,6 +340,23 @@
 		921EE0D9168F37A900676D7C /* CreateTravelerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 921EE0D7168F37A800676D7C /* CreateTravelerViewController.m */; };
 		921EE0DA168F37A900676D7C /* CreateTravelerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 921EE0D8168F37A900676D7C /* CreateTravelerViewController.xib */; };
 		92548FAB16D348B6008839C2 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92548FAA16D348B6008839C2 /* add@2x.png */; };
+		92548FAD16D36FFE008839C2 /* service.txt in Resources */ = {isa = PBXBuildFile; fileRef = 92548FAC16D36FFE008839C2 /* service.txt */; };
+		92548FB116D37024008839C2 /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92548FAF16D37024008839C2 /* ServiceViewController.m */; };
+		92548FB216D37024008839C2 /* ServiceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92548FB016D37024008839C2 /* ServiceViewController.xib */; };
+		92548FBA16D374CA008839C2 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92548FB816D374C9008839C2 /* HelpViewController.m */; };
+		92548FBB16D374CA008839C2 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92548FB916D374C9008839C2 /* HelpViewController.xib */; };
+		92548FC916D37CC7008839C2 /* help1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FBD16D37CC7008839C2 /* help1.jpg */; };
+		92548FCA16D37CC7008839C2 /* help1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FBE16D37CC7008839C2 /* help1@2x.jpg */; };
+		92548FCB16D37CC7008839C2 /* help2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FBF16D37CC7008839C2 /* help2.jpg */; };
+		92548FCC16D37CC7008839C2 /* help2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC016D37CC7008839C2 /* help2@2x.jpg */; };
+		92548FCD16D37CC7008839C2 /* help3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC116D37CC7008839C2 /* help3.jpg */; };
+		92548FCE16D37CC7008839C2 /* help3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC216D37CC7008839C2 /* help3@2x.jpg */; };
+		92548FCF16D37CC7008839C2 /* help4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC316D37CC7008839C2 /* help4.jpg */; };
+		92548FD016D37CC7008839C2 /* help4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC416D37CC7008839C2 /* help4@2x.jpg */; };
+		92548FD116D37CC7008839C2 /* help5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC516D37CC7008839C2 /* help5.jpg */; };
+		92548FD216D37CC7008839C2 /* help5@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC616D37CC7008839C2 /* help5@2x.jpg */; };
+		92548FD316D37CC7008839C2 /* help6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC716D37CC7008839C2 /* help6.jpg */; };
+		92548FD416D37CC7008839C2 /* help6@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 92548FC816D37CC7008839C2 /* help6@2x.jpg */; };
 		927B7A611679EC940003FC13 /* StateBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 927B7A601679EC940003FC13 /* StateBase.m */; };
 		927E9FC616A2C3140047A0E1 /* ContacterSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E9FC416A2C3140047A0E1 /* ContacterSelectViewController.m */; };
 		927E9FC716A2C3140047A0E1 /* ContacterSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 927E9FC516A2C3140047A0E1 /* ContacterSelectViewController.xib */; };
@@ -671,9 +686,6 @@
 		3E75C2BE169452DF00CDB92F /* TicketOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketOrder.m; sourceTree = "<group>"; };
 		3E75C2C01694590D00CDB92F /* TicketOrderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketOrderHelper.h; sourceTree = "<group>"; };
 		3E75C2C11694590D00CDB92F /* TicketOrderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketOrderHelper.m; sourceTree = "<group>"; };
-		3E75C2C3169461A700CDB92F /* SoftVersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoftVersonViewController.h; path = About/SoftVersonViewController.h; sourceTree = "<group>"; };
-		3E75C2C4169461A700CDB92F /* SoftVersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoftVersonViewController.m; path = About/SoftVersonViewController.m; sourceTree = "<group>"; };
-		3E75C2C5169461A700CDB92F /* SoftVersonViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SoftVersonViewController.xib; path = About/SoftVersonViewController.xib; sourceTree = "<group>"; };
 		3E75C2C81694624D00CDB92F /* CorpInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CorpInfoViewController.h; path = About/CorpInfoViewController.h; sourceTree = "<group>"; };
 		3E75C2C91694624D00CDB92F /* CorpInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CorpInfoViewController.m; path = About/CorpInfoViewController.m; sourceTree = "<group>"; };
 		3E75C2CA1694624E00CDB92F /* CorpInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CorpInfoViewController.xib; path = About/CorpInfoViewController.xib; sourceTree = "<group>"; };
@@ -967,6 +979,25 @@
 		921EE0D7168F37A800676D7C /* CreateTravelerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateTravelerViewController.m; path = Contacter/CreateTravelerViewController.m; sourceTree = "<group>"; };
 		921EE0D8168F37A900676D7C /* CreateTravelerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateTravelerViewController.xib; path = Contacter/CreateTravelerViewController.xib; sourceTree = "<group>"; };
 		92548FAA16D348B6008839C2 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
+		92548FAC16D36FFE008839C2 /* service.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = service.txt; sourceTree = "<group>"; };
+		92548FAE16D37024008839C2 /* ServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceViewController.h; path = About/ServiceViewController.h; sourceTree = "<group>"; };
+		92548FAF16D37024008839C2 /* ServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceViewController.m; path = About/ServiceViewController.m; sourceTree = "<group>"; };
+		92548FB016D37024008839C2 /* ServiceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServiceViewController.xib; path = About/ServiceViewController.xib; sourceTree = "<group>"; };
+		92548FB716D374C9008839C2 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = About/HelpViewController.h; sourceTree = "<group>"; };
+		92548FB816D374C9008839C2 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = About/HelpViewController.m; sourceTree = "<group>"; };
+		92548FB916D374C9008839C2 /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HelpViewController.xib; path = About/HelpViewController.xib; sourceTree = "<group>"; };
+		92548FBD16D37CC7008839C2 /* help1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = help1.jpg; sourceTree = "<group>"; };
+		92548FBE16D37CC7008839C2 /* help1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "help1@2x.jpg"; sourceTree = "<group>"; };
+		92548FBF16D37CC7008839C2 /* help2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = help2.jpg; sourceTree = "<group>"; };
+		92548FC016D37CC7008839C2 /* help2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "help2@2x.jpg"; sourceTree = "<group>"; };
+		92548FC116D37CC7008839C2 /* help3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = help3.jpg; sourceTree = "<group>"; };
+		92548FC216D37CC7008839C2 /* help3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "help3@2x.jpg"; sourceTree = "<group>"; };
+		92548FC316D37CC7008839C2 /* help4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = help4.jpg; sourceTree = "<group>"; };
+		92548FC416D37CC7008839C2 /* help4@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "help4@2x.jpg"; sourceTree = "<group>"; };
+		92548FC516D37CC7008839C2 /* help5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = help5.jpg; sourceTree = "<group>"; };
+		92548FC616D37CC7008839C2 /* help5@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "help5@2x.jpg"; sourceTree = "<group>"; };
+		92548FC716D37CC7008839C2 /* help6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = help6.jpg; sourceTree = "<group>"; };
+		92548FC816D37CC7008839C2 /* help6@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "help6@2x.jpg"; sourceTree = "<group>"; };
 		927B7A5F1679EC940003FC13 /* StateBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateBase.h; sourceTree = "<group>"; };
 		927B7A601679EC940003FC13 /* StateBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateBase.m; sourceTree = "<group>"; };
 		927B7A6C1679EF670003FC13 /* AppDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDefines.h; sourceTree = "<group>"; };
@@ -1590,6 +1621,7 @@
 		3E751E251689621E006FCA04 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				92548FAC16D36FFE008839C2 /* service.txt */,
 				3E751E261689621E006FCA04 /* double_char_code.csv */,
 				3E751E271689621E006FCA04 /* three_char_code.csv */,
 				92B780C7168A9B9A00A9DE32 /* order_state.csv */,
@@ -1642,15 +1674,18 @@
 		3E75C2AF1693AF9300CDB92F /* About */ = {
 			isa = PBXGroup;
 			children = (
+				92548FB716D374C9008839C2 /* HelpViewController.h */,
+				92548FB816D374C9008839C2 /* HelpViewController.m */,
+				92548FB916D374C9008839C2 /* HelpViewController.xib */,
 				3E75C2AA1693AF8B00CDB92F /* AboutViewController.h */,
 				3E75C2AB1693AF8B00CDB92F /* AboutViewController.m */,
 				3E75C2AC1693AF8B00CDB92F /* AboutViewController.xib */,
-				3E75C2C3169461A700CDB92F /* SoftVersonViewController.h */,
-				3E75C2C4169461A700CDB92F /* SoftVersonViewController.m */,
-				3E75C2C5169461A700CDB92F /* SoftVersonViewController.xib */,
 				3E75C2C81694624D00CDB92F /* CorpInfoViewController.h */,
 				3E75C2C91694624D00CDB92F /* CorpInfoViewController.m */,
 				3E75C2CA1694624E00CDB92F /* CorpInfoViewController.xib */,
+				92548FAE16D37024008839C2 /* ServiceViewController.h */,
+				92548FAF16D37024008839C2 /* ServiceViewController.m */,
+				92548FB016D37024008839C2 /* ServiceViewController.xib */,
 			);
 			name = About;
 			sourceTree = "<group>";
@@ -1670,6 +1705,7 @@
 		3E7B2B0416774685008789BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				92548FBC16D37CB8008839C2 /* help */,
 				92B780971687FD3100A9DE32 /* order */,
 				3E751E251689621E006FCA04 /* data */,
 				3E7B2B0716774685008789BE /* baseInfo */,
@@ -2080,6 +2116,25 @@
 			path = Account;
 			sourceTree = "<group>";
 		};
+		92548FBC16D37CB8008839C2 /* help */ = {
+			isa = PBXGroup;
+			children = (
+				92548FBD16D37CC7008839C2 /* help1.jpg */,
+				92548FBE16D37CC7008839C2 /* help1@2x.jpg */,
+				92548FBF16D37CC7008839C2 /* help2.jpg */,
+				92548FC016D37CC7008839C2 /* help2@2x.jpg */,
+				92548FC116D37CC7008839C2 /* help3.jpg */,
+				92548FC216D37CC7008839C2 /* help3@2x.jpg */,
+				92548FC316D37CC7008839C2 /* help4.jpg */,
+				92548FC416D37CC7008839C2 /* help4@2x.jpg */,
+				92548FC516D37CC7008839C2 /* help5.jpg */,
+				92548FC616D37CC7008839C2 /* help5@2x.jpg */,
+				92548FC716D37CC7008839C2 /* help6.jpg */,
+				92548FC816D37CC7008839C2 /* help6@2x.jpg */,
+			);
+			path = help;
+			sourceTree = "<group>";
+		};
 		927B7A5C1679EC220003FC13 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -2342,7 +2397,6 @@
 				3E75C2AE1693AF8B00CDB92F /* AboutViewController.xib in Resources */,
 				3E75C2B51693B68100CDB92F /* BasicSettingsCells.xib in Resources */,
 				3E75C2BC16944FE200CDB92F /* FlightNotificationCells.xib in Resources */,
-				3E75C2C7169461A700CDB92F /* SoftVersonViewController.xib in Resources */,
 				3E75C2CC1694624E00CDB92F /* CorpInfoViewController.xib in Resources */,
 				92033E341695268000BE2E27 /* PasswordRecovery.json in Resources */,
 				92033E37169556EA00BE2E27 /* RegisterUser.json in Resources */,
@@ -2380,6 +2434,21 @@
 				9219BFA716C0DA24003053F0 /* airplane-take-off@2x.png in Resources */,
 				92C2F5F016C10CD400E37569 /* OrderRefundViewController.xib in Resources */,
 				92548FAB16D348B6008839C2 /* add@2x.png in Resources */,
+				92548FAD16D36FFE008839C2 /* service.txt in Resources */,
+				92548FB216D37024008839C2 /* ServiceViewController.xib in Resources */,
+				92548FBB16D374CA008839C2 /* HelpViewController.xib in Resources */,
+				92548FC916D37CC7008839C2 /* help1.jpg in Resources */,
+				92548FCA16D37CC7008839C2 /* help1@2x.jpg in Resources */,
+				92548FCB16D37CC7008839C2 /* help2.jpg in Resources */,
+				92548FCC16D37CC7008839C2 /* help2@2x.jpg in Resources */,
+				92548FCD16D37CC7008839C2 /* help3.jpg in Resources */,
+				92548FCE16D37CC7008839C2 /* help3@2x.jpg in Resources */,
+				92548FCF16D37CC7008839C2 /* help4.jpg in Resources */,
+				92548FD016D37CC7008839C2 /* help4@2x.jpg in Resources */,
+				92548FD116D37CC7008839C2 /* help5.jpg in Resources */,
+				92548FD216D37CC7008839C2 /* help5@2x.jpg in Resources */,
+				92548FD316D37CC7008839C2 /* help6.jpg in Resources */,
+				92548FD416D37CC7008839C2 /* help6@2x.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2534,7 +2603,6 @@
 				3E75C2AD1693AF8B00CDB92F /* AboutViewController.m in Sources */,
 				3E75C2BF169452DF00CDB92F /* TicketOrder.m in Sources */,
 				3E75C2C21694590D00CDB92F /* TicketOrderHelper.m in Sources */,
-				3E75C2C6169461A700CDB92F /* SoftVersonViewController.m in Sources */,
 				3E75C2CB1694624E00CDB92F /* CorpInfoViewController.m in Sources */,
 				92033E441696BA3300BE2E27 /* OrderHelper.m in Sources */,
 				9294FD6C169FD49700B75AE5 /* ContacterHelper.m in Sources */,
@@ -2563,6 +2631,8 @@
 				3EC3AD0F16BFF5F000A177DC /* RSADataVerifier.m in Sources */,
 				9219BF9E16C0B38F003053F0 /* CRUDViewController.m in Sources */,
 				92C2F5EF16C10CD400E37569 /* OrderRefundViewController.m in Sources */,
+				92548FB116D37024008839C2 /* ServiceViewController.m in Sources */,
+				92548FBA16D374CA008839C2 /* HelpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2586,7 +2656,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2605,6 +2676,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "618CC171-93B8-4047-B000-0547CDAB4A2D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "618CC171-93B8-4047-B000-0547CDAB4A2D";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 			};
@@ -2616,7 +2689,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2628,6 +2702,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "618CC171-93B8-4047-B000-0547CDAB4A2D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "618CC171-93B8-4047-B000-0547CDAB4A2D";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -2637,8 +2713,8 @@
 		3E5161971675D0F700D2DC78 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TaurusClient/TaurusClient-Prefix.pch";
 				INFOPLIST_FILE = "TaurusClient/TaurusClient-Info.plist";
@@ -2648,8 +2724,8 @@
 					"\"$(SRCROOT)/AlixPay\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "618CC171-93B8-4047-B000-0547CDAB4A2D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "618CC171-93B8-4047-B000-0547CDAB4A2D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2657,8 +2733,8 @@
 		3E5161981675D0F700D2DC78 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Mcesky Network Technology Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TaurusClient/TaurusClient-Prefix.pch";
 				INFOPLIST_FILE = "TaurusClient/TaurusClient-Info.plist";
@@ -2668,8 +2744,8 @@
 					"\"$(SRCROOT)/AlixPay\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "618CC171-93B8-4047-B000-0547CDAB4A2D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "618CC171-93B8-4047-B000-0547CDAB4A2D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

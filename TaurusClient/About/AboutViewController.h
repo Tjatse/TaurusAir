@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AboutViewController : UIViewController
+@interface AboutViewController : UIViewController<UIAlertViewDelegate>
+{
+    NSString *_url;
+}
 
 @end

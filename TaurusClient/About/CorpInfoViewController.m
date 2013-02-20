@@ -7,7 +7,7 @@
 //
 
 #import "CorpInfoViewController.h"
-
+#import "AppDefines.h"
 @interface CorpInfoViewController () <UIWebViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWebView*					webVw;
@@ -43,8 +43,8 @@
 	self.loadingVw.hidden = NO;
 	[self.loadingVw startAnimating];
 	
-    self.title = @"公司信息";
-	[self.webVw loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.jinniuit.com"]]];
+    self.title = @"官方网站";
+	[self.webVw loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:APP_URL]]];
 }
 
 - (void)didReceiveMemoryWarning

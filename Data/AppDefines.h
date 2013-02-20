@@ -22,6 +22,13 @@ typedef enum {
 #define SANDBOX                 @"Production" // Production or Development
 #define IS_DEPLOYED()           ([SANDBOX isEqualToString:@"Production"])
 
+#define APP_VERSION         @"金牛信息ISO 003版"
+#define APP_SHORTVERSION    1.0
+#define APP_PHONE           @"010-53510125"
+#define APP_URL             @"http://www.jinniuit.com"
+#define APP_COPYRIGHT       @"CopyRight © 2010-2012 \n北京金牛座信息技术有限公司 All Rights Reserved"
+#define VERSION_CHECK       @"http://119.167.156.135/womeeting/jn/v.json"
+
 // uris
 // account.
 #define REACHABLE_HOST      @"http://211.144.155.155:5001"
