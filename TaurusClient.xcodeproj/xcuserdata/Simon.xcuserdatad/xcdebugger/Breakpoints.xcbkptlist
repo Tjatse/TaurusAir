@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TaurusClient/MyOrder/PrepareOrderViewController.m"
-         timestampString = "382942457.06409"
+         timestampString = "383028507.670163"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "301"
-         endingLineNumber = "301"
+         startingLineNumber = "302"
+         endingLineNumber = "302"
          landmarkName = "-onPlaceOrderButtonTap:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,39 +21,22 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Data/Helper/OrderHelper.m"
-         timestampString = "382896061.021064"
+         timestampString = "383028791.798383"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "508"
-         endingLineNumber = "508"
+         startingLineNumber = "513"
+         endingLineNumber = "513"
          landmarkName = "+performCreatePayUrlOrderWithUser:andPlaceOrderJson:success:failure:"
          landmarkType = "5">
       </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Data/Helper/OrderHelper.m"
-         timestampString = "382898847.711782"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "387"
-         endingLineNumber = "387"
-         landmarkName = "+performPlaceOrderWithUser:andFlightInfo:andCabin:andTravelers:andContactor:success:failure:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Data/Helper/OrderHelper.m"
-         timestampString = "382898870.470487"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "400"
-         endingLineNumber = "400"
-         landmarkName = "+performPlaceOrderWithUser:andFlightInfo:andCabin:andTravelers:andContactor:success:failure:"
-         landmarkType = "5">
-      </FileBreakpoint>
    </FileBreakpoints>
+   <ExceptionBreakpoints>
+      <ExceptionBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         scope = "0"
+         stopOnStyle = "0">
+      </ExceptionBreakpoint>
+   </ExceptionBreakpoints>
 </Bucket>

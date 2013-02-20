@@ -346,6 +346,7 @@ static int gOrderId;
 						 andCabin:(NSArray*)cabins							// NSDictionary
 					 andTravelers:(NSArray *)travelers
 					 andContactor:(NSDictionary*)contactor
+				   andSendAddress:(NSString*)sendAddress
 						  success:(void (^)(NSDictionary *))success
 						  failure:(void (^)(NSString *))failure
 {
@@ -446,6 +447,10 @@ static int gOrderId;
             [request setPostValue:contactorPhone forKey:@"ContactorPhone"];
             [request setPostValue:contactorEmail forKey:@"ContactorEmail"];
             [request setPostValue:passengerRemark forKey:@"PassengerRemark"];
+			[request setPostValue:contactor.allValues[0][@"ContactorId"] forKey:@"ContactorId"];
+			
+			if (sendAddress.length > 0)
+				[request setPostValue:sendAddress forKey:@"SendAddress"];
             
 			[request setPostValue:user.userId forKey:@"Tid"];
             [request setPostValue:user.userName forKey:@"UserName"];
@@ -573,6 +578,7 @@ static int gOrderId;
 		 andCabin:@[vc.parentVC.selectedPayInfos[1], vc.selectedPayInfos[1]]
 		 andTravelers:passangers
 		 andContactor:contactor
+		 andSendAddress:sendAddress
 		 success:^(NSDictionary * respObj) {
 			 [OrderHelper
 			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser
@@ -628,6 +634,7 @@ static int gOrderId;
 		 andCabin:@[vc.selectedPayInfos[1]]
 		 andTravelers:passangers
 		 andContactor:contactor
+		 andSendAddress:sendAddress
 		 success:^(NSDictionary * respObj) {
 			 [OrderHelper
 			  performCreatePayUrlOrderWithUser:[AppConfig get].currentUser

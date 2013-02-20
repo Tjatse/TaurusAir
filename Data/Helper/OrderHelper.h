@@ -46,6 +46,7 @@
 						 andCabin:(NSArray*)cabins							// NSDictionary
 					 andTravelers:(NSArray *)travelers
 					 andContactor:(NSDictionary*)contactor
+				   andSendAddress:(NSString*)sendAddress
 						  success:(void (^)(NSDictionary *))success
 						  failure:(void (^)(NSString *))failure;
 
