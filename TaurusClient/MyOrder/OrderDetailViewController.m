@@ -98,7 +98,6 @@
                                _datas = [[NSArray alloc] initWithArray:@[@[@"订单状态",@"订单编号",@"预订日期"],@[@"航班信息"],@[@"航班信息"],@[@"登机人",@"联系人",@"配送"]]];
                                
                                _detail = [order mutableCopy];
-                               
                                NSString *flightInfo = [_detail objectForKey:@"Flight"];
                                int c = [[flightInfo componentsSeparatedByString:@"^"] count];
                                _hasReturn = c == 2;
@@ -342,7 +341,8 @@
                                 NSString *flts = [_voidPassengers objectForKey:name];
                                 if(flts != nil && (NSNull *)flts != [NSNull null] && [flts length] > 0){
                                     UILabel *labelRefund = [self generateLabel:CGRectMake(ctn.frame.size.width - 70, 0, 70, 44) withFontSize:10 andColor:[UIColor redColor]];
-                                    labelRefund.text = [NSString stringWithFormat:@"已退废：\n%@", flts];
+                                    NSString *fmt = [[_detail objectForKey:@"State"] intValue] == 1560 ? @"已退废：\n%@":@"正在退票中：\n%@";
+                                    labelRefund.text = [NSString stringWithFormat:fmt, flts];
                                     [labelRefund setNumberOfLines:0];
                                     [ctn addSubview:labelRefund];
                                 }
@@ -585,7 +585,7 @@
                                   success:^() {
                                       [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                                       [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil userInfo:[NSDictionary dictionaryWithObject:@"订单已取消。" forKey:@"MSG"]];
-                                      [self.navigationController popViewControllerAnimated:YES];
+                                      [self.navigationController dismissModalViewControllerAnimated:YES];
                                   }
                                   failure:^(NSString *errorMsg) {
                                       [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];

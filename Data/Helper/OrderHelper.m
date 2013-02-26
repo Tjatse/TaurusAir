@@ -181,12 +181,7 @@ static int gOrderId;
         NSDictionary *meta= [JSON objectForKey:@"Meta"];
         
         if ([[meta getStringValueForKey:@"Method" defaultValue:@""] isEqualToString: @"CancelOrder"] && [[meta getStringValueForKey:@"Status" defaultValue:@"fail"] isEqualToString:@"ok"]){
-            NSDictionary *resp = [JSON objectForKey:@"Response"];
-            if(resp) {
-                success();
-            }else{
-                failure([meta getStringValueForKey:@"Message" defaultValue:@"取消订单失败，服务器端返回错误。"]);
-            }
+            success();
         }else{
             failure([meta getStringValueForKey:@"Message" defaultValue:@"服务器返回数据错误。"]);
         }

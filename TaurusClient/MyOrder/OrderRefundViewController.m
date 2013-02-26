@@ -35,8 +35,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _selectedFlights = [[NSMutableArray alloc] initWithCapacity:0];
-    _selectedPassengers = [[NSMutableArray alloc] initWithCapacity:0];
     
     [self setTitle:@"申请退票"];
     [self.view setBackgroundColor:[UIColor clearColor]];
@@ -90,14 +88,10 @@
     [_detail release];
     [_passengers release];
     [_flights release];
-    [_selectedFlights release];
-    [_selectedPassengers release];
     [_reason release];
     [super dealloc];
 }
 - (void)viewDidUnload {
-    [self setSelectedFlights:nil];
-    [self setSelectedPassengers:nil];
     [self setTableView:nil];
     [self setDetail:nil];
     [self setReason:nil];
@@ -146,34 +140,17 @@
         }
     }
     [cell setNeedsDisplay];
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    BOOL selected = NO;
-    if(indexPath.section == 0){
-        
-        for(int i = [_selectedPassengers count] - 1; i >= 0; i--){
-            if([[_selectedPassengers objectAtIndex:i] isEqualToString:cell.textLabel.text]){
-                selected = YES;
-            }
-        }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if(indexPath.section == 0 || indexPath.section == 1){
         CRTableViewCell *myCell = (CRTableViewCell *)cell;
-        myCell.isSelected = selected;
+        myCell.isSelected = YES;
         [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-        [cell.textLabel setText:[_passengers[indexPath.row] getStringValueForKey:@"name" defaultValue:@""]];
-        
-    }else if(indexPath.section == 1){
-        
-        for(int i = [_selectedFlights count] - 1; i >= 0; i--){
-            if([[_selectedFlights objectAtIndex:i] isEqualToString:cell.textLabel.text]){
-                selected = YES;
-            }
+        if(indexPath.section == 0){
+            [cell.textLabel setText:[_passengers[indexPath.row] getStringValueForKey:@"name" defaultValue:@""]];
+        }else if(indexPath.section == 1){
+            [cell.textLabel setText:_flights[indexPath.row]];
         }
-        CRTableViewCell *myCell = (CRTableViewCell *)cell;
-        myCell.isSelected = selected;
-        [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-        [cell.textLabel setText:_flights[indexPath.row]];
-        
-    }else{
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
@@ -181,32 +158,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if(indexPath.section == 0 || indexPath.section == 1){
-        CRTableViewCell *cell = (CRTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        cell.isSelected = !cell.isSelected;
-        if(cell.isSelected){
-            if(indexPath.section == 0){
-                [_selectedPassengers addObject:cell.textLabel.text];
-            }else if(indexPath.section == 1){
-                [_selectedFlights addObject:cell.textLabel.text];
-            }
-        }else{
-            if(indexPath.section == 0){
-                for(int i = [_selectedPassengers count] - 1; i >= 0; i--){
-                    if([[_selectedPassengers objectAtIndex:i] isEqualToString:cell.textLabel.text]){
-                        [_selectedPassengers removeObjectAtIndex:i];
-                    }
-                }
-            }else if(indexPath.section == 1){
-                for(int i = [_selectedFlights count] - 1; i >= 0; i--){
-                    if([[_selectedFlights objectAtIndex:i] isEqualToString:cell.textLabel.text]){
-                        [_selectedFlights removeObjectAtIndex:i];
-                    }
-                }
-            }
-        }
-    }
     
     StringInputTableViewCell *cell = (StringInputTableViewCell *)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     if([cell.textField canResignFirstResponder]){
@@ -218,26 +169,26 @@
 {
     [_tableView setContentOffset:CGPointMake(0, 200) animated:YES];
     [_tableView setScrollEnabled:NO];
+    _txtFocused = YES;
 }
 - (void)tableViewCell:(StringInputTableViewCell *)cell didEndEditingWithString:(NSString *)value
 {
     [_tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-    _reason = [[NSString alloc] initWithString:value];
-    NSCharacterSet *ws = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    _reason = [_reason stringByTrimmingCharactersInSet:ws];
+    _reason = [[NSString alloc] initWithString:[value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     [cell.textField resignFirstResponder];
     [_tableView setScrollEnabled:YES];
+    _txtFocused = NO;
 }
 
 - (void)refund
 {
-    if([_selectedPassengers count] == 0){
-        [ALToastView toastInView:self.view withText:@"请选择退票乘客。" andBottomOffset:44 andType:ERROR];
-        return;
-    }
-    if([_selectedFlights count] == 0){
-        [ALToastView toastInView:self.view withText:@"请选择退票航班。" andBottomOffset:44 andType:ERROR];
-        return;
+    if(_txtFocused){
+        StringInputTableViewCell *inputCell = (StringInputTableViewCell *)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+        UITextField *txtField = inputCell.textField;
+        if([txtField canResignFirstResponder]){
+            [txtField resignFirstResponder];
+            _txtFocused = NO;
+        }
     }
     if(_reason == nil || [_reason length] == 0){
         [ALToastView toastInView:self.view withText:@"必须填写退票原因。" andBottomOffset:44 andType:ERROR];
@@ -248,9 +199,9 @@
     [hud setLabelText:@"正在退票..."];
     
     NSString *passengerAndFlights = @"";
-    for(NSString *psg in _selectedPassengers){
-        for(NSString *flt in _selectedFlights){
-            passengerAndFlights = [NSString stringWithFormat:@"%@:%@;%@",psg,flt,passengerAndFlights];
+    for(NSDictionary *psg in _passengers){
+        for(NSString *flt in _flights){
+            passengerAndFlights = [NSString stringWithFormat:@"%@:%@;%@",[psg objectForKey:@"name"],flt,passengerAndFlights];
         }
     }
     
