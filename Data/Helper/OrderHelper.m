@@ -430,13 +430,13 @@ static int gOrderId;
 //			}
 			
 			// 联系人姓名 ContactorName
-			NSString* contactorName = [contactor getStringValueForKey:@"Name" defaultValue:@""];
+			NSString* contactorName = [contactor.allValues[0] getStringValueForKey:@"Name" defaultValue:@""];
 			
 			// 联系人手机号 ContactorPhone
-			NSString* contactorPhone = [contactor getStringValueForKey:@"Phone" defaultValue:@""];
+			NSString* contactorPhone = [contactor.allValues[0] getStringValueForKey:@"Phone" defaultValue:@""];
 			
 			// 联系人email ContactorEmail
-			NSString* contactorEmail = [contactor getStringValueForKey:@"Email" defaultValue:@""];
+			NSString* contactorEmail = [contactor.allValues[0] getStringValueForKey:@"Email" defaultValue:@""];
 			
 			// 乘客备注 PassengerRemark
 			NSString* passengerRemark = @"";

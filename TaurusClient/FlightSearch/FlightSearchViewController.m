@@ -15,6 +15,7 @@
 #import "CitySelectViewController.h"
 #import "CAAnimation+AnimationBlock.h"
 #import "AppContext.h"
+#import "ALToastView.h"
 #import "AppEngine.h"
 #import "AppConfig.h"
 #import "NSDateAdditions.h"
@@ -230,6 +231,15 @@
 
 - (IBAction)onPerformSingleFlightSearchButtonTap:(id)sender
 {
+	if ([self.departureCity.charCode isEqualToString:self.arrivalCity.charCode]) {
+		[ALToastView toastInView:self.view
+						withText:@"出发城市不能与到达城市一样。"
+				 andBottomOffset:44.0f
+						 andType:ERROR];
+		
+		return;
+	}
+	
 	// 检查正确性
 	[FlightSelectViewController performQueryWithNavVC:self.navigationController
 										  andViewType:kFlightSelectViewTypeSingle
@@ -242,6 +252,15 @@
 
 - (IBAction)onPerformDoubleFlightSearchButtonTap:(id)sender
 {
+	if ([self.departureCity.charCode isEqualToString:self.arrivalCity.charCode]) {
+		[ALToastView toastInView:self.view
+						withText:@"出发城市不能与到达城市一样。"
+				 andBottomOffset:44.0f
+						 andType:ERROR];
+		
+		return;
+	}
+	
 	// 检查正确性
 	[FlightSelectViewController performQueryWithNavVC:self.navigationController
 										  andViewType:kFlightSelectViewTypeDeparture

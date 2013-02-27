@@ -109,7 +109,7 @@
         [ALToastView toastInView:self.view withText:@"必须填写“验证码”。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
         return;
     }
-    if(_verifyCode == nil || ![textFieldVC.text isEqualToString:_verifyCode]){
+    if(_verifyCode == nil || [textFieldVC.text caseInsensitiveCompare:_verifyCode] != NSOrderedSame){
         [ALToastView toastInView:self.view withText:@"“验证码”不正确。" andBottomOffset:SCREEN_RECT.size.height/2 andType:ERROR];
         return;
     }
