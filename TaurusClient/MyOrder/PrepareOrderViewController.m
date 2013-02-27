@@ -61,6 +61,8 @@
 	
 	SAFE_RELEASE(_isSendAddressCell);
 	
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ORDER_REFRESH" object:nil];
+    
 	[super dealloc];
 }
 
@@ -101,17 +103,37 @@
     [super viewDidLoad];
 	
 	self.title = @"机票预订";
-	self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
-																			   andTapCallback:^(id control, UIEvent *event) {
-																				   [self dismissModalViewControllerAnimated:YES];
+	self.navigationItem.leftBarButtonItem =
+        [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
+                                           andTapCallback:^(id control, UIEvent *event) {
+                                               [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ORDER_REFRESH" object:nil];
+                                               [self dismissModalViewControllerAnimated:YES];
 																			   }];
 	
 	self.orderFormVw.allowsSelectionDuringEditing = YES;
 	self.orderFormVw.editing = YES;
 	
 	self.priceCountLabel.text = [NSString stringWithFormat:@"￥%d", (int)_totalPrice];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderReresh:) name:@"ORDER_REFRESH" object:nil];
 }
 
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ORDER_REFRESH" object:nil];
+}
+
+- (void)orderReresh:(NSNotification *)notification
+{
+    NSDictionary *userInfo = [notification userInfo];
+    if(userInfo != nil && [userInfo count] > 0){
+        NSString *msg = [userInfo objectForKey:@"MSG"];
+        if(msg != nil && (NSNull *)msg != [NSNull null]){
+            [ALToastView toastInView:self.view withText:msg andBottomOffset:88 andType:INFOMATION];
+        }
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
