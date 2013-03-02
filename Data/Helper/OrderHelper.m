@@ -145,7 +145,8 @@ static int gOrderId;
             [request setPostValue:user.userPwd forKey:@"UserPwd"];
             setRequestAuth(request);
             [request setCompletionBlock:^{
-                id JSON = [[request responseString] objectFromJSONString];
+				NSString* respStr = [request responseString];
+                id JSON = [respStr objectFromJSONString];
                 [self analyzeOrderDetailRet:JSON
                                     success:success
                                     failure:failure];
@@ -593,7 +594,8 @@ static int gOrderId;
 										   andProductPrice:price
 											 andPassangers:orgPassangers
 											  andContactor:orgContactor
-							 andFlightSelectViewController:vc];
+							 andFlightSelectViewController:vc
+											andOrderDetail:nil];
 //				  
 //				  [[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
 			  }
@@ -650,7 +652,8 @@ static int gOrderId;
 										   andProductPrice:price
 											 andPassangers:orgPassangers
 											  andContactor:orgContactor
-							 andFlightSelectViewController:vc];
+							 andFlightSelectViewController:vc
+											andOrderDetail:nil];
 				  
 //				  [ALToastView toastPinInView:inView withText:@"预订成功。"
 //							  andBottomOffset:44.0f

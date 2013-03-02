@@ -25,6 +25,7 @@ static NSString*						gOrderIdStr;
 static FlightSelectViewController*		gVC;
 static NSDictionary*					gPassangers;
 static NSDictionary*					gContactor;
+static NSDictionary*					gOrderDetail;
 
 @implementation AlixPayHelper
 
@@ -54,6 +55,7 @@ static NSDictionary*					gContactor;
 					andPassangers:(NSDictionary*)passangers
 					 andContactor:(NSDictionary*)contactor
 	andFlightSelectViewController:(FlightSelectViewController*)vc
+				   andOrderDetail:(NSDictionary*)orderDetail
 {
 	SAFE_RELEASE(gOrderIdStr);
 	gOrderIdStr = [orderId retain];
@@ -64,6 +66,9 @@ static NSDictionary*					gContactor;
 	
 	SAFE_RELEASE(gContactor);
 	gContactor = [contactor retain];
+	
+	SAFE_RELEASE(gOrderDetail);
+	gOrderDetail = [orderDetail retain];
 	
 	// FIXME: productPrice
 	productPrice = 0.01f;
@@ -122,12 +127,68 @@ static NSDictionary*					gContactor;
 + (void)alixPayCallback:(BOOL)success
 {
 	if (success) {
-		[self processAlixPayCallbackWithVC:gVC];
-		
-		if (gVC.viewType == kFlightSelectViewTypeReturn) {
-			[self processAlixPayCallbackWithVC:gVC.parentVC];
+		if (gVC != nil) {
+			[self processAlixPayCallbackWithVC:gVC];
+			
+			if (gVC.viewType == kFlightSelectViewTypeReturn) {
+				[self processAlixPayCallbackWithVC:gVC.parentVC];
+			}
+		} else if (gOrderDetail != nil) {
+			[self processAlixPayCallbackWithOrderDetail:gOrderDetail];
 		}
 	}
+}
+
++ (void)processAlixPayCallbackWithOrderDetail:(NSDictionary*)dic
+{
+	NSString* flight = [dic getStringValueForKey:@"Flight" defaultValue:nil];
+	NSArray* flights = [flight componentsSeparatedByString:@"_"];
+	
+	// from to
+	NSDictionary* threeCodes = [CharCodeHelper allThreeCharCodesDictionary];
+	
+	NSString *fromStr = flights[3];
+	NSString* toStr = flights[5];
+    ThreeCharCode *from = [threeCodes objectForKey:fromStr];
+    ThreeCharCode *to = [threeCodes objectForKey:toStr];
+	NSString* airportTower = @""; //[flightInfo getStringValueForKey:@"AirportTower" defaultValue:@""];
+	NSString* fromAirportTower = @""; //[airportTower substringToIndex:[airportTower rangeOfString:@" "].location];
+	NSString* toAirportTower = @""; //[airportTower substringFromIndex:[airportTower rangeOfString:@" "].location];
+	NSString* fromAirportFullName = [NSString stringWithFormat:@"%@ %@"
+									 , from.airportAbbrName
+									 , fromAirportTower];
+	
+	NSString* toAirportFullName = [NSString stringWithFormat:@"%@ %@"
+								   , to.airportAbbrName
+								   , toAirportTower];
+	
+	// customerName
+	NSMutableString* customerName = [NSMutableString string];
+	NSArray* allPassangers = [gPassangers allValues];
+	for (NSDictionary* passanger in allPassangers) {
+		if (customerName.length > 0)
+			[customerName appendString:@" "];
+		
+		[customerName appendString:passanger[@"Name"]];
+	}
+	
+	// departure time
+	NSDate* leaveTime = flights[4]; // [NSDate dateFromString:[flightInfo getStringValueForKey:@"LeaveTime" defaultValue:@""]];
+	NSString* flightNumStr = flights[1]; // [flightInfo getStringValueForKey:@"FlightNum" defaultValue:@""];
+	
+	TicketOrder* ticketOrder = [[TicketOrder alloc] initWithFromCityFullName:fromAirportFullName
+															  toCityFullName:toAirportFullName
+																customerName:customerName
+															   departureTime:leaveTime
+																flightNumber:flightNumStr
+																	 orderId:gOrderIdStr];
+	
+	[[TicketOrderHelper sharedHelper] pushTicketOrder:ticketOrder];
+	SAFE_RELEASE(ticketOrder);
+	
+	// 发送通知
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ORDER_REFRESH" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ALIXPAY_CALLBACK_SUCCESS" object:nil];
 }
 
 + (void)processAlixPayCallbackWithVC:(FlightSelectViewController*)vc

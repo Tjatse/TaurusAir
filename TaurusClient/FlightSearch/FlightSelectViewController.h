@@ -73,7 +73,8 @@ extern NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType);
 		andArrivalCity:(ThreeCharCode*)aArrivalCity
 	  andDepartureDate:(NSDate*)aDepartureDate
 		 andReturnDate:(NSDate*)aReturnDate
-		andJsonContent:(NSMutableDictionary*)aJsonContent;
+		andJsonContent:(NSMutableDictionary*)aJsonContent
+		   andParentVC:(FlightSelectViewController*)parentVC;
 
 - (IBAction)onTimeSortButtonTap:(id)sender;
 - (IBAction)onSortButtonTap:(id)sender;

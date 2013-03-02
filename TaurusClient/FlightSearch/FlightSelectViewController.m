@@ -166,14 +166,37 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		 [MBProgressHUD hideHUDForView:navVC.topViewController.view
 							  animated:YES];
 		 
+		 // 判断相同的航空公司是否存在
+		 if (parentVC != nil && aViewType == kFlightSelectViewTypeReturn) {
+			 NSMutableArray* flightsInfo = respObj[@"FlightsInfo"];
+			 NSString* fromEzm = parentVC.selectedPayInfos[0][@"Ezm"];
+			 
+			 NSMutableArray* filterFlightsInfo = [NSMutableArray array];
+			 for (NSDictionary* flightInfo in flightsInfo) {
+				 NSString* returnEzm = flightInfo[@"Ezm"];
+				 if ([fromEzm isEqualToString:returnEzm])
+					 [filterFlightsInfo addObject:returnEzm];
+			 }
+			 
+			 if (filterFlightsInfo.count == 0) {
+				 [ALToastView toastInView:parentVC.view
+								 withText:@"未能找到相同航空公司的返程航班，请重新选择"
+						  andBottomOffset:44.0f
+								  andType:ERROR];
+
+				 return;
+			 }
+		 }
+			
 		 FlightSelectViewController* vc = [[FlightSelectViewController alloc] initWithViewType:aViewType
 																			  andDepartureCity:aDepartureCity
 																				andArrivalCity:aArrivalCity
 																			  andDepartureDate:aDepartureDate
 																				 andReturnDate:aReturnDate
-																				andJsonContent:respObj];
+																				andJsonContent:respObj
+																				   andParentVC:parentVC];
 		 
-		 vc.parentVC = parentVC;
+//		 vc.parentVC = parentVC;
 		 
 		 UIBGNavigationController* newNavVC = [[[UIBGNavigationController alloc] initWithRootViewController:vc] autorelease];
 		 [navVC presentModalViewController:newNavVC animated:YES];
@@ -197,6 +220,7 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	  andDepartureDate:(NSDate*)aDepartureDate
 		 andReturnDate:(NSDate*)aReturnDate
 		andJsonContent:(NSMutableDictionary*)aJsonContent
+		   andParentVC:(FlightSelectViewController*)parentVC
 {
 	if (self = [super init]) {
 		self.viewType = aViewType;
@@ -204,8 +228,9 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 		self.arrivalCity = aArrivalCity;
 		self.departureDate = aDepartureDate;
 		self.returnDate = aReturnDate;
-		self.jsonContent = aJsonContent;
 		self.isSortByPrice = YES;
+		self.parentVC = parentVC;
+		self.jsonContent = aJsonContent;
 		
 		// backbutton
 		self.navigationItem.leftBarButtonItem = [UIBarButtonItem generateBackStyleButtonWithTitle:@"返回"
@@ -278,7 +303,8 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 	// 开始过滤
 	if (self.timeFilter != kFlightSelectTimeFilterTypeNone
 		|| self.planeFilter != kFlightSelectAirplaneFilterTypeNone
-		|| self.corpFilter != nil) {
+		|| self.corpFilter != nil
+		|| (self.parentVC != nil && self.viewType == kFlightSelectViewTypeReturn)) {
 		
 		NSMutableArray* needToRemoveFlightInfos = [NSMutableArray array];
 		NSMutableArray* flightInfos = [self.filterJsonContent valueForKey:@"FlightsInfo"];
@@ -320,7 +346,17 @@ NSString* flightSelectCorpFilterTypeName(TwoCharCode* filterType)
 				NSString* ezm = [flightInfo getStringValueForKey:@"Ezm" defaultValue:nil];
 				
 				if (![self.corpFilter.charCode isEqualToString:ezm]) {
-					
+					if (![needToRemoveFlightInfos containsObject:flightInfo])
+						[needToRemoveFlightInfos addObject:flightInfo];
+				}
+			}
+			
+			// 判断航空公司
+			if (self.parentVC != nil && self.viewType == kFlightSelectViewTypeReturn) {
+				NSString* fromEzm = self.parentVC.selectedPayInfos[0][@"Ezm"];
+				NSString* ezm = [flightInfo getStringValueForKey:@"Ezm" defaultValue:nil];
+				
+				if (![fromEzm isEqualToString:ezm]) {
 					if (![needToRemoveFlightInfos containsObject:flightInfo])
 						[needToRemoveFlightInfos addObject:flightInfo];
 				}

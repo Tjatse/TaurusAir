@@ -26,6 +26,7 @@
 #import "CRUDViewController.h"
 #import "AppContext.h"
 #import "OrderRefundViewController.h"
+#import "AlixPayHelper.h"
 
 @interface OrderDetailViewController ()
 
@@ -598,6 +599,28 @@
 			
 			if (self.payButtonTapBlock != nil)
 				self.payButtonTapBlock();
+			else {
+				NSString* travelerStr = _detail[@"Traveler"];
+				NSArray* travelers = [travelerStr componentsSeparatedByString:@"^"];
+				NSMutableDictionary* passangers = [NSMutableDictionary dictionary];
+				
+				for (NSString* traveler in travelers) {
+					NSArray* travelerDetails = [traveler componentsSeparatedByString:@"_"];
+					NSString* travelerName = travelerDetails[0];
+					
+					[passangers setValue:[NSDictionary dictionaryWithObjectsAndKeys:travelerName, @"Name", nil]
+								  forKey:travelerName];
+				}
+				
+				[AlixPayHelper performAlixPayWithOrderId:[_detail getStringValueForKey:@"Tid" defaultValue:@""]
+										  andProductName:@"机票"
+										  andProductDesc:@"机票"
+										 andProductPrice:[[_detail objectForKey:@"OrderPrice"] floatValue]
+										   andPassangers:passangers
+											andContactor:nil
+						   andFlightSelectViewController:nil
+										  andOrderDetail:_detail];
+			}
         }else{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", _contactorPhone]]];
         }
