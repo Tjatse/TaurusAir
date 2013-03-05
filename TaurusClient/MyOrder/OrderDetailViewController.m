@@ -472,6 +472,15 @@
     ThreeCharCode *toTCC = [_threeCodes objectForKey:fs[5]];
     NSString *to = toTCC ? toTCC.cityName:@"";
     NSString *end = fs[6];
+	NSString* airportTower = fs[7];
+	NSString* fromAirportTower = [airportTower substringToIndex:[airportTower rangeOfString:@" "].location];
+	NSString* toAirportTower = [airportTower substringFromIndex:[airportTower rangeOfString:@" "].location];
+	NSString* fromAirportFullName = [NSString stringWithFormat:@"%@ %@"
+									 , fromTCC.airportAbbrName
+									 , fromAirportTower];
+	NSString* toAirportFullName = [NSString stringWithFormat:@"%@ %@"
+								   , toTCC.airportAbbrName
+								   , toAirportTower];
     
     _flight = [@[corp, flt, pos, from, start, to, end] retain];
 	
@@ -523,10 +532,10 @@
     dateLabel.text = [startDates objectAtIndex:0];
 	
 	// departureAirportLabel
-	departureAirportLabel.text = from;
+	departureAirportLabel.text = fromAirportFullName;
 	
 	// arrivalAirportLabel
-	arrivalAirportLabel.text = to;
+	arrivalAirportLabel.text = toAirportFullName;
 	
 	// viewAirplaneDetailBtn
 	[viewAirplaneDetailBtn

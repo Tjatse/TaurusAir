@@ -151,13 +151,14 @@ static NSDictionary*					gOrderDetail;
 	NSString* toStr = flights[5];
     ThreeCharCode *from = [threeCodes objectForKey:fromStr];
     ThreeCharCode *to = [threeCodes objectForKey:toStr];
-	NSString* airportTower = @""; //[flightInfo getStringValueForKey:@"AirportTower" defaultValue:@""];
-	NSString* fromAirportTower = @""; //[airportTower substringToIndex:[airportTower rangeOfString:@" "].location];
-	NSString* toAirportTower = @""; //[airportTower substringFromIndex:[airportTower rangeOfString:@" "].location];
+
+	NSString* airportTower = flights[7];
+	NSString* fromAirportTower = [airportTower substringToIndex:[airportTower rangeOfString:@" "].location];
+	NSString* toAirportTower = [airportTower substringFromIndex:[airportTower rangeOfString:@" "].location];
 	NSString* fromAirportFullName = [NSString stringWithFormat:@"%@ %@"
 									 , from.airportAbbrName
 									 , fromAirportTower];
-	
+
 	NSString* toAirportFullName = [NSString stringWithFormat:@"%@ %@"
 								   , to.airportAbbrName
 								   , toAirportTower];
