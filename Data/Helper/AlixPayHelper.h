@@ -18,7 +18,8 @@
 				  andProductPrice:(float)productPrice
 					andPassangers:(NSDictionary*)passangers
 					 andContactor:(NSDictionary*)contactor
-	andFlightSelectViewController:(FlightSelectViewController*)vc;
+	andFlightSelectViewController:(FlightSelectViewController*)vc
+				   andOrderDetail:(NSDictionary*)orderDetail;
 
 + (void)alixPayCallback:(BOOL)success;
 

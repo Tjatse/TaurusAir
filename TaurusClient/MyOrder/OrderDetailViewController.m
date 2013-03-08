@@ -26,6 +26,7 @@
 #import "CRUDViewController.h"
 #import "AppContext.h"
 #import "OrderRefundViewController.h"
+#import "AlixPayHelper.h"
 
 @interface OrderDetailViewController ()
 
@@ -471,6 +472,15 @@
     ThreeCharCode *toTCC = [_threeCodes objectForKey:fs[5]];
     NSString *to = toTCC ? toTCC.cityName:@"";
     NSString *end = fs[6];
+	NSString* airportTower = fs[7];
+	NSString* fromAirportTower = [airportTower substringToIndex:[airportTower rangeOfString:@" "].location];
+	NSString* toAirportTower = [airportTower substringFromIndex:[airportTower rangeOfString:@" "].location];
+	NSString* fromAirportFullName = [NSString stringWithFormat:@"%@ %@"
+									 , fromTCC.airportAbbrName
+									 , fromAirportTower];
+	NSString* toAirportFullName = [NSString stringWithFormat:@"%@ %@"
+								   , toTCC.airportAbbrName
+								   , toAirportTower];
     
     _flight = [@[corp, flt, pos, from, start, to, end] retain];
 	
@@ -522,10 +532,10 @@
     dateLabel.text = [startDates objectAtIndex:0];
 	
 	// departureAirportLabel
-	departureAirportLabel.text = from;
+	departureAirportLabel.text = fromAirportFullName;
 	
 	// arrivalAirportLabel
-	arrivalAirportLabel.text = to;
+	arrivalAirportLabel.text = toAirportFullName;
 	
 	// viewAirplaneDetailBtn
 	[viewAirplaneDetailBtn
@@ -598,6 +608,28 @@
 			
 			if (self.payButtonTapBlock != nil)
 				self.payButtonTapBlock();
+			else {
+				NSString* travelerStr = _detail[@"Traveler"];
+				NSArray* travelers = [travelerStr componentsSeparatedByString:@"^"];
+				NSMutableDictionary* passangers = [NSMutableDictionary dictionary];
+				
+				for (NSString* traveler in travelers) {
+					NSArray* travelerDetails = [traveler componentsSeparatedByString:@"_"];
+					NSString* travelerName = travelerDetails[0];
+					
+					[passangers setValue:[NSDictionary dictionaryWithObjectsAndKeys:travelerName, @"Name", nil]
+								  forKey:travelerName];
+				}
+				
+				[AlixPayHelper performAlixPayWithOrderId:[_detail getStringValueForKey:@"Tid" defaultValue:@""]
+										  andProductName:@"机票"
+										  andProductDesc:@"机票"
+										 andProductPrice:[[_detail objectForKey:@"OrderPrice"] floatValue]
+										   andPassangers:passangers
+											andContactor:nil
+						   andFlightSelectViewController:nil
+										  andOrderDetail:_detail];
+			}
         }else{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", _contactorPhone]]];
         }

@@ -335,7 +335,8 @@
 																	andProductPrice:_totalPrice
 																	  andPassangers:self.passangers
 																	   andContactor:self.contacter
-													  andFlightSelectViewController:self.parentVC];
+													  andFlightSelectViewController:self.parentVC
+																	 andOrderDetail:nil];
 									   }];
 									   
 									   UIBGNavigationController *nav = [[UIBGNavigationController alloc] initWithRootViewController: vc];
