@@ -31,12 +31,12 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     _arrayImageView = [[NSArray alloc] initWithObjects:
-                            @"help1.jpg",
-                            @"help2.jpg",
-                            @"help3.jpg",
-                            @"help4.jpg",
-                            @"help5.jpg",
-                            @"help6.jpg", nil];
+                            @"cover1.jpg",
+                            @"cover2.jpg",
+                            @"cover3.jpg",
+                            @"cover4.jpg",
+                            @"cover5.jpg",
+                            @"cover6.jpg", nil];
     kNumberOfPages = [_arrayImageView count];
     
     // views	
