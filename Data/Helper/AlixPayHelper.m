@@ -71,7 +71,7 @@ static NSDictionary*					gOrderDetail;
 	gOrderDetail = [orderDetail retain];
 	
 	// FIXME: productPrice
-	productPrice = 0.01f;
+//	productPrice = 0.01f;
 	
 	/*
 	 *生成订单信息及签名
