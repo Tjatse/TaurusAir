@@ -74,7 +74,7 @@
 					<object class="IBUIButton" id="527764132">
 						<reference key="NSNextResponder" ref="392306862"/>
 						<int key="NSvFlags">-2147483356</int>
-						<string key="NSFrame">{{0, 320}, {320, 50}}</string>
+						<string key="NSFrame">{{0, 370}, {320, 50}}</string>
 						<reference key="NSSuperview" ref="392306862"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="775720742"/>
@@ -83,6 +83,10 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
+						<object class="NSColor" key="IBUITintColor">
+							<int key="NSColorSpace">2</int>
+							<bytes key="NSRGB">MC4yMTk2MDc4NTk4IDAuNzI1NDkwMjEyNCAwLjI0MzEzNzI3MDIAA</bytes>
+						</object>
 						<string key="IBUINormalTitle">开始体验</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor">
 							<int key="NSColorSpace">3</int>
@@ -90,11 +94,11 @@
 						</object>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
 						<object class="NSColor" key="IBUINormalTitleShadowColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MC41AA</bytes>
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC43NzA0MDgxNjMzIDAuNzcwNDA4MTYzMyAwLjc3MDQwODE2MzMAA</bytes>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>

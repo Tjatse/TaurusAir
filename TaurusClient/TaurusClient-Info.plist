@@ -25,7 +25,11 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
+<<<<<<< HEAD
+	<string>com.jinniuit.taurus</string>
+=======
 	<string>com.vread.testapp</string>
+>>>>>>> 27a0dfff9a9778c35d53dbc7f142d5e6f93769f2
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
