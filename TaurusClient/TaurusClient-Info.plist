@@ -25,7 +25,11 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
+<<<<<<< HEAD
 	<string>net.beyondlink.airtaurus</string>
+=======
+	<string>com.jinniuit.taurus</string>
+>>>>>>> 670a6c353d70daa4cbe34336575c4b970eb36c34
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
